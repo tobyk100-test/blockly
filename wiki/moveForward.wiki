@@ -1,16 +1,15 @@
-#labels moveforward,block,help,movebackward
-#Help for the "move forward/backward" block.
+#labels move_forward,block,help,move_backward
+<screenshot1> <screenshot2>
 
+Blocks Menu: Maze
+Block Name: move forward
+Options:
 
+||Blocks Menu||Block Name||Options||
+||Maze||move forward||*move forward. Moves Pegman forward one square.||
+||Maze||move forward||*move backward. Moves Pegman backward one square.||
 
-= Introduction =
+||Options||
+||*move forward||Moves Pegman forward one square.||
+||move backward||Moves Pegman backward one square.||
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
