@@ -1,8 +1,8 @@
-#summary One-sentence summary of this page.
-#labels move_forward,move_backward
+#labels move_forward,move_backward,Maze,Reference
+#Help for the Maze block "move forward" and "move backward".
 
 <screenshot1> <screenshot2>
 
-||*Option*||*Description*||
-||move forward||Moves Pegman forward one square.||
-||move backward||Moves Pegman backward one square.||
+|| *Option* || *Description* ||
+||move *forward* ||Moves Pegman forward one square.||
+||move *backward* ||Moves Pegman backward one square.||
