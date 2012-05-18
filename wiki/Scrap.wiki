@@ -1,0 +1,26 @@
+#summary One-sentence summary of this page.
+
+Start
+Drag and drop the blocks you think you might need to your workspace. Most blocks have multiple options. For example, the "move forward" block also has a "move backward" option. 
+
+Click the block to place it on the workspace. You can also drag and drop the block to anyplace on your workspace.
+
+Most blocks have highlighted words. The highlight indicates that there is more than one option to choose from. Click the highlighted word to select from all the options. 
+
+For example, on the "move forward" block, the word "forward" is highlighted. Clicking "forward" lets you select either the "forward" or "backward" option. 
+
+Troubleshooting
+
+My program runs the same block more than once.
+
+Why?
+You probably went to the Blocks menu, clicked the block to place it in the workspace, and then went back to the Blocks menu and clicked the same block again. This stacks the blocks on top of each other. You can't see that there is more than one block in the same place, but when you run your program, each of the blocks run. (That could be cool if that's what you wanted. If you didn't intend it, though, it's no fun.)
+
+How do I fix this?
+Drag and drop the block to some other place on your workspace. If there was a block underneath it, you'll see it now. Keep doing that until there is only one block in the stack.
+
+
+My program doesn't act like I expected.
+
+Why?
+Blockly runs the blocks from top to bottom. If your blocks are arranged in an order that doesn't make sense, your program might act in unexpected ways. Try re-arranging blocks. 
