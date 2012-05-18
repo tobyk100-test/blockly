@@ -1,0 +1,10 @@
+#labels Reference,Maze,turnright,turnleft
+#Help for the Maze block "turn right" and "turn left".
+
+<screenshot1> <screenshot2>
+
+||*Option*||*Description*||
+||turn right||Turns Pegman to face *right* but doesn't move him a square in the new direction.||
+||turn left||Turns Pegman to face *left* but doesn't move him a square in the new direction.||
+
+ Tip: To move Pegman in the new direction, follow the "turn" command with a "move" command.
