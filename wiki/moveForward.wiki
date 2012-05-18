@@ -1,6 +1,6 @@
 #labels Reference,Maze,move_forward,move_backward
 <screenshot1> <screenshot2>
 
-||*Option||*Description||
+||*Option*||*Description*||
 ||move forward||Moves Pegman forward one square.||
 ||move backward||Moves Pegman backward one square.||
