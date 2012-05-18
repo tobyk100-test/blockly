@@ -1,3 +1,4 @@
+#labels Maze,Reference
 #Help for the Maze blocks.
 
 The Maze blocks are custom blocks that you can use to write a Blockly program that solves the Maze. 
