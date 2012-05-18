@@ -4,7 +4,7 @@
 <screenshot1> <screenshot2>
 
 || *Option* || *Description* ||
-||turn right||Turns Pegman to face *right* but doesn't move him a square in the new direction.||
-||turn left||Turns Pegman to face *left* but doesn't move him a square in the new direction.||
+||turn *right* ||Turns Pegman to face right but doesn't move him any squares in the new direction.||
+||turn *left* ||Turns Pegman to face left but doesn't move him any squares in the new direction.||
 
-*Tip*: To move Pegman in the new direction, follow the "turn" command with a "move" command.
+*Tip*: To move Pegman in the new direction, use the "move" block.
