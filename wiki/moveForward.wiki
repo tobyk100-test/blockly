@@ -1,6 +1,9 @@
-#labels move_forward,block,help,move_backward
+#labels Reference,Maze,move_forward,move_backward
 <p><screenshot1> <screenshot2></p>
 
-||Blocks Menu||Block Name||Options||Description||
-||Maze||move forward||move forward||Moves Pegman forward one square.||
-||Maze||move forward||move backward||Moves Pegman backward one square.||
+
+===move forward===
+Moves Pegman forward one square.
+
+===move backward===
+Moves Pegman backward one square.
