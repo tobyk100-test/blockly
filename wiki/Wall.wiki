@@ -12,4 +12,4 @@
 
 *Tip*: Use the "Wall" block with another block, like the "If...Then" block, to move Pegman depending on where the wall is. For example, *if* there is a wall ahead, *then* move backward.
 
-<<screenshot of If..Then. If wall ahead? then move backward.>>
+<screenshot of If..Then. If wall ahead? then move backward>
