@@ -1,14 +1,15 @@
-#summary One-sentence summary of this page.
-#labels wall_ahead,wall_behind,wall_to_the_left,wall_to_the_right,Maze,Reference
-
-= Introduction =
-
-Add your content here.
+#labels wall_ahead,wall_behind,wall_to_the_right,wall_to_the_left,Maze,Reference
+#Help for the Maze block "wall ahead?", "wall behind?", "wall to the right?", and "wall to the left?"
 
 
-= Details =
+<screenshot1> <screenshot2>
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+|| *Option* || *Description* ||
+||wall *ahead*? ||Finds out if there is a wall one square ahead of Pegman.||
+||wall *behind*?  ||Finds out if there is a wall one square behind Pegman.||
+||wall *to the right*? ||Finds out if there is a wall on Pegman's right.||
+||wall *to the left*? ||Finds out if there is a wall Pegman's left.||
+
+*Tip*: Use the "Wall" block with another block, like the "If...Then" block, to move Pegman depending on where the wall is. For example, *if* there is a wall ahead, *then* move backward.
+
+<<screenshot of If..Then. If wall ahead? then move backward.>>
