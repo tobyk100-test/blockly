@@ -3,7 +3,8 @@
 
 
 ===move forward===
-Moves Pegman forward one square.
+||Option||Description||
+||move forward||Moves Pegman forward one square.||
 
 ===move backward===
 Moves Pegman backward one square.
