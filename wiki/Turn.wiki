@@ -1,4 +1,4 @@
-#labels turn_right,turn_left,Maze,Reference
+#labels Reference,Maze,turn_right,turn_left
 #Help for the Maze block "turn right" and "turn left".
 
 <screenshot1> <screenshot2>
