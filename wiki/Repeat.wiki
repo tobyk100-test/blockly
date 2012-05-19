@@ -1,5 +1,5 @@
 #summary One-sentence summary of this page.
-#labels Reference,Control,Repeat
+#labels Control
 
 = Introduction =
 
