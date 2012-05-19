@@ -1,8 +1,4 @@
 #labels Maze
-#Help for the Maze block "wall ahead?", "wall behind?", "wall to the right?", and "wall to the left?"
-
-
-<screenshot1> <screenshot2>
 
 || *Option* || *Description* ||
 ||wall *ahead*? ||Finds out if there is a wall one square ahead of Pegman.||
@@ -10,6 +6,4 @@
 ||wall *to the right*? ||Finds out if there is a wall on Pegman's right.||
 ||wall *to the left*? ||Finds out if there is a wall Pegman's left.||
 
-*Tip*: Use the "Wall" block with another block, like the "If...Then" block, to move Pegman depending on where the wall is. For example, *if* there is a wall ahead, *then* move backward.
-
-<screenshot of If..Then. If wall ahead? then move backward>
+*Tip*: Use the *Wall* block with another block, like the *If Then* block, to move Pegman depending on where the wall is. For example, *if* there is a wall ahead, *then* move backward.
