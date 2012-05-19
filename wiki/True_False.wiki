@@ -1,7 +1,7 @@
 #labels Logic
 =The *True False* Block=
 
-To access the *True False* Block, go to the Blocks menu and click *Logic*.
+To access the *True False* Block, click *Logic*.
 
 || *Option* || *Description* ||
 || *true* || Finds out if something is true. If it is, the program will do whatever you tell it to do next.||
