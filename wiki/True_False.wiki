@@ -1,21 +1,21 @@
 #labels Reference,Logic,True,False
-#Help for the Maze block "True" and "False".
+#Help for the Maze *True_False* block.
 
 || *Option* || *Description* ||
 || *true* || Finds out if something is true. If it is, the program will do whatever you tell it to do next.||
 || *false* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
 
-*Tip*: To tell the program what to do next, combine this block with these other blocks:
+*Tip*: To tell the program what to do next, combine the *True_False* block with these other blocks:
 
  * [http://code.google.com/p/google-blockly/wiki/If If] 
  * [http://code.google.com/p/google-blockly/wiki/Repeat Repeat]
- * [http://code.google.com/p/google-blockly/wiki/And And]
+ * [http://code.google.com/p/google-blockly/wiki/And_Or And_Or]
 
 You can write statements like:
 
- * *If* true, *move forward*. 
- * *Else if* false, *move backward*. 
+ * *If* true, *then* move forward. 
+ * *Else if* false, *then* move backward. 
  * *Repeat while* true.
  * *Repeat until* false.
 
-*Note*: For the maze, there is no good example that uses *True and *False* with the *And* block. However, the *And* block is useful for other programs.
+*Note*: For the maze, there is no good example that uses the *True_False* block with the *And_Or* block. However, the *And_Or* block is useful for other programs.
