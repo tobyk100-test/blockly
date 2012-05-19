@@ -4,16 +4,12 @@
 To access the *True False* Block, click *Logic*.
 
 || *Option* || *Description* ||
-|| *true* || Finds out if something is true. If it is, the program will do whatever you tell it to do next.||
-|| *false* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
+|| *true* || Useful when combined with another block, like the *Repeat* block, to tell the program to do something whenever a condition is true.||
+|| *false* ||Useful when combined with another block, like the *Repeat* block, to tell the program to do something whenever a condition is true.||
 
-*Tip*: To tell the program what to do next, combine the *True False* block with these other blocks:
-
- * [http://code.google.com/p/google-blockly/wiki/Repeat Repeat]
-
-You can write statements like:
+*Tip*: Combine the *True False* block with the [http://code.google.com/p/google-blockly/wiki/Repeat Repeat] block to write statements like:
 
  * *Repeat while* true.
  * *Repeat until* false.
 
-*Note*: For the maze, there is no good example that uses the *True False* block with the *And Or* block. However, the *And Or* block is useful for other programs.
+*Note*: The *True False* block fits with other blocks, like the *And Or* block, that it might not be useful with.
