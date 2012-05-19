@@ -22,8 +22,11 @@ Else if *wall to the right?* then *turn left*. (Hint: In real life, this sentenc
 Else *move forward*.
 
 Your *If Then* block should always follow the format:
+
 If *this thing * then *do this*.
+
 Else if *this other thing* then *do something else*.
+
 Else *do that*.
  
 *Note*: You should always include the last *Else* to make sure the program does something even if there is a case you haven't thought of. 
