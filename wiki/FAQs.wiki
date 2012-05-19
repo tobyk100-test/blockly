@@ -2,7 +2,7 @@
 
 *What is Blockly?*
 
-A new programming language made up of "blocks" that look like Jigsaw puzzle pieces.
+A new programming language made up of "blocks" that look like jigsaw puzzle pieces.
 
 
 *What do I use Blockly for?*
