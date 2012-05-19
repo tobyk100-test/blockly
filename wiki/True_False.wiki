@@ -1,5 +1,5 @@
 #labels Logic
-#Help for the Maze *True_False* block.
+The True_False block.
 
 || *Option* || *Description* ||
 || *true* || Finds out if something is true. If it is, the program will do whatever you tell it to do next.||
