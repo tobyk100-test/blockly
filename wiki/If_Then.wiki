@@ -1,1 +1,26 @@
 #labels Control
+=The *If Then* Block=
+
+To access the *If Then* Block, click *Control*.
+
+|| *Option* || *Description* ||
+|| *if* || Finds out if something is true. If it is, the program will do whatever you tell it to do next.||
+|| *then* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
+|| *else if* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
+|| *else* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
+
+
+*Tip*: To tell the program what to do next, combine the *True False* block with these other blocks:
+
+ * [http://code.google.com/p/google-blockly/wiki/If If] 
+ * [http://code.google.com/p/google-blockly/wiki/Repeat Repeat]
+ * [http://code.google.com/p/google-blockly/wiki/And_Or And_Or]
+
+You can write statements like:
+
+ * *If* true, *then* move forward. 
+ * *Else if* false, *then* move backward. 
+ * *Repeat while* true.
+ * *Repeat until* false.
+
+*Note*: For the maze, there is no good example that uses the *True False* block with the *And Or* block. However, the *And Or* block is useful for other programs.
