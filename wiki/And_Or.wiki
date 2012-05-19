@@ -1,1 +1,10 @@
 #labels Logic
+=The *And Or* Block=
+
+To access the *And Or* Block, click *Logic*.
+
+|| *Option* || *Description* ||
+|| *and* || Use this with two other blocks when you want the program to do something when both conditions exist at the same time. For example, *wall to the right?* and *wall to the left?*. Then you can tell Pegman to move forward instead of turn.||
+|| *or* ||Use this when you want the program to do something when either condition exists.||
+
+*Note*: The *And Or* block fits with other blocks, like the *True* block, that it might not be useful with.
