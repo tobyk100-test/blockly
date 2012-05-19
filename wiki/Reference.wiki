@@ -1,4 +1,0 @@
-#summary One-sentence summary of this page.
-#labels Reference
-
-<For use with breadcrumbs -- links to maze, control, logic, which in turn link to the blocks. Or just links straight to the blocks or to all.>
