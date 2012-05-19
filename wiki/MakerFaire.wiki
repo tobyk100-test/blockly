@@ -1,16 +1,12 @@
+#labels Tutorial
 #Tutorial for Blockly users who want to write programs that help Pegman navigate the Maze.
 
-*Introduction to Blockly*
+*What is Blockly?*
 
-Blockly is a new programming language made of "blocks" that look like Jigsaw puzzle pieces.
-
-*Activity*
-
-Write a Blockly program that leads Pegman through the maze to his destination. 
+Blockly is a new programming language made of "blocks" that look like jigsaw puzzle pieces. You can write a Blockly program that leads Pegman through the maze to his destination.
 
 *See How it Works*
-
-Click the *Run Program* button that appears underneath the maze, and see Pegman move forward one square. This is because the *move forward* block already appears in the workspace on the right.
+● Click the *Run Program* button that appears underneath the maze. Pegman moves forward one square. This is because the *move forward* block already appears in the workspace on the right.
 
 *Get Pegman to His Destination*
 
@@ -30,15 +26,10 @@ Watch Pegman go through the maze to reach his destination.
 
 *Make Your Program Better*
 
-1. Notice that your program has a pattern.
+Notice that your program includes the same set of blocks twice. You can use the *Control* or *Logic* blocks to tell Blockly to repeat those steps. Your program will be shorter and more elegant.
 
 
 *Play Around*
 
-Make Pegman go through the maze backwards.
-
-Make Pegman go through the loop.
-
-*See and Notice*
-
-
+● Make Pegman go through the maze backwards.
+● Make Pegman go through the loop.
