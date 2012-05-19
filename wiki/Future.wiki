@@ -1,0 +1,45 @@
+#summary Plans for the future.
+#labels Featured
+
+= Introduction =
+
+Blockly is still in active development with changes landing every day.  We are aware of many deficiencies and are working hard to address them.
+
+
+= Short-term goals =
+
+ * More blocks (e.g. substring).
+ * User-defined procedures/functions.
+ * Cut, Copy, Paste.
+ * Better documentation.
+
+= Medium-term goals =
+
+ * Improved variable rename dialog.
+ * Fire events on changes.
+ * IE support (definitely 10, maybe earlier?).
+ * Comprehensive testing.
+ * 40 (human) languages.
+ * Arduino code generation.
+ * Tree toolbox.
+ * Dynamic addition/deletion from toolbox.
+ * Frequently used category.
+ * Multi-line strings.
+ * Colour selection.
+ * Date/Time selection.
+ * Icons for context menu.
+ * Compile JavaScript into single file.
+ * Improved shadow on blocks.
+
+= Long-term goals =
+
+ * Tablet support.
+ * Zoom.
+ * Multiple workspaces.
+ * Local variables.
+ * Cursor control for accessibility.
+ * Debugging hooks.
+ * Trash can contents.
+ * Search.
+
+Let us know what your priorities are.  Also, Blockly is open source so if there is a feature you need then you are free to work on it.
