@@ -1,4 +1,7 @@
 #labels Maze
+=The *Wall* Block=
+
+To access the *Wall* Block, click *Maze*.
 
 || *Option* || *Description* ||
 ||wall *ahead*? ||Finds out if there is a wall one square ahead of Pegman.||
