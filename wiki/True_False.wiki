@@ -9,14 +9,10 @@ To access the *True False* Block, click *Logic*.
 
 *Tip*: To tell the program what to do next, combine the *True False* block with these other blocks:
 
- * [http://code.google.com/p/google-blockly/wiki/If If] 
  * [http://code.google.com/p/google-blockly/wiki/Repeat Repeat]
- * [http://code.google.com/p/google-blockly/wiki/And_Or And_Or]
 
 You can write statements like:
 
- * *If* true, *then* move forward. 
- * *Else if* false, *then* move backward. 
  * *Repeat while* true.
  * *Repeat until* false.
 
