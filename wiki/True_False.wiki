@@ -1,4 +1,4 @@
-#labels Reference,Logic,True,False
+#labels Logic
 #Help for the Maze *True_False* block.
 
 || *Option* || *Description* ||
