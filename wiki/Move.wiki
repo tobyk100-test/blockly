@@ -1,7 +1,7 @@
 #labels Maze
-#Help for the Maze block "move forward" and "move backward".
+=The *Move* Block=
 
-<screenshot1> <screenshot2>
+To access the *Move* block, go to the *Blocks* menu and click *Maze*.
 
 || *Option* || *Description* ||
 ||move *forward* ||Moves Pegman forward one square.||
