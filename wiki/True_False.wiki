@@ -1,11 +1,11 @@
 #labels Logic
-The True_False block.
+=The *True False* Block=
 
 || *Option* || *Description* ||
 || *true* || Finds out if something is true. If it is, the program will do whatever you tell it to do next.||
 || *false* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
 
-*Tip*: To tell the program what to do next, combine the *True_False* block with these other blocks:
+*Tip*: To tell the program what to do next, combine the *True False* block with these other blocks:
 
  * [http://code.google.com/p/google-blockly/wiki/If If] 
  * [http://code.google.com/p/google-blockly/wiki/Repeat Repeat]
@@ -18,4 +18,4 @@ You can write statements like:
  * *Repeat while* true.
  * *Repeat until* false.
 
-*Note*: For the maze, there is no good example that uses the *True_False* block with the *And_Or* block. However, the *And_Or* block is useful for other programs.
+*Note*: For the maze, there is no good example that uses the *True False* block with the *And Or* block. However, the *And Or* block is useful for other programs.
