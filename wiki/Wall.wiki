@@ -1,4 +1,4 @@
-#labels Reference,Maze,wall_ahead,wall_behind,wall_to_the_right,wall_to_the_left
+#labels Maze
 #Help for the Maze block "wall ahead?", "wall behind?", "wall to the right?", and "wall to the left?"
 
 
