@@ -5,22 +5,25 @@ To access the *If Then* Block, click *Control*.
 
 || *Option* || *Description* ||
 || *if* || Finds out if something is true. If it is, the program will do whatever you tell it to do next.||
-|| *then* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
-|| *else if* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
-|| *else* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
+|| *then* ||Useful with a block like *move forward*, that tells the program what to do next.||
+|| *else if* || Useful for combining more than one *If Then* sentences.||
+|| *else* ||Useful for the last sentence in the block.||
 
+*Tip*: To make useful sentences, combine the *If Then* block with these other blocks:
 
-*Tip*: To tell the program what to do next, combine the *True False* block with these other blocks:
-
- * [http://code.google.com/p/google-blockly/wiki/If If] 
- * [http://code.google.com/p/google-blockly/wiki/Repeat Repeat]
- * [http://code.google.com/p/google-blockly/wiki/And_Or And_Or]
+ * [http://code.google.com/p/google-blockly/wiki/Wall Wall] 
+ * [http://code.google.com/p/google-blockly/wiki/Move Move]
+ * [http://code.google.com/p/google-blockly/wiki/Turn Turn]
 
 You can write statements like:
 
- * *If* true, *then* move forward. 
- * *Else if* false, *then* move backward. 
- * *Repeat while* true.
- * *Repeat until* false.
+If *wall ahead? * then *move backward*.
+Else if *wall to the right?* then *turn left*. (Hint: In real life, this sentence might not work the way you think.)
+Else *move forward*.
 
-*Note*: For the maze, there is no good example that uses the *True False* block with the *And Or* block. However, the *And Or* block is useful for other programs.
+Your *If Then* block should always follow the format:
+If *this thing * then *do this*.
+Else if *this other thing* then *do something else*.
+Else *do that*.
+ 
+*Note*: You should always include the last *Else* to make sure the program does something even if there is a case you haven't thought of. 
