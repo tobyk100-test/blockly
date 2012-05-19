@@ -1,19 +1,20 @@
 #labels Reference,Logic,True,False
 #Help for the Maze block "True" and "False".
 
-<screenshot1> <screenshot2>
-
-You can use this block with these other blocks:
-
-Blocks you can use this block with are:
-
-If
-Repeat
-And
-
-
 || *Option* || *Description* ||
-|| *true* || .||
-|| *false* ||Turns Pegman to face left but doesn't move him any squares in the new direction.||
+|| *true* || Finds out if something is true. If it is, the program will do whatever you tell it do next.||
+|| *false* ||Finds out if something is false. If it is, the program will do whatever you tell it do next.||
 
-*Tip*: To move Pegman in the new direction, use the [http://code.google.com/p/google-blockly/wiki/Move Move] block.
+*Tip*: To tell the program what to do next, combine this block with these other blocks:
+
+[http://code.google.com/p/google-blockly/wiki/If If] 
+[http://code.google.com/p/google-blockly/wiki/Repeat Repeat]
+[http://code.google.com/p/google-blockly/wiki/And And]
+
+You can write statements like:
+
+ *If true, move forward. 
+ *Else if false, move backward. 
+ *Repeat while true.
+
+*Note*: For the maze, there is no good example of using the *True* and *False* block with the *And* block. However, the *And* block is useful for other programs.
