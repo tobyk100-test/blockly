@@ -1,4 +1,4 @@
-#labels Reference,Maze,move_forward,move_backward
+#labels Maze
 #Help for the Maze block "move forward" and "move backward".
 
 <screenshot1> <screenshot2>
