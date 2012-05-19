@@ -2,8 +2,8 @@
 #Help for the Maze block "True" and "False".
 
 || *Option* || *Description* ||
-|| *true* || Finds out if something is true. If it is, the program will do whatever you tell it do next.||
-|| *false* ||Finds out if something is false. If it is, the program will do whatever you tell it do next.||
+|| *true* || Finds out if something is true. If it is, the program will do whatever you tell it to do next.||
+|| *false* ||Finds out if something is false. If it is, the program will do whatever you tell it to do next.||
 
 *Tip*: To tell the program what to do next, combine this block with these other blocks:
 
