@@ -1,0 +1,36 @@
+#summary Frequently Asked Questions - High Level.
+#labels Featured
+
+= FAQ - High Level =
+
+These are the most frequently asked questions relating to the purpose of Blockly and what it is (and isn't) good for.
+
+== How does Blockly relate to Scratch, App Inventor, etc.? ==
+
+The short answer is that Blockly was influenced by App Inventor and App Inventor was influenced by Scratch.  Rather than being a stand-alone program, Blockly is a code editor that can be embedded into a larger project.  For more information, see the page of [Alternatives] to Blockly.
+
+== Why are graphics better than text? ==
+
+Novice programmers are fighting two battles at once: the fight to translate their ideas into logical statements, and the fight to keep the syntax legal.  Blockly makes it completely impossible to make a syntax error.  There are no unbalanced parentheses, no escaped strings, no missing semicolons.  Blockly allows novice programmers to concentrate on the logic.
+
+Many non-programmers find a blank screen with a blinking cursor to be daunting.  How does one start?  Blockly allows these users to browse through the menu of blocks and start plugging things together.
+
+Even seasoned programmers can benefit by starting a script with Blockly.  If one is writing a quick script using an unfamiliar API (such as office suite automation) it can take a long time to learn that API.  With Blockly one can plug the blocks together for a first draft, then switch to the generated code to keep going.
+
+== How does Blockly scale to large programs? ==
+
+It doesn't, at least not yet.  Blockly is currently designed for creating relatively small scripts.  We have ideas for semantic zooming and other techniques that would allow Blockly to scale.  But that is not our current focus.  Please do not attempt to maintain the Linux kernel using Blockly.
+
+== Why not use a data-flow metaphor? ==
+
+Data-flow is often a simpler way to represent certain common tasks.  However we chose not to use it for two reasons.  The first is that data-flow languages usually fail badly when attempting to solve tasks outside their domain.  The second is that the generated code looks nothing like the visual data-flow representation, which serves as a barrier for the user graduating from the visual programming language to a text-based code editor.  We feel strongly that users should not be locked in.
+ 
+== Isn't Blockly too low level? ==
+
+If the user wants to do anything truly original, they must have access to basic math and logic operations.  However, once the basics are taken care of, Blockly offers a rich (and constantly growing) set of higher-level blocks.  Such as computing the standard deviation of a list, using a single block.
+
+Additionally, most of the high-level features would reside in the domain-specific API blocks provided to Blockly by host applications.  For example a game engine using Blockly could have a block that moves a sprite until it hits a wall.
+
+== Why isn't there a download archive? ==
+
+Blockly is a technical preview aimed at application developers.  At this point it is not an end-user application.  Users who are not comfortable with syncing Subversion would most likely be disappointed in the current codebase.  Blockly is not an executable that can be double-clicked and played with.
