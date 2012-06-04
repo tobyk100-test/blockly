@@ -11,9 +11,9 @@ The short answer is that Blockly was influenced by App Inventor and App Inventor
 
 == Why are graphics better than text? ==
 
-Novice programmers are fighting two battles at once: the fight to translate their ideas into logical statements, and the fight to keep the syntax legal.  Blockly makes it completely impossible to make a syntax error.  There are no unbalanced parentheses, no escaped strings, no missing semicolons.  Blockly allows novice programmers to concentrate on the logic.
+Novice programmers are fighting two battles at once: the fight to translate their ideas into logical statements, and the fight to keep the syntax legal.  Blockly makes it completely impossible to make a syntax error.  There are no unbalanced parentheses, no unescaped strings, no missing semicolons.  Blockly allows novice programmers to concentrate on the logic.
 
-Many non-programmers find a blank screen with a blinking cursor to be daunting.  How does one start?  Blockly allows these users to browse through the menu of blocks and start plugging things together.
+Additionally, many non-programmers find a blank screen with a blinking cursor to be daunting.  How does one start?  Blockly allows these users to browse through the menu of blocks and start plugging things together.
 
 Even seasoned programmers can benefit by starting a script with Blockly.  If one is writing a quick script using an unfamiliar API (such as office suite automation) it can take a long time to learn that API.  With Blockly one can plug the blocks together for a first draft, then switch to the generated code to keep going.
 
@@ -30,6 +30,10 @@ Data-flow is often a simpler way to represent certain common tasks.  However we 
 If the user wants to do anything truly original, they must have access to basic math and logic operations.  However, once the basics are taken care of, Blockly offers a rich (and constantly growing) set of higher-level blocks.  Such as computing the standard deviation of a list, using a single block.
 
 Additionally, most of the high-level features would reside in the domain-specific API blocks provided to Blockly by host applications.  For example a game engine using Blockly could have a block that moves a sprite until it hits a wall.
+
+== Can Blockly import from code? ==
+
+Blockly can export from blocks to JavaScript, Dart, and Python.  However we have no plans to import from one of these languages to Blockly.  The main issue is that modern programming languages are fearsomely complex, with closures, list comprehension, operator overloading, etc.  Importing arbitrary code would have a high development cost compared with a limited real-world utility.
 
 == Why isn't there a download archive? ==
 
