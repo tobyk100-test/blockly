@@ -8,10 +8,10 @@ Blockly is still in active development with changes landing every day.  We are a
 
 = Short-term goals =
 
- * More blocks (e.g. substring).
- * User-defined procedures/functions.
- * Cut, Copy, Paste.
  * Better documentation.
+ * More blocks (e.g. substring).
+ * Parameters on procedures/functions.
+ * Cut, Copy, Paste.
 
 = Medium-term goals =
 
