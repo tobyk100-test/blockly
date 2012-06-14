@@ -1,21 +1,21 @@
-#summary Other Visual Programming Languages.
+#summary Other Visual Programming Environments.
 #labels Featured
 
 = A growing family =
 
-Blockly is one of a growing number of visual programming languages.  Many of these languages have roots at MIT, leading to a similar look and feel across different products.  Blockly was influenced by [http://www.appinventor.mit.edu/ App Inventor], which in turn was influenced by [http://scratch.mit.edu/ Scratch].
+Blockly is one of a growing number of visual programming environments.  Many of these languages have roots at MIT, leading to a similar look and feel across different products.  Blockly was influenced by [http://www.appinventor.mit.edu/ App Inventor], which in turn was influenced by [http://scratch.mit.edu/ Scratch].
 
 = Blockly's distinguishing features =
 
 Blockly was designed with the following requirements:
   * Execute in a web-browser.  No downloads or plugins needed.
-  * Exportable code.  Users can extract their programs as JavaScript, Dart, Python or other language so that when they outgrow Blockly they can keep learning.
+  * Exportable code.  Users can extract their programs as !JavaScript, Dart, Python or other language so that when they outgrow Blockly they can keep learning.
   * Open source.  Everything about Blockly is open: you can fork it, hack it, and use it in your own websites.
-  * Highly capable language.  With the ability to calculate standard deviation using a single block, Blockly is not a toy language.
+  * Highly capable.  With the ability to calculate standard deviation using a single block, Blockly is not a toy.
 
 Equally important is a negative characteristic:
   * Blockly in itself is not an educational platform.  Blockly is an editor that may be used as part of an educational platform, or as part of a business suite, or as part of a gaming system, etc.
 
 = Alternatives =
 
-Wikipedia currently lists about [http://en.wikipedia.org/wiki/Visual_programming_language a hundred VPLs].  Please check them out before choosing one.  VPLs are still evolving quickly and as a community we are still learning what works and what doesn't.
+Wikipedia currently lists about a hundred [http://en.wikipedia.org/wiki/Visual_programming_language visual programming environments].  Please check them out before choosing one.  Visual programming environments are still evolving quickly and as a community we are still learning what works and what doesn't.
