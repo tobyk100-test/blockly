@@ -3,7 +3,7 @@
 
 = A growing family =
 
-Blockly is one of a growing number of visual programming environments.  Many of these languages have roots at MIT, leading to a similar look and feel across different products.  Blockly was influenced by [http://www.appinventor.mit.edu/ App Inventor], which in turn was influenced by [http://scratch.mit.edu/ Scratch].
+Blockly is one of a growing number of visual programming environments.  Many of these languages have roots at MIT, leading to a similar look and feel across different products.  Blockly was influenced by [http://www.appinventor.mit.edu/ App Inventor], which in turn was influenced by [http://scratch.mit.edu/ Scratch], which in turn was influenced by [http://education.mit.edu/projects/starlogo-tng StarLogo].
 
 = Blockly's distinguishing features =
 
