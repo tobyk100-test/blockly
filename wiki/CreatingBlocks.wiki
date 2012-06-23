@@ -135,11 +135,25 @@ Optionally, the `FieldDropdown` constructor can also take a second argument whic
 
 === appendInput ===
 
+{{{
+    this.appendInput('item', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
+    this.appendInput('in list', Blockly.INPUT_VALUE, 'LIST', Array);
+    this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
+}}}
+
 Coming soon...
 
 === setInputsInline ===
 
-Coming soon...
+{{{
+    this.setInputsInline(true);
+}}}
+
+http://blockly.googlecode.com/svn/wiki/setInputsInline.png
+
+Value and variable inputs are by default each on separate lines (as shown on the left).  By setting inputs inline, one can create a more compact block (as shown on the right).
+
+Use inline inputs when a block is likely going to have small inputs such as numbers.  The user can toggle this option through the context menu.
 
 === setTooltip ===
 
