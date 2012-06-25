@@ -33,8 +33,11 @@ Additionally, most of the high-level features would reside in the domain-specifi
 
 == Can Blockly import from code? ==
 
-Blockly can export from blocks to JavaScript, Dart, and Python.  However we have no plans to import from one of these languages to Blockly.  The main issue is that modern programming languages are fearsomely complex, with closures, list comprehension, operator overloading, etc.  Importing arbitrary code would have a high development cost compared with a limited real-world utility.
+Blockly can export from blocks to !JavaScript, Dart, and Python.  However we have no plans to import from one of these languages to Blockly.  The main issue is that modern programming languages are fearsomely complex, with closures, list comprehension, operator overloading, etc.  Importing arbitrary code would have a high development cost compared with a limited real-world utility.
 
 == Why isn't there a download archive? ==
 
 Blockly is a technical preview aimed at application developers.  At this point it is not an end-user application.  Users who are not comfortable with syncing Subversion would most likely be disappointed in the current codebase.  Blockly is not an executable that can be double-clicked and played with.
+
+----
+See also: [Language Language Design Philosophy]
