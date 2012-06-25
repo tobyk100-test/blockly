@@ -1,0 +1,34 @@
+#summary Blockly's language philosophy.
+#labels Phase-Design
+
+= Introduction =
+
+The primary users of the blocks language are people who can't program.  However, in addition to wanting to enable these users to do useful work, we also want to actively support a smooth migration to !JavaScript once they outgrow the blocks language.  This drives several design decisions regarding the language itself.
+
+= One-based Lists =
+
+Novice programmers freak out when they encounter zero-based lists for the first time.  As a result, Blockly follows the lead of Lua and Lambda Moo by making list and string indexing one-based.
+
+= Variable Names =
+
+Novice programmers do not expect that `location_X` and `location_x` are different variables.  As a result, Blockly follows the lead of BASIC and HTML by making variables case-insensitive.  Also, Blockly does not require that variables conform to the typical `[_A-Za-z][_A-Za-z0-9]*` scheme.  If one wants to name a variable `List of zip` codes or `רשימת מיקודים` that is perfectly alright.
+
+= Global Variables =
+
+Novice programmers also have difficulties understanding scope.  As a result, all variables in Blockly follows the lead of App Inventor by making all variables global.  The only down-side of global variables is that recursion is trickier (one has to push and pop variables onto a list), but that's a programming technique that's beyond the scope of Blockly's target users.
+
+= High-level Blocks =
+
+Wherever possible a higher-level approach should be taken, even if it reduces execution performance or flexibility.  Consider this expression:
+{{{
+    SpreadsheetApp.getActiveSheet().getDataRange().getValues()
+}}}
+Under a 1:1 mapping which preserves all potential capabilities, the above expression would be built using four blocks.  But Blockly aims for a higher-level and provides one block that encapsulates the entire expression.  The goal is to optimize for the 95% cases, even if it makes the remaining 5% more difficult.  Blockly is not intended to be a replacement for !JavaScript code, it is intended to help users get over the initial learning curve so that they can use !JavaScript code.
+
+= Clean Code Generation =
+
+Advanced Blockly users should be able to look at the generated code (!JavaScript, Dart, Python, etc) and immediately recognize the code they wrote.  This means extra effort needs to be made to keep this machine-generated code readable.  Superfluous parentheses, numeric variables, crushed whitespace and verbose code templates all get in the way of producing elegant code.  Generated code should include comments and should conform to [http://code.google.com/p/google-styleguide/ Google's style guides].
+
+= Language Dependance =
+
+A side effect of the desire for clean code is that Blockly's behaviour is largely defined in terms of how the cross-compiled language behaves.  The most common output language would be !JavaScript, but if Blockly were to cross-compile to a different language, no unreasonable attempts should be made to preserve the exact behaviour across both languages.  For example, in !JavaScript an empty string is false, whereas in Lua it is true.  Defining a single pattern of behaviour for Blockly's code to execute regardless of the target language would result in completely unmaintainable code that looks like it came out of the GWT compiler.
