@@ -1,11 +1,9 @@
 #summary How to create custom blocks.
 #labels Phase-Implementation
 
-= Introduction =
+This document is aimed at developers who wish to create new blocks within Blockly.  It is assumed that one has a local copy of Blockly which one can edit, one is generally familiar with Blockly's usage, and one has a basic understanding of !JavaScript or some similar language.
 
-This document is aimed at developers who wish to create new blocks within Blockly.  It is assumed that one has a local copy of Blockly which one can edit, one is generally familiar with Blockly's usage, and one has a basic understanding of JavaScript or some similar language.
-
-There are two parts to this process.  The first part is to create a block; specifying its shape, labels, and connection points.  This is done in the `language/` directory.  The second part is to create the generator code to export the new block to a programming language (such as JavaScript, Dart, or Python).  This is done in the `generators/` directory.
+There are two parts to this process.  The first part is to create a block; specifying its shape, labels, and connection points.  This is done in the `language/` directory.  The second part is to create the generator code to export the new block to a programming language (such as !JavaScript, Dart, or Python).  This is done in the `generators/` directory.
 
 In most cases the easiest approach is to just find a really similar block which already exists, copy it, and modify it as needed.  The following documentation is for those who need more help.  If all else fails, post in the [http://groups.google.com/group/blockly support newsgroup].
 
