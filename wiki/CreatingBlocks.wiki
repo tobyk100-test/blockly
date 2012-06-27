@@ -141,7 +141,43 @@ Optionally, the `FieldDropdown` constructor can also take a second argument whic
     this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
 }}}
 
-Coming soon...
+http://blockly.googlecode.com/svn/wiki/appendInput.png
+
+Each block has a list of inputs for referencing variables, connecting value blocks, or enclosing a stack of statements.
+
+==== Label ====
+
+The first argument to `appendInput` specifies the label for the input.  In most cases this is just a static string (e.g. `'item'`, `'in list'`, and `'do'` in the example above).  However, the label can also be an editable field, such as an input field or a dropdown.
+
+{{{
+    var dropdown = new Blockly.FieldDropdown([['and', 'AND'], ['or', 'OR']]);
+    this.appendInput([dropdown, 'OP'], Blockly.INPUT_VALUE, 'BOOL', Boolean);
+}}}
+
+In the example above, the first argument to `appendInput` is a two element list; the first element is the editable field, and the second element is a language-neutral name (in this case `'OP'`) which allows code generators to access the field.  See `[#appendTitle appendTitle]` for more details on editable fields.
+
+If no label is desired, simply use the empty string.
+
+==== Type ====
+
+The second argument to `appendInput` specifies the type of the input.  There are four options:
+
+  * `Blockly.LOCAL_VARIABLE` - A variable dropdown.
+  * `Blockly.INPUT_VALUE` - A socket in which to plug a value block.
+  * `Blockly.NEXT_STATEMENT` - A notch for a stack of statement blocks.
+  * `Blockly.DUMMY_INPUT` - Not an input, just a label.
+
+The first three types are demonstrated in the "for each" block above.  The dummy input type is usually only used when English (or other language) requires a word after the last input.  An example is the "create list with item (X) repeated (Y) times" block.  In that case "create list" is a title, "with item" is the label for input X, "repeated" is the label for input Y and "times" is the label for a dummy input.
+
+==== Name ====
+
+The third argument to `appendInput` specifies the language-neutral name of the input.  Just like editable fields, inputs need a name which is consistent across all language versions.  These names allow inputs and titles to be reordered in different languages, for instance in one language a block might say "get (X) from (Y)" whereas in another language the same block might say "from (Y) get (X)".
+
+Inputs of type `DUMMY_INPUT` do not require names and may use the empty string.
+
+==== Check ====
+
+The fourth argument to `appendInput` is optional and is used for type-checking of value inputs.  If null or undefined, then this value input may be connected to any block with an output tab.  See `[#setOutput setOutput]` for details on the expected values.
 
 === setInputsInline ===
 
