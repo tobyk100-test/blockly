@@ -7,7 +7,7 @@ Code generators are used to convert Blockly's programs into !JavaScript, Python,
 
 Consider the following assembly of blocks.
 
-print(2 x (3 + 4))
+http://blockly.googlecode.com/svn/wiki/operatorPrecedence.png
 
 If the generators were not aware of operator precedence, the resulting !JavaScript code would be:
 {{{
