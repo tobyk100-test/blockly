@@ -1,6 +1,8 @@
 #summary Temporary variables and utility functions.
 #labels Phase-Design
 
+*[http://code.google.com/p/blockly// Blockly]: [CustomBlocks Creating Custom Blocks]: [CodeGeneration Generating Code]: Caching Arguments*
+
 = Caching Arguments =
 
 When generating code from blocks one often finds the need to use the returned value of a sub-block more than once.  Consider a value block that finds and returns the last element of a list.  The block itself would have one input (a list), and would return a value (the last element).  Here is the generator for !JavaScript:
