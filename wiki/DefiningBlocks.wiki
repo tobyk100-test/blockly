@@ -148,7 +148,7 @@ The first argument to `appendInput` specifies the label for the input.  In most 
     this.appendInput([dropdown, 'OP'], Blockly.INPUT_VALUE, 'BOOL', Boolean);
 }}}
 
-In the example above, the first argument to `appendInput` is a two element list; the first element is the editable field, and the second element is a language-neutral name (in this case `'OP'`) which allows code generators to access the field.  See `[#appendTitle appendTitle]` for more details on editable fields.
+In the example above, the first argument to `appendInput` is a two element list; the first element is the editable field, and the second element is a language-neutral name (in this case `'OP'`) which allows code generators to access the field.  See [#appendTitle appendTitle] for more details on editable fields.
 
 If no label is desired, simply use the empty string.
 
@@ -171,7 +171,7 @@ Inputs of type `DUMMY_INPUT` do not require names and may use the empty string.
 
 ==== Check ====
 
-The fourth argument to `appendInput` is optional and is used for type-checking of value inputs.  If null or undefined, then this value input may be connected to any block with an output tab.  See `[#setOutput setOutput]` for details on the expected values.
+The fourth argument to `appendInput` is optional and is used for type-checking of value inputs.  If null or undefined, then this value input may be connected to any block with an output tab.  See [#setOutput setOutput] for details on the expected values.
 
 === setInputsInline ===
 
