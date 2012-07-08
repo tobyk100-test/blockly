@@ -1,0 +1,121 @@
+#summary How to generate code from new blocks.
+#labels Phase-Implementation
+
+*[CustomBlocks Creating Custom Blocks]: Generating Code*
+
+= Generating Code =
+
+First, go to the `generators/` directory and choose the subdirectory that corresponds to the language you want to generate (!JavaScript, Dart, Python, etc).
+
+Assuming your block(s) don't fit in the existing categories, create a new !JavaScript file.  It should start with this definition (this and all subsequent examples use `JavaScript` as the language, substitute with the appropriate language):
+{{{
+Blockly.JavaScript = Blockly.Generator.get('JavaScript');
+}}}
+
+This new !JavaScript file needs to be included in the list of `<script ...>` tags in the editor's HTML file.
+
+A typical block's code generator looks like this:
+{{{
+Blockly.JavaScript.text_indexOf = function() {
+  // Search the text for a substring.
+  var operator = this.getTitleValue('END') == 'FIRST' ? 'indexOf' : 'lastIndexOf';
+  var argument0 = Blockly.JavaScript.valueToCode(this, 'FIND',
+      Blockly.JavaScript.ORDER_NONE) || '\'\'';
+  var argument1 = Blockly.JavaScript.valueToCode(this, 'VALUE',
+      Blockly.JavaScript.ORDER_MEMBER) || '\'\'';
+  var code = argument1 + '.' + operator + '(' + argument0 + ') + 1';
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
+};
+}}}
+
+== Collecting the Arguments ==
+
+The first task for any bock's code generator is to collect all the arguments and field data.  There are several functions commonly used for this task:
+
+  * [#getTitleText getTitleText]
+  * [#getTitleValue getTitleValue]
+  * [#valueToCode valueToCode]
+  * [#statementToCode statementToCode]
+  * [#getInputVariable getInputVariable]
+
+=== getTitleText ===
+
+{{{
+  this.getTitleText('END')
+}}}
+
+This function returns the user-facing text from a title field or label field of the specified name.  This is useful to get typed text from input fields.
+
+This function should probably not be used for dropdown fields since the return value is language dependent.  An English block might have a dropdown with the word "first" selected, whereas the same dropdown in German would display "erste".  Code generators should not have to know all possible human languages, thus when collecting selections from dropdown (and similar) fields, use the `getTitleValue` function instead.
+
+=== getTitleValue ===
+
+{{{
+  this.getTitleValue('END')
+}}}
+
+This function returns the language-neutral value from a title field or label field of the specified name.  This is useful to get options from a dropdown (or similar) field.  
+
+=== valueToCode ===
+
+{{{
+  Blockly.JavaScript.valueToCode(this, 'FROM', Blockly.JavaScript.ORDER_ADDITION) || '0'
+}}}
+
+This function finds the block connected to the named value input ('FROM'), generates the code for that block, and returns the code as a string.  In the event that the input is not connected, this function returns null, which is why one normally follows the function with a Boolean 'or' and the default value.  Thus in the example above, if there is no block attached to the input named 'FROM', then the default code for this input will be the string '0'.
+
+The third argument specifies order of operations information required for embedding.  Each language generator has an ordered list of precedences.  The `valueToCode` function needs to be passed the order value corresponding to the maximum force that will be applied to the returned code.  This allows `valueToCode` to wrap the code in parentheses if required.  For detailed information, see the [OperatorPrecedence Operator Precedence] page.
+
+Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc).
+
+=== statementToCode ===
+
+{{{
+  Blockly.JavaScript.statementToCode(this, 'DO')
+}}}
+
+This function finds the stack of nested blocks connected to the specified statement input, generates the code for that stack, indents the code, and returns the code as a string.  In the event that the input is not connected, this function returns an empty string.
+
+Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc).
+
+=== getInputVariable ===
+
+{{{
+  this.getInputVariable('VAR')
+}}}
+
+This function returns the user-facing name of a variable dropdown.  It is important to note that this name is not necessarily the same as the variable name used in the generated code.  For example, a variable name of "`for`" is legal in Blockly, but would collide with a reserved word in most languages and thus would be renamed to "`for2`".  Likewise, an Arabic variable name of "`متغير`" is legal in Blockly, but would be illegal in most languages and would thus be renamed to "`_D9_85_D8_AA_D8_BA_D9_8A_D8_B1`".  To obtain a Blockly variable name to one that may be used in generated code, use the following call:
+
+{{{
+  Blockly.JavaScript.variableDB_.getName(this.getInputVariable('VAR'), Blockly.Variables.NAME_TYPE);
+}}}
+
+Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc) since each language has a different list of reserved words.
+
+== Assembling the Code ==
+
+Once all the arguments have been collected, one can assemble the final code.  This is straight-forward for most blocks.  Here is an example of a while loop:
+{{{
+  var code = 'while (' + argument0 + ') {\n' + branch0 + '}\n';
+}}}
+
+Statement blocks (those which do not return a value) can then return the code without further ado:
+{{{
+  return code;
+}}}
+
+Value blocks (those which do return a value) are a bit more complicated.  Here is an example of a basic arithmetic operator (plus, minus, etc):
+
+{{{
+  var code = argument0 + ' ' + operator + ' ' + argument1;
+}}}
+
+This example illustrates an order of operations problem.  Consider the case of two connected arithmetic blocks which form the expression `(2 * (3 + 4))`.  Using the above code snipped, the addition block would return the string `"3 + 4"` while the multiplication block would use this as input to return `"2 * 3 + 4"`.  This result is incorrect since when executed the `3` will bind more tightly to the multiplication.
+
+To solve this, value blocks must return a list with two values: the code and the appropriate order value:
+{{{
+  return [code, Blockly.JavaScript.ORDER_ADDITION];
+}}}
+Each language generator has an ordered list of precedences.  The returned order value specifies the minimum force that binds the code together.  For detailed information, see the [OperatorPrecedence Operator Precedence] page.
+
+If the generated code requires that a sub-block's code be included twice, one should [CachingArguments cache the arguments] for efficiency and to prevent side-effects.
