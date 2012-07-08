@@ -1,7 +1,7 @@
 #summary Temporary variables and utility functions.
 #labels Phase-Design
 
-*[http://code.google.com/p/blockly// Blockly]: [CustomBlocks Creating Custom Blocks]: [CodeGeneration Generating Code]: Caching Arguments*
+*[CustomBlocks Creating Custom Blocks]: [GeneratingCode Generating Code]: Caching Arguments*
 
 = Caching Arguments =
 
