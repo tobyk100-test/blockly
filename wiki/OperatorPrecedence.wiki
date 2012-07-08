@@ -73,7 +73,7 @@ If the order value returned by the sub-block is less than or equal to the order 
 
 Below are some more examples.  In each case the block has one connected sub-block which is represented as 'X' (the contents of 'X' is unknown and doesn't matter).  The second column lists the strongest operator which might split 'X'.  The third column lists the weakest operator in the final code for the block.
 
-|| Generated Code || Max strength against X || Min strength of block ||
+|| *Generated Code* || *Max strength against X* || *Min strength of block* ||
 || `X + 1` || `ORDER_ADDITION` || `ORDER_ADDITION` ||
 || `Math.sqrt(X)` || `ORDER_NONE` || `ORDER_MEMBER` ||
 || `!X && false` || `ORDER_LOGICAL_NOT` || `ORDER_LOGICAL_AND` ||
@@ -81,4 +81,4 @@ Below are some more examples.  In each case the block has one connected sub-bloc
 
 = Math is hard =
 
-Still don't understand?  No problem.  Just use `ORDER_ATOMIC` as the order on every call to `valueToCode`, and use `ORDER_NONE` as the order for the final return statement on every value block.  The resulting code will be infested with needless parentheses, but it is guaranteed to be correct.
+Still don't understand?  No problem.  Just use `ORDER_ATOMIC` as the order on every call to `valueToCode`, and use `ORDER_NONE` as the order for the final return statement on every value block.  The resulting code will be infested with needless parentheses, but is guaranteed to be correct.
