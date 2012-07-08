@@ -1,7 +1,7 @@
 #summary How to define new blocks.
 #labels Phase-Implementation
 
-*[http://code.google.com/p/blockly// Blockly]: [CustomBlocks Creating Custom Blocks]: Defining Blocks*
+*[CustomBlocks Creating Custom Blocks]: Defining Blocks*
 
 = Defining a Block =
 
