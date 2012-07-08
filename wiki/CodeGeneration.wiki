@@ -1,11 +1,7 @@
 #summary How to generate code from new blocks.
 #labels Phase-Implementation
 
-This document is aimed at developers who wish to create new blocks that generate code in an existing language (e.g. !JavaScript).  It is assumed that one has a local copy of Blockly which one can edit, one is generally familiar with Blockly's usage, and one has a basic understanding of !JavaScript or some similar language.
-
-There are two parts to this process.  The first part (described on the [CreatingBlocks Creating Blocks] page) is to create a block; specifying its shape, labels, and connection points.  The second part (described below) is to create the generator code to export the new block to a programming language (such as !JavaScript, Dart, or Python).
-
-In most cases the easiest approach is to just find a really similar block which already exists, copy it, and modify it as needed.  The following documentation is for those who need more help.  If all else fails, post in the [http://groups.google.com/group/blockly support newsgroup].
+*[http://code.google.com/p/blockly// Blockly]: [CustomBlocks Creating Custom Blocks]: Generating Code*
 
 = Generating Code =
 
