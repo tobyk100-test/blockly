@@ -47,6 +47,7 @@ The `init` function creates the block's shape.  In the context of this function 
   * [#appendInput appendInput]
   * [#setInputsInline setInputsInline]
   * [#setTooltip setTooltip]
+  * [#setMutator setMutator]
 
 === setColour ===
 
@@ -125,7 +126,7 @@ Another title element is a dropdown menu.  Just like the text input field, the d
 
 Instead of providing a static list of options, one can provide a function that returns a list of options when called.  This allows for dynamic menus.  See `variables_get` got an example.
 
-Optionally, the `FieldDropdown` constructor can also take a second argument which becomes the validation function.  See `text_trim` for an example of where changing a dropdown modifies a title.
+Optionally, the `FieldDropdown` constructor can also take a second argument which becomes the validation function.  See the English version of `text_trim` for an example of where changing a dropdown modifies a title.
 
 === appendInput ===
 
@@ -194,3 +195,11 @@ Use inline inputs when a block is likely going to have small inputs such as numb
 Tooltips offer instant help when the user hovers their mouse over the block.  Longer strings should include line breaks (`\n`) since the text does not wrap automatically.
 
 Tooltips may also be defined as a function instead of a static string.  This allows for dynamic help.  See `math_arithmetic` for an example of a tooltip that changes depending on which dropdown option has been chosen.
+
+=== setMutator ===
+
+{{{
+    this.setMutator(new Blockly.Mutator(['controls_if_elseif', 'controls_if_else']));
+}}}
+
+Mutators allow advanced blocks to change shape, most notably as a result of users opening a dialog to add, remove or rearrange components.  Creating a mutator is not trivial, and is the subject of a separate page: [CreatingMutators Creating Mutators]
