@@ -1,7 +1,9 @@
 #summary How to generate code from new blocks.
 #labels Phase-Implementation
 
-This document is aimed at developers who wish to create new blocks that generate code in an existing language (e.g. !JavaScript).  It is assumed that one has a local copy of Blockly which one can edit, one is generally familiar with Blockly's usage, and one has a basic understanding of JavaScript or some similar language.
+This document is aimed at developers who wish to create new blocks that generate code in an existing language (e.g. !JavaScript).  It is assumed that one has a local copy of Blockly which one can edit, one is generally familiar with Blockly's usage, and one has a basic understanding of !JavaScript or some similar language.
+
+There are two parts to this process.  The first part (described on the [CreatingBlocks Creating Blocks] page) is to create a block; specifying its shape, labels, and connection points.  The second part (described below) is to create the generator code to export the new block to a programming language (such as !JavaScript, Dart, or Python).
 
 In most cases the easiest approach is to just find a really similar block which already exists, copy it, and modify it as needed.  The following documentation is for those who need more help.  If all else fails, post in the [http://groups.google.com/group/blockly support newsgroup].
 
@@ -21,10 +23,12 @@ A typical block's code generator looks like this:
 Blockly.JavaScript.text_indexOf = function() {
   // Search the text for a substring.
   var operator = this.getTitleValue('END') == 'FIRST' ? 'indexOf' : 'lastIndexOf';
-  var argument0 = Blockly.JavaScript.valueToCode(this, 'FIND') || '""';
-  var argument1 = Blockly.JavaScript.valueToCode(this, 'VALUE') || '""';
+  var argument0 = Blockly.JavaScript.valueToCode(this, 'FIND',
+      Blockly.JavaScript.ORDER_NONE) || '\'\'';
+  var argument1 = Blockly.JavaScript.valueToCode(this, 'VALUE',
+      Blockly.JavaScript.ORDER_MEMBER) || '\'\'';
   var code = argument1 + '.' + operator + '(' + argument0 + ') + 1';
-  return '(' + code + ')';
+  return [code, Blockly.JavaScript.ORDER_MEMBER];
 };
 }}}
 
@@ -59,10 +63,12 @@ This function returns the language-neutral value from a title field or label fie
 === valueToCode ===
 
 {{{
-  Blockly.JavaScript.valueToCode(this, 'FROM') || '0'
+  Blockly.JavaScript.valueToCode(this, 'FROM', Blockly.JavaScript.ORDER_ADDITION) || '0'
 }}}
 
-This function finds the block connected to the specified value input, generates the code for that block, and returns the code as a string.  In the event that the input is not connected, this function returns null, which is why one normally follows the function with a Boolean or and the default value.  Thus in the example above, if there is no block attached to the input named 'FROM', then the default code for this input will be the string '0'.
+This function finds the block connected to the named value input ('FROM'), generates the code for that block, and returns the code as a string.  In the event that the input is not connected, this function returns null, which is why one normally follows the function with a Boolean 'or' and the default value.  Thus in the example above, if there is no block attached to the input named 'FROM', then the default code for this input will be the string '0'.
+
+The third argument specifies order of operations information required for embedding.  Each language generator has an ordered list of precedences.  The `valueToCode` function needs to be passed the order value corresponding to the maximum force that will be applied to the returned code.  This allows `valueToCode` to wrap the code in parentheses if required.  For detailed information, see the [OperatorPrecedence Operator Precedence] page.
 
 Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc).
 
@@ -93,23 +99,25 @@ Note that `JavaScript` should be changed to the appropriate language (`Dart`, `P
 == Assembling the Code ==
 
 Once all the arguments have been collected, one can assemble the final code.  This is straight-forward for most blocks.  Here is an example of a while loop:
-
 {{{
   var code = 'while (' + argument0 + ') {\n' + branch0 + '}\n';
 }}}
 
-Here is an example of a basic arithmetic operator (plus, minus, etc):
+Statement blocks (those which do not return a value) can then return the code without further ado:
+{{{
+  return code;
+}}}
+
+Value blocks (those which do return a value) are a bit more complicated.  Here is an example of a basic arithmetic operator (plus, minus, etc):
 
 {{{
   var code = argument0 + ' ' + operator + ' ' + argument1;
 }}}
 
-However, the latter example illustrates an order of operations problem.  Consider the case of two connected arithmetic blocks which form the expression "(2 * (3 + 4))".  Using the above code snipped, the addition block would return the string "3 + 4" while the multiplication block would use this as input to return "2 * 3 + 4".  The result is incorrect since when executed the "3" will bind more tightly to the multiplication.
+This example illustrates an order of operations problem.  Consider the case of two connected arithmetic blocks which form the expression '(2 * (3 + 4))'.  Using the above code snipped, the addition block would return the string '3 + 4' while the multiplication block would use this as input to return '2 * 3 + 4'.  This result is incorrect since when executed the '3' will bind more tightly to the multiplication.
 
-The solution to order of operation problems is for value blocks to ensure that the code they return cannot be inadvertently split by code at a higher level.  For many return values (such as "`0`", or "`Math.max(1, 2, 3)`") this is not an issue, but where it is a possibility (such as "`1 + 2`" or "`foo == bar`") then the code must be wrapped in parentheses before being returned.
-
+To solve this, value blocks must return a list with two values: the code and the appropriate order value:
 {{{
-  code = '(' + code + ')';
+  return [code, Blockly.JavaScript.ORDER_ADDITION];
 }}}
-
-Unfortunately, wrapping all compound values in parentheses can result in messy code.  Consider a `print()` function which takes an addition as input.  The result would be "`print((1 + 2))`".  
+Each language generator has an ordered list of precedences.  The returned order value specifies the minimum force that binds the code together.  For detailed information, see the [OperatorPrecedence Operator Precedence] page.
