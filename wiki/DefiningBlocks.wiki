@@ -202,4 +202,6 @@ Tooltips may also be defined as a function instead of a static string.  This all
     this.setMutator(new Blockly.Mutator(['controls_if_elseif', 'controls_if_else']));
 }}}
 
-Mutators allow advanced blocks to change shape, most notably as a result of users opening a dialog to add, remove or rearrange components.  Creating a mutator is not trivial, and is the subject of a separate page: [CreatingMutators Creating Mutators]
+http://blockly.googlecode.com/svn/wiki/controls_if.png
+
+Mutators allow advanced blocks to change shape, most notably as a result of users opening a dialog to add, remove or rearrange components.  Creating a mutator is not trivial and is the subject of a separate page: [CreatingMutators Creating Mutators].
