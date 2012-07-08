@@ -15,11 +15,15 @@ The first step is to create a block; specifying its shape, labels, and connectio
 
 → More info on [DefiningBlocks Defining Blocks]...
 
+Advanced blocks may dynamically change their shape in response to the user or other factors.
+
+→ More info on [CreatingMutators Creating Mutators]...
+
 == Code Generation ==
 
 The second step is to create the generator code to export the new block to a programming language (such as !JavaScript, Dart, or Python).  This is done in the `generators/` directory.
 
-→ More info on [GeneratingCode Code Generation]...
+→ More info on [GeneratingCode Generating Code]...
 
 To generate code that is both clean and correct, one must be mindful of the order of operations list for the given language.
 
