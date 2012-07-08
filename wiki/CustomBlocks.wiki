@@ -13,10 +13,18 @@ In most cases the easiest approach is to just find a really similar block which 
 
 The first step is to create a block; specifying its shape, labels, and connection points.  This is done in the `language/` directory.
 
-Read more on [DefiningBlocks Defining Blocks]...
+→ More info on [DefiningBlocks Defining Blocks]...
 
 == Code Generation ==
 
 The second step is to create the generator code to export the new block to a programming language (such as !JavaScript, Dart, or Python).  This is done in the `generators/` directory.
 
-More info on [CodeGeneration Code Generation]...
+→ More info on [GeneratingCode Code Generation]...
+
+To generate code that is both clean and correct, one must be mindful of the order of operations list for the given language.
+
+→ More info on [OperatorPrecedence Operator Precedence]...
+
+Creating more complicated blocks requires the use of temporary variables and/or utility functions.  This is particularly true when an input is used twice and needs to be cached.
+
+→ More info on [CachingArguments Caching Arguments]...
