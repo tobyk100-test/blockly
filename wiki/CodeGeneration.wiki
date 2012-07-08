@@ -114,7 +114,7 @@ Value blocks (those which do return a value) are a bit more complicated.  Here i
   var code = argument0 + ' ' + operator + ' ' + argument1;
 }}}
 
-This example illustrates an order of operations problem.  Consider the case of two connected arithmetic blocks which form the expression '(2 * (3 + 4))'.  Using the above code snipped, the addition block would return the string '3 + 4' while the multiplication block would use this as input to return '2 * 3 + 4'.  This result is incorrect since when executed the '3' will bind more tightly to the multiplication.
+This example illustrates an order of operations problem.  Consider the case of two connected arithmetic blocks which form the expression `(2 * (3 + 4))`.  Using the above code snipped, the addition block would return the string `"3 + 4"` while the multiplication block would use this as input to return `"2 * 3 + 4"`.  This result is incorrect since when executed the `3` will bind more tightly to the multiplication.
 
 To solve this, value blocks must return a list with two values: the code and the appropriate order value:
 {{{
