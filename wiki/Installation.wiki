@@ -17,15 +17,15 @@ With your installation of Blockly verified as working, edit a web page in your a
 
 {{{
   <script>
-    // Initialize Blockly.  Called on page load.
     function blocklyLoaded(blockly) {
+      // Called once Blockly is fully loaded.
       window.Blockly = blockly;
     }
   </script>
   <iframe src="frame.html"></iframe>
 }}}
 
-The iframe is where Blockly's editor will appear.  It may be sized as needed using CSS or JavaScript.  The next step is to create the frame for the editor.  Here's a good starting snippet.
+The iframe is where Blockly's editor will appear.  It may be sized as needed using CSS or !JavaScript.  The next step is to create the frame for the editor.  Here's a good starting snippet.
 
 {{{
 <html>
