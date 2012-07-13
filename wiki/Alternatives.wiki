@@ -1,5 +1,4 @@
 #summary Other Visual Programming Environments.
-#labels Featured
 
 = A growing family =
 
