@@ -36,8 +36,8 @@ The iframe is where Blockly's editor will appear.  It may be sized as needed usi
     <script type="text/javascript" src="blockly/generators/javascript/control.js"></script>
     <script type="text/javascript" src="blockly/generators/javascript/text.js"></script>
     <script type="text/javascript" src="blockly/language/en/_messages.js"></script>
-    <script type="text/javascript" src="blockly/language/en/control.js"></script>
-    <script type="text/javascript" src="blockly/language/en/text.js"></script>
+    <script type="text/javascript" src="blockly/language/common/control.js"></script>
+    <script type="text/javascript" src="blockly/language/common/text.js"></script>
     <style>
       html, body {
         background-color: #fff;
