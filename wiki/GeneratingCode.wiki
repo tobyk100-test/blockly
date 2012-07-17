@@ -30,7 +30,7 @@ Blockly.JavaScript.text_indexOf = function() {
 
 == Collecting the Arguments ==
 
-The first task for any bock's code generator is to collect all the arguments and field data.  There are several functions commonly used for this task:
+The first task for any block's code generator is to collect all the arguments and field data.  There are several functions commonly used for this task:
 
   * [#getTitleText getTitleText]
   * [#getTitleValue getTitleValue]
