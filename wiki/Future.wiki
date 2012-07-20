@@ -8,10 +8,10 @@ Blockly is still in active development with changes landing every day.  We are a
 = Short-term goals =
 
  * Reusable bubbles:
-   + Comments
-   + Non-modal mutators
-   + Error messages.
-   + Trash can contents.
+   * Comments
+   * Non-modal mutators
+   * Error messages.
+   * Trash can contents.
  * Colour selection.
  * More blocks (e.g. substring).
 
