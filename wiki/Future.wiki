@@ -7,15 +7,17 @@ Blockly is still in active development with changes landing every day.  We are a
 
 = Short-term goals =
 
- * Fire events on changes.
- * Error icon & bubble.
+ * Reusable bubbles:
+   + Comments
+   + Non-modal mutators
+   + Error messages.
+   + Trash can contents.
  * Colour selection.
  * More blocks (e.g. substring).
 
 = Medium-term goals =
 
  * Improved variable rename dialog.
- * Non-modal mutators (block editors).
  * Better tablet support.
  * IE support (definitely 10, maybe earlier?).
  * Comprehensive testing.
@@ -36,7 +38,6 @@ Blockly is still in active development with changes landing every day.  We are a
  * Local variables.
  * Cursor control for accessibility.
  * Debugging hooks.
- * Trash can contents.
  * Search.
 
 Let us know what your priorities are.  Also, Blockly is open source so if there is a feature you need then you are free to work on it.
