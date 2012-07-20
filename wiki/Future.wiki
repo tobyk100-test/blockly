@@ -5,26 +5,25 @@
 
 Blockly is still in active development with changes landing every day.  We are aware of many deficiencies and are working hard to address them.
 
-
 = Short-term goals =
 
- * Tablet support.
- * Parameters on procedures/functions.
+ * Fire events on changes.
+ * Error icon & bubble.
+ * Colour selection.
  * More blocks (e.g. substring).
 
 = Medium-term goals =
 
  * Improved variable rename dialog.
- * Fire events on changes.
+ * Non-modal mutators (block editors).
+ * Better tablet support.
  * IE support (definitely 10, maybe earlier?).
  * Comprehensive testing.
  * 40 (human) languages.
- * Arduino code generation.
  * Tree toolbox.
  * Dynamic addition/deletion from toolbox.
  * Frequently used category.
  * Multi-line strings.
- * Colour selection.
  * Date/Time selection.
  * Icons for context menu.
  * Per-block documentation.
