@@ -5,13 +5,10 @@
 
 Blockly is still in active development with changes landing every day.  We are aware of many deficiencies and are working hard to address them.
 
-= Short-term goals =
+= Near-term goals =
 
- * Reusable bubbles:
-   * Comments
-   * Non-modal mutators
-   * Error messages.
-   * Trash can contents.
+ * Non-modal mutator bubbles.
+ * Trash can contents bubble.
  * Colour selection.
  * More blocks (e.g. substring).
 
