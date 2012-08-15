@@ -7,7 +7,7 @@ Blockly is still in active development with changes landing every day.  We are a
 
 = Near-term goals =
 
- * Non-modal mutator bubbles.
+ * Multi-block selection.
  * Trash can contents bubble.
  * Colour selection.
  * More blocks (e.g. substring).
@@ -17,7 +17,7 @@ Blockly is still in active development with changes landing every day.  We are a
  * Improved variable rename dialog.
  * Better tablet support.
  * IE support (definitely 10, maybe earlier?).
- * Comprehensive testing.
+ * Automated testing.
  * 40 (human) languages.
  * Tree toolbox.
  * Dynamic addition/deletion from toolbox.
