@@ -40,9 +40,9 @@ http://blockly.googlecode.com/svn/wiki/text_length.png
 The `init` function creates the block's shape.  In the context of this function the keyword `this` is the actual block being created.  There are several functions commonly used in an `init` function:
 
   * [#setColour setColour]
+  * [#setOutput setOutput]
   * [#setPreviousStatement setPreviousStatement]
   * [#setNextStatement setNextStatement]
-  * [#setOutput setOutput]
   * [#appendTitle appendTitle]
   * [#appendInput appendInput]
   * [#setInputsInline setInputsInline]
@@ -60,26 +60,6 @@ http://blockly.googlecode.com/svn/wiki/HSV.png
 
 To find a good colour, visit this [http://www.yafla.com/yaflaColor/ColorRGBHSL.aspx HSV picker], enter Blockly's Saturation and Value constants (the defaults are 45% and 65% respectively), then slide the Hue as desired.  Use this Hue value as the argument to the `this.setColour` function.  Note the British spelling.  Failure to set the colour results in a black block.
 
-=== setPreviousStatement ===
-
-{{{
-    this.setPreviousStatement(true);
-}}}
-
-http://blockly.googlecode.com/svn/wiki/setPreviousStatement.png
-
-Creates a notch at the top of the block, so that it may be plugged into a stack of statements.  Normally combined with `setNextStatement` (see below).  Blocks with a previous statement notch may not also have an output tab.
-
-=== setNextStatement ===
-
-{{{
-    this.setNextStatement(true);
-}}}
-
-http://blockly.googlecode.com/svn/wiki/setNextStatement.png
-
-Creates a notch at the bottom of the block, so that other statements may be stacked below it.  Unless this block terminates flow (e.g. break, return, or end), this is normally combined with `setPreviousStatement` (see above).
-
 === setOutput ===
 
 {{{
@@ -93,6 +73,30 @@ Value blocks (as opposed to statements) need an output tab.  Blocks with an outp
 This function also defines the expected value type that this block will output.  A block that outputs a number will refuse to connect to a block that inputs a string (e.g. `length(123)` does not make sense).  Blockly uses `Boolean`, `Number`, `String`, and `Array` as constants for the built-in types.  If creating a new type, use a short descriptive string, such as `"Date"`.
 
 In the event that the block could return more than one type of value, use an array of types (e.g. `[Number, "Date"]`).  If the block could return any type of value (such as a variable's getter block), use `null` as the value.
+
+=== setPreviousStatement ===
+
+{{{
+    this.setPreviousStatement(true);
+}}}
+
+http://blockly.googlecode.com/svn/wiki/setPreviousStatement.png
+
+Creates a notch at the top of the block, so that it may be plugged into a stack of statements.  Normally combined with `setNextStatement` (see below).  Blocks with a previous statement notch may not also have an output tab.
+
+Optionally (and not typically), this function can take a second argument to limit the types of statements this block may be connected to.
+
+=== setNextStatement ===
+
+{{{
+    this.setNextStatement(true);
+}}}
+
+http://blockly.googlecode.com/svn/wiki/setNextStatement.png
+
+Creates a notch at the bottom of the block, so that other statements may be stacked below it.  Unless this block terminates flow (e.g. break, return, or end), this is normally combined with `setPreviousStatement` (see above).
+
+Optionally (and not typically), this function can take a second argument to limit the types of statements this block may be connected to.
 
 === appendTitle ===
 
@@ -172,7 +176,7 @@ Inputs of type `DUMMY_INPUT` do not require names and may use the empty string.
 
 ==== Check ====
 
-The fourth argument to `appendInput` is optional and is used for type-checking of value inputs.  If null or undefined, then this value input may be connected to any block with an output tab.  See [#setOutput setOutput] for details on the expected values.
+The fourth argument to `appendInput` is optional and is used for type-checking of connected inputs.  If null or undefined, then this input may be connected to any block.  See [#setOutput setOutput] for details on the expected values.
 
 === setInputsInline ===
 
