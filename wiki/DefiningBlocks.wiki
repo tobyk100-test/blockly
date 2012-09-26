@@ -22,7 +22,7 @@ Blockly.Language.text_length = {
   init: function() {
     this.setColour(160);
     this.setOutput(true, Number);
-    this.appendInput('length', Blockly.INPUT_VALUE, 'VALUE', String);
+    this.appendInput(Blockly.INPUT_VALUE, 'VALUE', String).appendTitle('length');
     this.setTooltip('Returns number of letters in the provided text.');
   }
 };
@@ -132,51 +132,56 @@ Instead of providing a static list of options, one can provide a function that r
 
 Optionally, the `FieldDropdown` constructor can also take a second argument which becomes the validation function.  See the English version of `text_trim` for an example of where changing a dropdown modifies a title.
 
+{{{
+    var variable = new Blockly.FieldVariable('item');
+    this.appendTitle(variable, 'VAR');
+}}}
+
+http://blockly.googlecode.com/svn/wiki/appendTitleVariable.png
+
+Another title element is a variable selection menu.  The `FieldVariable` object is created with the default variable name to use (in this case `'item'`).  If this name is omitted, the variable will be a new unique variable (e.g. `'i'`, `'j'`, `'k'`...).
+
 === appendInput ===
 
 {{{
-    this.appendInput('item', Blockly.LOCAL_VARIABLE, 'VAR').setText('x');
-    this.appendInput('in list', Blockly.INPUT_VALUE, 'LIST', Array);
-    this.appendInput('do', Blockly.NEXT_STATEMENT, 'DO');
+    var input = this.appendInput(Blockly.DUMMY_INPUT, 'VAR');
+    input.appendTitle('item');
+    input.appendTitle(new Blockly.FieldVariable());
+    this.appendInput(Blockly.INPUT_VALUE, 'LIST', Array).appendTitle('in list');
+    this.appendInput(Blockly.NEXT_STATEMENT, 'DO').appendTitle('do');
 }}}
 
 http://blockly.googlecode.com/svn/wiki/appendInput.png
 
-Each block has a list of inputs for referencing variables, connecting value blocks, or enclosing a stack of statements.
-
-==== Label ====
-
-The first argument to `appendInput` specifies the label for the input.  In most cases this is just a static string (e.g. `'item'`, `'in list'`, and `'do'` in the example above).  However, the label can also be an editable field, such as an input field or a dropdown.
-
-{{{
-    var dropdown = new Blockly.FieldDropdown([['and', 'AND'], ['or', 'OR']]);
-    this.appendInput([dropdown, 'OP'], Blockly.INPUT_VALUE, 'BOOL', Boolean);
-}}}
-
-In the example above, the first argument to `appendInput` is a two element list; the first element is the editable field, and the second element is a language-neutral name (in this case `'OP'`) which allows code generators to access the field.  See [#appendTitle appendTitle] for more details on editable fields.
-
-If no label is desired, simply use the empty string.
+Each block has a list of right-aligned inputs for additional titles, connecting value blocks, or enclosing a stack of statements.
 
 ==== Type ====
 
-The second argument to `appendInput` specifies the type of the input.  There are four options:
+The first argument to `appendInput` specifies the type of the input.  There are three options:
 
-  * `Blockly.LOCAL_VARIABLE` - A variable dropdown.
+  * `Blockly.DUMMY_INPUT` - Not an input, just a place for titles.
   * `Blockly.INPUT_VALUE` - A socket in which to plug a value block.
   * `Blockly.NEXT_STATEMENT` - A notch for a stack of statement blocks.
-  * `Blockly.DUMMY_INPUT` - Not an input, just a label.
 
-The first three types are demonstrated in the "for each" block above.  The dummy input type is usually only used when English (or other language) requires a word after the last input.  An example is the "create list with item (X) repeated (Y) times" block.  In that case "create list" is a title, "with item" is the label for input X, "repeated" is the label for input Y and "times" is the label for a dummy input.
+All three types are demonstrated in the "for each" block above.
 
 ==== Name ====
 
-The third argument to `appendInput` specifies the language-neutral name of the input.  Just like editable fields, inputs need a name which is consistent across all language versions.  These names allow inputs and titles to be reordered in different languages, for instance in one language a block might say "get (X) from (Y)" whereas in another language the same block might say "from (Y) get (X)".
+The second argument to `appendInput` specifies the language-neutral name of the input.  Just like editable fields, inputs need a name which is consistent across all language versions.  These names allow inputs and titles to be reordered in different languages, for instance in one language a block might say "get (X) from (Y)" whereas in another language the same block might say "from (Y) get (X)".
 
 Inputs of type `DUMMY_INPUT` do not require names and may use the empty string.
 
 ==== Check ====
 
-The fourth argument to `appendInput` is optional and is used for type-checking of connected inputs.  If null or undefined, then this input may be connected to any block.  See [#setOutput setOutput] for details on the expected values.
+The third argument to `appendInput` is optional and is used for type-checking of connected inputs.  If null or undefined, then this input may be connected to any block.  See [#setOutput setOutput] for details on the expected values.
+
+==== Titles ====
+
+Once an input has been created and appended to a block with `appendInput`, one may optionally append any number of titles to the input.  These titles are often used as labels to describe what each input is for.
+
+Creating and appending titles on an input is exactly the same as creating and appending titles on a block's title row except one appends to the input rather than to `this`.  If there is only one titled for an input, then the `appendTitle` function may be chained onto the `appendInput` function.  If there is more than one input, then the result of `appendInput` should be saved to a variable, after which `appendTitle` may be called as many times as needed on that variable.
+
+See [#appendTitle appendTitle] for more details on title fields.
 
 === setInputsInline ===
 
