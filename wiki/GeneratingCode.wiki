@@ -32,21 +32,9 @@ Blockly.JavaScript.text_indexOf = function() {
 
 The first task for any block's code generator is to collect all the arguments and field data.  There are several functions commonly used for this task:
 
-  * [#getTitleText getTitleText]
   * [#getTitleValue getTitleValue]
   * [#valueToCode valueToCode]
   * [#statementToCode statementToCode]
-  * [#getInputVariable getInputVariable]
-
-=== getTitleText ===
-
-{{{
-  this.getTitleText('END')
-}}}
-
-This function returns the user-facing text from a title field or label field of the specified name.  This is useful to get typed text from input fields.
-
-This function should probably not be used for dropdown fields since the return value is language dependent.  An English block might have a dropdown with the word "first" selected, whereas the same dropdown in German would display "erste".  Code generators should not have to know all possible human languages, thus when collecting selections from dropdown (and similar) fields, use the `getTitleValue` function instead.
 
 === getTitleValue ===
 
@@ -54,7 +42,17 @@ This function should probably not be used for dropdown fields since the return v
   this.getTitleValue('END')
 }}}
 
-This function returns the language-neutral value from a title field or label field of the specified name.  This is useful to get options from a dropdown (or similar) field.  
+This function returns the value from a title field of the specified name.
+
+  * In the case of a text field, this function returns the typed text.  E.g. "Hello World".
+
+  * In the case of a dropdown, this function returns the language-neutral text associated with the selected option.  An English block might have a dropdown with the word "first" selected, whereas the same dropdown in German would display "erste".  Code generators should not have to know all possible human languages, thus the `getTitleValue` function will return the language-neutral text that was specified when the dropdown was created.
+
+  * In the case of a variable dropdown, this function returns the user-facing name of a variable dropdown.  It is important to note that this name is not necessarily the same as the variable name used in the generated code.  For example, a variable name of "`for`" is legal in Blockly, but would collide with a reserved word in most languages and thus would be renamed to "`for2`".  Likewise, an Arabic variable name of "`متغير`" is legal in Blockly, but would be illegal in most languages and would thus be renamed to "`_D9_85_D8_AA_D8_BA_D9_8A_D8_B1`".  To obtain a Blockly variable name to one that may be used in generated code, use the following call:
+{{{
+  Blockly.JavaScript.variableDB_.getName(this.getTitleValue('VAR'), Blockly.Variables.NAME_TYPE);
+}}}
+Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc) since each language has a different list of reserved words.
 
 === valueToCode ===
 
@@ -77,20 +75,6 @@ Note that `JavaScript` should be changed to the appropriate language (`Dart`, `P
 This function finds the stack of nested blocks connected to the specified statement input, generates the code for that stack, indents the code, and returns the code as a string.  In the event that the input is not connected, this function returns an empty string.
 
 Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc).
-
-=== getInputVariable ===
-
-{{{
-  this.getInputVariable('VAR')
-}}}
-
-This function returns the user-facing name of a variable dropdown.  It is important to note that this name is not necessarily the same as the variable name used in the generated code.  For example, a variable name of "`for`" is legal in Blockly, but would collide with a reserved word in most languages and thus would be renamed to "`for2`".  Likewise, an Arabic variable name of "`متغير`" is legal in Blockly, but would be illegal in most languages and would thus be renamed to "`_D9_85_D8_AA_D8_BA_D9_8A_D8_B1`".  To obtain a Blockly variable name to one that may be used in generated code, use the following call:
-
-{{{
-  Blockly.JavaScript.variableDB_.getName(this.getInputVariable('VAR'), Blockly.Variables.NAME_TYPE);
-}}}
-
-Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc) since each language has a different list of reserved words.
 
 == Assembling the Code ==
 
