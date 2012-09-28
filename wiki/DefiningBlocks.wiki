@@ -5,7 +5,7 @@
 
 = Defining a Block =
 
-Go to the `language/` directory, and open the subdirectory containing the human language you wish to develop with (`en/` is English).
+Go to the `language/` directory, and open the subdirectory containing the human language you wish to develop with (`en/` is specifically English, `common/` are blocks common to all languages.).
 
 Assuming your block(s) don't fit in the existing categories, create a new !JavaScript file.  It should start with this definition:
 {{{
