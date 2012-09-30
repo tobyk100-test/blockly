@@ -141,6 +141,17 @@ http://blockly.googlecode.com/svn/wiki/appendTitleVariable.png
 
 Another title element is a variable selection menu.  The `FieldVariable` object is created with the default variable name to use (in this case `'item'`).  If this name is omitted, the variable will be a new unique variable (e.g. `'i'`, `'j'`, `'k'`...).
 
+{{{
+    var image = new Blockly.FieldImage('http://www.gstatic.com/codesite/ph/images/star_on.gif', 15, 15);
+    this.appendTitle(image);
+}}}
+
+http://blockly.googlecode.com/svn/wiki/appendTitleImage.png
+
+Another title element is a static image.  The `FieldImage` object is created with the image URL and the desired height and width.  The image will be scaled to within the specified dimensions, while preserving the aspect ratio.  The block will expand as needed to accommodate the image.
+
+If the image is being served locally on a relative URL, use `Blockly.pathToBlockly` to specify Blockly's root directory.
+
 === appendInput ===
 
 {{{
