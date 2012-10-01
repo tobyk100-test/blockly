@@ -58,7 +58,7 @@ Blockly uses a [http://en.wikipedia.org/wiki/HSL_and_HSV Hue-Saturation-Value] (
 
 http://blockly.googlecode.com/svn/wiki/HSV.png
 
-To find a good colour, visit this [http://www.yafla.com/yaflaColor/ColorRGBHSL.aspx HSV picker], enter Blockly's Saturation and Value constants (the defaults are 45% and 65% respectively), then slide the Hue as desired.  Use this Hue value as the argument to the `this.setColour` function.  Note the British spelling.  Failure to set the colour results in a black block.
+To find a good colour, visit this [http://www.rapidtables.com/web/color/color-picker.htm HSV picker], enter Blockly's Saturation and Value constants (the defaults are 45% and 65% respectively), then slide the Hue as desired.  Use this Hue value as the argument to the `this.setColour` function.  Note the British spelling.  Failure to set the colour results in a black block.
 
 === setOutput ===
 
