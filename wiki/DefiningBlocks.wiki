@@ -21,8 +21,10 @@ Blockly.Language.text_length = {
   helpUrl: 'http://www.w3schools.com/jsref/jsref_length_string.asp',
   init: function() {
     this.setColour(160);
+    this.appendValueInput("VALUE")
+        .setCheck(String)
+        .appendTitle("length");
     this.setOutput(true, Number);
-    this.appendInput(Blockly.INPUT_VALUE, 'VALUE', String).appendTitle('length');
     this.setTooltip('Returns number of letters in the provided text.');
   }
 };
@@ -43,8 +45,10 @@ The `init` function creates the block's shape.  In the context of this function 
   * [#setOutput setOutput]
   * [#setPreviousStatement setPreviousStatement]
   * [#setNextStatement setNextStatement]
-  * [#appendTitle appendTitle]
-  * [#appendInput appendInput]
+  * [#appendInput appendDummyInput, appendValueInput, appendStatementInput ]
+    * [#setCheck setCheck]
+    * [#setAlign setAlign]
+    * [#appendTitle appendTitle]
   * [#setInputsInline setInputsInline]
   * [#setTooltip setTooltip]
   * [#setMutator setMutator]
@@ -98,10 +102,61 @@ Creates a notch at the bottom of the block, so that other statements may be stac
 
 Optionally (and not typically), this function can take a second argument to limit the types of statements this block may be connected to.
 
-=== appendTitle ===
+=== appendDummyInput, appendValueInput, appendStatementInput ===
 
 {{{
-    this.appendTitle('hello');
+    this.appendDummyInput()
+        .appendTitle('for each')
+        .appendTitle('item')
+        .appendTitle(new Blockly.FieldVariable());
+    this.appendValueInput('LIST')
+        .setCheck(Array)
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendTitle('in list');
+    this.appendStatementInput('DO')
+        .appendTitle('do');
+}}}
+
+http://blockly.googlecode.com/svn/wiki/appendInput.png
+
+Each block has a list of input rows.  There are three types of inputs:
+
+  * `appendDummyInput` - Not an connector, just a row for titles.
+  * `appendValueInput` - A socket in which to plug a value block.
+  * `appendStatementInput` - A notch for a stack of statement blocks.
+
+All three types are demonstrated in the "for each" block above.
+
+The value and statement functions take a string that specifies the language-neutral name of the input. These names allow inputs to be reordered in different languages; for instance in one language a block might say "get (X) from (Y)" whereas in another language the same block might say "from (Y) get (X)".  The block's code generator can use the names to find input "Y" regardless of where it is located in the block.
+
+Dummy inputs generally do not require names and may be called without argument.
+
+Once an input is created and appended to the block, it may be configured using 'method chaining'[http://en.wikipedia.org/wiki/Method_chaining [?]].  There are three functions that are used for configuring inputs.
+
+==== setCheck ====
+
+{{{
+    input.setCheck(Number);
+}}}
+
+This optional function is used for type-checking of connected inputs.  If given an argument of null, then this input may be connected to any block.  See [#setOutput setOutput] for details on the expected values.
+
+==== setAlign ====
+
+{{{
+    input.setAlign(Blockly.ALIGN_RIGHT);
+}}}
+
+This optional function is used to align the titles (see below).  There are three self-descriptive values which may be passed as an argument to this function: `Blockly.ALIGN_LEFT`, `Blockly.ALIGN_RIGHT`, and `Blockly.ALIGN_CENTRE`.  Note the British spelling of 'centre'.  Left alignment is the default.
+
+When designing blocks for RTL (Arabic and Hebrew), left and right are reversed.  Thus `Blockly.ALIGN_RIGHT` would align titles to the left.
+
+==== appendTitle ====
+
+Once an input has been created and appended to a block with `appendInput`, one may optionally append any number of titles to the input.  These titles are often used as labels to describe what each input is for.  There are many different types of titles.
+
+{{{
+    input.appendTitle('hello');
 }}}
 
 http://blockly.googlecode.com/svn/wiki/appendTitle.png
@@ -110,7 +165,7 @@ A block contains a title row, which can contain any number of title elements.  T
 
 {{{
     var textInput = new Blockly.FieldTextInput('Neil');
-    this.appendTitle(textInput, 'NAME');
+    input.appendTitle(textInput, 'NAME');
 }}}
 
 http://blockly.googlecode.com/svn/wiki/appendTitleTextInput.png
@@ -121,7 +176,7 @@ Optionally, the `FieldTextInput` constructor can also take a second argument whi
 
 {{{
     var dropdown = new Blockly.FieldDropdown([['world', 'WORLD'], ['computer', 'CPU']]);
-    this.appendTitle(dropdown, 'MODE');
+    input.appendTitle(dropdown, 'MODE');
 }}}
 
 http://blockly.googlecode.com/svn/wiki/appendTitleDropdown.png
@@ -134,7 +189,7 @@ Optionally, the `FieldDropdown` constructor can also take a second argument whic
 
 {{{
     var variable = new Blockly.FieldVariable('item');
-    this.appendTitle(variable, 'VAR');
+    input.appendTitle(variable, 'VAR');
 }}}
 
 http://blockly.googlecode.com/svn/wiki/appendTitleVariable.png
@@ -143,7 +198,7 @@ Another title element is a variable selection menu.  The `FieldVariable` object 
 
 {{{
     var image = new Blockly.FieldImage('http://www.gstatic.com/codesite/ph/images/star_on.gif', 15, 15);
-    this.appendTitle(image);
+    input.appendTitle(image);
 }}}
 
 http://blockly.googlecode.com/svn/wiki/appendTitleImage.png
@@ -151,48 +206,6 @@ http://blockly.googlecode.com/svn/wiki/appendTitleImage.png
 Another title element is a static image.  The `FieldImage` object is created with the image URL and the desired height and width.  The image will be scaled to within the specified dimensions, while preserving the aspect ratio.  The block will expand as needed to accommodate the image.
 
 If the image is being served locally on a relative URL, use `Blockly.pathToBlockly` to specify Blockly's root directory.
-
-=== appendInput ===
-
-{{{
-    var input = this.appendInput(Blockly.DUMMY_INPUT, 'VAR');
-    input.appendTitle('item');
-    input.appendTitle(new Blockly.FieldVariable());
-    this.appendInput(Blockly.INPUT_VALUE, 'LIST', Array).appendTitle('in list');
-    this.appendInput(Blockly.NEXT_STATEMENT, 'DO').appendTitle('do');
-}}}
-
-http://blockly.googlecode.com/svn/wiki/appendInput.png
-
-Each block has a list of right-aligned inputs for additional titles, connecting value blocks, or enclosing a stack of statements.
-
-==== Type ====
-
-The first argument to `appendInput` specifies the type of the input.  There are three options:
-
-  * `Blockly.DUMMY_INPUT` - Not an input, just a place for titles.
-  * `Blockly.INPUT_VALUE` - A socket in which to plug a value block.
-  * `Blockly.NEXT_STATEMENT` - A notch for a stack of statement blocks.
-
-All three types are demonstrated in the "for each" block above.
-
-==== Name ====
-
-The second argument to `appendInput` specifies the language-neutral name of the input.  Just like editable fields, inputs need a name which is consistent across all language versions.  These names allow inputs and titles to be reordered in different languages, for instance in one language a block might say "get (X) from (Y)" whereas in another language the same block might say "from (Y) get (X)".
-
-Inputs of type `DUMMY_INPUT` do not require names and may use the empty string.
-
-==== Check ====
-
-The third argument to `appendInput` is optional and is used for type-checking of connected inputs.  If null or undefined, then this input may be connected to any block.  See [#setOutput setOutput] for details on the expected values.
-
-==== Titles ====
-
-Once an input has been created and appended to a block with `appendInput`, one may optionally append any number of titles to the input.  These titles are often used as labels to describe what each input is for.
-
-Creating and appending titles on an input is exactly the same as creating and appending titles on a block's title row except one appends to the input rather than to `this`.  If there is only one titled for an input, then the `appendTitle` function may be chained onto the `appendInput` function.  If there is more than one input, then the result of `appendInput` should be saved to a variable, after which `appendTitle` may be called as many times as needed on that variable.
-
-See [#appendTitle appendTitle] for more details on title fields.
 
 === setInputsInline ===
 
