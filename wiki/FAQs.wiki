@@ -19,6 +19,6 @@ You click a block to place it in your workspace, then right-click the block to s
 
 *The program I wrote doesn't make any sense!*
 
-Blockly lets you put together blocks almost any way you want - even if your program won't work. Blockly keeps you from making some kinds of mistakes, like programming syntax errors, but it can't prevent you from making mistakes like telling a program to, "Divide 'hello' by seven." 
+Blockly lets you put together blocks almost any way you want - even if your program won't work. Blockly keeps you from making some kinds of mistakes, like programming syntax errors, but it can't prevent you from making mistakes like telling a program to, "Divide 'hello' by seven."
 
 If you know the basics of software programming, you can use Blockly to write useful programs that do cool things. And if you don't know how to program, playing around with Blockly can help you learn.

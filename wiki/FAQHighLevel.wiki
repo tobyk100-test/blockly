@@ -24,7 +24,7 @@ It doesn't, at least not yet.  Blockly is currently designed for creating relati
 == Why not use a data-flow metaphor? ==
 
 Data-flow is often a simpler way to represent certain common tasks.  However we chose not to use it for two reasons.  The first is that data-flow languages usually fail badly when attempting to solve tasks outside their domain.  The second is that the generated code looks nothing like the visual data-flow representation, which serves as a barrier for the user graduating from the visual programming language to a text-based code editor.  We feel strongly that users should not be locked in.
- 
+
 == Isn't Blockly too low level? ==
 
 If the user wants to do anything truly original, they must have access to basic math and logic operations.  However, once the basics are taken care of, Blockly offers a rich (and constantly growing) set of higher-level blocks.  Such as computing the standard deviation of a list, using a single block.
