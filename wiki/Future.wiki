@@ -9,7 +9,6 @@ Blockly is still in active development with changes landing every day.  We are a
 
  * Multi-block selection.
  * Trash can contents bubble.
- * Colour selection.
  * More blocks (e.g. substring).
 
 = Medium-term goals =
