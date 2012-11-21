@@ -192,13 +192,22 @@ http://blockly.googlecode.com/svn/wiki/appendTitleVariable.png
 Another title element is a variable selection menu.  The `FieldVariable` object is created with the default variable name to use (in this case `'item'`).  If this name is omitted, the variable will be a new unique variable (e.g. `'i'`, `'j'`, `'k'`...).
 
 {{{
-    var variable = new Blockly.FieldCheckbox('TRUE');
-    input.appendTitle(variable, 'TOGGLE');
+    var checkbox = new Blockly.FieldCheckbox('TRUE');
+    input.appendTitle(checkbox, 'TOGGLE');
 }}}
 
 http://blockly.googlecode.com/svn/wiki/appendTitleCheckbox.png
 
 Another title element is a checkbox.  The `FieldCheckbox` object is created with an initial state, either `'TRUE'` or `'FALSE'`.
+
+{{{
+    var colour = new Blockly.FieldColour('#ff0000');
+    input.appendTitle(colour, 'COLOUR');
+}}}
+
+http://blockly.googlecode.com/svn/wiki/appendTitleColour.png
+
+Another title element is a colour picker.  The `FieldColour` object is created with an initial colour, in hexadecimal `'#rrggbb'` format.  Note the British spelling.
 
 {{{
     var image = new Blockly.FieldImage('http://www.gstatic.com/codesite/ph/images/star_on.gif', 15, 15);
