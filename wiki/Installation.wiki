@@ -1,89 +1,41 @@
-#summary Installing Blockly into your web app.
+#summary Installing and Customizing Blockly.
 #labels Phase-Deploy,Featured
 
 = Introduction =
 
 Blockly is designed to easily install into your web application.  Users drag blocks around, Blockly generates code, your application does something with that code.  From your application's point of view Blockly is just a textarea in which the user types syntactically perfect !JavaScript, Dart, Python, or other language.
 
-Blockly is 100% client-side, requiring no support from the server.  There are no 3rd party dependencies.  Everything is open source.
+Blockly is 100% client-side, requiring no support from the server (unless one wants to use the cloud-storage feature).  There are no 3rd party dependencies (unless one wants to recompile the core).  Everything is open source.
 
-== Basic Install ==
+== Get the Code ==
 
 First, download the source code.  Use Subversion to pull a copy of Blockly off of Google Code.  There are plenty of Subversion tutorials on the web.
 
-Once you have the code, upload it to your server and test out the maze demo.  Verify that clicking "Run Program" will make the man move forward.  Note that [http://code.google.com/p/chromium/issues/detail?id=47416 issue 47416] in the Chrome web browser prevents the use of Blockly when run directly off the local file system with the `file://` protocol.  Therefore we recommend either using an alternative browser (Firefox, Safari, Opera) or else using a web server (`http://localhost/` will do fine).
+Once you have the code, point your browser at `apps/maze/index.html` and test out the maze app.  Verify that clicking "Run Program" will make the man move forward.  Note that [http://code.google.com/p/chromium/issues/detail?id=47416 issue 47416] in the Chrome web browser prevents the use of Blockly when run directly off the local file system with the `file://` protocol.  Therefore we recommend either using an alternative browser (Firefox, Safari, Opera) or else using a web server (`http://localhost/` will do fine).
 
-With your installation of Blockly verified as working, edit a web page in your application to include the following:
+== Injecting Blockly ==
 
-{{{
-  <script>
-    function blocklyLoaded(blockly) {
-      // Called once Blockly is fully loaded.
-      window.Blockly = blockly;
-    }
-  </script>
-  <iframe src="frame.html"></iframe>
-}}}
+With your installation of Blockly verified as working, inject Blockly into a web page using either a fixed-size `div` or a resizable `iframe`.
 
-The iframe is where Blockly's editor will appear.  It may be sized as needed using CSS or !JavaScript.  The next step is to create the frame for the editor.  Here's a good starting snippet.
-
-{{{
-<html>
-  <head>
-    <meta charset="utf-8">
-    <script type="text/javascript" src="blockly/demos/blockly_compressed.js"></script>
-    <script type="text/javascript" src="blockly/generators/javascript.js"></script>
-    <script type="text/javascript" src="blockly/generators/javascript/control.js"></script>
-    <script type="text/javascript" src="blockly/generators/javascript/text.js"></script>
-    <script type="text/javascript" src="blockly/language/en/_messages.js"></script>
-    <script type="text/javascript" src="blockly/language/common/control.js"></script>
-    <script type="text/javascript" src="blockly/language/common/text.js"></script>
-    <style>
-      html, body {
-        background-color: #fff;
-        margin: 0;
-        padding:0;
-        overflow: hidden;
-      }
-      .blocklySvg {
-        height: 100%;
-        width: 100%;
-      }
-    </style>
-    <script>
-      function init() {
-        Blockly.inject(document.body, {path: 'blockly/'});
-        // Let the top-level application know that Blockly is ready.
-        window.parent.blocklyLoaded(Blockly);
-      }
-    </script>
-  </head>
-  <body onload="init()"></body>
-</html>
-}}}
-
-Adjust the paths as needed to enable inclusion of the files.  Likewise, the `Blockly.inject` line has a path that needs to point to Blockly's root directory so that media such as the trash can and the sounds may be loaded.
-
-Test the page in a browser.  You should see Blockly's editor filling the iframe, with two block categories (Control and Text) in the toolbox.  Congratulations, Blockly is alive.
+? More info on [InjectingFixedSize injecting fixed-sized Blockly]...
+? More info on [InjectingResizable injecting resizable Blockly]...
 
 == Configuration ==
 
-The `Blockly.inject` line in `frame.html` contains as its second argument a dictionary of name-value pairs.  These are used for configuration.  The following options are supported:
-|| `path:` || string || Path from `frame.html` to the Blockly root directory. Defaults to `"./"`. ||
-|| `rtl:` || boolean || If `true`, mirror the editor for Arabic or Hebrew locales.  Defaults to `false`. ||
+The `Blockly.inject` line contains as its second argument a dictionary of name-value pairs.  These are used for configuration.  The following options are supported:
+|| `path:` || string || Path from page (or frame) to the Blockly root directory. Defaults to `"./"`. ||
+|| `rtl:` || boolean || If `true`, mirror the editor for Arabic or Hebrew locales.  See [http://blockly-demo.appspot.com/static/demos/rtl/index.html RTL demo].  Defaults to `false`. ||
 || `readOnly:` || boolean || If `true`, prevent the user from editing.  Defaults to `false`. ||
 
-Blockly's library of blocks is highly configurable.  The blocks shown to the user can be customized so that users only see blocks that are relevant to the task.  Browse the `language/` directory for block categories that you want to include.  Note that the order of inclusion dictates the order the categories appear in the toolbox.  Likewise, browse the `generators/` directory for the matching generators for each block category.
+Blockly's library of blocks is highly configurable.  The blocks shown to the user can be customized so that users only see blocks that are relevant to the task.  Browse the `language/` directory for block categories that you want to include.  Note that the order of the `script` tags dictates the order the categories appear in the toolbox.
 
-Additionally, custom blocks need to be built to call your web application's API.  An example is the Maze demo which has custom blocks for movement.  [CustomBlocks Creating custom blocks] can be complex, but most API calls are pretty trivial.  Just duplicate an existing block that is similar then modify the copy as needed.
+Additionally, custom blocks need to be built to call your web application's API.  An example is the [http://blockly-demo.appspot.com/static/apps/maze/index.html Maze application] which has custom blocks for movement.  More info on [CustomBlocks Creating custom blocks]...
 
-== Generating Code ==
+== Language Generators ==
 
-The user's blocks may be exported to code at any time from your application with this call:
-{{{
-  var code = Blockly.Generator.workspaceToCode('JavaScript');
-}}}
-Replace `'JavaScript'` with `'Python'` to obtain Python code.  Generating code is an extremely fast operation, so there's no harm in calling this function frequently.  Although the resulting code is guaranteed to be syntactically correct at all times, it may contain infinite loops (solving the [http://en.wikipedia.org/wiki/Halting_problem Halting problem] is beyond Blockly's scope).  Exercise caution if blindly executing user-generated code.
+Blockly is not a programming language, one cannot 'run' a Blockly program.  Instead, Blockly can translate the user's program into !JavaScript, Dart, Python, or some other language.
+
+? More info on [LanguageGenerators Language Generators]...
 
 == Importing and Exporting Blocks ==
 
@@ -102,3 +54,9 @@ Restoring from an XML string to blocks is just as simple:
   var xml = Blockly.Xml.textToDom(xml_text);
   Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
 }}}
+
+== Cloud Storage ==
+
+Blockly comes with an optional cloud-storage feature.  It enables users to save, load, share, and publish their programs.  If your project is hosted on App Engine you can take advantage of this service.
+
+? More info on [CloudStorage Cloud Storage]...

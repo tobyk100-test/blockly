@@ -1,0 +1,67 @@
+#summary Injecting Resizable Blockly.
+#labels Phase-Deploy
+
+*[Installation Installation]: Injecting Resizable Blockly*
+
+= Introduction =
+
+The most flexible way to put Blockly into a web page is to inject it into an 'iframe'.
+This is slightly more complicated than [InjectingFixedSize injecting Blockly into a div], but using an iframe allows
+Blockly to resize to fill the page, and it allows more than one instance of Blockly to exist on the page.
+The only limitation of using an iframe is that for security reasons Blockly will not execute in Chrome when served directly off the local file system with the `file://` protocol.
+
+== Injection ==
+
+Include the following snippet in your web page:
+
+{{{
+  <script>
+    function blocklyLoaded(blockly) {
+      // Called once Blockly is fully loaded.
+      window.Blockly = blockly;
+    }
+  </script>
+  <iframe style="border: 1px solid #ccc;" src="frame.html"></iframe>
+}}}
+
+The iframe is where Blockly will appear.  It will be sized as needed using tables, CSS, or !JavaScript.  The next step is to create the frame for the editor.  Here's a good starting snippet for `frame.html`.
+
+{{{
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="blockly_compressed.js"></script>
+    <script type="text/javascript" src="language/en/_messages.js"></script>
+    <script type="text/javascript" src="language/common/control.js"></script>
+    <script type="text/javascript" src="language/common/logic.js"></script>
+    <script type="text/javascript" src="language/common/math.js"></script>
+    <script type="text/javascript" src="language/common/text.js"></script>
+    <style>
+      html, body {
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      .blocklySvg {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <script>
+      function init() {
+        Blockly.inject(document.body, {path: './'});
+        // Let the top-level application know that Blockly is ready.
+        window.parent.blocklyLoaded(Blockly);
+      }
+    </script>
+  </head>
+  <body onload="init()"></body>
+</html>
+}}}
+
+The script tags in the above snippet load the core Blockly script (`blockly_compressed.js`), selects the user's language to be English (`language/en/_messages.js`), and chooses four block categories (`control`, `logic`, `math`, and `text`).  There are many categories to choose from; see the `language/common` directory for a list.
+
+Adjust the paths as needed to enable inclusion of these script files.  Likewise, the `Blockly.inject` line has a path that needs to point to Blockly's root directory so that media such as the trash can and the sounds may be loaded.
+
+Test the page in a browser.  You should see Blockly's editor filling the iframe, with four block categories in the toolbox.  Here is [http://blockly-demo.appspot.com/static/demos/iframe/index.html a live demo] of an iframe nested in a table that fills the screen.
