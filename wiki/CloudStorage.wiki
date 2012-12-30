@@ -22,11 +22,11 @@ The first step is to get your own copy of Blockly running on App Engine.
    * `blockly_compressed.js`
  # Run the GoogleAppEngineLauncher from the SDK, add your `appengine` directory as an existing application, and press the "Deploy" button.
 
-Once Blockly is uploaded you can point a browser to the url you created in step 2.  You should see a list of demos, including the cloud storage demo.
+Once Blockly is uploaded you can point a browser to the URL you created in step 2.  You should see a list of demos, including the cloud storage demo.
 
 == Talking to the Cloud ==
 
-Examine the source of `demos/storage/index.html` and note the following features.  First, there is a script include that loads the claud storage API:
+Examine the source of `demos/storage/index.html` and note the following features.  First, there is a script include that loads the cloud storage API:
 
 {{{
   <script type="text/javascript" src="/storage.js"></script>

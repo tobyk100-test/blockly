@@ -14,7 +14,7 @@ Both of these issues may be solved by [InjectingResizable injecting Blockly into
 
 == Injection ==
 
-If neither of the above limitations are a concern, include the core Blockly script.  Note that the path may varry, depending on where your page is in relation to Blockly:
+If neither of the above limitations are a concern, include the core Blockly script.  Note that the path may vary, depending on where your page is in relation to Blockly:
 
 {{{
   <script type="text/javascript" src="blockly_compressed.js"></script>

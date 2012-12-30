@@ -64,4 +64,6 @@ The script tags in the above snippet load the core Blockly script (`blockly_comp
 
 Adjust the paths as needed to enable inclusion of these script files.  Likewise, the `Blockly.inject` line has a path that needs to point to Blockly's root directory so that media such as the trash can and the sounds may be loaded.
 
-Test the page in a browser.  You should see Blockly's editor filling the iframe, with four block categories in the toolbox.  Here is [http://blockly-demo.appspot.com/static/demos/iframe/index.html a live demo] of an iframe nested in a table that fills the screen.
+Test the page in a browser.  You should see Blockly's editor filling the iframe, with four block categories in the toolbox.
+
+Here is [http://blockly-demo.appspot.com/static/demos/iframe/index.html a live demo] of an iframe nested in a table that fills the screen.
