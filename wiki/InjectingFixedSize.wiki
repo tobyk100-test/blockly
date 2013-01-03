@@ -38,7 +38,7 @@ Then include the block categories you want.  There are many to choose from (see 
 Add an empty div to the page and set its size:
 
 {{{
-  <div id="blocklyDiv" style="height: 480px; width: 600px; border: 1px solid #ccc;"></div></pre>
+  <div id="blocklyDiv" style="height: 480px; width: 600px; border: 1px solid #ccc;"></div>
 }}}
 
 Finally, call the following to inject Blockly into an empty div.  Set 'path' to be the relative path from your web page to Blockly's root directory.  This is used by Blockly so that media such as the trash can and the sounds may be loaded.
