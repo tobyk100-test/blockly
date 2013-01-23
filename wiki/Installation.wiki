@@ -25,8 +25,9 @@ With your installation of Blockly verified as working, inject Blockly into a web
 
 The `Blockly.inject` line contains as its second argument a dictionary of name-value pairs.  These are used for configuration.  The following options are supported:
 || `path:` || string || Path from page (or frame) to the Blockly root directory. Defaults to `"./"`. ||
-|| `rtl:` || boolean || If `true`, mirror the editor for Arabic or Hebrew locales.  See [http://blockly-demo.appspot.com/static/demos/rtl/index.html RTL demo].  Defaults to `false`. ||
 || `readOnly:` || boolean || If `true`, prevent the user from editing.  Defaults to `false`. ||
+|| `rtl:` || boolean || If `true`, mirror the editor for Arabic or Hebrew locales.  See [http://blockly-demo.appspot.com/static/demos/rtl/index.html RTL demo].  Defaults to `false`. ||
+|| `trashcan:` || boolean || If `false`, do not show a trashcan.  Defaults to `true`. ||
 
 Blockly's library of blocks is highly configurable.  The blocks shown to the user can be customized so that users only see blocks that are relevant to the task.  Browse the `language/` directory for block categories that you want to include.  Note that the order of the `script` tags dictates the order the categories appear in the toolbox.
 

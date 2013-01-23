@@ -167,7 +167,7 @@ http://blockly.googlecode.com/svn/wiki/appendTitleTextInput.png
 
 Another title element is a text input field.  First, create the field, then append it to the title row.  Since the code generators will eventually need to access the data in this title element, be sure to give it a name (in this case `'NAME'`).  This name is never seen by the user and should be consistent across all human language versions of the block.
 
-Optionally, the `FieldTextInput` constructor can also take a second argument which becomes the validation function.  See `math_number` for an example of where the user's input is rewritten.
+Optionally, the `FieldTextInput` constructor can also take a second argument which becomes the validation function or change handler.  See `math_number` for an example of where the user's input is rewritten.
 
 {{{
     var dropdown = new Blockly.FieldDropdown([['world', 'WORLD'], ['computer', 'CPU']]);
@@ -180,7 +180,7 @@ Another title element is a dropdown menu.  Just like the text input field, the d
 
 Instead of providing a static list of options, one can provide a function that returns a list of options when called.  This allows for dynamic menus.  See `variables_get` got an example.
 
-Optionally, the `FieldDropdown` constructor can also take a second argument which becomes the validation function.  See the English version of `text_trim` for an example of where changing a dropdown modifies a title.
+Optionally, the `FieldDropdown` constructor can also take a second argument which becomes the validation function or change handler.  See `text_trim` for an example of where changing a dropdown modifies a title.
 
 {{{
     var variable = new Blockly.FieldVariable('item');
@@ -200,6 +200,8 @@ http://blockly.googlecode.com/svn/wiki/appendTitleCheckbox.png
 
 Another title element is a checkbox.  The `FieldCheckbox` object is created with an initial state, either `'TRUE'` or `'FALSE'`.
 
+Optionally, the `FieldCheckbox` constructor can also take a second argument which becomes the validation function or change handler.
+
 {{{
     var colour = new Blockly.FieldColour('#ff0000');
     input.appendTitle(colour, 'COLOUR');
@@ -208,6 +210,8 @@ Another title element is a checkbox.  The `FieldCheckbox` object is created with
 http://blockly.googlecode.com/svn/wiki/appendTitleColour.png
 
 Another title element is a colour picker.  The `FieldColour` object is created with an initial colour, in hexadecimal `'#rrggbb'` format.  Note the British spelling.
+
+Optionally, the `FieldColour` constructor can also take a second argument which becomes the validation function or change handler.
 
 {{{
     var image = new Blockly.FieldImage('http://www.gstatic.com/codesite/ph/images/star_on.gif', 15, 15);
