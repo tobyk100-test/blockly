@@ -27,9 +27,10 @@ The `Blockly.inject` line contains as its second argument a dictionary of name-v
 || `path:` || string || Path from page (or frame) to the Blockly root directory. Defaults to `"./"`. ||
 || `readOnly:` || boolean || If `true`, prevent the user from editing.  Defaults to `false`. ||
 || `rtl:` || boolean || If `true`, mirror the editor for Arabic or Hebrew locales.  See [http://blockly-demo.appspot.com/static/demos/rtl/index.html RTL demo].  Defaults to `false`. ||
+|| `toolbox:` || XML nodes or string || Tree structure of categories and blocks available to the user.  See [Toolbox Defining the Toolbox] for more information. ||
 || `trashcan:` || boolean || If `false`, do not show a trashcan.  Defaults to `true`. ||
 
-Blockly's library of blocks is highly configurable.  The blocks shown to the user can be customized so that users only see blocks that are relevant to the task.  Browse the `language/` directory for block categories that you want to include.  Note that the order of the `script` tags dictates the order the categories appear in the toolbox.
+Blockly's library of blocks is highly configurable.  The blocks shown to the user can be customized so that users only see blocks that are relevant to the task.  Browse the `language/` directory for block categories that you want to include.  The categeries and blocks shown in the toolbox (the side menu) is specified using an [Toolbox XML tree].
 
 Additionally, custom blocks need to be built to call your web application's API.  An example is the [http://blockly-demo.appspot.com/static/apps/maze/index.html Maze application] which has custom blocks for movement.  More info on [CustomBlocks Creating custom blocks]...
 
