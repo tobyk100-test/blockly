@@ -18,7 +18,6 @@ Blockly is still in active development with changes landing every day.  We are a
  * IE support (definitely 10, maybe earlier?).
  * Automated testing.
  * 40 (human) languages.
- * Tree toolbox.
  * Dynamic addition/deletion from toolbox.
  * Frequently used category.
  * Multi-line strings.
