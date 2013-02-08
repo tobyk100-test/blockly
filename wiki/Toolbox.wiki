@@ -14,10 +14,8 @@ Here is a minimal example, using a tree of nodes:
 
 {{{
   <xml id="toolbox" style="display: none">
-    <category name="Control">
-      <block type="controls_if"></block>
-      <block type="controls_repeat"></block>
-    </category>
+    <block type="controls_if"></block>
+    <block type="controls_repeat"></block>
   </xml>
   <script type="text/javascript">
     Blockly.inject(document.getElementById('blocklyDiv'),
@@ -30,10 +28,8 @@ Here is the same example, using a string representation:
 {{{
   <script type="text/javascript">
     var toolbox = '<xml>';
-    toolbox += '  <category name="Control">';
-    toolbox += '    <block type="controls_if"></block>';
-    toolbox += '    <block type="controls_repeat"></block>';
-    toolbox += '  </category>';
+    toolbox += '  <block type="controls_if"></block>';
+    toolbox += '  <block type="controls_repeat"></block>';
     toolbox += '</xml>';
     Blockly.inject(document.getElementById('blocklyDiv'),
         {path: './', toolbox: toolbox});
@@ -42,7 +38,10 @@ Here is the same example, using a string representation:
 
 == No Categories ==
 
-TODO
+If there are a small number of blocks, then they may be displayed without any
+categories.  In this mode all the available blocks are shown in the toolbox,
+there are no scrollbars on the main workspace, and the trashcan is not needed.
+
 
 == Categories ==
 
