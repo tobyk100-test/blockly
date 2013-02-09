@@ -25,7 +25,7 @@ With your installation of Blockly verified as working, inject Blockly into a web
 
 The `Blockly.inject` line contains as its second argument a dictionary of name-value pairs.  These are used for configuration.  The following options are supported:
 || `path:` || string || Path from page (or frame) to the Blockly root directory. Defaults to `"./"`. ||
-|| `readOnly:` || boolean || If `true`, prevent the user from editing.  Defaults to `false`. ||
+|| `readOnly:` || boolean || If `true`, prevent the user from editing.  Supresses the toolbox and trashcan.  Defaults to `false`. ||
 || `rtl:` || boolean || If `true`, mirror the editor for Arabic or Hebrew locales.  See [http://blockly-demo.appspot.com/static/demos/rtl/index.html RTL demo].  Defaults to `false`. ||
 || `toolbox:` || XML nodes or string || Tree structure of categories and blocks available to the user.  See [Toolbox Defining the Toolbox] for more information. ||
 || `trashcan:` || boolean || Displays or hides the trashcan.  Defaults to `true` if the toolbox has categories, `false` otherwise. ||
