@@ -24,6 +24,7 @@ With your installation of Blockly verified as working, inject Blockly into a web
 == Configuration ==
 
 The `Blockly.inject` line contains as its second argument a dictionary of name-value pairs.  These are used for configuration.  The following options are supported:
+|| `maxBlocks:` || number || Maximum number of blocks that may be created.  Useful for student exercises. Defaults to `Infinity`. ||
 || `path:` || string || Path from page (or frame) to the Blockly root directory. Defaults to `"./"`. ||
 || `readOnly:` || boolean || If `true`, prevent the user from editing.  Supresses the toolbox and trashcan.  Defaults to `false`. ||
 || `rtl:` || boolean || If `true`, mirror the editor for Arabic or Hebrew locales.  See [http://blockly-demo.appspot.com/static/demos/rtl/index.html RTL demo].  Defaults to `false`. ||
