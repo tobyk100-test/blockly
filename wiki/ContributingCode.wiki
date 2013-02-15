@@ -1,0 +1,12 @@
+= How to contribute to the blockly project =
+
+= Introduction =
+
+  * [#Get_the_software Get the software]
+  * [#Make_the_software Make the software]
+
+= Details =
+
+== Get the software ==
+
+== Make the software ==
