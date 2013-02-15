@@ -1,12 +1,30 @@
 = How to contribute to the blockly project =
 
-= Introduction =
-
-  * [#Get_the_software Get the software]
-  * [#Make_the_software Make the software]
-
-= Details =
-
 == Get the software ==
 
+  * [http://dev.chromium.org/developers/how-tos/install-depot-tools Install depot_tools]
+{{{
+mkdir blockly
+cd blockly
+gclient config -name blockly https://blockly.googlecode.com/svn/trunk
+gclient sync
+cd blockly
+}}}
+
 == Make the software ==
+
+{{{
+cd $YOURDEVPATH/blockly/blockly
+make
+}}}
+
+== Submitting a code review ==
+
+  * Do some work
+  * `$DEPOT_TOOLS/gcl upload`
+  * go to the url on codereview.appspot.com
+  * choose a reviewer
+  * mail the review
+  * get "LGTM" (Looks good to me) from reviewer
+  * `$DEPOT_TOOLS/gcl dcommit`
+}}}
