@@ -6,7 +6,7 @@
 {{{
 mkdir blockly
 cd blockly
-gclient config -name blockly https://blockly.googlecode.com/svn/trunk
+gclient config --name blockly https://blockly.googlecode.com/svn/trunk
 gclient sync
 cd blockly
 }}}
