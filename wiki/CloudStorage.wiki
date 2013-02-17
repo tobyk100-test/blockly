@@ -32,10 +32,9 @@ Examine the source of `demos/storage/index.html` and note the following features
   <script type="text/javascript" src="/storage.js"></script>
 }}}
 
-Next, a set of five strings need to be defined.  Just copy and paste the following (translating them into a different language if needed).
+Next, a set of four strings need to be defined.  Just copy and paste the following (translating them into a different language if needed).
 
 {{{
-  BlocklyStorage.DISCARD_WARNING = 'Delete all "%1" blocks?';
   BlocklyStorage.HTTPREQUEST_ERROR = 'There was a problem with the request.\n';
   BlocklyStorage.LINK_ALERT = 'Share your blocks with this link:\n\n';
   BlocklyStorage.HASH_ERROR = 'Sorry, "%1" doesn\'t correspond with any saved Blockly file.';
