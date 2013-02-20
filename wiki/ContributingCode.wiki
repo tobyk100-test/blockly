@@ -41,5 +41,5 @@ gclient sync
   * choose a reviewer
   * mail the review
   * get "LGTM" (Looks good to me) from reviewer
-  * `$DEPOT_TOOLS/gcl dcommit`
+  * `$DEPOT_TOOLS/gcl commit`
 }}}
