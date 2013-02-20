@@ -11,11 +11,26 @@ gclient sync
 cd blockly
 }}}
 
+First time before running gclient 'sync', you may need run the command:
+{{{
+$ svn ls https://blockly.googlecode.com/svn/trunk
+}}}
+
+and type 'p' to accept Server certificate (p)ermanently to access the https resource.
+
 == Make the software ==
 
 {{{
 cd $YOURDEVPATH/blockly/blockly
 make
+}}}
+
+
+== Update the software ==
+
+{{{
+cd $YOURDEVPATH/blockly
+gclient sync
 }}}
 
 == Submitting a code review ==
