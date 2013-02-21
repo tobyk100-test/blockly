@@ -11,7 +11,7 @@ gclient sync
 cd blockly
 }}}
 
-First time before running gclient 'sync', you may need run the command:
+First time before running 'gclient sync', you may need run the command:
 {{{
 $ svn ls https://blockly.googlecode.com/svn/trunk
 }}}
