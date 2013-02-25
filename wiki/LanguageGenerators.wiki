@@ -5,7 +5,7 @@
 
 = Introduction =
 
-Most applications of Blockly require the user's program to be translated into !JavaScript, Dart,
+Most applications of Blockly require the user's program to be translated into !JavaScript,
 Python, or some other language.  This action is performed on the client-side by Blockly.
 
 == Generating Code ==
@@ -33,7 +33,7 @@ The user's blocks may be exported to code at any time from your application with
   var code = Blockly.Generator.workspaceToCode('JavaScript');
 }}}
 
-Replace `'JavaScript'` with `'Python'` or with `'Dart'` in all preceding lines to switch the language generated.
+Replace `'JavaScript'` with `'Python'` in all preceding lines to switch the language generated.
 
 == Realtime Generation ==
 

@@ -5,7 +5,7 @@
 
 = Generating Code =
 
-First, go to the `generators/` directory and choose the subdirectory that corresponds to the language you want to generate (!JavaScript, Dart, Python, etc).
+First, go to the `generators/` directory and choose the subdirectory that corresponds to the language you want to generate (!JavaScript, Python, etc).
 
 Assuming your block(s) don't fit in the existing categories, create a new !JavaScript file.  It should start with this definition (this and all subsequent examples use `JavaScript` as the language, substitute with the appropriate language):
 {{{
@@ -52,7 +52,7 @@ This function returns the value from a title field of the specified name.
 {{{
   Blockly.JavaScript.variableDB_.getName(this.getTitleValue('VAR'), Blockly.Variables.NAME_TYPE);
 }}}
-Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc) since each language has a different list of reserved words.
+Note that `JavaScript` should be changed to the appropriate language (`Python`, etc) since each language has a different list of reserved words.
 
 === valueToCode ===
 
@@ -64,7 +64,7 @@ This function finds the block connected to the named value input ('FROM'), gener
 
 The third argument specifies order of operations information required for embedding.  Each language generator has an ordered list of precedences.  The `valueToCode` function needs to be passed the order value corresponding to the maximum force that will be applied to the returned code.  This allows `valueToCode` to wrap the code in parentheses if required.  For detailed information, see the [OperatorPrecedence Operator Precedence] page.
 
-Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc).
+Note that `JavaScript` should be changed to the appropriate language (`Python`, etc).
 
 === statementToCode ===
 
@@ -74,7 +74,7 @@ Note that `JavaScript` should be changed to the appropriate language (`Dart`, `P
 
 This function finds the stack of nested blocks connected to the specified statement input, generates the code for that stack, indents the code, and returns the code as a string.  In the event that the input is not connected, this function returns an empty string.
 
-Note that `JavaScript` should be changed to the appropriate language (`Dart`, `Python`, etc).
+Note that `JavaScript` should be changed to the appropriate language (`Python`, etc).
 
 == Assembling the Code ==
 

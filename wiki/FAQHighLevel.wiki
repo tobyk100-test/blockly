@@ -33,7 +33,7 @@ Additionally, most of the high-level features would reside in the domain-specifi
 
 == Can Blockly import from code? ==
 
-Blockly can export from blocks to !JavaScript, Dart, and Python.  However we have no plans to import from one of these languages to Blockly.  The main issue is that modern programming languages are fearsomely complex, with closures, list comprehension, operator overloading, etc.  Importing arbitrary code would have a high development cost compared with a limited real-world utility.
+Blockly can export from blocks to !JavaScript and Python.  However we have no plans to import from one of these languages to Blockly.  The main issue is that modern programming languages are fearsomely complex, with closures, list comprehension, operator overloading, etc.  Importing arbitrary code would have a high development cost compared with a limited real-world utility.
 
 == Why isn't there a download archive? ==
 

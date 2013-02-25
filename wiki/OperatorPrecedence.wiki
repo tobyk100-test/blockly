@@ -3,7 +3,7 @@
 
 *[CustomBlocks Creating Custom Blocks]: [GeneratingCode Generating Code]: Operator Precedence*
 
-Code generators are used to convert Blockly's programs into !JavaScript, Python, Dart, etc.  The most challenging issue when writing a code generator for a new block is handling the order of operations so that the resulting code executes as intended.
+Code generators are used to convert Blockly's programs into !JavaScript, Python, etc.  The most challenging issue when writing a code generator for a new block is handling the order of operations so that the resulting code executes as intended.
 
 = Bad Parentheses =
 

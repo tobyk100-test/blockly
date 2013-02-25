@@ -8,7 +8,7 @@ Blockly is one of a growing number of visual programming environments.  Many of 
 
 Blockly was designed with the following requirements:
   * Execute in a web-browser.  No downloads or plugins needed.
-  * Exportable code.  Users can extract their programs as !JavaScript, Dart, Python or other language so that when they outgrow Blockly they can keep learning.
+  * Exportable code.  Users can extract their programs as !JavaScript, Python or other language so that when they outgrow Blockly they can keep learning.
   * Open source.  Everything about Blockly is open: you can fork it, hack it, and use it in your own websites.
   * Highly capable.  With the ability to calculate standard deviation using a single block, Blockly is not a toy.
 

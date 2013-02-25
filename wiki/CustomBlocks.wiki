@@ -21,7 +21,7 @@ Advanced blocks may dynamically change their shape in response to the user or ot
 
 == Code Generation ==
 
-The second step is to create the generator code to export the new block to a programming language (such as !JavaScript, Dart, or Python).  This is done in the `generators/` directory.
+The second step is to create the generator code to export the new block to a programming language (such as !JavaScript or Python).  This is done in the `generators/` directory.
 
 → More info on [GeneratingCode Generating Code]...
 

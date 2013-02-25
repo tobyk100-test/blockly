@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Blockly is designed to easily install into your web application.  Users drag blocks around, Blockly generates code, your application does something with that code.  From your application's point of view Blockly is just a textarea in which the user types syntactically perfect !JavaScript, Dart, Python, or other language.
+Blockly is designed to easily install into your web application.  Users drag blocks around, Blockly generates code, your application does something with that code.  From your application's point of view Blockly is just a textarea in which the user types syntactically perfect !JavaScript, Python, or other language.
 
 Blockly is 100% client-side, requiring no support from the server (unless one wants to use the cloud-storage feature).  There are no 3rd party dependencies (unless one wants to recompile the core).  Everything is open source.
 
@@ -37,7 +37,7 @@ Additionally, custom blocks need to be built to call your web application's API.
 
 == Language Generators ==
 
-Blockly is not a programming language, one cannot 'run' a Blockly program.  Instead, Blockly can translate the user's program into !JavaScript, Dart, Python, or some other language.
+Blockly is not a programming language, one cannot 'run' a Blockly program.  Instead, Blockly can translate the user's program into !JavaScript, Python, or some other language.
 
 → More info on [LanguageGenerators Language Generators]...
 

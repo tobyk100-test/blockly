@@ -27,7 +27,7 @@ Under a 1:1 mapping which preserves all potential capabilities, the above expres
 
 == Clean Code Generation ==
 
-Advanced Blockly users should be able to look at the generated code (!JavaScript, Dart, Python, etc) and immediately recognize the program they wrote.  This means extra effort needs to be made to keep this machine-generated code readable.  Superfluous parentheses, numeric variables, crushed whitespace and verbose code templates all get in the way of producing elegant code.  Generated code should include comments and should conform to [http://code.google.com/p/google-styleguide/ Google's style guides].
+Advanced Blockly users should be able to look at the generated code (!JavaScript, Python, etc) and immediately recognize the program they wrote.  This means extra effort needs to be made to keep this machine-generated code readable.  Superfluous parentheses, numeric variables, crushed whitespace and verbose code templates all get in the way of producing elegant code.  Generated code should include comments and should conform to [http://code.google.com/p/google-styleguide/ Google's style guides].
 
 == Language Dependance ==
 
