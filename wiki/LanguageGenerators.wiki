@@ -10,7 +10,7 @@ Python, or some other language.  This action is performed on the client-side by 
 
 == Generating Code ==
 
-The first step is to include the generator for the language in question.  Here is the JavaScript generator:
+The first step is to include the generator for the language in question.  Here is the !JavaScript generator:
 
 {{{
   <script type="text/javascript" src="blockly/generators/javascript.js"></script>
@@ -47,9 +47,9 @@ Generating code is an extremely fast operation, so there's no harm in calling th
   Blockly.addChangeListener(myUpdateFunction);
 }}}
 
-== Running JavaScript Code ==
+== Running !JavaScript Code ==
 
-If JavaScript code is generated, it may be executed right in the browser:
+If !JavaScript code is generated, it may be executed right in the browser:
 
 {{{
   Blockly.JavaScript.addReservedWords('code');
@@ -79,4 +79,4 @@ To accomplish this, just set `Blockly.JavaScript.INFINITE_LOOP_TRAP` to a code s
 
 == Example ==
 
-Here is [http://blockly-demo.appspot.com/static/demos/fixed/index.html a live demo] of generating and executing JavaScript.
+Here is [http://blockly-demo.appspot.com/static/demos/fixed/index.html a live demo] of generating and executing !JavaScript.
