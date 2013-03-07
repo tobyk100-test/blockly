@@ -36,6 +36,7 @@ gclient sync
 == Submitting a code review ==
 
   * Do some work
+  * `$DEPOT_TOOLS/gcl change`
   * `$DEPOT_TOOLS/gcl upload`
   * go to the url on codereview.appspot.com
   * choose a reviewer
