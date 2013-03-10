@@ -34,10 +34,20 @@ goog.require('goog.string');
 goog.require('goog.ui.ColorPicker');
 goog.require('goog.userAgent');
 
-// Blockly dependencies.
+// Blockly core dependencies.
 goog.require('Blockly.Block');
 goog.require('Blockly.Connection');
+goog.require('Blockly.Generator');
+goog.require('Blockly.inject');
+goog.require('Blockly.FieldCheckbox');
+goog.require('Blockly.FieldColour');
+goog.require('Blockly.FieldDropdown');
+goog.require('Blockly.FieldImage');
+goog.require('Blockly.FieldTextInput');
+goog.require('Blockly.FieldVariable');
+goog.require('Blockly.Procedures');
 goog.require('Blockly.Toolbox');
+goog.require('Blockly.utils');
 goog.require('Blockly.Workspace');
 
 
@@ -209,23 +219,24 @@ Blockly.svgSize = function() {
 };
 
 /**
- * Size the SVG image to completely fill its container.
- * Record both the height/width and the absolute position of the SVG image.
+ * Size the SVG image to completely fill its container.  Record both
+ * the height/width and the absolute position of the SVG image.
  */
 Blockly.svgResize = function() {
-  var width = Blockly.svg.parentNode.offsetWidth;
-  var height = Blockly.svg.parentNode.offsetHeight;
-  if (Blockly.svg.cachedWidth_ != width) {
-    Blockly.svg.setAttribute('width', width + 'px');
-    Blockly.svg.cachedWidth_ = width;
+  var svg = Blockly.svg;
+  var width = svg.parentNode.offsetWidth;
+  var height = svg.parentNode.offsetHeight;
+  if (svg.cachedWidth_ != width) {
+    svg.setAttribute('width', width + 'px');
+    svg.cachedWidth_ = width;
   }
-  if (Blockly.svg.cachedHeight_ != height) {
-    Blockly.svg.setAttribute('height', height + 'px');
-    Blockly.svg.cachedHeight_ = height;
+  if (svg.cachedHeight_ != height) {
+    svg.setAttribute('height', height + 'px');
+    svg.cachedHeight_ = height;
   }
-  var bBox = Blockly.svg.getBoundingClientRect();
-  Blockly.svg.cachedLeft_ = bBox.left;
-  Blockly.svg.cachedTop_ = bBox.top;
+  var bBox = svg.getBoundingClientRect();
+  svg.cachedLeft_ = bBox.left;
+  svg.cachedTop_ = bBox.top;
 };
 
 /**

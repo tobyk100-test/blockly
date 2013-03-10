@@ -27,6 +27,7 @@ goog.provide('Blockly.inject');
 
 goog.require('goog.dom');
 
+
 /**
  * Initialize the SVG document with various handlers.
  * @param {!Element} container Containing element.
@@ -38,7 +39,8 @@ Blockly.inject = function(container, opt_options) {
     throw 'Error: container is not in current document.';
   }
   if (opt_options) {
-    Blockly.parseOptions_(opt_options);
+    // TODO(scr): don't mix this in to global variables.
+    goog.mixin(Blockly, Blockly.parseOptions_(opt_options));
   }
   Blockly.createDom_(container);
   Blockly.init_();
@@ -47,12 +49,16 @@ Blockly.inject = function(container, opt_options) {
 /**
  * Configure Blockly to behave according to a set of options.
  * @param {!Object} options Dictionary of options.
+ * @return {Object} Parsed options.
  * @private
  */
 Blockly.parseOptions_ = function(options) {
-  Blockly.RTL = !!options['rtl'];
-  Blockly.editable = !options['readOnly'];
-  Blockly.pathToBlockly = options['path'] || './';
+  return {
+    RTL: !!options['rtl'],
+    editable: !options['readOnly'],
+    pathToBlockly: options['path'] || './',
+    Trashcan: (options['trashcan'] === false) ? undefined : Blockly.Trashcan
+  };
 };
 
 /**

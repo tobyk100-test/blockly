@@ -38,29 +38,40 @@ goog.require('Blockly.Xml');
  * @constructor
  */
 Blockly.Workspace = function(editable) {
+  /** @type {boolean} */
   this.editable = editable;
+  /**
+	 * @type {!Array.<Blockly.Block>}
+	 * @private
+	 */
   this.topBlocks_ = [];
   Blockly.ConnectionDB.init(this);
 };
 
 /**
  * Can this workspace be dragged around (true) or is it fixed (false)?
+ * @type {boolean}
  */
 Blockly.Workspace.prototype.dragMode = false;
 
 /**
  * Current horizontal scrolling offset.
+ * @type {number}
  */
 Blockly.Workspace.prototype.scrollX = 0;
+
 /**
  * Current vertical scrolling offset.
+ * @type {number}
  */
 Blockly.Workspace.prototype.scrollY = 0;
+
 /**
  * The workspace's trashcan (if any).
  * @type {Blockly.Trashcan}
  */
 Blockly.Workspace.prototype.trashcan = null;
+
 /**
  * PID of upcoming firing of a change event.  Used to fire only one event
  * after multiple changes.
