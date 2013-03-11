@@ -25,26 +25,22 @@
 
 Blockly.Language.plane_get_rows1st = {
   // First class row variable getter.
-  category: 'Variables',
   helpUrl: Blockly.LANG_VARIABLES_GET_HELPURL,
   init: function() {
     this.setColour(330);
     this.appendDummyInput()
-        .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
-        .appendTitle('1st class rows');
+        .appendTitle(MSG.getRows1);
     this.setOutput(true, null);
   }
 };
 
 Blockly.Language.plane_get_rows2nd = {
   // Second class row variable getter.
-  category: 'Variables',
   helpUrl: Blockly.LANG_VARIABLES_GET_HELPURL,
   init: function() {
     this.setColour(330);
     this.appendDummyInput()
-        .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
-        .appendTitle('2nd class rows');
+        .appendTitle(MSG.getRows2);
     this.setOutput(true, null);
   }
 };
@@ -59,8 +55,13 @@ Blockly.JavaScript.plane_get_rows2nd = function() {
   return ['planeSvg.rows2nd', Blockly.JavaScript.ORDER_MEMBER];
 };
 
-var keepers = ['math_number', 'math_arithmetic',
-               'plane_get_rows1st', 'plane_get_rows2nd', 'plane_set_seats'];
+/**
+ * Calculate the correct answer.
+ * @return {number} Number of seats.
+ */
+function answer() {
+  return 2 + (planeSvg.rows1st * 4) + (planeSvg.rows2nd * 5);
+}
 
 /**
  * Redraw the SVG to show a new number of rows.
@@ -103,8 +104,8 @@ function redraw(newRows) {
       planeSvg.SVG.appendChild(row);
     }
 
-    planeSvg.setText('row1stText', '1st class rows: ' + rows1st);
-    planeSvg.setText('row2ndText', '2nd class rows: ' + rows2nd);
+    planeSvg.setText('row1stText', MSG.rows1.replace('%1', rows1st));
+    planeSvg.setText('row2ndText', MSG.rows2.replace('%1', rows2nd));
     planeSvg.rows1st = rows1st;
     planeSvg.rows2nd = rows2nd;
     recalculate();

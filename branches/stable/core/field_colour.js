@@ -26,6 +26,7 @@
 goog.provide('Blockly.FieldColour');
 
 goog.require('Blockly.Field');
+goog.require('goog.ui.ColorPicker');
 
 
 /**
@@ -33,7 +34,7 @@ goog.require('Blockly.Field');
  * @param {string} colour The initial colour in '#rrggbb' format.
  * @param {Function} opt_changeHandler A function that is executed when a new
  *     option is selected.
- * @extends Blockly.Field
+ * @extends {Blockly.Field}
  * @constructor
  */
 Blockly.FieldColour = function(colour, opt_changeHandler) {
@@ -88,7 +89,7 @@ Blockly.FieldColour.prototype.showEditor_ = function() {
   Blockly.FieldColour.isOpen_ = true;
   goog.dom.removeChildren(Blockly.widgetDiv);
   Blockly.widgetDiv.style.display = 'block';
-  var picker = new goog.ui.ColorPicker.createSimpleColorGrid();
+  var picker = goog.ui.ColorPicker.createSimpleColorGrid();
   picker.render(Blockly.widgetDiv);
   picker.setSelectedColor(this.getValue());
 

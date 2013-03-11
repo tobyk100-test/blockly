@@ -33,7 +33,7 @@ goog.require('Blockly.Field');
  * @param {string} state The initial state of the field ('TRUE' or 'FALSE').
  * @param {Function} opt_changeHandler A function that is executed when a new
  *     option is selected.
- * @extends Blockly.Field
+ * @extends {Blockly.Field}
  * @constructor
  */
 Blockly.FieldCheckbox = function(state, opt_changeHandler) {

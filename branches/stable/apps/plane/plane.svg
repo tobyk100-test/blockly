@@ -45,6 +45,9 @@
       .sliderKnob:hover {
         fill: #eee;
       }
+      #seatYes, #seatNo {
+        font-size: 40pt;
+      }
       text {
         font-family: sans-serif;
         font-size: 20pt;
@@ -123,7 +126,11 @@
      fill="url(#grad2)" />
   <text id="row1stText" x="55" y="380"></text>
   <text id="row2ndText" x="350" y="380"></text>
-  <text id="seatText" x="55" y="210"></text>
+  <text x="55" y="210">
+    <tspan id="seatText"></tspan>
+    <tspan id="seatYes" style="fill: #0c0;" dy="10">&#x2713;</tspan>
+    <tspan id="seatNo" style="fill: #f00;" dy="10">&#x2717;</tspan>
+  </text>
   <rect
       id="crew_right" class="crew"
       width="10" height="10"

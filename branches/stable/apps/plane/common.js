@@ -25,14 +25,12 @@
 
 Blockly.Language.plane_set_seats = {
   // Seat variable setter.
-  category: null,
   helpUrl: Blockly.LANG_VARIABLES_SET_HELPURL,
   deletable: false,
   init: function() {
     this.setColour(330);
     this.appendValueInput('VALUE')
-        .appendTitle(Blockly.LANG_VARIABLES_SET_TITLE)
-        .appendTitle('seats');
+        .appendTitle(MSG.setSeats);
     this.setTooltip(Blockly.LANG_VARIABLES_SET_TOOLTIP);
   }
 };
@@ -56,19 +54,14 @@ var seatsBlock = null;
  * Initialize Blockly and the SVG.
  */
 function init() {
-  // Whitelist of blocks to keep.
-  var newLanguage = {};
-  for (var x = 0; x < keepers.length; x++) {
-    newLanguage[keepers[x]] = Blockly.Language[keepers[x]];
-  }
-  Blockly.Language = newLanguage;
-
-  Blockly.inject(document.getElementById('svgDiv'), {path: '../../'});
+  var toolbox = document.getElementById('toolbox');
+  Blockly.inject(document.getElementById('svgDiv'),
+                 {path: '../../', toolbox: toolbox});
 
   // Load the editor with a starting block.
   var xml = Blockly.Xml.textToDom(
       '<xml>' +
-      '  <block type="plane_set_seats" x="85" y="100"></block>' +
+      '  <block type="plane_set_seats" x="220" y="50"></block>' +
       '</xml>');
   Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
   seatsBlock = Blockly.mainWorkspace.getTopBlocks(false)[0];
@@ -99,7 +92,9 @@ function recalculate() {
   } catch (e) {
     // Allow seats to remain NaN.
   }
-  planeSvg.setText('seatText', 'Seats: ' + (isNaN(seats) ? '?' : seats));
+  planeSvg.setText('seatText',
+      MSG.seats.replace('%1', isNaN(seats) ? '?' : seats));
+  planeSvg.setCorrect(isNaN(seats) ? null : (answer() == seats));
 }
 
 /**

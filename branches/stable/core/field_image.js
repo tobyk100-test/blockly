@@ -33,7 +33,7 @@ goog.require('goog.userAgent');
  * @param {string} src The URL of the image.
  * @param {number} width Width of the image.
  * @param {number} height Height of the image.
- * @extends Blockly.Field
+ * @extends {Blockly.Field}
  * @constructor
  */
 Blockly.FieldImage = function(src, width, height) {
@@ -116,6 +116,7 @@ Blockly.FieldImage.prototype.setTooltip = function(newTip) {
 /**
  * Get the source URL of this image.
  * @return {string} Current text.
+ * @override
  */
 Blockly.FieldImage.prototype.getText = function() {
   return this.src_;
@@ -123,9 +124,14 @@ Blockly.FieldImage.prototype.getText = function() {
 
 /**
  * Set the source URL of this image.
- * @param {string} src New source.
+ * @param {?string} src New source.
+ * @override
  */
 Blockly.FieldImage.prototype.setText = function(src) {
+  if (src === null) {
+    // No change if null.
+    return;
+  }
   this.src_ = src;
   this.imageElement_.setAttributeNS('http://www.w3.org/1999/xlink',
       'xlink:href', src);

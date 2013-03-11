@@ -25,13 +25,11 @@
 
 Blockly.Language.plane_get_rows = {
   // Row variable getter.
-  category: 'Variables',
   helpUrl: Blockly.LANG_VARIABLES_GET_HELPURL,
   init: function() {
     this.setColour(330);
     this.appendDummyInput()
-        .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
-        .appendTitle('rows');
+        .appendTitle(MSG.getRows);
     this.setOutput(true, null);
   }
 };
@@ -41,8 +39,13 @@ Blockly.JavaScript.plane_get_rows = function() {
   return ['planeSvg.rows1st', Blockly.JavaScript.ORDER_MEMBER];
 };
 
-var keepers = ['math_number', 'math_arithmetic',
-               'plane_get_rows', 'plane_set_seats'];
+/**
+ * Calculate the correct answer.
+ * @return {number} Number of seats.
+ */
+function answer() {
+  return 2 + (planeSvg.rows1st * 4);
+}
 
 /**
  * Redraw the SVG to show a new number of rows.
@@ -66,7 +69,7 @@ function redraw(newRows) {
           'xlink:href', '#row1st');
       planeSvg.SVG.appendChild(row);
     }
-    planeSvg.setText('row1stText', 'Rows: ' + rows1st);
+    planeSvg.setText('row1stText', MSG.rows.replace('%1', rows1st));
     planeSvg.rows1st = rows1st;
     recalculate();
   }

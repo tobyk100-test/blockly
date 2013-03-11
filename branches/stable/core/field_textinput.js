@@ -35,7 +35,7 @@ goog.require('goog.userAgent');
  *     to validate any constraints on what the user entered.  Takes the new
  *     text as an argument and returns the accepted text or null to abort
  *     the change.
- * @extends Blockly.Field
+ * @extends {Blockly.Field}
  * @constructor
  */
 Blockly.FieldTextInput = function(text, opt_changeHandler) {
@@ -49,9 +49,14 @@ goog.inherits(Blockly.FieldTextInput, Blockly.Field);
 
 /**
  * Set the text in this field.
- * @param {string} text New text.
+ * @param {?string} text New text.
+ * @override
  */
 Blockly.FieldTextInput.prototype.setText = function(text) {
+  if (text === null) {
+    // No change if null.
+    return;
+  }
   if (this.changeHandler_) {
     var validated = this.changeHandler_(text);
     // If the new text is invalid, validation returns null.

@@ -1,17 +1,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Blockly Demo: Code</title>
+  <title>Blockly Code</title>
   <script type="text/javascript" src="../../blockly_compressed.js"></script>
-  <script type="text/javascript" src="../../generators/dart.js"></script>
-  <script type="text/javascript" src="../../generators/dart/control.js"></script>
-  <script type="text/javascript" src="../../generators/dart/logic.js"></script>
-  <script type="text/javascript" src="../../generators/dart/math.js"></script>
-  <script type="text/javascript" src="../../generators/dart/text.js"></script>
-  <script type="text/javascript" src="../../generators/dart/lists.js"></script>
-  <script type="text/javascript" src="../../generators/dart/colour.js"></script>
-  <script type="text/javascript" src="../../generators/dart/variables.js"></script>
-  <script type="text/javascript" src="../../generators/dart/procedures.js"></script>
   <script type="text/javascript" src="../../generators/javascript.js"></script>
   <script type="text/javascript" src="../../generators/javascript/control.js"></script>
   <script type="text/javascript" src="../../generators/javascript/logic.js"></script>
@@ -34,7 +25,7 @@
     html, body {
       background-color: #fff;
       margin: 0;
-      padding:0;
+      padding: 0;
       overflow: hidden;
     }
     .blocklySvg {
@@ -59,7 +50,11 @@
     })();
 
     function init() {
-      Blockly.inject(document.body, {path: '../../'});
+      var toolbox = null;
+      if (window.parent.document) {
+        toolbox = window.parent.document.getElementById('toolbox');
+      }
+      Blockly.inject(document.body, {path: '../../', toolbox: toolbox});
 
       if (window.parent.init) {
         // Let the top-level application know that Blockly is ready.

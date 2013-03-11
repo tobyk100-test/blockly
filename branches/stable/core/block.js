@@ -174,10 +174,10 @@ Blockly.Block.terminateDrag_ = function() {
     Blockly.unbindEvent_(Blockly.Block.onMouseMoveWrapper_);
     Blockly.Block.onMouseMoveWrapper_ = null;
   }
+  var selected = Blockly.selected;
   if (Blockly.Block.dragMode_ == 2) {
     // Terminate a drag operation.
-    if (Blockly.selected) {
-      var selected = Blockly.selected;
+    if (selected) {
       // Update the connection locations.
       var xy = selected.getRelativeToSurfaceXY();
       var dx = xy.x - selected.startDragX;
@@ -190,8 +190,10 @@ Blockly.Block.terminateDrag_ = function() {
           selected.bumpNeighbours_, Blockly.BUMP_DELAY, selected);
       // Fire an event to allow scrollbars to resize.
       Blockly.fireUiEvent(window, 'resize');
-      selected.workspace.fireChangeEvent();
     }
+  }
+  if (selected) {
+    selected.workspace.fireChangeEvent();
   }
   Blockly.Block.dragMode_ = 0;
 };
@@ -200,6 +202,9 @@ Blockly.Block.terminateDrag_ = function() {
  * Select this block.  Highlight it visually.
  */
 Blockly.Block.prototype.select = function() {
+  if (!this.svg_) {
+    throw 'Block is not rendered.'
+  }
   if (Blockly.selected) {
     // Unselect any previously selected block.
     Blockly.selected.unselect();
@@ -213,6 +218,9 @@ Blockly.Block.prototype.select = function() {
  * Unselect this block.  Remove its highlighting.
  */
 Blockly.Block.prototype.unselect = function() {
+  if (!this.svg_) {
+    throw 'Block is not rendered.'
+  }
   Blockly.selected = null;
   this.svg_.removeSelect();
   Blockly.fireUiEvent(this.workspace.getCanvas(), 'blocklySelectChange');
@@ -342,7 +350,7 @@ Blockly.Block.prototype.getRelativeToSurfaceXY = function() {
       var xy = Blockly.getRelativeXY_(element);
       x += xy.x;
       y += xy.y;
-      element = element.parentNode;
+      element = element.parentElement;
     } while (element && element != this.workspace.getCanvas());
   }
   return {x: x, y: y};
@@ -366,12 +374,14 @@ Blockly.Block.prototype.moveBy = function(dx, dy) {
  * @private
  */
 Blockly.Block.prototype.onMouseDown_ = function(e) {
+  if (this.isInFlyout) {
+    return;
+  }
   // Update Blockly's knowledge of its own location.
   Blockly.svgResize();
-
   Blockly.Block.terminateDrag_();
   this.select();
-  Blockly.hideChaff(this.isInFlyout);
+  Blockly.hideChaff();
   if (Blockly.isRightButton(e)) {
     // Right-click.
     if (Blockly.ContextMenu) {
@@ -522,6 +532,9 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
         block.duplicate_();
       }
     };
+    if (this.getDescendants().length > this.workspace.remainingCapacity()) {
+      duplicateOption.enabled = false;
+    }
     options.push(duplicateOption);
 
     if (Blockly.Comment && !this.collapsed) {
@@ -971,6 +984,12 @@ Blockly.Block.prototype.setColour = function(colourHue) {
     this.warning.updateColour();
   }
   if (this.rendered) {
+    // Bump every dropdown to change its colour.
+    for (var x = 0, input; input = this.inputList[x]; x++) {
+      for (var y = 0, title; title = this.titleRow[y]; y++) {
+        title.setText(null);
+      }
+    }
     this.render();
   }
 };

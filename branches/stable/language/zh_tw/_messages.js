@@ -51,12 +51,7 @@ Blockly.MSG_NEW_VARIABLE_TITLE = '新變量名稱:';
 Blockly.MSG_RENAME_VARIABLE = '重新命名變量...';
 Blockly.MSG_RENAME_VARIABLE_TITLE = '將所有 "%1" 變量重新命名為:';
 
-// Toolbox.
-Blockly.MSG_VARIABLE_CATEGORY = '變量';
-Blockly.MSG_PROCEDURE_CATEGORY = '流程';
-
 // Colour Blocks.
-Blockly.LANG_CATEGORY_COLOUR = 'Colour';
 Blockly.LANG_COLOUR_PICKER_HELPURL = 'http://en.wikipedia.org/wiki/Color';
 Blockly.LANG_COLOUR_PICKER_TOOLTIP = 'Choose a colour form the palette.';
 
@@ -76,7 +71,6 @@ Blockly.LANG_COLOUR_BLEND_RATIO = 'ratio';
 Blockly.LANG_COLOUR_BLEND_TOOLTIP = 'Blends two colours together with a given ratio (0.0 - 1.0).';
 
 // Control Blocks.
-Blockly.LANG_CATEGORY_CONTROLS = '控制';
 Blockly.LANG_CONTROLS_IF_HELPURL = 'http://code.google.com/p/blockly/wiki/If_Then';
 Blockly.LANG_CONTROLS_IF_TOOLTIP_1 = 'If a value is true, then do some statements.';
 Blockly.LANG_CONTROLS_IF_TOOLTIP_2 = 'If a value is true, then do the first block of statements.\n' +
@@ -145,7 +139,6 @@ Blockly.LANG_CONTROLS_FLOW_STATEMENTS_WARNING = 'Warning:\n' +
     'be used within a loop.';
 
 // Logic Blocks.
-Blockly.LANG_CATEGORY_LOGIC = '邏輯';
 Blockly.LANG_LOGIC_COMPARE_HELPURL = 'http://en.wikipedia.org/wiki/Inequality_(mathematics)';
 Blockly.LANG_LOGIC_COMPARE_TOOLTIP_EQ = 'Return true if both inputs equal each other.';
 Blockly.LANG_LOGIC_COMPARE_TOOLTIP_NEQ = 'Return true if both inputs are not equal to each other.';
@@ -186,7 +179,6 @@ Blockly.LANG_LOGIC_TERNARY_TOOLTIP = 'Check the condition in "test". If the cond
     'returns the "if true" value, otherwise returns the "if false" value.';
 
 // Math Blocks.
-Blockly.LANG_CATEGORY_MATH = '算數';
 Blockly.LANG_MATH_NUMBER_HELPURL = 'http://en.wikipedia.org/wiki/Number';
 Blockly.LANG_MATH_NUMBER_TOOLTIP = 'A number.';
 
@@ -231,7 +223,7 @@ Blockly.LANG_MATH_IS_DIVISIBLE_BY = 'is divisible by';
 Blockly.LANG_MATH_IS_TOOLTIP = 'Check if a number is an even, odd, prime, whole, positive, negative,\n' +
     'or if it is divisible by certain number.  Returns true or false.';
 
-Blockly.LANG_MATH_CHANGE_HELPURL = 'http://en.wikipedia.org/wiki/Negation';
+Blockly.LANG_MATH_CHANGE_HELPURL = 'http://en.wikipedia.org/wiki/Programming_idiom#Incrementing_a_counter';
 Blockly.LANG_MATH_CHANGE_TITLE_CHANGE = '修改';
 Blockly.LANG_MATH_CHANGE_TITLE_ITEM = '變量';
 Blockly.LANG_MATH_CHANGE_INPUT_BY = '自';
@@ -284,7 +276,6 @@ Blockly.LANG_MATH_RANDOM_FLOAT_TOOLTIP = 'Return a random fraction between\n' +
     '0.0 (inclusive) and 1.0 (exclusive).';
 
 // Text Blocks.
-Blockly.LANG_CATEGORY_TEXT = '字串';
 Blockly.LANG_TEXT_TEXT_HELPURL = 'http://en.wikipedia.org/wiki/String_(computer_science)';
 Blockly.LANG_TEXT_TEXT_TOOLTIP = 'A letter, word, or line of text.';
 
@@ -314,12 +305,6 @@ Blockly.LANG_TEXT_ISEMPTY_HELPURL = 'http://www.liv.ac.uk/HPC/HTMLF90Course/HTML
 Blockly.LANG_TEXT_ISEMPTY_INPUT_ISEMPTY = '為空';
 Blockly.LANG_TEXT_ISEMPTY_TOOLTIP = 'Returns true if the provided text is empty.';
 
-Blockly.LANG_TEXT_ENDSTRING_HELPURL = 'http://publib.boulder.ibm.com/infocenter/lnxpcomp/v8v101/index.jsp?topic=%2Fcom.ibm.xlcpp8l.doc%2Flanguage%2Fref%2Farsubex.htm';
-Blockly.LANG_TEXT_ENDSTRING_INPUT = '在字串中的字元';
-Blockly.LANG_TEXT_ENDSTRING_TOOLTIP = 'Returns specified number of letters at the beginning or end of the text.';
-Blockly.LANG_TEXT_ENDSTRING_OPERATOR_FIRST = '第一個';
-Blockly.LANG_TEXT_ENDSTRING_OPERATOR_LAST = '最後一個';
-
 Blockly.LANG_TEXT_INDEXOF_HELPURL = 'http://publib.boulder.ibm.com/infocenter/lnxpcomp/v8v101/index.jsp?topic=%2Fcom.ibm.xlcpp8l.doc%2Flanguage%2Fref%2Farsubex.htm';
 Blockly.LANG_TEXT_INDEXOF_TITLE_FIND = '尋找';
 Blockly.LANG_TEXT_INDEXOF_INPUT_OCCURRENCE = '出現的字串';
@@ -340,6 +325,12 @@ Blockly.LANG_TEXT_CHARAT_RANDOM = 'random letter';
 Blockly.LANG_TEXT_CHARAT_INPUT_AT = 'letter at';
 Blockly.LANG_TEXT_CHARAT_INPUT_INTEXT = '的字元在字串';
 Blockly.LANG_TEXT_CHARAT_TOOLTIP = 'Returns the letter at the specified position.';
+
+Blockly.LANG_TEXT_SUBSTRING_HELPURL = 'http://publib.boulder.ibm.com/infocenter/lnxpcomp/v8v101/index.jsp?topic=%2Fcom.ibm.xlcpp8l.doc%2Flanguage%2Fref%2Farsubex.htm';
+Blockly.LANG_TEXT_SUBSTRING_INPUT_IN_TEXT = 'in text';
+Blockly.LANG_TEXT_SUBSTRING_INPUT_AT1 = 'get substring from';
+Blockly.LANG_TEXT_SUBSTRING_INPUT_AT2 = 'to';
+Blockly.LANG_TEXT_SUBSTRING_TOOLTIP = 'Returns a specified portion of the text.';
 
 Blockly.LANG_TEXT_CHANGECASE_HELPURL = 'http://www.liv.ac.uk/HPC/HTMLF90Course/HTMLF90CourseNotesnode91.html';
 Blockly.LANG_TEXT_CHANGECASE_TITLE_TO = '改成';
@@ -366,12 +357,12 @@ Blockly.LANG_TEXT_PRINT_TOOLTIP = 'Print the specified text, number or other val
 Blockly.LANG_TEXT_PROMPT_HELPURL = 'http://www.liv.ac.uk/HPC/HTMLF90Course/HTMLF90CourseNotesnode92.html';
 Blockly.LANG_TEXT_PROMPT_TITLE_PROMPT_FOR = '輸入';
 Blockly.LANG_TEXT_PROMPT_TITILE_WITH_MESSAGE = '並顯示提示訊息';
-Blockly.LANG_TEXT_PROMPT_TOOLTIP = 'Prompt for user input with the specified text.';
+Blockly.LANG_TEXT_PROMPT_TOOLTIP_NUMBER = 'Prompt for user for a number.';
+Blockly.LANG_TEXT_PROMPT_TOOLTIP_TEXT = 'Prompt for user for some text.';
 Blockly.LANG_TEXT_PROMPT_TYPE_TEXT = '文字';
 Blockly.LANG_TEXT_PROMPT_TYPE_NUMBER = '數字';
 
 // Lists Blocks.
-Blockly.LANG_CATEGORY_LISTS = '列表';
 Blockly.LANG_LISTS_CREATE_EMPTY_HELPURL = 'http://en.wikipedia.org/wiki/Linked_list#Empty_lists';
 Blockly.LANG_LISTS_CREATE_EMPTY_TITLE = '建立空列表';
 Blockly.LANG_LISTS_CREATE_EMPTY_TOOLTIP = 'Returns a list, of length 0, containing no data records';
@@ -443,21 +434,43 @@ Blockly.LANG_LISTS_GET_INDEX_TOOLTIP_REMOVE_LAST = 'Removes the last item in a l
 Blockly.LANG_LISTS_GET_INDEX_TOOLTIP_REMOVE_RANDOM = 'Removes a random item in a list.';
 
 Blockly.LANG_LISTS_SET_INDEX_HELPURL = 'http://publib.boulder.ibm.com/infocenter/lnxpcomp/v8v101/index.jsp?topic=%2Fcom.ibm.xlcpp8l.doc%2Flanguage%2Fref%2Farsubex.htm';
-Blockly.LANG_LISTS_SET_INDEX_INPUT_AT = '設定項目設定項目';
-Blockly.LANG_LISTS_SET_INDEX_INPUT_IN_LIST = '從列表';
+Blockly.LANG_LISTS_SET_INDEX_INPUT_IN_LIST = 'in list';
+Blockly.LANG_LISTS_SET_INDEX_SET = 'set';
+Blockly.LANG_LISTS_SET_INDEX_INSERT = 'insert';
 Blockly.LANG_LISTS_SET_INDEX_INPUT_TO = '為';
-Blockly.LANG_LISTS_SET_INDEX_TOOLTIP = 'Sets the value at the specified position in a list.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_SET_FROM_START = 'Sets the item at the specified position in a list.\n' +
+    '#1 is the first item.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_SET_FROM_END = 'Sets the item at the specified position in a list.\n' +
+    '#1 is the last item.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_SET_FIRST = 'Sets the first item in a list.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_SET_LAST = 'Sets the last item in a list.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_SET_RANDOM = 'Sets a random item in a list.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_INSERT_FROM_START = 'Inserts the item at the specified position in a list.\n' +
+    '#1 is the first item.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_INSERT_FROM_END = 'Inserts the item at the specified position in a list.\n' +
+    '#1 is the last item.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_INSERT_FIRST = 'Inserts the item at the start of a list.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_INSERT_LAST = 'Append the item to theend of a list.';
+Blockly.LANG_LISTS_SET_INDEX_TOOLTIP_INSERT_RANDOM = 'Inserts the item randomly in a list.';
+
+Blockly.LANG_LISTS_GET_SUBLIST_HELPURL = 'http://publib.boulder.ibm.com/infocenter/lnxpcomp/v8v101/index.jsp?topic=%2Fcom.ibm.xlcpp8l.doc%2Flanguage%2Fref%2Farsubex.htm';
+Blockly.LANG_LISTS_GET_SUBLIST_INPUT_IN_LIST = 'in list';
+Blockly.LANG_LISTS_GET_SUBLIST_INPUT_AT1 = 'get sub-list from';
+Blockly.LANG_LISTS_GET_SUBLIST_INPUT_AT2 = 'to';
+Blockly.LANG_LISTS_GET_SUBLIST_TOOLTIP = 'Creates a copy of the specified portion of a list.';
 
 // Variables Blocks.
 Blockly.LANG_VARIABLES_GET_HELPURL = 'http://en.wikipedia.org/wiki/Variable_(computer_science)';
 Blockly.LANG_VARIABLES_GET_TITLE = '取值';
 Blockly.LANG_VARIABLES_GET_ITEM = '變量';
 Blockly.LANG_VARIABLES_GET_TOOLTIP = 'Returns the value of this variable.';
+Blockly.LANG_VARIABLES_GET_CREATE_SET = 'Create "set %1"';
 
 Blockly.LANG_VARIABLES_SET_HELPURL = 'http://en.wikipedia.org/wiki/Variable_(computer_science)';
 Blockly.LANG_VARIABLES_SET_TITLE = '賦值';
 Blockly.LANG_VARIABLES_SET_ITEM = '變量';
 Blockly.LANG_VARIABLES_SET_TOOLTIP = 'Sets this variable to be equal to the input.';
+Blockly.LANG_VARIABLES_SET_CREATE_GET = 'Create "get %1"';
 
 // Procedures Blocks.
 Blockly.LANG_PROCEDURES_DEFNORETURN_HELPURL = 'http://en.wikipedia.org/wiki/Procedure_%28computer_science%29';
@@ -489,6 +502,7 @@ Blockly.LANG_PROCEDURES_MUTATORCONTAINER_TITLE = '參數';
 Blockly.LANG_PROCEDURES_MUTATORARG_TITLE = '變量:';
 
 Blockly.LANG_PROCEDURES_HIGHLIGHT_DEF = 'Highlight Procedure';
+Blockly.LANG_PROCEDURES_CREATE_DO = 'Create "do %1"';
 
 Blockly.LANG_PROCEDURES_IFRETURN_TOOLTIP = 'If a value is true, then return a value.';
 Blockly.LANG_PROCEDURES_IFRETURN_WARNING = 'Warning:\n' +

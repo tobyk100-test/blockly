@@ -32,7 +32,7 @@ goog.require('Blockly.Tooltip');
 /**
  * Class for a non-editable field.
  * @param {string} text The initial content of the field.
- * @extends Blockly.Field
+ * @extends {Blockly.Field}
  * @constructor
  */
 Blockly.FieldLabel = function(text) {

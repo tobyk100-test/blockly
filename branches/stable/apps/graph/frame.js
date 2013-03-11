@@ -23,9 +23,11 @@
  */
 'use strict';
 
+var MSG = window.parent.MSG;
+var toolbox = window.parent.document.getElementById('toolbox');
+
 Blockly.Language.graph_get_x = {
   // x variable getter.
-  category: 'Variables',
   helpUrl: Blockly.LANG_VARIABLES_GET_HELPURL,
   init: function() {
     this.setColour(330);
@@ -46,7 +48,6 @@ Blockly.JavaScript.graph_get_x = function() {
 
 Blockly.Language.graph_set_y = {
   // y variable setter.
-  category: null,
   helpUrl: Blockly.LANG_VARIABLES_SET_HELPURL,
   deletable: false,
   init: function() {
@@ -65,26 +66,11 @@ Blockly.JavaScript.graph_set_y = function() {
   return argument0 + ';';
 };
 
-var keepers = ['math_number', 'math_arithmetic', 'math_single', 'math_trig',
-               'math_constant', 'math_number_property',
-               'math_round', 'math_modulo', 'math_constrain',
-               'math_random_int', 'math_random_float',
-               'graph_get_x', 'graph_set_y',
-               'logic_ternary', 'logic_compare', 'logic_operation',
-               'logic_negate', 'logic_boolean'];
-
 /**
  * Initialize Blockly.
  */
 function init() {
-  // Whitelist of blocks to keep.
-  var newLanguage = {};
-  for (var x = 0; x < keepers.length; x++) {
-    newLanguage[keepers[x]] = Blockly.Language[keepers[x]];
-  }
-  Blockly.Language = newLanguage;
-
-  Blockly.inject(document.body, {path: '../../'});
+  Blockly.inject(document.body, {path: '../../', toolbox: toolbox});
 
   if (window.parent.Graph) {
     // Let the top-level application know that Blockly is ready.

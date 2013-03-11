@@ -22,11 +22,14 @@
  * @author fraser@google.com (Neil Fraser)
  */
 
+document.write(codepage.start({}, null,
+    {MSG: MSG, frameSrc: frameSrc.join('&')}));
+
 /**
  * List of tab names.
  * @private
  */
-var TABS_ = ['blocks', 'javascript', 'dart', 'python', 'xml'];
+var TABS_ = ['blocks', 'javascript', 'python', 'xml'];
 
 var selected = 'blocks';
 
@@ -44,7 +47,7 @@ function tabClick(id) {
       xmlDom = Blockly.Xml.textToDom(xmlText);
     } catch (e) {
       var q =
-          window.confirm(MSG_BAD_XML.replace('%1', e));
+          window.confirm(MSG.badXml.replace('%1', e));
       if (!q) {
         // Leave the user on the XML tab.
         return;
@@ -89,8 +92,6 @@ function renderContent() {
     xmlTextarea.focus();
   } else if (content.id == 'content_javascript') {
     content.innerHTML = Blockly.Generator.workspaceToCode('JavaScript');
-  } else if (content.id == 'content_dart') {
-    content.innerHTML = Blockly.Generator.workspaceToCode('Dart');
   } else if (content.id == 'content_python') {
     content.innerHTML = Blockly.Generator.workspaceToCode('Python');
   }
@@ -108,7 +109,7 @@ function init(blockly) {
   Blockly.JavaScript.addReservedWords('code,timeouts,checkTimeout');
 
   // Make the 'Blocks' tab line up with the toolbox.
-  if (Blockly.Toolbox) {
+  if (Blockly.hasCategories) {
     window.setTimeout(function() {
         document.getElementById('tab_blocks').style.minWidth =
             (Blockly.Toolbox.width - 38) + 'px';
@@ -143,7 +144,7 @@ function runJS() {
   var timeouts = 0;
   var checkTimeout = function() {
     if (timeouts++ > 1000000) {
-      throw MSG_TIMEOUT;
+      throw MSG.timeout;
     }
   };
   var code = Blockly.Generator.workspaceToCode('JavaScript');
@@ -151,6 +152,18 @@ function runJS() {
   try {
     eval(code);
   } catch (e) {
-    alert(MSG_BAD_CODE.replace('%1', e));
+    alert(MSG.badCode.replace('%1', e));
+  }
+}
+
+/**
+ * Discard all blocks from the workspace.
+ */
+function discard() {
+  var count = Blockly.mainWorkspace.getAllBlocks().length;
+  if (count < 2 ||
+      window.confirm(MSG.discard.replace('%1', count))) {
+    Blockly.mainWorkspace.clear();
+    window.location.hash = '';
   }
 }
