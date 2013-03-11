@@ -28,6 +28,7 @@ goog.provide('Blockly.FieldCheckbox');
 goog.require('Blockly.Field');
 
 
+
 /**
  * Class for a checkbox field.
  * @param {string} state The initial state of the field ('TRUE' or 'FALSE').
@@ -37,9 +38,11 @@ goog.require('Blockly.Field');
  * @constructor
  */
 Blockly.FieldCheckbox = function(state, opt_changeHandler) {
-  Blockly.FieldCheckbox.superClass_.constructor.call(this, '');
+  Blockly.FieldCheckbox.superClass_.constructor.call(this);
 
   this.changeHandler_ = opt_changeHandler;
+  // Call parent's constructor.
+  Blockly.Field.call(this, '');
   // The checkbox doesn't use the inherited text element.
   // Instead it uses a custom checkmark element that is either visible or not.
   this.checkElement_ = Blockly.createSvgElement('text',
@@ -50,6 +53,7 @@ Blockly.FieldCheckbox = function(state, opt_changeHandler) {
   this.setValue(state);
 };
 goog.inherits(Blockly.FieldCheckbox, Blockly.Field);
+
 
 /**
  * Mouse cursor style when over the hotspot that initiates editability.

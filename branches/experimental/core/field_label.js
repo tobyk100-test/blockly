@@ -29,6 +29,7 @@ goog.require('Blockly.Field');
 goog.require('Blockly.Tooltip');
 
 
+
 /**
  * Class for a non-editable field.
  * @param {string} text The initial content of the field.
@@ -36,6 +37,8 @@ goog.require('Blockly.Tooltip');
  * @constructor
  */
 Blockly.FieldLabel = function(text) {
+  Blockly.FieldLabel.superClass_.constructor.call(this);
+
   this.sourceBlock_ = null;
   // Build the DOM.
   this.textElement_ = Blockly.createSvgElement('text',
@@ -44,6 +47,7 @@ Blockly.FieldLabel = function(text) {
   this.setText(text);
 };
 goog.inherits(Blockly.FieldLabel, Blockly.Field);
+
 
 /**
  * Editable fields are saved by the XML renderer, non-editable fields are not.
@@ -68,10 +72,13 @@ Blockly.FieldLabel.prototype.init = function(block) {
 
 /**
  * Dispose of all DOM objects belonging to this text.
+ * @override
  */
-Blockly.FieldLabel.prototype.dispose = function() {
+Blockly.FieldLabel.prototype.disposeInternal = function() {
   goog.dom.removeNode(this.textElement_);
   this.textElement_ = null;
+
+  Blockly.FieldLabel.superClass_.disposeInternal.call(this);
 };
 
 /**
