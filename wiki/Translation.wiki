@@ -1,4 +1,4 @@
-#summary Information for people who would like to help the project by translating text into other languages.s\
+#summary Information for people who would like to help by translating text into other languages.
 
 = Introduction =
 
