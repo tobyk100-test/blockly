@@ -1,4 +1,4 @@
-#summary Information for people who would like to help by translating text into other languages.
+#summary How to help by translating text into other languages.
 
 = Introduction =
 
