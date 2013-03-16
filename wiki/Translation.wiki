@@ -1,0 +1,39 @@
+#summary Information for people who would like to help the project by translating text into other languages.s\
+
+= Introduction =
+
+Our goal is for Blockly to be available in as many languages as possible, so students don't have to struggle with English at the same time as they're learning computer science concepts.
+
+= Status =
+
+Our most urgent need is for translation of the <a href="http://blockly-demo.appspot.com/static/apps/maze/en.html">maze tutorial</a>.  The current status is:
+
+  * English: complete.
+  * German: complete.
+  * Korean: in progress.
+  * Russian: volunteer found.
+  * Spanish (Latin American): volunteer found.
+  * Vietnamese: complete.
+
+= How to Help =
+
+  # Work on each level of the <a href="http://blockly-demo.appspot.com/static/apps/maze/en.html">maze tutorial</a> in English.  You do not need to solve each level.
+  # Look at the file <a href="https://code.google.com/p/blockly/source/browse/trunk/apps/maze/en.html">https://code.google.com/p/blockly/source/browse/trunk/apps/maze/en.html</a> to see the text that needs to be translated (shown in green).  For more details, see below.
+  # Post in the <a href="https://groups.google.com/forum/?fromgroups#!forum/blockly">forum</a> letting us know what language you would like to work on, your level of expertise in the language (such as "native"), and how long you expect it to take.
+  # Download <a href="https://blockly.googlecode.com/svn/trunk/apps/maze/en.html">this file</a> and edit it in a word processor.  Here are some tips:
+    * In the first line of the file, replace "en" (for English) with the <a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">two-letter ISO 639-1 code</a>.
+    * Do not change text within HTML attributes, such as "utf-8", "stylesheet", "text/css", "style.css", "text/javascript", and filenames (anything ending with ".js").
+    * Do not change text within comments (preceded by "//", such as "// Block text.").
+    * The word "Pegman" refers to the blocky icon that moves through the maze.  You can translate it by joining together the words for "peg" and "man"/"person" in your language (as was done in German), or you can leave it unchanged (as was done in Vietnamese).
+    * Do not translate the words "JavaScript" or "XML".
+    * In a few places, the text "%1" appears.  This is a place-holder indicating that a number will be filled in, such as the level.
+    * The text "\n" indicates that a line break should occur.  Do not change it.
+    * If your text includes a single quotation mark, it must either be preceding by a backslash ("\"), or the entire piece of text must be in double-quotes.  The following are equivalent:
+      * 'Return Pegman\'s horizontal position.\n'
+      * "Return Pegman's horizontal position.\n"
+    * We'd prefer having a translation that isn't correctly formatted or that still has a few words in English to not having one at all.
+    * Let us know by what name and/or email address you would like your contribution acknowledged.
+
+Most important, if you have any questions, let us know.  
+
+Thank you!
