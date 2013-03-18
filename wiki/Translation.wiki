@@ -24,10 +24,12 @@ Our most urgent need is for translation of the <a href="http://blockly-demo.apps
     * In the first line of the file, replace "en" (for English) with the <a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">two-letter ISO 639-1 code</a>.
     * Do not change text within HTML attributes, such as "utf-8", "stylesheet", "text/css", "style.css", "text/javascript", and filenames (anything ending with ".js").
     * Do not change text within comments (preceded by "//", such as "// Block text.").
+    * Do not translate "Blockly", but do transliterate (show how to pronounce) it, if it would be unclear to a speaker of your language.  For example, the Russian translation includes "Blockly (Блoкли)".
     * The word "Pegman" refers to the blocky icon that moves through the maze.  You can translate it by joining together the words for "peg" and "man"/"person" in your language (as was done in German), or you can leave it unchanged (as was done in Vietnamese).
     * Do not translate the words "!JavaScript" or "XML".
     * In a few places, the text "%1" appears.  This is a place-holder indicating that a number will be filled in, such as the level.
     * The text "\n" indicates that a line break should occur.  Do not change it.
+    * A backslash followed by the letter "u", followed by a number, such as "\u00A0" indicates a Unicode character code.  Do not change it.
     * If your text includes a single quotation mark, it must either be preceding by a backslash ("\"), or the entire piece of text must be in double-quotes.  The following are equivalent:
       * 'Return Pegman\'s horizontal position.\n'
       * "Return Pegman's horizontal position.\n"
