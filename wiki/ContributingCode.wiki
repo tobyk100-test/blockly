@@ -50,12 +50,14 @@ gclient sync
 
 === Submitting a code review ===
 
-  * Do some work
+  * Do some work.
   * `gcl change`
+  * Run tests.
   * `gcl upload xxxx`
-  * go to the url on codereview.appspot.com
-  * choose a reviewer
-  * mail the review
-  * get "LGTM" (Looks Good To Me) from reviewer
+  * Go to the url on codereview.appspot.com returned by `gcl upload`.
+  * Click on "Publish+Mail Comments", fill in the reviewer field, and send.
+  * Get "LGTM" (Looks Good To Me) from reviewer.
+  * `gclient sync`
+  * Run tests.
   * `gcl commit xxxx`
 }}}
