@@ -15,4 +15,4 @@ After changing or adding code, you should run existing unit tests and consider w
  # Choose the relevant part of the system from the drop-down menu, and click "Load".  Blocks should appear in the workspace.
  # Make any changes or additions to the blocks.
  # Click on "XML".
- # Copy the generated XML into the appropriate file in `tests/generators/`.#summary One-sentence summary of this page.
+ # Copy the generated XML into the appropriate file in `tests/generators/`.
