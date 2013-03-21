@@ -12,6 +12,7 @@ Our most urgent need is for translation of the <a href="http://blockly-demo.apps
   * German: complete.
   * Korean: in progress.
   * Russian: volunteer found.
+  * Serbian: complete.
   * Spanish (Latin American): volunteer found.
   * Vietnamese: complete.
 
@@ -36,6 +37,6 @@ Our most urgent need is for translation of the <a href="http://blockly-demo.apps
     * We'd prefer having a translation that isn't correctly formatted or that still has a few words in English to not having one at all.
     * Let us know by what name and/or email address you would like your contribution acknowledged.
 
-Most important, if you have any questions, let us know.  
+Most important, if you have any questions, let us know.
 
 Thank you!
