@@ -52,7 +52,7 @@ gclient sync
 
   * Do some work.
   * `gcl change`
-  * Run tests.
+  * [UnitTesting Run tests].
   * `gcl upload xxxx`
   * Go to the url on codereview.appspot.com returned by `gcl upload`.
   * Click on "Publish+Mail Comments", fill in the reviewer field, and send.
