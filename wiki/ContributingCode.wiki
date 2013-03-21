@@ -58,6 +58,6 @@ gclient sync
   * Click on "Publish+Mail Comments", fill in the reviewer field, and send.
   * Get "LGTM" (Looks Good To Me) from reviewer.
   * `gclient sync`
-  * Run tests.
+  * [UnitTesting Run tests].
   * `gcl commit xxxx`
 }}}
