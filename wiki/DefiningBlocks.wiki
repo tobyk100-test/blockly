@@ -3,6 +3,8 @@
 
 *[CustomBlocks Creating Custom Blocks]: Defining Blocks*
 
+Note that much of block creation can be done through the Blockly GUI using [http://blockly-demo.appspot.com/static/apps/blockfactory/index.html Block Factory] instead of manually creating the code given below.
+
 = Defining a Block =
 
 Go to the `language/` directory, and open the subdirectory containing the human language you wish to develop with (`en/` is specifically English, `common/` are blocks common to all languages.).
