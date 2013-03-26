@@ -9,11 +9,12 @@ Our goal is for Blockly to be available in as many languages as possible, so stu
 Our most urgent need is for translation of the <a href="http://blockly-demo.appspot.com/static/apps/maze/en.html">maze tutorial</a>.  The current status is:
 
   * English: complete.
+  * Catalan: complete.
   * German: complete.
   * Korean: in progress.
-  * Russian: volunteer found.
+  * Russian: complete.
   * Serbian: complete.
-  * Spanish (Latin American): volunteer found.
+  * Spanish (Latin American): in progress.
   * Thai: complete.
   * Vietnamese: complete.
 
