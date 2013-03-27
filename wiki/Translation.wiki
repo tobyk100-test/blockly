@@ -1,4 +1,5 @@
 #summary How to help by translating text into other languages.
+#labels Phase-Support
 
 = Introduction =
 
@@ -11,10 +12,10 @@ Our most urgent need is for translation of the <a href="http://blockly-demo.apps
   * English: complete.
   * Catalan: complete.
   * German: complete.
-  * Korean: in progress.
+  * Korean: in progress...
   * Russian: complete.
   * Serbian: complete.
-  * Spanish (Latin American): in progress.
+  * Spanish: complete.
   * Thai: complete.
   * Vietnamese: complete.
 
