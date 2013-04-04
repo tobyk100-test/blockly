@@ -14,13 +14,15 @@ The first step is to get your own copy of Blockly running on App Engine.
  # Download and install the [https://developers.google.com/appengine/downloads Python SDK].
  # Log into [https://appengine.google.com/ Google App Engine] and create an application.
  # Edit `appengine/app.yaml` and change the application ID from `blockly-demo` to the application name you created in the previous step.
- # Copy the following files and directories into `appengine/static/`:
+ # Copy (or soft-link) the following files and directories into `appengine/static/`:
+   * `apps/`
    * `demos/`
    * `generators/`
    * `language/`
    * `media/`
    * `blockly_compressed.js`
- # Run the GoogleAppEngineLauncher from the SDK, add your `appengine` directory as an existing application, and press the "Deploy" button.
+ # Run the Google App Engine Launcher from the GUI, add your `appengine` directory as an existing application, and press the "Deploy" button.  If you prefer to use the command line, run: `appcfg.py --oauth2 update appengine/`.
+
 
 Once Blockly is uploaded you can point a browser to the URL you created in step 2.  You should see a list of demos, including the cloud storage demo.
 
