@@ -21,7 +21,7 @@ Include the following snippet in your web page:
       window.Blockly = blockly;
     }
   </script>
-  <iframe style="border: 1px solid #ccc;" src="frame.html"></iframe>
+  <iframe src="frame.html"></iframe>
 }}}
 
 The iframe is where Blockly will appear.  It will be sized as needed using tables, CSS, or !JavaScript.  The next step is to create the frame for the editor.  Here's a good starting snippet for `frame.html`.

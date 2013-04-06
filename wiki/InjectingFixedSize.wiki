@@ -38,7 +38,7 @@ Then include the block categories you want.  There are many to choose from (see 
 Add an empty div to the page and set its size:
 
 {{{
-  <div id="blocklyDiv" style="height: 480px; width: 600px; border: 1px solid #ccc;"></div>
+  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
 }}}
 
 Add the structure of the toolbox (see [Toolbox Defining the Toolbox] for more information):
