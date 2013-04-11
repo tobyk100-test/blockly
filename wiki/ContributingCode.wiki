@@ -60,4 +60,17 @@ gclient sync
   * `gclient sync`
   * [UnitTesting Run tests].
   * `gcl commit xxxx`
+
+=== Branching ===
+
+To include branches in your client, create it with:
+
+{{{
+gclient config --name blockly https://blockly.googlecode.com/svn
+}}}
+
+To merge in changes from the main branch, run the following from the subdirectory for the branch (e.g., `branches/i18n`):
+
+{{{
+svn merge https://blockly.googlecode.com/svn/trunk
 }}}
