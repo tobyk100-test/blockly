@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"author": "Ellen Spertus <ellen.spertus@gmail.com>",
+		"last-updated": "2013-04-10 14:58:57.544542",
+		"locale": "en",
+		"message-documentation" : "qqq"
+	},
+	"6708873735914356822-HTTPREQUEST_ERROR": "There was a problem with the request. %1",
+	"554933267022847434-LINK_ALERT": "Share your blocks with this link: %1",
+	"8523039314512897997-HASH_ERROR": "Sorry, '%1' doesn't correspond with any saved Blockly file.",
+	"2939986560796703529-XML_ERROR": "Could not load your saved file.  Perhaps it was created with a different version of Blockly?"}

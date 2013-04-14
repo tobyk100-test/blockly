@@ -32,9 +32,8 @@ Maze.MAX_LEVEL = 10;
 var level = window.location.search.match(/[?&]level=(\d+)/);
 level = level ? level[1] : 1;
 level = Math.min(Math.max(1, level), Maze.MAX_LEVEL);
-document.write(mazepage.start({}, null,
-    {MSG: MSG,
-     level: level}));
+document.write(BlocklyCommonMessages.messages());
+document.write(mazepage.start({}, null, {level: level}));
 var maxBlocks = [undefined, // Level 0.
     Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][level];
 
@@ -707,7 +706,7 @@ Maze.scheduleFail = function(forward) {
     Maze.displayPegman(Maze.pegmanX,
                        Maze.pegmanY,
                        direction16);
-    }, Maze.STEP_SPEED));
+  }, Maze.STEP_SPEED));
   Maze.pidList.push(window.setTimeout(function() {
     Maze.displayPegman(Maze.pegmanX + deltaX,
                        Maze.pegmanY + deltaY,
@@ -715,8 +714,8 @@ Maze.scheduleFail = function(forward) {
     Blockly.playAudio('whack', .5);
   }, Maze.STEP_SPEED * 2));
   Maze.pidList.push(window.setTimeout(function() {
-      Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, direction16);
-    }, Maze.STEP_SPEED * 3));
+    Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, direction16);
+  }, Maze.STEP_SPEED * 3));
 };
 
 /**

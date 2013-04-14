@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file original="SoyMsgBundle" datatype="x-soy-msg-bundle" xml:space="preserve" source-language="en">
+    <body>
+      <trans-unit id="297931026100856843" datatype="html">
+        <source>Moves Pegman forward or backward one space.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html). The term 'space' refers to a single square within a maze.</note>
+        <note priority="1" from="meaning">Maze.moveTooltip</note>
+      </trans-unit>
+      <trans-unit id="412027119640112732" datatype="html">
+        <source>If there is a path in the specified direction, \nthen do some actions.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - 'path' refers to a path through a maze. </note>
+        <note priority="1" from="meaning">Maze.ifTooltip</note>
+      </trans-unit>
+      <trans-unit id="826514418572436974" datatype="html">
+        <source>Turns Pegman left or right by 90 degrees.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html). The term 'space' refers to a single square within a maze.</note>
+        <note priority="1" from="meaning">Maze.turnTooltip</note>
+      </trans-unit>
+      <trans-unit id="1007522636784730457" datatype="html">
+        <source>do</source>
+        <note priority="1" from="description">verb - imperative or infinitive preceding one or more commands to a person.</note>
+        <note priority="1" from="meaning">Maze.ifDo</note>
+      </trans-unit>
+      <trans-unit id="1040240593669985332" datatype="html">
+        <source>behind</source>
+        <note priority="1" from="description">adverb - to modify the term for a path through a maze, as in: 'if path behind, move backward'.</note>
+        <note priority="1" from="meaning">Maze.behind</note>
+      </trans-unit>
+      <trans-unit id="1058207181145807400" datatype="html">
+        <source>Returns Pegman's vertical position. Top edge is 1, bottom edge is 8.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).</note>
+        <note priority="1" from="meaning">Maze.getYTooltip</note>
+      </trans-unit>
+      <trans-unit id="1190064103412776740" datatype="html">
+        <source>Repeat the enclosed actions until finish point is reached.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - Repeat the enclosed commands until the maze has been successfully completed (the end point reached).</note>
+        <note priority="1" from="meaning">Maze.whileTooltip</note>
+      </trans-unit>
+      <trans-unit id="1358173597489516917" datatype="html">
+        <source>move</source>
+        <note priority="1" from="description">verb - imperative or infinitive for a person moving (walking). The word for 'forward' or 'backward' will be attached to it later.</note>
+        <note priority="1" from="meaning">Maze.move</note>
+      </trans-unit>
+      <trans-unit id="1529911836220306505" datatype="html">
+        <source>forward</source>
+        <note priority="1" from="description">adverb - to modify the word for 'move', describing an individual person's movement.</note>
+        <note priority="1" from="meaning">Maze.forward</note>
+      </trans-unit>
+      <trans-unit id="1713718763430653774" datatype="html">
+        <source>to the right</source>
+        <note priority="1" from="description">adverb - to modify the term for a path through a maze, as in: 'if path to the right, end game'.</note>
+        <note priority="1" from="meaning">Maze.toTheRight</note>
+      </trans-unit>
+      <trans-unit id="1848910458363630250" datatype="html">
+        <source>left</source>
+        <note priority="1" from="description">adverb - to modify the word for 'turn', describing an individual person's change in direction of 90 degrees clockwise.</note>
+        <note priority="1" from="meaning">Maze.left</note>
+      </trans-unit>
+      <trans-unit id="2110603084480821434" datatype="html">
+        <source>Returns Pegman's horizontal position. Left edge is 1, right edge is 8.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).</note>
+        <note priority="1" from="meaning">Maze.getXTooltip</note>
+      </trans-unit>
+      <trans-unit id="2194902007208446636" datatype="html">
+        <source>Save and link to blocks.</source>
+        <note priority="1" from="description">tooltip (pop-up help) for button; pressing the button causes the user's program to be saved and for a URL to be provided for retrieving it.  The word 'blocks' is as in children's toy blocks.</note>
+        <note priority="1" from="meaning">Maze.linkTooltip</note>
+      </trans-unit>
+      <trans-unit id="2296845725372160378" datatype="html">
+        <source>You have 1 block left.</source>
+        <note priority="1" from="description">warning - Only one more block may be added.</note>
+        <note priority="1" from="meaning">Maze.capacity1</note>
+      </trans-unit>
+      <trans-unit id="2370415430586059806" datatype="html">
+        <source>Maze</source>
+        <note priority="1" from="description">noun - This word appears on a link on another page to direct users to this maze tutorial.</note>
+        <note priority="1" from="meaning">Maze.title</note>
+      </trans-unit>
+      <trans-unit id="2581575470485534053" datatype="html">
+        <source>You have 0 blocks left.</source>
+        <note priority="1" from="description">warning - No more blocks may be added until some are removed.</note>
+        <note priority="1" from="meaning">Maze.capacity0</note>
+      </trans-unit>
+      <trans-unit id="2851408625944702724" datatype="html">
+        <source>Returns true if there is a path in the specified direction.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - 'path' refers to a path through a maze.</note>
+        <note priority="1" from="meaning">Maze.isPathTooltip</note>
+      </trans-unit>
+      <trans-unit id="3087414586097524310" datatype="html">
+        <source>You have %1 blocks left.</source>
+        <note priority="1" from="description">warning - Only %1 more blocks may be used, where %1 is an integer greater than 1.</note>
+        <note priority="1" from="meaning">Maze.capacity2</note>
+      </trans-unit>
+      <trans-unit id="3107464560858837706" datatype="html">
+        <source>What is the sequence of steps to follow this path?</source>
+        <note priority="1" from="description">instructions - the word 'steps' refers to instructions in a computer program; 'path' refers to the path through a maze.  See previous description for tense.</note>
+        <note priority="1" from="meaning">Maze.instructions2</note>
+      </trans-unit>
+      <trans-unit id="3187612389707401187" datatype="html">
+        <source>Reset</source>
+        <note priority="1" from="description">button label - Pressing the button causes Pegman return to the start of the maze (but does not delete the user's program.)</note>
+        <note priority="1" from="meaning">Maze.runProgram</note>
+      </trans-unit>
+      <trans-unit id="3405095074586122676" datatype="html">
+        <source>Randomize start and finish markers.</source>
+        <note priority="1" from="description">tooltip (pop-up help) for button; pressing the button causes the start marker and finish markers in the current maze to be moved to random locations, without othwerise changing the maze.</note>
+        <note priority="1" from="meaning">Maze.randomizeTooltip1</note>
+      </trans-unit>
+      <trans-unit id="3542684864087093156" datatype="html">
+        <source>A program is a sequence of blocks.  Stack a couple of 'move forward' blocks together to help me reach the goal.</source>
+        <note priority="1" from="description">instructions - the word 'program' refers to a computer program, and thewords for 'stack' and 'blocks' should be the same as for stacking children's blocks. Use the imperative verb form appropriate for speaking to a child, gender unspecified.  If no gender-neutral singular/familiar form exists but a gender-neutral plural/formal form exists, use that instead.</note>
+        <note priority="1" from="meaning">Maze.instructions1</note>
+      </trans-unit>
+      <trans-unit id="3570353873001116034" datatype="html">
+        <source>to the left</source>
+        <note priority="1" from="description">adverb - to modify the term for a path through a maze, as in: 'if path to the left, move backward'.</note>
+        <note priority="1" from="meaning">Maze.toTheLeft</note>
+      </trans-unit>
+      <trans-unit id="3760279214088835030" datatype="html">
+        <source>repeat until finished</source>
+        <note priority="1" from="description">verb - imperative or infinitive to repeat the following commands until the program is finished (the end of a maze has been reached).</note>
+        <note priority="1" from="meaning">Maze.repeatUntilFinished</note>
+      </trans-unit>
+      <trans-unit id="3799760460110153809" datatype="html">
+        <source>Level</source>
+        <note priority="1" from="description">noun - This refers to the level in a game and will be followed by a number, as in 'Level 1' (the beginning level) or 'Level 10' (the final level).</note>
+        <note priority="1" from="meaning">Maze.level</note>
+      </trans-unit>
+      <trans-unit id="3812681848699619019" datatype="html">
+        <source>ahead</source>
+        <note priority="1" from="description">adverb - to modify the term for a path through a maze, as in: 'if path ahead, go forward'.</note>
+        <note priority="1" from="meaning">Maze.ahead</note>
+      </trans-unit>
+      <trans-unit id="3882730113723469795" datatype="html">
+        <source>Run Program</source>
+        <note priority="1" from="description">button label - Pressing the button runs the computer program the user has written.</note>
+        <note priority="1" from="meaning">runProgram</note>
+      </trans-unit>
+      <trans-unit id="4051416073809352347" datatype="html">
+        <source>On this level, you need to stack together all of the blocks in the white workspace.</source>
+        <note priority="1" from="description">alert - This is displayed if a user attempts to run a program composed of multiple stacks of blocks, letting them know they need to create a single stack.</note>
+        <note priority="1" from="meaning">Maze.oneTopBlock</note>
+      </trans-unit>
+      <trans-unit id="4117834464422802314" datatype="html">
+        <source>Computers have limited memory.  Reach the end of this path using only two blocks.  Use 'repeat' to run a block more than once.</source>
+        <note priority="1" from="description">instructions - 'path' refers to a path through a maze, and 'block' refers to a child's building block.</note>
+        <note priority="1" from="meaning">Maze.instructions3</note>
+      </trans-unit>
+      <trans-unit id="4138774728570944645" datatype="html">
+        <source>move forward</source>
+        <note priority="1" from="description">verb - imperative or infinitive for a person moving (walking) in the direction he is facing. Prefer a translation that has text in common with the translation of 'move backward'.</note>
+        <note priority="1" from="meaning">Maze.moveForward</note>
+      </trans-unit>
+      <trans-unit id="4142991828936593951" datatype="html">
+        <source>This maze looks more complicated than the previous one, but it is not.</source>
+        <note priority="1" from="description">instructions displayed along with a new maze for the user to solve.</note>
+        <note priority="1" from="meaning">Maze.instructions7</note>
+      </trans-unit>
+      <trans-unit id="4305273814764452265" datatype="html">
+        <source>Retuns Pegman's direction.  North: 0, East: 1, South: 2, West: 3.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).</note>
+        <note priority="1" from="meaning">Maze.getDirectionTooltip</note>
+      </trans-unit>
+      <trans-unit id="4473599517336461413" datatype="html">
+        <source>Moves Pegman forward one space.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).  The term 'space' refers to a single square within a maze.</note>
+        <note priority="1" from="meaning">Maze.moveForwardToolTip</note>
+      </trans-unit>
+      <trans-unit id="4572857545803877392" datatype="html">
+        <source>Can you solve this complicated maze?  Try following the left-hand wall.  Advanced programmers only!</source>
+        <note priority="1" from="description">instructions - This advises the user to solve a maze by keeping his/her left hand in contact with the wall while proceding through it.  The final sentence is a warning that only advanced programmers should attempt this problem, as beginners tend to get frustrated.</note>
+        <note priority="1" from="meaning">Maze.instructions10</note>
+      </trans-unit>
+      <trans-unit id="5504218682327601531" datatype="html">
+        <source>Pegman will have to turn left when he cannot go straight.</source>
+        <note priority="1" from="description">instructions - 'turn left' refers to rotating in place a quarter circle counter-clockwise.</note>
+        <note priority="1" from="meaning">Maze.instructions5</note>
+      </trans-unit>
+      <trans-unit id="5575726721959732086" datatype="html">
+        <source>turn</source>
+        <note priority="1" from="description">verb - imperative or infinitive for a person turning his head and body to face a different direction.  The modifier 'right', 'left', or 'randomly' will be attached to it later.</note>
+        <note priority="1" from="meaning">Maze.turn</note>
+      </trans-unit>
+      <trans-unit id="5729392237036335843" datatype="html">
+        <source>See generated JavaScript code.</source>
+        <note priority="1" from="description">tooltip (pop-up help) for button; pressing the button causes a program in the JavaScript computer language to be displayed, based on the program created by the user.</note>
+        <note priority="1" from="meaning">Maze.codeTooltip</note>
+      </trans-unit>
+      <trans-unit id="5896611286146483382" datatype="html">
+        <source>get Y position</source>
+        <note priority="1" from="description">verb - imperative or infinitive to obtain the vertical coordinate of a point in a two-dimensional plane (e.g., how far down (south) a player is.)</note>
+        <note priority="1" from="meaning">Maze.getY</note>
+      </trans-unit>
+      <trans-unit id="5901977129646228588" datatype="html">
+        <source>get direction</source>
+        <note priority="1" from="description">verb - imperative or infinitive to obtain the direction (north, south, east, or west) a player is facing.</note>
+        <note priority="1" from="meaning">Maze.getDirection</note>
+      </trans-unit>
+      <trans-unit id="5922058615793206650" datatype="html">
+        <source>backward</source>
+        <note priority="1" from="description">adverb - to modify the word for 'move', describing an individual person's movement.</note>
+        <note priority="1" from="meaning">Maze.backward</note>
+      </trans-unit>
+      <trans-unit id="6175401358049603739" datatype="html">
+        <source>If there is a path in the specified direction, then do the first block of actions. Otherwise, do the second block of actions.</source>
+        <note priority="1" from="description">tooltip (pop-up help) - 'path' refers to a path through a maze.</note>
+        <note priority="1" from="meaning">Maze.ifelseTooltip</note>
+      </trans-unit>
+      <trans-unit id="6675633699200081385" datatype="html">
+        <source>true path</source>
+        <note priority="1" from="description">noun - describing one or more commands that will be executed if some condition is true.  This can also be translated as 'true path'.</note>
+        <note priority="1" from="meaning">Maze.ifPath</note>
+      </trans-unit>
+      <trans-unit id="7089180101548436436" datatype="html">
+        <source>else</source>
+        <note priority="1" from="description">conjunction - 'otherwise', introducing commands to be performed if a previous condition was not true, as in 'if x&gt;3, do this, else do that'.</note>
+        <note priority="1" from="meaning">Maze.ifElse</note>
+      </trans-unit>
+      <trans-unit id="7149849676690329496" datatype="html">
+        <source>Congratulations! You have solved the final level.</source>
+        <note priority="1" from="description">alert - This is displayed when the user solves the most difficult level.</note>
+        <note priority="1" from="meaning">Maze.finalLevel</note>
+      </trans-unit>
+      <trans-unit id="7358214333593766572" datatype="html">
+        <source>Congratulations! Are you ready to proceed to level %1?</source>
+        <note priority="1" from="description">alert - This is displayed when the user solves the maze, inviting them to precede to the next level of difficulty.  %1 is an integer greater than 1.</note>
+        <note priority="1" from="meaning">Maze.nextLevel</note>
+      </trans-unit>
+      <trans-unit id="7768928174475133866" datatype="html">
+        <source>randomly</source>
+        <note priority="1" from="description">adverb - to modify the word for 'turn', indicating that whether a person turns left or right is being left to chance.</note>
+        <note priority="1" from="meaning">Maze.randomly</note>
+      </trans-unit>
+      <trans-unit id="7793250186887899403" datatype="html">
+        <source>right</source>
+        <note priority="1" from="description">adverb - to modify the word for 'turn', describing an individual person's change in direction of 90 degrees counter-clockwise.</note>
+        <note priority="1" from="meaning">Maze.right</note>
+      </trans-unit>
+      <trans-unit id="7801554455370029732" datatype="html">
+        <source>If-else blocks will do one thing or the other.</source>
+        <note priority="1" from="description">instructions - 'block' refers to a child's building block.  For 'if-else' concatenate the words for 'if' and 'else/otherwise'.</note>
+        <note priority="1" from="meaning">Maze.instructions9</note>
+      </trans-unit>
+      <trans-unit id="7837544939813721855" datatype="html">
+        <source>An 'if' block will do something only if the condition is true.  Try turning left if there is a path to the left.</source>
+        <note priority="1" from="description">instructions - an example of an 'if' block is: 'if there is a path to the left, turn left'.</note>
+        <note priority="1" from="meaning">Maze.instructions6</note>
+      </trans-unit>
+      <trans-unit id="7924052971858977034" datatype="html">
+        <source>Reach the goal using only five blocks.</source>
+        <note priority="1" from="description">instructions - the goal is reaching the end point in a maze; 'block' refers to a child's building block.</note>
+        <note priority="1" from="meaning">Maze.instructions4</note>
+      </trans-unit>
+      <trans-unit id="7927161468797296036" datatype="html">
+        <source>path</source>
+        <note priority="1" from="description">noun - a path through a maze, to be modified later by a direction, as in 'is there a path ahead'.</note>
+        <note priority="1" from="meaning">Maze.path</note>
+      </trans-unit>
+      <trans-unit id="8369157115089930453" datatype="html">
+        <source>You can use more than one 'if' block.</source>
+        <note priority="1" from="description">instructions - 'block' refers to a child's building block.</note>
+        <note priority="1" from="meaning">Maze.instructions8</note>
+      </trans-unit>
+      <trans-unit id="8778412585302442086" datatype="html">
+        <source>get X position</source>
+        <note priority="1" from="description">verb - imperative or infinitive to obtain the horizontal coordinate of a point in a two-dimensional plane (e.g., how far to the right (east) a player is.)</note>
+        <note priority="1" from="meaning">Maze.getX</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

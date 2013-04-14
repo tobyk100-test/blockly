@@ -1,0 +1,18 @@
+Use of Soy MSG facilities.
+==========================
+Prequisite: Install closure-templates-msg-extractor/SoyMsgExtractor.jar into ../_soy/.
+
+## English-language process.
+java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat en.js --srcs template.soy
+
+## Process for other languages.
+# Extract messages from template.soy into en.js.
+java -jar ../_soy/SoyMsgExtractor.jar --outputFile en.xlf template.soy
+# Convert template.soy, en.xlf -> en.json, qqq.json [output files needed by translatewiki.net].
+../../i18n/xliff_to_json.py en.xlf
+# Upload en.json, qqq.json to translatewiki.  Assume they return the file de.json (for German).
+# Convert de.json into de.xlf.
+../../i18n/json_to_xliff.py de.json
+# Convert de.xlf into de.js.
+java -jar ../_soy/SoyToJsSrcCompiler.jar --locales de --messageFilePathFormat de.xlf \
+        --outputPathFormat de.js  template.soy
