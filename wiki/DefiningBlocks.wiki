@@ -178,11 +178,9 @@ Optionally, the `FieldTextInput` constructor can also take a second argument whi
 
 http://blockly.googlecode.com/svn/wiki/appendTitleDropdown.png
 
-Another title element is a dropdown menu.  Just like the text input field, the dropdown menu is created separately, then appended to the title row.  The `FieldDropdown` object is created with a list of menu options.  Each option is made up of two strings.  The first is the human-readable text to display.  The second is a string constant which is used when saving the option to XML.  This separation allows a dropdown menu's setting to be preserved between languages.  For instance an English (`en/`) version of a block may define `[['left', 'LEFT'], ['right', 'RIGHT']]` while a German (`de/`) version of the same block would define `[['links', 'LEFT'], ['rechts', 'RIGHT']]`.
+Another title element is a drop-down menu.  Just like the text input field, the drop-down menu is created separately, then appended to the title row.  The `FieldDropdown` object is created with a list of menu options, or with a generator function.
 
-Instead of providing a static list of options, one can provide a function that returns a list of options when called.  This allows for dynamic menus.  See `variables_get` got an example.
-
-Optionally, the `FieldDropdown` constructor can also take a second argument which becomes the validation function or change handler.  See `text_trim` for an example of where changing a dropdown modifies a title.
+→ More info on [DropDown Drop-down Menus]...
 
 {{{
     var variable = new Blockly.FieldVariable('item');
