@@ -13,9 +13,13 @@ Our most urgent need is for translation of the <a href="http://blockly-demo.apps
 
   * Basque: complete
   * Catalan: complete.
+  * Czech: complete.
+  * Danish: complete.
+  * French: complete.
   * English: complete.
   * German: complete.
   * Greek: complete.
+  * Italian: almost done.
   * Korean: in progress...
   * Portuguese: complete.
   * Russian: complete.
@@ -44,6 +48,7 @@ Our most urgent need is for translation of the <a href="http://blockly-demo.apps
       * "Return Pegman's horizontal position.\n"
     * We'd prefer having a translation that isn't correctly formatted or that still has a few words in English to not having one at all.
     * Let us know by what name and/or email address you would like your contribution acknowledged.
+  # Post the file to the <a href="https://groups.google.com/forum/?fromgroups#!forum/blockly">forum</a> and let us know how you'd like to be credited (name, email address, etc.)
 
 Most important, if you have any questions, let us know.
 
