@@ -432,7 +432,7 @@ Maze.init = function() {
     // Load the editor with a starting block.
     var xml = Blockly.Xml.textToDom(
         '<xml>' +
-        '  <block type="maze_moveForward" x="250" y="70"></block>' +
+        '  <block type="maze_moveForward" x="70" y="70"></block>' +
         '</xml>');
     // Configure any level-specific buttons.
     if (level > 9) {
@@ -820,14 +820,16 @@ Maze.isPathLeft = function() {
 // Core functions.
 
 /**
- * Move pegman forward or backward.
+ * Attempt to move pegman forward or backward.
  * @param {number} direction Direction to move (0 = forward, 2 = backward).
  * @param {string} id ID of block that triggered this action.
+ * @throws {true} If the end of the maze is reached.
+ * @throws {false} If Pegman collides with a wall.
  */
 Maze.move = function(direction, id) {
   if (!Maze.isPath(direction)) {
     Blockly.Apps.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
-    return;
+    throw false;
   }
   // If moving backward, flip the effective direction.
   var effectiveDirection = Maze.pegmanD + direction;

@@ -12,55 +12,39 @@
 <script>
 var MSG = {lb}
   moveForward:
-    "{msg meaning="Maze.moveForward" desc="verb - imperative or infinitive for a person moving (walking) in the direction he is facing. Prefer a translation that has text in common with the translation of 'move backward'."}
+    "{msg meaning="Maze.moveForward" desc="verb - imperative or infinitive for a person moving (walking) in the direction he/she is facing." }
       move forward
     {/msg}",
-  move:
-    "{msg meaning="Maze.move" desc="verb - imperative or infinitive for a person moving (walking). The word for 'forward' or 'backward' will be attached to it later."}
-      move
+  turnLeft:
+    "{msg meaning="Maze.turnLeft" desc="verb - imperative or infinitive for a person turning his head and body one quarter rotation counter-clockwise.  Prefer a translation that has text in common with the translation of 'turn right'."}
+      turn left
     {/msg}",
-  forward:
-    "{msg meaning="Maze.forward" desc="adverb - to modify the word for 'move', describing an individual person's movement."}
-      forward
-    {/msg}",
-  backward:
-    "{msg meaning="Maze.backward" desc="adverb - to modify the word for 'move', describing an individual person's movement."}
-      backward
-    {/msg}",
-  turn:
-    "{msg meaning="Maze.turn" desc="verb - imperative or infinitive for a person turning his head and body to face a different direction.  The modifier 'right', 'left', or 'randomly' will be attached to it later."}
-      turn
-    {/msg}",
-  left:
-    "{msg meaning="Maze.left" desc="adverb - to modify the word for 'turn', describing an individual person's change in direction of 90 degrees clockwise."}
-      left
-    {/msg}",
-  right:
-    "{msg meaning="Maze.right" desc="adverb - to modify the word for 'turn', describing an individual person's change in direction of 90 degrees counter-clockwise."}
-      right
-    {/msg}",
-  randomly:
-    "{msg meaning="Maze.randomly" desc="adverb - to modify the word for 'turn', indicating that whether a person turns left or right is being left to chance."}
-      randomly
-    {/msg}",
-  path:
-    "{msg meaning="Maze.path" desc="noun - a path through a maze, to be modified later by a direction, as in 'is there a path ahead'."}
-      path
-    {/msg}",
-  ifPath:
-    "{msg meaning="Maze.ifPath" desc="noun - describing one or more commands that will be executed if some condition is true.  This can also be translated as 'true path'."}
-      true path
+  turnRight:
+    "{msg meaning="Maze.turnRight" desc="verb - imperative or infinitive for a person turning his head and body one quarter rotation clockwise.  Prefer a translation that has text in common with the translation of 'turn left'."}
+      turn right
     {/msg}",
   do:
-    "{msg meaning="Maze.ifDo" desc="verb - imperative or infinitive preceding one or more commands to a person."}
+    "{msg meaning="Maze.do" desc="verb - imperative or infinitive preceding one or more commands to a person."}
       do
     {/msg}",
   else:
-    "{msg meaning="Maze.ifElse" desc="conjunction - 'otherwise', introducing commands to be performed if a previous condition was not true, as in 'if x>3, do this, else do that'."}
+    "{msg meaning="Maze.else" desc="conjunction - 'otherwise', introducing commands to be performed if a previous condition was not true, as in 'if x>3, do this, else do that'."}
       else
     {/msg}",
-  ahead:
-    "{msg meaning="Maze.ahead" desc="adverb - to modify the term for a path through a maze, as in: 'if path ahead, go forward'."}
+  pathAhead:
+    "{msg meaning="Maze.pathAhead" desc="condensed form of 'if there is a path ahead', as in: 'if path ahead, go forward'."}
+      ahead
+    {/msg}",
+  pathLeft:
+    "{msg meaning="Maze.pathLeft" desc="condensed form of 'if there is a path to the left', as in: 'if path left, turn left'."}
+      ahead
+    {/msg}",
+  pathRight:
+    "{msg meaning="Maze.pathRight" desc="condensed form of 'if there is a path to the right', as in: 'if path right, turn right'."}
+      ahead
+    {/msg}",
+  pathAhead:
+    "{msg meaning="Maze.pathAhead" desc="condensed form of 'if there is a path ahead', as in: 'if path ahead, go forward'."}
       ahead
     {/msg}",
   toTheLeft:
@@ -71,33 +55,13 @@ var MSG = {lb}
     "{msg meaning="Maze.toTheRight" desc="adverb - to modify the term for a path through a maze, as in: 'if path to the right, end game'."}
       to the right
     {/msg}",
-  behind:
-    "{msg meaning="Maze.behind" desc="adverb - to modify the term for a path through a maze, as in: 'if path behind, move backward'."}
-      behind
-    {/msg}",
   repeatUntilFinished:
     "{msg meaning="Maze.repeatUntilFinished" desc="verb - imperative or infinitive to repeat the following commands until the program is finished (the end of a maze has been reached)."}
       repeat until finished
     {/msg}",
-  getX:
-    "{msg meaning="Maze.getX" desc="verb - imperative or infinitive to obtain the horizontal coordinate of a point in a two-dimensional plane (e.g., how far to the right (east) a player is.)"}
-      get X position
-    {/msg}",
-  getY:
-    "{msg meaning="Maze.getY" desc="verb - imperative or infinitive to obtain the vertical coordinate of a point in a two-dimensional plane (e.g., how far down (south) a player is.)"}
-      get Y position
-    {/msg}",
-  getDirection:
-    "{msg meaning="Maze.getDirection" desc="verb - imperative or infinitive to obtain the direction (north, south, east, or west) a player is facing."}
-      get direction
-    {/msg}",
   moveForwardTooltip:
     "{msg meaning="Maze.moveForwardToolTip" desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).  The term 'space' refers to a single square within a maze."}
       Moves Pegman forward one space.
-    {/msg}",
-  moveTooltip:
-    "{msg meaning="Maze.moveTooltip" desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html). The term 'space' refers to a single square within a maze."}
-      Moves Pegman forward or backward one space.
     {/msg}",
   turnTooltip:
     "{msg meaning="Maze.turnTooltip" desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html). The term 'space' refers to a single square within a maze."}
@@ -115,32 +79,16 @@ var MSG = {lb}
     "{msg meaning="Maze.whileTooltip" desc="tooltip (pop-up help) - Repeat the enclosed commands until the maze has been successfully completed (the end point reached)."}
       Repeat the enclosed actions until finish point is reached.
     {/msg}",
-  isPathTooltip:
-    "{msg meaning="Maze.isPathTooltip" desc="tooltip (pop-up help) - 'path' refers to a path through a maze."}
-      Returns true if there is a path in the specified direction.
-    {/msg}",
-  getXTooltip:
-    "{msg meaning="Maze.getXTooltip" desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html)."}
-      Returns Pegman's horizontal position. Left edge is 1, right edge is 8.
-    {/msg}",
-  getYTooltip:
-    "{msg meaning="Maze.getYTooltip" desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html)."}
-      Returns Pegman's vertical position. Top edge is 1, bottom edge is 8.
-    {/msg}",
-  getDirectionTooltip:
-    "{msg meaning="Maze.getDirectionTooltip" desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html)."}
-      Retuns Pegman's direction.  North: 0, East: 1, South: 2, West: 3.
-    {/msg}",
   capacity0:
-    "{msg meaning="Maze.capacity0" desc="warning - No more blocks may be added until some are removed."}
+    "{msg meaning="Maze.capacity0" desc="warning - No more blocks may be added until some are removed.  Do not alter the portion between <span> and </span>, although you may move it within the phrase."}
       You have <span id='capacityNumber'>0</span> blocks left.
     {/msg}",
   capacity1:
-    "{msg meaning="Maze.capacity1" desc="warning - Only one more block may be added."}
+    "{msg meaning="Maze.capacity1" desc="warning - Only one more block may be added.  Do not alter the portion between <span> and </span>, although you may move it within the phrase."}
       You have <span id='capacityNumber'>1</span> block left.
     {/msg}",
   capacity2:
-    "{msg meaning="Maze.capacity2" desc="warning - Only %1 more blocks may be used, where %1 is an integer greater than 1."}
+    "{msg meaning="Maze.capacity2" desc="warning - Only %1 more blocks may be used, where %1 is an integer greater than 1.  Do not alter the portion between <span> and </span>, although you may move it within the phrase."}
       You have <span id='capacityNumber'>%1</span> blocks left.
     {/msg}",
   nextLevel:
@@ -161,7 +109,7 @@ var MSG = {lb}
     <tr>
       <td width="410" valign="top">
         <h1><a href="http://blockly.googlecode.com/">Blockly</a> &gt;{sp}
-            <a href="../index.html">Apps</a> &gt; {msg meaning="Maze.title" desc="noun - This word appears on a link on another page to direct users to this maze tutorial."}Maze{/msg}
+            <a href="../index.html">Apps</a> &gt; {msg meaning="Maze.title" desc="noun - This word appears on a link to direct users to this maze tutorial."}Maze{/msg}
         </h1>
 
         <p class="levelLine">  {msg meaning="Maze.level" desc="noun - This refers to the level in a game and will be followed by a number, as in 'Level 1' (the beginning level) or 'Level 10' (the final level)."}Level{/msg}: &nbsp;
@@ -216,7 +164,7 @@ var MSG = {lb}
               <button id="linkButton" title="{msg meaning="Maze.linkTooltip" desc="tooltip (pop-up help) for button; pressing the button causes the user's program to be saved and for a URL to be provided for retrieving it.  The word 'blocks' is as in children's toy blocks."}Save and link to blocks.{/msg}" onclick="BlocklyStorage.link();">
                 <img src='../../media/1x1.gif' class="link">
               </button>
-              <button id="randomizeButton" title="{msg meaning="Maze.randomizeTooltip1" desc="tooltip (pop-up help) for button; pressing the button causes the start marker and finish markers in the current maze to be moved to random locations, without othwerise changing the maze."}Randomize start and finish markers.{/msg} onclick="Maze.randomize();" style="display: none">
+              <button id="randomizeButton" title="{msg meaning="Maze.randomizeMarkerTooltip" desc="tooltip (pop-up help) for button; pressing the button causes the start marker and finish markers in the current maze to be moved to random locations, without othwerise changing the maze."}Randomize start and finish markers.{/msg} onclick="Maze.randomize();" style="display: none">
                 <img src='../../media/1x1.gif' class="random">
               </button>
             </td>
