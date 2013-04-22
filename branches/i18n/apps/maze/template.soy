@@ -60,7 +60,7 @@ var MSG = {lb}
       repeat until finished
     {/msg}",
   moveForwardTooltip:
-    "{msg meaning="Maze.moveForwardToolTip" desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).  The term 'space' refers to a single square within a maze."}
+    "{msg meaning="Maze.moveForwardTooltip" desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.  See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).  The term 'space' refers to a single square within a maze."}
       Moves Pegman forward one space.
     {/msg}",
   turnTooltip:
@@ -80,15 +80,15 @@ var MSG = {lb}
       Repeat the enclosed actions until finish point is reached.
     {/msg}",
   capacity0:
-    "{msg meaning="Maze.capacity0" desc="warning - No more blocks may be added until some are removed.  Do not alter the portion between <span> and </span>, although you may move it within the phrase."}
+    "{msg meaning="Maze.capacity0" desc="warning - No more blocks may be added until some are removed.  Do not alter the portion between pointy brackets (< and >), although you may move it within the phrase."}
       You have <span id='capacityNumber'>0</span> blocks left.
     {/msg}",
   capacity1:
-    "{msg meaning="Maze.capacity1" desc="warning - Only one more block may be added.  Do not alter the portion between <span> and </span>, although you may move it within the phrase."}
+    "{msg meaning="Maze.capacity1" desc="warning - Only one more block may be added.  Do not alter the portion between pointy brackets (< and >), although you may move it within the phrase."}
       You have <span id='capacityNumber'>1</span> block left.
     {/msg}",
   capacity2:
-    "{msg meaning="Maze.capacity2" desc="warning - Only %1 more blocks may be used, where %1 is an integer greater than 1.  Do not alter the portion between <span> and </span>, although you may move it within the phrase."}
+    "{msg meaning="Maze.capacity2" desc="warning - Only %1 more blocks may be used, where %1 is an integer greater than 1.  Do not alter the portion between pointy brackets (< and >), although you may move it within the phrase."}
       You have <span id='capacityNumber'>%1</span> blocks left.
     {/msg}",
   nextLevel:
@@ -102,6 +102,10 @@ var MSG = {lb}
   oneTopBlock:
     "{msg meaning="Maze.oneTopBlock" desc="alert - This is displayed if a user attempts to run a program composed of multiple stacks of blocks, letting them know they need to create a single stack."}
       On this level, you need to stack together all of the blocks in the white workspace.
+    {/msg}",
+  fullTitle:
+    "{msg meaning="Maze.fullTitle" desc="title - This is the title of the maze tutorial web page.  Do not translate 'Blockly', but do transliterate (show how to pronounce) it, if it would be unclear to a speaker of your language. For example, the Russian translation includes 'Blockly (Блoкли)'."}
+    Blockly Maze
     {/msg}"
 {rb};
 </script>
