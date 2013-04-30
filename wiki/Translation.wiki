@@ -5,4 +5,31 @@
 
 Our goal is for Blockly to be available in as many languages as possible, so students don't have to struggle with English at the same time as they're learning computer science concepts.
 
-We are in the process of moving translation from being a manual process to using [http://translatewiki.net translatewiki.net].  If you are interested in translating Blockly (and we hope you are), please create an account there and subscribe to the [https://groups.google.com/forum/?fromgroups#!forum/blockly Blockly forum].
+We encourage you to join the [https://groups.google.com/forum/?fromgroups#!forum/blockly Blockly user group] and to ask any questions you have.
+
+= Using Blockly =
+
+If you're not already a Blockly user, try it out.  Some good starting places are:
+ * [http://blockly-demo.appspot.com/blockly/apps/puzzle/index.html Puzzle] (to learn the Blockly user interface)
+ * [http://blockly-demo.appspot.com/blockly/apps/maze/index.html Maze]
+ * [http://blockly-demo.appspot.com/blockly/apps/code/index.html Code] (meant for experienced programmers)
+
+= Translatewiki =
+
+We are in the process of moving translation from being a manual process to using [http://translatewiki.net translatewiki.net]. 
+
+== Creating an account at Translatewiki ==
+
+Use the [http://translatewiki.net/w/i.php?title=Special:UserLogin&returnto=Special%3AFirstSteps&type=signup Getting started wizard].  Steps are:
+ # Creating an account.
+ # Configuring your preferences.  You may specify any languages at this step.
+ # Creating your user page.  You must specify (at least) "I have a moderate command of" "English" to do translations for Blockly.  You should also specify at least one other language that you are able to do translations into.
+ # Request translator permissions.  Write a brief introduction, ideally information to give the reviewer reason to believe you're a genuine translator and not a vandal.  For example, if you have already contributed translations to Blockly, link to the translated file and point out that it contains your name (assuming it does).  Hare are the [https://code.google.com/p/blockly/source/browse/#svn%2Ftrunk%2Fapps%2Fmaze maze translations].  Press "Send request".  You then need to wait to be manually approved, which can take anywhere from a few minutes to a couple of hours (longest during nighttime in Central Europe).
+
+== Reading about Blockly translation ==
+
+Visit [http://translatewiki.net/wiki/Translating:Blockly Translating:Blockly].  Read the first section (General Translation Notes), skim the second section (The Blockly Language) for now, and carefully read the sections for whatever portion of the system you want to translate.  Right now, the only available portion is the Puzzle.
+
+== Start translating ==
+
+Start translating by clicking on the "Translate this project" link at the top of [http://translatewiki.net/wiki/Translating:Blockly Translating:Blockly] or going directly to [http://translatewiki.net/w/i.php?title=Special:Translate&group=out-blockly-0-all].
