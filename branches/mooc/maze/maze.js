@@ -190,6 +190,12 @@ Maze.startDirection = Maze.DirectionType.EAST;
  */
 Maze.pidList = [];
 
+/**
+ * Pseudo-random identifier used for tracking user progress within a level.
+ */
+Maze.LEVEL_ID = Math.random();
+
+// Maze tiles.
 Maze.deadEnd = function(x, y, angle) {
   var path = document.createElementNS(Blockly.SVG_NS, 'path');
   path.setAttribute('d',
@@ -567,12 +573,53 @@ Maze.randomizeMarkers = function() {
 };
 
 /**
+ * Outcomes of running the user program.
+ */
+Maze.ResultType = {
+  UNSET: 0,
+  SUCCESS: 1,
+  FAILURE: -1,
+  TIMEOUT: 2,
+  ERROR: -2
+};
+
+/**
+ * Where to report back information about the user program.
+ */
+Maze.REPORT_URL = '/report';
+
+/**
+ * Report back to the server, if available.
+ * TODO(spertus): Move so it can be used by other demos/apps.
+ * @param {string} app The name of the application.
+ * @param {number} id A unique identifier generated when the page was loaded.
+ * @param {level} level The current level of the application.
+ * @param {number} result An indicator of the success of the code.
+ * @param {string} program The user program, which will get URL-encoded.
+ */
+Maze.report = function(app, id, level, result, program) {
+  if ('BlocklyStorage' in window) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open('POST', Maze.REPORT_URL);
+    httpRequest.setRequestHeader('Content-Type',
+        'application/x-www-form-urlencoded');
+    httpRequest.send('app=' + app +
+       '&id=' + id +
+       '&level=' + level +
+       '&result=' + result +
+       '&program=' + encodeURIComponent(program));
+  }
+};
+
+/**
  * Execute the user's code.  Heaven help us...
+ * Also send code to the server.
  */
 Maze.execute = function() {
   Blockly.Apps.log = [];
   Blockly.Apps.ticks = 1000;
   var code = Blockly.Generator.workspaceToCode('JavaScript');
+
   try {
     eval(code);
   } catch (e) {
@@ -582,6 +629,10 @@ Maze.execute = function() {
       alert(e);
     }
   }
+
+  // Report result to server.
+  Maze.report('maze', Maze.LEVEL_ID, level, result, Maze.stripCode(code));
+
   // Blockly.Apps.log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
   Maze.reset();
