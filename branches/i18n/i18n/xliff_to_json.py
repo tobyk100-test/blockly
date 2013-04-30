@@ -18,6 +18,7 @@
 # limitations under the License.
 
 import argparse
+import codecs
 from datetime import datetime
 import os
 import re
@@ -47,7 +48,8 @@ def _create_qqq_file():
         IOError: An error occurred while opening or writing the file.
     """
     qqq_file_name = os.path.join(os.curdir, args.output_dir, 'qqq.json')
-    qqq_file = open(qqq_file_name, 'w')
+    qqq_file = codecs.open(qqq_file_name, 'w', 'utf-8')
+    print 'Created file: ' + qqq_file_name
     qqq_file.write('{\n')
     return qqq_file
 
@@ -67,6 +69,32 @@ def _close_qqq_file(qqq_file):
     qqq_file.close()
 
 
+def _create_key_file():
+    """Creates a keys.json file mapping Closure keys to Blockly keys.
+
+    Raises:
+        IOError: An error occurred while creating the file.
+    """
+    key_file_name = os.path.join(os.curdir, args.output_dir, 'keys.json')
+    key_file = open(key_file_name, 'w')
+    key_file.write('{\n')
+    print 'Created file: ' + key_file_name
+    return key_file
+
+
+def _close_key_file(key_file):
+    """Closes a key file created and opened with _create_key_file().
+
+    Args:
+        key_file: A file created by _create_key_file().
+
+    Raises:
+        IOError: An error occurred while writing to or closing the file.
+    """
+    key_file.write('\n}\n')
+    key_file.close()
+
+
 def _create_lang_file():
     """Creates a <lang>.json file for translatewiki.net.
 
@@ -83,7 +111,8 @@ def _create_lang_file():
     """
     lang_file_name = os.path.join(
         os.curdir, args.output_dir, args.lang + '.json')
-    lang_file = open(lang_file_name, 'w')
+    lang_file = codecs.open(lang_file_name, 'w', 'utf-8')
+    print 'Created file: ' + lang_file_name
     # string.format doesn't like printing braces, so break up our writes.
     lang_file.write('{\n\t"@metadata": {')
     lang_file.write("""
@@ -192,10 +221,15 @@ def sort_units(units, template):
 
 
 def _write_files(units):
-    """Writes the <lang>.json and qqq.json files for the given units.
+    """Writes the output files for the given units.
 
-    The base name of the language file is specified by the "lang"
-    command-line argument.
+    There are three output files:
+    * lang_file: JSON file mapping meanings (e.g., Maze.turnLeft) to the
+      English text.  The base name of the language file is specified by the
+      "lang" command-line argument.
+    * key_file: JSON file mapping meanings to Closure-generated keys (long hash
+      codes).
+    * qqq_file: JSON file mapping meanings to descriptions.
 
     Args:
         units: A list of dictionaries produced by parse_trans_unit(),
@@ -206,18 +240,23 @@ def _write_files(units):
     """
     lang_file = _create_lang_file()
     qqq_file = _create_qqq_file()
+    key_file = _create_key_file()
     first_entry = True
     for unit in units:
         if not first_entry:
             lang_file.write(',\n')
-        lang_file.write('\t"{0}-{1}": "{2}"'.format(
-            unit['key'],
+            key_file.write(',\n')
+            qqq_file.write(',\n')
+        lang_file.write(u'\t"{0}": "{1}"'.format(
             unit['meaning'],
-            unit['source']))
-        qqq_file.write('\t"{0}-{1}": "{2}",\n'.format(
-            unit['key'], unit['meaning'], unit['description']))
+            unit['source'].replace('"', "'")))
+        key_file.write('"{0}": "{1}"'.format(unit['meaning'], unit['key']))
+        qqq_file.write(u'\t"{0}": "{1}"'.format(
+            unit['meaning'],
+            unit['description'].replace('"', "'")))
         first_entry = False
     _close_lang_file(lang_file)
+    _close_key_file(key_file)
     _close_qqq_file(qqq_file)
 
 

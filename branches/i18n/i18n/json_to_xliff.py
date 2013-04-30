@@ -18,7 +18,7 @@
 # limitations under the License.
 
 import argparse
-import codecs  # for codex.open(..., 'utf-8')
+import codecs  # for codecs.open(..., 'utf-8')
 import json    # for json.load()
 import os      # for os.path()
 from common import InputError
@@ -65,6 +65,9 @@ def _insert_breaks(s, min_length, max_length):
            (not ((line1.endswith('. ') or line1.endswith(', ')) and
                  len(line1) > min_length))):
         line1 += words.pop(0) + ' '
+        # If it all fits on one line, return that line.
+        if not words:
+            return line1
     ideal_length = len(line1)
     output = line1
     line = ''
@@ -86,7 +89,7 @@ def _create_xlf(target_lang):
 
     Args:
         target_lang: The ISO 639 language code for the target language.
-        This is used in the name of the file and in the metadata.
+            This is used in the name of the file and in the metadata.
 
     Returns:
         A pointer to a file to which the metadata has been written.
@@ -96,6 +99,7 @@ def _create_xlf(target_lang):
     """
     filename = os.path.join(os.curdir, args.output_dir, target_lang + '.xlf')
     out_file = codecs.open(filename, 'w', 'utf-8')
+    print 'Created file: ' + filename
     out_file.write("""<?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file original="SoyMsgBundle"
@@ -126,7 +130,7 @@ def _close_xlf(xlf_file):
     xlf_file.close()
 
 
-def _process_file(filename):
+def _process_file(filename, key_dict):
     """Creates an .xlf file corresponding to the specified .json input file.
 
     The base name of the file will be the locale specified in the input file's
@@ -134,7 +138,9 @@ def _process_file(filename):
 
     Args:
         filename: The name of a .json file produced directly or indirectly by
-        xliff_to_json.py.
+            xliff_to_json.py.
+        key_dict: Dictionary mapping Blockly keys (e.g., Maze.turnLeft) to
+            Closure keys (hash numbers).
 
     Raises:
         IOError: An I/O error occurred with an input or output file.
@@ -144,6 +150,7 @@ def _process_file(filename):
     in_file = open(filename)
     try:
         j = json.load(in_file)
+        in_file.close()
     except ValueError, e:
         raise InputError(file, str(e))
     metadata = j['@metadata']
@@ -155,7 +162,7 @@ def _process_file(filename):
     out_file = _create_xlf(target_lang)
     for key in j:
         if key != '@metadata':
-            identifier = key.split('-')[0]  # key is <id>-<name>
+            identifier = key_dict[key]
             target = j.get(key)
             # Only insert line breaks for tooltips.
             if key.lower().find('tooltip') != -1:
@@ -177,19 +184,27 @@ def main():
                         help='ISO 639-1 source language code')
     parser.add_argument('--output_dir', default='.',
                         help='relative directory for output files')
+    parser.add_argument('--key_file', default='keys.json',
+                        help='relative path to input keys file')
     parser.add_argument('--min_length', default=30,
                         help='minimum line length (not counting last line)')
     parser.add_argument('--max_length', default=50,
                         help='maximum line length (not guaranteed)')
     parser.add_argument('files', nargs='+', help='input files')
 
-    # Initialize global variables, including opening output files.
+    # Initialize global variables.
     global args
     args = parser.parse_args()
 
+    # Read in keys.json, mapping descriptions (e.g., Maze.turnLeft) to
+    # Closure keys (long hash numbers).
+    key_file = open(args.key_file)
+    key_dict = json.load(key_file)
+    key_file.close()
+
     # Process each input file.
     for filename in args.files:
-        _process_file(filename)
+        _process_file(filename, key_dict)
 
 
 if __name__ == '__main__':
