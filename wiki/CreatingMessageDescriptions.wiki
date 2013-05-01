@@ -1,9 +1,8 @@
-#labels draft
-#How to help create message descriptions for translators
+#summary How to help create message descriptions for translators
 
 = Introduction =
 
-In order to translate the Blockly language, we need to add descriptions for every piece of text currently displayed in English.  There are 343 such messages, which are too many for the core Blockly team to mark-up themselves.  We are looking for volunteers who are experienced with Blockly to help add descriptions to these messages.
+In order to translate the Blockly language, we need to add descriptions for every piece of text currently displayed in English.  There are 343 such messages, which are too many for the core Blockly team to mark up themselves.  We are looking for volunteers who are experienced with Blockly to help add descriptions to these messages.
 
 = Background =
 
@@ -20,7 +19,7 @@ It is possible that there are other types I have not yet categorized.
 
 = Examples =
 
-I have written descriptions for 43 messages.
+I have written descriptions for 43 messages.  See the 
 
 The general format is:
 {{{
@@ -54,10 +53,10 @@ Descriptions may not include double quotes(").
 = Sections =
 
 || *Name* || *# messages* || *corresponding source code* || *author* || *status* ||
-|| context menus || 12 || [https://code.google.com/p/blockly/source/browse/trunk/core/block.js block.js] || Ellen || proofreading ||
-|| variable renaming|| 5 || [https://code.google.com/p/blockly/source/browse/trunk/core/variables.js variables.js] || Ellen || proofreading ||
-|| colour || 16 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/colour.js colours.js] || Ellen || proofreading ||
-|| controls: if || 15 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/control.js control.js] || Ellen || proofreading ||
+|| context menus || 12 || [https://code.google.com/p/blockly/source/browse/trunk/core/block.js block.js] || Ellen || done ||
+|| variable renaming|| 5 || [https://code.google.com/p/blockly/source/browse/trunk/core/variables.js variables.js] || Ellen || done ||
+|| colour || 16 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/colour.js colours.js] || Ellen || done ||
+|| controls: if || 15 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/control.js control.js] || Ellen || done ||
 || controls: repeat, while || 11 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/control.js control.js] || -- || -- ||
 || controls: for, foreach, control flow || 19 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/control.js control.js] || -- || -- ||
 || logic || 27 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/logic.js logic.js] || -- || -- ||
@@ -69,4 +68,13 @@ Descriptions may not include double quotes(").
 
 = Steps =
 
-TO BE WRITTEN
+To volunteer:
+ # Visit and read through the file https://code.google.com/p/blockly/source/browse/branches/i18n/language/en/messages.js messages.js] to see how descriptions are written.
+ # Decide on a section you would like to volunteer for.
+ # Write descriptions for a few of the messages.
+ # Post a message to the Blockly discussion group (or send it directly to me) with the above information and how long the work would take you.
+
+Tips for translating messages:
+ * If you're not sure how the message is used, play around with the code application and/or view the source code.
+ * If a message consists of two (or more) strings joined by a plus sign, please combine them into a single string.
+ * If you run into trouble, ask for help.
