@@ -72,7 +72,7 @@ To volunteer:
  # Visit and read through the file [https://code.google.com/p/blockly/source/browse/branches/i18n/language/en/messages.js messages.js] to see how descriptions are written.
  # Decide on a section you would like to volunteer for.
  # Write descriptions for a few of the messages.
- # Post a message to the Blockly discussion group (or send it directly to me) with the above information and how long the work would take you.
+ # Post a message to the [https://groups.google.com/forum/?fromgroups#!forum/blockly Blockly discussion group] (or send it directly to me) with the above information and how long the work would take you.
 
 Tips for translating messages:
  * If you're not sure how the message is used, play around with the [https://blockly-demo.appspot.com/static/apps/code/index.html code application] and/or view the source code.
