@@ -69,15 +69,15 @@ Descriptions may not include double quotes(").
 = Steps =
 
 To volunteer:
- # Visit and read through the file https://code.google.com/p/blockly/source/browse/branches/i18n/language/en/messages.js messages.js] to see how descriptions are written.
+ # Visit and read through the file [https://code.google.com/p/blockly/source/browse/branches/i18n/language/en/messages.js messages.js] to see how descriptions are written.
  # Decide on a section you would like to volunteer for.
  # Write descriptions for a few of the messages.
  # Post a message to the Blockly discussion group (or send it directly to me) with the above information and how long the work would take you.
 
 Tips for translating messages:
- * If you're not sure how the message is used, play around with the code application and/or view the source code.
+ * If you're not sure how the message is used, play around with the [https://blockly-demo.appspot.com/static/apps/code/index.html code application] and/or view the source code.
  * If a message consists of two (or more) strings joined by a plus sign, please combine them into a single string.
  *  You can make additions to [https://translatewiki.net/wiki/Translating:Blockly#The_Blockly_Language the Blockly translation instructions].
  * If you run into trouble, ask for help.
 
-Also feel free to suggest improvements to the messages I wrote.
+Also feel free to suggest improvements to the descriptions I wrote.
