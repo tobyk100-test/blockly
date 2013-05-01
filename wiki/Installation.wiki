@@ -7,6 +7,8 @@ Blockly is designed to easily install into your web application.  Users drag blo
 
 Blockly is 100% client-side, requiring no support from the server (unless one wants to use the cloud-storage feature).  There are no 3rd party dependencies (unless one wants to recompile the core).  Everything is open source.
 
+If you do not need to modify the code, you can use our public server at http://blockly-demo.appspot.com.  Installation is only recommended for developers who wish to modify or add source code.  
+
 == Get the Code ==
 
 First, download the source code.  Use Subversion to pull a copy of Blockly off of Google Code.  There are plenty of Subversion tutorials on the web.
