@@ -77,4 +77,7 @@ To volunteer:
 Tips for translating messages:
  * If you're not sure how the message is used, play around with the code application and/or view the source code.
  * If a message consists of two (or more) strings joined by a plus sign, please combine them into a single string.
+ *  You can make additions to [https://translatewiki.net/wiki/Translating:Blockly#The_Blockly_Language the Blockly translation instructions].
  * If you run into trouble, ask for help.
+
+Also feel free to suggest improvements to the messages I wrote.
