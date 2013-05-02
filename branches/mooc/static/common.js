@@ -33,9 +33,9 @@ Blockly.Apps = {};
 Blockly.Apps.loadLanguageScripts = function(languageSrc) {
   for (var x = 0; x < languageSrc.length; x++) {
     var file = languageSrc[x];
-    if (file.match(/^\w+\/\w+\.js$/)) {
+    if (file.match(/^(\w+\/)*\w+\.js$/)) {
       document.writeln('<script type="text/javascript" ' +
-          'src="../../../trunk/language/' + file + '"><' + '/script>');
+          'src="../' + file + '"><' + '/script>');
     } else {
       console.error('Illegal language file: ' + file);
     }
