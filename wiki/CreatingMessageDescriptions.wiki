@@ -63,7 +63,7 @@ Descriptions may not include double quotes(").
 || math || 77 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/math.js math.js] || -- || -- ||
 || text || 56 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/text.js text.js] || -- || -- ||
 || lists || 70 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/lists.js lists.js] || -- || -- ||
-|| variables || 10 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/variables.js variables.js] || -- || -- ||
+|| variables || 10 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/variables.js variables.js] || Alexandros || in progress ||
 || procedures || 24 || [https://code.google.com/p/blockly/source/browse/trunk/language/common/procedures.js procedures.js] || -- || -- ||
 
 = Steps =
