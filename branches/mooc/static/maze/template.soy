@@ -12,7 +12,8 @@
   <table width="100%" height="100%">
     <tr>
       <td width="410" valign="top">
-        <h1>{$ij.MSG.title}</h1>
+        <h1><a href="../">MOOC</a> &gt;{sp}
+          {$ij.MSG.title}</h1>
 
         <p class="levelLine">{$ij.MSG.level}: &nbsp;
         {for $i in range(1, 11)}
@@ -38,13 +39,13 @@
           <tr>
             <td style="width: 190px; text-align: center">
               <button title="{$ij.MSG.codeTooltip}" onclick="Blockly.Apps.showCode();">
-                <img src='../../../trunk/media/1x1.gif' class="code">
+                <img src='../media/1x1.gif' class="code">
               </button>
               <button id="linkButton" title="{$ij.MSG.linkTooltip}" onclick="BlocklyStorage.link();">
-                <img src='../../../trunk/media/1x1.gif' class="link">
+                <img src='../media/1x1.gif' class="link">
               </button>
                 <button id="randomizeButton" title="$ij.MSG.randomizeMarkerTooltip" onclick="Maze.randomizeMarkers();" style="display: none">
-                <img src='../../../trunk/media/1x1.gif' class="random">
+                <img src='../media/1x1.gif' class="random">
               </button>
             </td>
             <td style="width: 15px;">
@@ -63,8 +64,8 @@
       </td>
 
       <td valign="top">
-        <script type="text/javascript" src="../../../trunk/blockly_compressed.js"></script>
-        <script type="text/javascript" src="../../../trunk/generators/javascript.js"></script>
+        <script type="text/javascript" src="../blockly_compressed.js"></script>
+        <script type="text/javascript" src="../javascript_compressed.js"></script>
         <script type="text/javascript" src="../common.js"></script>
         <script type="text/javascript">
           Blockly.Apps.loadLanguageScripts(languageSrc);

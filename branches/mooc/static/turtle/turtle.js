@@ -62,7 +62,7 @@ Turtle.init = function() {
   var rtl = document.body.parentNode.dir == 'rtl';
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
-      {path: '../../../trunk/',
+      {path: '../',
        maxBlocks: maxBlocks,
        rtl: rtl,
        toolbox: toolbox,

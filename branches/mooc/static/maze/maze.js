@@ -402,13 +402,13 @@ Maze.init = function() {
   var rtl = document.body.parentNode.dir == 'rtl';
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
-      {path: '../../../trunk/',
+      {path: '../',
        maxBlocks: maxBlocks,
        rtl: rtl,
        toolbox: toolbox,
        trashcan: true});
-  Blockly.loadAudio_('apps/maze/win.wav', 'win');
-  Blockly.loadAudio_('apps/maze/whack.wav', 'whack');
+  Blockly.loadAudio_('maze/win.wav', 'win');
+  Blockly.loadAudio_('maze/whack.wav', 'whack');
 
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  Blockly.Apps.checkTimeout(%1);\n';
   Maze.drawMap();
