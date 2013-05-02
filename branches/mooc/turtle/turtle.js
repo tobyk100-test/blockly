@@ -125,12 +125,31 @@ Turtle.init = function() {
   }
 
   Turtle.ctxDisplay = document.getElementById('display').getContext('2d');
+  Turtle.ctxAnswer = document.getElementById('answer').getContext('2d');
   Turtle.ctxScratch = document.getElementById('scratch').getContext('2d');
+  Turtle.drawAnswer();
   Turtle.reset();
-  //Blockly.addChangeListener(function() {Blockly.Apps.updateCapacity(MSG)});
+  Blockly.addChangeListener(function() {Blockly.Apps.updateCapacity(MSG)});
 };
 
 window.addEventListener('load', Turtle.init);
+
+/**
+ * On startup draw the expected answer and save it to the answer canvas.
+ */
+Turtle.drawAnswer = function() {
+  Blockly.Apps.log = [];
+  Blockly.Apps.ticks = Infinity;
+  Turtle.answer();
+  Turtle.reset();
+  while (Blockly.Apps.log.length) {
+    var tuple = Blockly.Apps.log.shift();
+    Turtle.step(tuple[0], tuple.splice(1));
+  }
+  Turtle.ctxAnswer.globalCompositeOperation = 'copy';
+  Turtle.ctxAnswer.drawImage(Turtle.ctxScratch.canvas, 0, 0);
+  Turtle.ctxAnswer.globalCompositeOperation = 'source-over';
+};
 
 /**
  * Reset the turtle to the start position, clear the display, and kill any
@@ -147,7 +166,7 @@ Turtle.reset = function() {
   // Clear the display.
   Turtle.ctxScratch.canvas.width = Turtle.ctxScratch.canvas.width;
   Turtle.ctxScratch.strokeStyle = '#000000';
-  Turtle.ctxScratch.lineWidth = 1;
+  Turtle.ctxScratch.lineWidth = 5;
   Turtle.ctxScratch.lineCap = 'round';
   Turtle.display();
 
@@ -163,9 +182,14 @@ Turtle.reset = function() {
  */
 Turtle.display = function() {
   Turtle.ctxDisplay.globalCompositeOperation = 'copy';
-  Turtle.ctxDisplay.drawImage(Turtle.ctxScratch.canvas, 0, 0);
+  // Draw the answer layer.
+  Turtle.ctxDisplay.globalAlpha = 0.1;
+  Turtle.ctxDisplay.drawImage(Turtle.ctxAnswer.canvas, 0, 0);
+  Turtle.ctxDisplay.globalAlpha = 1;
+  // Draw the user layer.
   Turtle.ctxDisplay.globalCompositeOperation = 'source-over';
-
+  Turtle.ctxDisplay.drawImage(Turtle.ctxScratch.canvas, 0, 0);
+  // Draw the turtle.
   if (Turtle.visible) {
     // Draw the turtle body.
     var radius = Turtle.ctxScratch.lineWidth / 2 + 10;
@@ -276,15 +300,30 @@ Turtle.animate = function() {
     Blockly.mainWorkspace.highlightBlock(null);
     return;
   }
-  Blockly.mainWorkspace.highlightBlock(tuple.pop());
+  var command = tuple.shift();
+  var id = tuple.pop();
+  Blockly.mainWorkspace.highlightBlock(id);
+  Turtle.step(command, tuple);
+  Turtle.display();
 
-  switch (tuple[0]) {
+  // Scale the speed non-linearly, to give better precision at the fast end.
+  var stepSpeed = 1000 * Math.pow(Turtle.speedSlider.getValue(), 2);
+  Turtle.pid = window.setTimeout(Turtle.animate, stepSpeed);
+};
+
+/**
+ * Execute one step.
+ * @param {string} command Logo-style command (e.g. 'FD' or 'RT').
+ * @param {!Array} values List of arguments for the cammand.
+ */
+Turtle.step = function(command, values) {
+  switch (command) {
     case 'FD':  // Forward
       if (Turtle.penDownValue) {
         Turtle.ctxScratch.beginPath();
         Turtle.ctxScratch.moveTo(Turtle.x, Turtle.y);
       }
-      var distance = tuple[1];
+      var distance = values[0];
       if (distance) {
         Turtle.x += distance * Math.sin(2 * Math.PI * Turtle.heading / 360);
         Turtle.y -= distance * Math.cos(2 * Math.PI * Turtle.heading / 360);
@@ -299,7 +338,7 @@ Turtle.animate = function() {
       }
       break;
     case 'RT':  // Right Turn
-      Turtle.heading += tuple[1];
+      Turtle.heading += values[0];
       Turtle.heading %= 360;
       if (Turtle.heading < 0) {
         Turtle.heading += 360;
@@ -312,10 +351,10 @@ Turtle.animate = function() {
       Turtle.penDownValue = true;
       break;
     case 'PW':  // Pen Width
-      Turtle.ctxScratch.lineWidth = tuple[1];
+      Turtle.ctxScratch.lineWidth = values[0];
       break;
     case 'PC':  // Pen Color
-      Turtle.ctxScratch.strokeStyle = tuple[1];
+      Turtle.ctxScratch.strokeStyle = values[0];
       break;
     case 'HT':  // Hide Turtle
       Turtle.visible = false;
@@ -324,11 +363,6 @@ Turtle.animate = function() {
       Turtle.visible = true;
       break;
   }
-  Turtle.display();
-
-  // Scale the speed non-linearly, to give better precision at the fast end.
-  var stepSpeed = 1000 * Math.pow(Turtle.speedSlider.getValue(), 2);
-  Turtle.pid = window.setTimeout(Turtle.animate, stepSpeed);
 };
 
 // Turtle API.

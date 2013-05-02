@@ -97,11 +97,11 @@ Blockly.Apps.highlight = function(id) {
 /**
  * If the user has executed too many actions, we're probably in an infinite
  * loop.  Sadly I wasn't able to solve the Halting Problem.
- * @param {string} id ID of loop block to highlight if timeout is reached.
+ * @param {?string} opt_id ID of loop block to highlight if timeout is reached.
  * @throws {false} Throws an error to terminate the user's program.
  */
-Blockly.Apps.checkTimeout = function(id) {
-  Blockly.Apps.highlight(id);
+Blockly.Apps.checkTimeout = function(opt_id) {
+  opt_id && Blockly.Apps.highlight(opt_id);
   if (Blockly.Apps.ticks-- < 0) {
     // Highlight an infinite loop on death.
     throw false;

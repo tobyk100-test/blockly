@@ -19,9 +19,15 @@ h1 {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
-#hint,
-#capacity {
+#hint {
   font-style: italic;
+}
+#capacity {
+  padding: 15px 1ex 0;
+  float: right;
+}
+html[dir=rtl] #capacity {
+  float: left;
 }
 #capacityNumber {
   font-weight: bold;

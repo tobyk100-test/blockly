@@ -27,11 +27,12 @@
 
         <div id="bubble">
           <div id="hint">{$ij.MSG.hints[$ij.level]}</div>
-          <div id="capacity"></div>
         </div>
+        <div id="capacity"></div>
 
         <div>
           <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
+          <canvas id="answer" width="400" height="400" style="display: none"></canvas>
           <canvas id="display" width="400" height="400"></canvas>
         </div>
         <table style="padding-top: 1em;">
@@ -98,6 +99,7 @@
           Blockly.Apps.loadLanguageScripts(languageSrc);
         </script>
         <script type="text/javascript" src="blocks.js"></script>
+        <script type="text/javascript" src="answers.js"></script>
         {call .toolbox /}
         <div id="blockly"></div>
       </td>
