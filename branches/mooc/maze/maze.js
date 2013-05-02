@@ -402,7 +402,7 @@ Maze.init = function() {
   var rtl = document.body.parentNode.dir == 'rtl';
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
-      {path: '../../',
+      {path: '../../../trunk/',
        maxBlocks: maxBlocks,
        rtl: rtl,
        toolbox: toolbox,
@@ -619,19 +619,31 @@ Maze.execute = function() {
   Blockly.Apps.log = [];
   Blockly.Apps.ticks = 1000;
   var code = Blockly.Generator.workspaceToCode('JavaScript');
+  var result = Maze.ResultType.UNSET;
 
+  // Try running the user's code.  There are four possible outcomes:
+  // 1. If pegman reaches the finish [SUCCESS], true is thrown.
+  // 2. If the program is terminated due to running too long [TIMEOUT],
+  //    false is thrown.
+  // 3. If another error occurs [ERROR], that error is thrown.
+  // 4. If the program ended normally but without solving the maze [FAILURE],
+  //    no error or exception is thrown.
   try {
     eval(code);
+    result = Maze.ResultType.FAILURE;
   } catch (e) {
     // A boolean is thrown for normal termination.
     // Abnormal termination is a user error.
-    if (typeof e != 'boolean') {
+    if (typeof e == 'boolean') {
+      result = e ? Maze.ResultType.SUCCESS : Maze.ResultType.TIMEOUT;
+    } else {
+      result = Maze.ResultType.ERROR;
       alert(e);
     }
   }
 
   // Report result to server.
-  Maze.report('maze', Maze.LEVEL_ID, level, result, Maze.stripCode(code));
+  Maze.report('maze', Maze.LEVEL_ID, level, result, Blockly.Apps.stripCode(code));
 
   // Blockly.Apps.log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
