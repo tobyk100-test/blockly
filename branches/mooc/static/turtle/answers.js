@@ -113,7 +113,7 @@ Turtle.answer = function() {
       }
       break;
     case 10:
-      // Colourful pinwheel.j
+      // Colourful pinwheel.
       for (var count2 = 0; count2 < 36; count2++) {
         Turtle.penColour(colour_random());
         for (var count = 0; count < 4; count++) {
@@ -123,5 +123,28 @@ Turtle.answer = function() {
         Turtle.turnRight(10);
       }
       break;
+  }
+};
+
+/**
+ * Validate whether the user's answer is correct.
+ * @param {number} pixelErrors Number of pixels that are wrong.
+ * @return {boolean} True if the level is solved, false otherwise.
+ */
+Turtle.isCorrect = function(pixelErrors) {
+  console.log('Pixel errors: ' + pixelErrors);
+  switch (Turtle.level) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+      return pixelErrors < 100;
+    default:
+      return false;
   }
 };

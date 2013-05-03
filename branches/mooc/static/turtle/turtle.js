@@ -75,13 +75,6 @@ Turtle.init = function() {
   // (execute) and the infinite loop detection function.
   Blockly.JavaScript.addReservedWords('Turtle,code');
 
-  window.addEventListener('beforeunload', function(e) {
-    if (Blockly.mainWorkspace.getAllBlocks().length > 2) {
-      e.returnValue = MSG.unloadWarning;  // Gecko.
-      return MSG.unloadWarning;  // Webkit.
-    }
-    return null;
-  });
   var blocklyDiv = document.getElementById('blockly');
   var onresize = function(e) {
     blocklyDiv.style.width = (window.innerWidth - blocklyDiv.offsetLeft - 18) +
@@ -270,16 +263,6 @@ Turtle.execute = function() {
 };
 
 /**
- * Show the user's code in raw JavaScript.
- */
-Turtle.showCode = function() {
-  var code = Blockly.Generator.workspaceToCode('JavaScript');
-  // Strip out serial numbers.
-  code = code.replace(/(,\s*)?'\d+'\)/g, ')');
-  alert(code);
-};
-
-/**
  * Iterate through the recorded path and animate the turtle's actions.
  */
 Turtle.animate = function() {
@@ -290,6 +273,7 @@ Turtle.animate = function() {
   if (!tuple) {
     document.getElementById('spinner').style.visibility = 'hidden';
     Blockly.mainWorkspace.highlightBlock(null);
+    Turtle.checkAnswer();
     return;
   }
   var command = tuple.shift();
@@ -356,6 +340,31 @@ Turtle.step = function(command, values) {
       break;
   }
 };
+
+/**
+ * Verify if the answer is correct.
+ * If so, move on to next level.
+ */
+Turtle.checkAnswer = function() {
+  // Compare the Alpha (opacity) byte of each pixel in the user's image and
+  // the sample answer image.
+  var userImage =
+      Turtle.ctxScratch.getImageData(0, 0, Turtle.WIDTH, Turtle.HEIGHT);
+  var answerImage =
+      Turtle.ctxAnswer.getImageData(0, 0, Turtle.WIDTH, Turtle.HEIGHT);
+  var len = Math.min(userImage.data.length, answerImage.data.length);
+  var delta = 0;
+  // Pixels are in RGBA format.  Only check the Alpha bytes.
+  for(var i = 3; i < len; i += 4) {
+    if ((userImage.data[i] == 0) != (answerImage.data[i] == 0)) {
+      delta++;
+    }
+  }
+  if (Turtle.isCorrect(delta)) {
+    Blockly.Apps.congratulations(Turtle.level, Turtle.MAX_LEVEL, MSG);
+  }
+};
+
 
 // Turtle API.
 
