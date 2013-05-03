@@ -28,7 +28,7 @@
  */
 var Turtle = {};
 
-Turtle.MAX_LEVEL = 3;
+Turtle.MAX_LEVEL = 11;
 Turtle.level = window.location.search.match(/[?&]level=(\d+)/);
 Turtle.level = Turtle.level ? Turtle.level[1] : 1;
 Turtle.level = Math.min(Math.max(1, Turtle.level), Turtle.MAX_LEVEL);
@@ -38,7 +38,8 @@ document.write(turtlepage.start({}, null,
     level: Turtle.level,
     maxLevel: Turtle.MAX_LEVEL}));
 var maxBlocks = [undefined, // Level 0.
-    7, 3, Infinity][Turtle.level];
+    Infinity, Infinity, 7, Infinity, Infinity,
+    Infinity, Infinity, Infinity, Infinity, Infinity][Turtle.level];
 
 Turtle.HEIGHT = 400;
 Turtle.WIDTH = 400;
@@ -103,24 +104,15 @@ Turtle.init = function() {
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1));
   } else {
-    var xml;
-    if (Turtle.level <= 2) {
-      xml = '<xml>' +
-          '  <block type="draw_move_forward_100" x="70" y="70"></block>' +
-          '</xml>';
-    } else {
-      // Load the editor with starting blocks.
-      xml = '<xml>' +
-          '  <block type="draw_move" x="70" y="70">' +
-          '    <value name="VALUE">' +
-          '      <block type="math_number">' +
-          '        <title name="NUM">10</title>' +
-          '      </block>' +
-          '    </value>' +
-          '  </block>' +
-          '</xml>';
-    }
-    xml = Blockly.Xml.textToDom(xml);
+    var xml =
+        '  <block type="draw_move" x="70" y="70">' +
+        '    <value name="VALUE">' +
+        '      <block type="math_number">' +
+        '        <title name="NUM">100</title>' +
+        '      </block>' +
+        '    </value>' +
+        '  </block>';
+    xml = Blockly.Xml.textToDom('<xml>' + xml + '</xml>');
     Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
   }
 

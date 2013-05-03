@@ -102,18 +102,59 @@
 
 /**
  * Toolbox.
+ *
+ * Blocks are only added, never taken away.  Some levels don't add any blocks.
+ * Level 1 [line]: move forward
+ * Level 2 [square]: turn
+ * level 3 [square in three blocks]: repeat
+ * Level 4 [red square]: colour palette
+ * Level 5 [blue square]:
+ * level 6 [triangle]
+ * level 7 [arrow]
+ * Level 8 [house]
+ * Level 9 [pinwheel]
+ * Level 10 [color pinwheel]: random colour
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none">
-    {if $ij.level == 1}
-      <block type="draw_move_forward_100"></block>
-      <block type="draw_turn_right_90"></block>
-    {elseif $ij.level == 2}
-      <block type="draw_move_forward_100"></block>
-      <block type="draw_turn_right_90"></block>
-      <block type="controls_repeat">
-        <title name="TIMES">4</title>
+    {if $ij.level < $ij.maxLevel}
+      <block type="draw_move">
+        <value name="VALUE">
+          <block type="math_number">
+            <title name="NUM">100</title>
+          </block>
+        </value>
       </block>
+      {if $ij.level >= 2}
+        <block type="draw_turn">
+          <value name="VALUE">
+            <block type="math_number">
+              <title name="NUM">
+                90
+              </title>
+            </block>
+          </value>
+        </block>
+      {/if}
+      {if $ij.level >= 3}
+        <block type="controls_repeat">
+          <title name="TIMES">4</title>
+        </block>
+      {/if}
+      {if $ij.level >= 4}
+        <block type="draw_colour">
+          <value name="COLOUR">
+            <block type="colour_picker"></block>
+          </value>
+        </block>
+      {/if}
+      {if $ij.level >= 10}
+        <block type="draw_colour">
+          <value name="COLOUR">
+            <block type="colour_random"></block>
+          </value>
+        </block>
+      {/if}
     {else}
       <category name="{$ij.MSG.catTurtle}">
         <block type="draw_move">
