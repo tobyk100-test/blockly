@@ -19,7 +19,7 @@ It is possible that there are other types I have not yet categorized.
 
 = Examples =
 
-I have written descriptions for 43 messages.  See the 
+I have written descriptions for 43 messages.  See [https://code.google.com/p/blockly/source/browse/branches/i18n/language/en/messages.js].
 
 The general format is:
 {{{
