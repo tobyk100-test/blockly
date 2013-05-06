@@ -1,0 +1,17 @@
+#summary Brief explanations of Blockly's text blocks
+
+Examples of pieces of text are:
+  * "thing #1"
+  * "March 12, 2010"
+  * "" (the empty text)
+Text can contain letters (which may be lower-case or upper-case), numbers, punctuation marks, other symbols, and blank spaces between words.  
+
+Blockly provides the following blocks for operating on text:
+
+ * empty quotation marks that you can type text into.
+ * "create text with", which allows you to make one big piece of text out of multiple smaller pieces of text.  For example, a "create text with" block with the inputs "hello" and "world" would create "helloworld".  (By default, the block accepts two inputs, but you can add more by clicking on the plus sign.)
+ * "to ... append text", which accepts one text input, which is added to the text in the specified variable (by default "item").
+ * "length of", which has one text input, and provides the number of letters, numbers, symbols, etc., in that piece of text.  For example, the length of "hello" is 5, and the length of "thing #1" is 8.
+ * "... is empty", which provides the output "true" if the provided piece of text has length 0 and "false" if the length is greater than 0.  Neither "hello" nor "thing #1" is empty, but "" is.
+ 
+TO BE CONTINUED
