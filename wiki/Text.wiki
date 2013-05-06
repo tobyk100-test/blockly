@@ -1,17 +1,56 @@
 #summary Brief explanations of Blockly's text blocks
 
+=Introduction=
+
 Examples of pieces of text are:
   * "thing #1"
   * "March 12, 2010"
   * "" (the empty text)
-Text can contain letters (which may be lower-case or upper-case), numbers, punctuation marks, other symbols, and blank spaces between words.  
+Text can contain letters (which may be lower-case or upper-case), numbers, punctuation marks, other symbols, and blank spaces between words.  (The non-Blockly term for all of these different types of text is [http://en.wikipedia.org/wiki/Character_(computing) character].
 
-Blockly provides the following blocks for operating on text:
+=Blocks=
 
- * empty quotation marks that you can type text into.
- * "create text with", which allows you to make one big piece of text out of multiple smaller pieces of text.  For example, a "create text with" block with the inputs "hello" and "world" would create "helloworld".  (By default, the block accepts two inputs, but you can add more by clicking on the plus sign.)
- * "to ... append text", which accepts one text input, which is added to the text in the specified variable (by default "item").
- * "length of", which has one text input, and provides the number of letters, numbers, symbols, etc., in that piece of text.  For example, the length of "hello" is 5, and the length of "thing #1" is 8.
- * "... is empty", which provides the output "true" if the provided piece of text has length 0 and "false" if the length is greater than 0.  Neither "hello" nor "thing #1" is empty, but "" is.
- 
-TO BE CONTINUED
+==Text Creation==
+The following block creates the piece of text "hello" and stores it in the variable named `greeting`.
+
+http://blockly.googlecode.com/svn/wiki/text-text.png
+
+The *create text with* block combines (concatenates) the value of the `greeting` variable and the new text "world" to create the text "helloworld".  Note that there is no space between them, since none was in either original text.  
+
+http://blockly.googlecode.com/svn/wiki/text-create.png
+
+
+==Text Modification==
+
+The *to...append text* block adds the given text to the specified variable.  In this case, it changes the value of the variable `greeting` from "hello" to "hello, there!"
+
+http://blockly.googlecode.com/svn/wiki/text-append.png
+
+
+==Text length==
+
+The *length of* blocks count the number of letters, numbers, etc., in each text.  The length of "We're #1!" is 9, and the length of the empty text is 0.
+
+http://blockly.googlecode.com/svn/wiki/text-length1.png
+
+http://blockly.googlecode.com/svn/wiki/text-length2.png
+
+The *is empty* block checks whether the given text is empty (has length 0).  The result is *true* in the first case and *false* in the second.
+
+http://blockly.googlecode.com/svn/wiki/text-empty2.png
+
+http://blockly.googlecode.com/svn/wiki/text-empty1.png
+
+==Finding text==
+
+These blocks can be used to check whether a piece of text is in another piece of text and, if so, where it appears.  For example, this asks for the first occurrence of "e" in "hello".  The result is 2.
+
+http://blockly.googlecode.com/svn/wiki/text-find-first.png
+
+This asks for the _last_ occurrence of "e" in "hello", which, is also 2.
+
+http://blockly.googlecode.com/svn/wiki/text-find-last.png
+
+Whether *first* or *last* is selected, this block will give the result 0, since "hello" does not contain "z".
+
+http://blockly.googlecode.com/svn/wiki/text-find-first-last.png
