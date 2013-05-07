@@ -10,7 +10,7 @@ Text can contain letters (which may be lower-case or upper-case), numbers, punct
 
 =Blocks=
 
-==Text Creation==
+==Text creation==
 The following block creates the piece of text "hello" and stores it in the variable named `greeting`.
 
 http://blockly.googlecode.com/svn/wiki/text-text.png
@@ -20,7 +20,7 @@ The *create text with* block combines (concatenates) the value of the `greeting`
 http://blockly.googlecode.com/svn/wiki/text-create.png
 
 
-==Text Modification==
+==Text modification==
 
 The *to...append text* block adds the given text to the specified variable.  In this case, it changes the value of the variable `greeting` from "hello" to "hello, there!"
 
@@ -35,6 +35,7 @@ http://blockly.googlecode.com/svn/wiki/text-length1.png
 
 http://blockly.googlecode.com/svn/wiki/text-length2.png
 
+==Checking for empty text==
 The *is empty* block checks whether the given text is empty (has length 0).  The result is *true* in the first case and *false* in the second.
 
 http://blockly.googlecode.com/svn/wiki/text-empty2.png
