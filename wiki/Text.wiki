@@ -1,6 +1,6 @@
 #summary Brief explanations of Blockly's text blocks
 
-<wiki:toc max_depth="2" />
+<wiki:toc max_depth="3" />
 
 =Introduction=
 
@@ -122,3 +122,13 @@ The following block removes space characters from:
 The result of the following block is "hi   there".  (Spaces in the middle of the text are not affected.)
 
 http://blockly.googlecode.com/svn/wiki/text-trim-spaces.png
+
+==Getting text from the user==
+
+The following block creates a pop-up window that prompts the user to enter a name.  The result is stored in the variable *name*:
+
+http://blockly.googlecode.com/svn/wiki/text-prompt.png
+
+This is what the current version of the pop-up window looks like:
+
+http://blockly.googlecode.com/svn/wiki/text-prompt-popup.png
