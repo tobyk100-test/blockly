@@ -55,3 +55,27 @@ http://blockly.googlecode.com/svn/wiki/text-find-last.png
 Whether *first* or *last* is selected, this block will give the result 0, since "hello" does not contain "z".
 
 http://blockly.googlecode.com/svn/wiki/text-find-first-last.png
+
+== Extracting text==
+
+This gets "b", the second letter in "abcde":
+
+http://blockly.googlecode.com/svn/wiki/text-in-text-get1.png
+
+This gets "d", the second _to last_ letter in "abcde":
+
+http://blockly.googlecode.com/svn/wiki/text-in-text-get2.png
+
+This gets "a", the first letter in "abcde":
+
+http://blockly.googlecode.com/svn/wiki/text-in-text-get3.png
+
+This gets "e", the last letter in "abcde":
+
+http://blockly.googlecode.com/svn/wiki/text-in-text-get4.png
+
+This gets any of the 5 letters in "abcde" with equal probability:
+
+http://blockly.googlecode.com/svn/wiki/text-in-text-get5.png
+
+None of these modify the text on which the extraction is performed.
