@@ -41,6 +41,8 @@ svn ls https://blockly.googlecode.com/svn/trunk
 
 and type 'p' to accept Server certificate (p)ermanently to access the https resource.
 
+[http://code.google.com/p/blockly/wiki/Closure Install Closure library].
+
 === Update the code ===
 
 {{{
