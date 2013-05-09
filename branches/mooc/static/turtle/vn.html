@@ -52,9 +52,12 @@
       resetProgram: '\u00A0 Trở Về \u00A0',
       nextLevel: 'Chúc mừng!\n\nBạn đã sẵn sàng qua vòng %1?',
       finalLevel: 'Chúc mừng!\n\nBạn đã giải xong vòng cuối cùng.',
-      title: 'Đồ Họa Con Rùa',
-      // Level hints.
-      hints: ['level 0', // There is no level 0.
+      title: 'Đồ Họa Con Rùa %1',
+      // Level prompts[page][level].
+      prompts: [
+        [], // There is no page 0.
+        // Page 1.
+        ['level 0', // There is no level 0.
          'I\'m a turtle holding a pen in my tail. See what happens when I move forward 100 pixels.',
          'Make me turn in order to draw a square.',
          'Now make a square with the fewest possible blocks. \n' +
@@ -67,6 +70,11 @@
          'Let\'s draw a pinwheel in your favorite colour by drawing 36 squares, turning 10 degrees after each.',
          'The pinwheel will be even prettier if you set a random colour before each square.',
          'Draw anything you want. Some ideas are a stick figure, snowflake, or spiral. Have fun!'
+        ],
+        // Page 2.
+        ['level 0', // There is no level 0.
+         'Do you still remember how to make a square with the fewest possible blocks?'
+        ]
       ]
     };
     if ('BlocklyStorage' in window) {

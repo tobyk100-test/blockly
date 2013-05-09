@@ -28,19 +28,37 @@
  */
 var Turtle = {};
 
-Turtle.MAX_LEVEL = 11;
-Turtle.level = window.location.search.match(/[?&]level=(\d+)/);
-Turtle.level = Turtle.level ? Turtle.level[1] : 1;
-Turtle.level = Math.min(Math.max(1, Turtle.level), Turtle.MAX_LEVEL);
+/**
+ * Extracts a numeric parameter from the URL.
+ * If the parameter is absent or less than min_value, min_value is
+ * returned.  If it is greater than max_value, max_value is returned.
+ *
+ * @param {string} name the name of the parameter.
+ * @param {number} min_value the minimum legal value.
+ * @param {number} max_value the maximum legal value.
+ * @return {number} a number in the range [min_value, max_value]
+ */
+Turtle.getNumberFromUrl = function(name, min_value, max_value) {
+  var val = window.location.search.match(new RegExp('[?&]' + name + '=(\\d+)'));
+  val = val ? val[1] : min_value;
+  val = Math.min(Math.max(min_value, val), max_value);
+  return val;
+};
+
+Turtle.PAGE = Turtle.getNumberFromUrl('page', 1, 2);
+Turtle.MAX_LEVEL = MSG.prompts[Turtle.PAGE].length - 1;
+Turtle.LEVEL = Turtle.getNumberFromUrl('level', 1, Turtle.MAX_LEVEL);
 
 document.write(turtlepage.start({}, null,
     {MSG: MSG,
-    level: Turtle.level,
-    maxLevel: Turtle.MAX_LEVEL}));
-var maxBlocks = [undefined, // Level 0.
-    Infinity, Infinity, 7, Infinity, Infinity,
-    Infinity, Infinity, Infinity, Infinity, Infinity][Turtle.level];
-
+     title: MSG.title.replace('%1', Turtle.PAGE),
+     page: Turtle.PAGE,
+     level: Turtle.LEVEL,
+     maxLevel: Turtle.MAX_LEVEL}));
+var maxBlocks = [
+  undefined, // Level 0
+  Infinity, Infinity, 7, Infinity, Infinity,
+  Infinity, Infinity, Infinity, Infinity, Infinity][Turtle.LEVEL];
 Turtle.HEIGHT = 400;
 Turtle.WIDTH = 400;
 
@@ -290,7 +308,7 @@ Turtle.animate = function() {
 /**
  * Execute one step.
  * @param {string} command Logo-style command (e.g. 'FD' or 'RT').
- * @param {!Array} values List of arguments for the cammand.
+ * @param {!Array} values List of arguments for the command.
  */
 Turtle.step = function(command, values) {
   switch (command) {
@@ -361,7 +379,8 @@ Turtle.checkAnswer = function() {
     }
   }
   if (Turtle.isCorrect(delta)) {
-    Blockly.Apps.congratulations(Turtle.level, Turtle.MAX_LEVEL, MSG);
+    Blockly.Apps.congratulations(Turtle.PAGE, Turtle.LEVEL, Turtle.MAX_LEVEL,
+                                 MSG);
   }
 };
 

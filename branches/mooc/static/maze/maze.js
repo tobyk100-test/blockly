@@ -717,7 +717,7 @@ Maze.animate = function() {
 };
 
 Maze.congratulations = function() {
-  Blockly.Apps.congratulations(Maze.level, Maze.MAX_LEVEL, MSG);
+  Blockly.Apps.congratulations(null, Maze.level, Maze.MAX_LEVEL, MSG);
 };
 
 /**

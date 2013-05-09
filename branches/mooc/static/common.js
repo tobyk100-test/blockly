@@ -67,18 +67,23 @@ Blockly.Apps.updateCapacity = function(MSG) {
 /**
  * Congratulates the user for completing the level and offers to
  * direct them to the next level, if available.
+ * @param {?number} page The current page.
  * @param {number} level The current level.
  * @param {number} maxLevel The maxmium available level.
  * @param {!Object} MSG An object with appropriate text properties for
  *     MSG.nextLevel and MSG.finalLevel.
  */
-Blockly.Apps.congratulations = function(level, maxLevel, MSG) {
+Blockly.Apps.congratulations = function(page, level, maxLevel, MSG) {
   if (level < maxLevel) {
     var proceed = window.confirm(MSG.nextLevel.replace('%1', level + 1));
     if (proceed) {
-      window.location = window.location.protocol + '//' +
-          window.location.host + window.location.pathname +
-          '?level=' + (level + 1);
+      var url = window.location.protocol + '//' +
+          window.location.host + window.location.pathname + '?';
+      if (page) {
+        url += 'page=' + page + '&';
+      }
+      url += 'level=' + (level + 1);
+      window.location = url;
     }
   } else {
     window.alert(MSG.finalLevel);
