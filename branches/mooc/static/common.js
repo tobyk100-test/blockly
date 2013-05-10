@@ -24,6 +24,14 @@
 
 'use strict';
 
+/**
+ * The richness of block colours, regardless of the hue.
+ * MOOC blocks should be brighter (target audience is younger).
+ * Must be in the range of 0 (inclusive) to 1 (exclusive).
+ * Blockly's default is 0.45.
+ */
+Blockly.HSV_SATURATION = 0.6;
+
 Blockly.Apps = {};
 
 /**

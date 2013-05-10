@@ -115,6 +115,7 @@ Turtle.init = function() {
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1));
   } else {
+    // Load the editor with starting blocks.
     var xml =
         '  <block type="draw_move" x="70" y="70">' +
         '    <value name="VALUE">' +
@@ -169,8 +170,10 @@ Turtle.reset = function() {
   // Clear the display.
   Turtle.ctxScratch.canvas.width = Turtle.ctxScratch.canvas.width;
   Turtle.ctxScratch.strokeStyle = '#000000';
+  Turtle.ctxScratch.fillStyle = '#000000';
   Turtle.ctxScratch.lineWidth = 5;
   Turtle.ctxScratch.lineCap = 'round';
+  Turtle.ctxScratch.font = 'normal 18pt Arial';
   Turtle.display();
 
   // Kill any task.
@@ -338,6 +341,16 @@ Turtle.step = function(command, values) {
         Turtle.heading += 360;
       }
       break;
+    case 'DP':  // Draw Print
+      Turtle.ctxScratch.save();
+      Turtle.ctxScratch.translate(Turtle.x, Turtle.y);
+      Turtle.ctxScratch.rotate(2 * Math.PI * (Turtle.heading - 90) / 360);
+      Turtle.ctxScratch.fillText(values[0], 0, 0);
+      Turtle.ctxScratch.restore();
+      break;
+    case 'DF':  // Draw Font
+      Turtle.ctxScratch.font = values[2] + ' ' + values[1] + 'pt ' + values[0];
+      break;
     case 'PU':  // Pen Up
       Turtle.penDownValue = false;
       break;
@@ -347,8 +360,9 @@ Turtle.step = function(command, values) {
     case 'PW':  // Pen Width
       Turtle.ctxScratch.lineWidth = values[0];
       break;
-    case 'PC':  // Pen Color
+    case 'PC':  // Pen Colour
       Turtle.ctxScratch.strokeStyle = values[0];
+      Turtle.ctxScratch.fillStyle = values[0];
       break;
     case 'HT':  // Hide Turtle
       Turtle.visible = false;
@@ -425,4 +439,12 @@ Turtle.hideTurtle = function(id) {
 
 Turtle.showTurtle = function(id) {
   Blockly.Apps.log.push(['ST', id]);
+};
+
+Turtle.drawPrint = function(text, id) {
+  Blockly.Apps.log.push(['DP', text, id]);
+};
+
+Turtle.drawFont = function(font, size, style, id) {
+  Blockly.Apps.log.push(['DF', font, size, style, id]);
 };
