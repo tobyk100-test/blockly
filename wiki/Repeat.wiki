@@ -6,7 +6,7 @@ To access the *Repeat* Block, click *Control*.
 || *Option* || *Description* ||
 || *repeat while* || Keeps doing something as long as the condition exists.||
 || *repeat until* || Keeps doing something until the condition no longer exists.||
-|| *do* || Tells the program what to do during each iteration (round) of the loop. ||
+|| *do* || What should be done during each iteration (round) of the loop. ||
 
 
 *Tip*: To make useful sentences, combine the *If Then* block with these other blocks:
