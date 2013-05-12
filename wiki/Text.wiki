@@ -123,7 +123,15 @@ The result of the following block is "hi   there".  (Spaces in the middle of the
 
 http://blockly.googlecode.com/svn/wiki/text-trim-spaces.png
 
-==Getting text from the user==
+==Printing text==
+
+The *print* block causes the input value to be displayed in a pop-up window, as shown:
+
+http://blockly.googlecode.com/svn/wiki/text-print.png
+
+If the code is exported as Python or !JavaScript, it will be printed to the console (screen).  In no case is it sent to the printer, as the name might suggest.
+
+==Getting input from the user==
 
 The following block creates a pop-up window that prompts the user to enter a name.  The result is stored in the variable *name*:
 
@@ -132,3 +140,7 @@ http://blockly.googlecode.com/svn/wiki/text-prompt.png
 This is what the current version of the pop-up window looks like:
 
 http://blockly.googlecode.com/svn/wiki/text-prompt-popup.png
+
+There is also a version of the block for getting a number from the user:
+
+http://blockly.googlecode.com/svn/wiki/text-get-number.png
