@@ -8,7 +8,11 @@ Blockly is still in active development with changes landing every day.  We are a
 = Near-term goals =
 
  * Multi-block selection.
- * Trash can contents bubble.
+ * Enforcement of static type.
+ * Export program as a picture.
+ * Export Turtle result as a picture.
+ * Cursor control for accessibility.
+ * Program gallery to showcase work.
  * More blocks (e.g. 2D grids).
 
 = Medium-term goals =
@@ -25,13 +29,13 @@ Blockly is still in active development with changes landing every day.  We are a
  * Icons for context menu.
  * Per-block documentation.
  * Improved shadow on blocks.
+ * Trash can contents bubble.
 
 = Long-term goals =
 
  * Zoom.
  * Multiple workspaces.
  * Local variables.
- * Cursor control for accessibility.
  * Debugging hooks.
  * Search.
 
