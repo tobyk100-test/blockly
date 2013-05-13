@@ -30,6 +30,7 @@ Blockly is still in active development with changes landing every day.  We are a
  * Per-block documentation.
  * Improved shadow on blocks.
  * Trash can contents bubble.
+ * Cost reduction, e.g. delete things not accessed in over a year.
 
 = Long-term goals =
 
