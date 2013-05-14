@@ -39,7 +39,7 @@
         "1713718763430653774-Maze.toTheRight": "rechts von Packman",
         "1040240593669985332-Maze.behind": "hinter Packman",
         "3760279214088835030-Maze.repeatUntilFinished": "wiederhole bis zum Ziel",
-        "8778412585302442086-Maze.getX": "get X position"
+        "8778412585302442086-Maze.getX": "get X position",
         "5896611286146483382-Maze.getY": "get Y position",
         "5901977129646228588-Maze.getDirection": "get direction",
         "4473599517336461413-Maze.moveForwardToolTip": "Packman läuft 1 Feld vor.",
