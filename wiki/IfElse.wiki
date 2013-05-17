@@ -49,3 +49,20 @@ http://blockly.googlecode.com/svn/wiki/if-else-if-else.png
 The *else* section guarantees that some action is performed, even if none of the prior conditions are true.
 
 An *else* section may occur after any number of *else if* sections, including zero.
+
+= Block Modification=
+
+Only the plain *if* block appears on the toolbar:
+
+http://blockly.googlecode.com/svn/wiki/if.png
+
+To add *else if* and *else* clauses, the user needs to click on the plus sign, which opens a new window:
+
+http://blockly.googlecode.com/svn/wiki/if.png
+
+The user can then drag *else if* and *else* clauses into the *if* block, as well as reordering and removing them.  When finished, the user should click on the minus sign, which closes the window, as shown here:
+
+http://blockly.googlecode.com/svn/wiki/if-modify.gif
+
+Note that the shapes of the blocks allows any number of *else if* subblocks to be added but only up to one *else* block.
+
