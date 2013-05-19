@@ -18,10 +18,10 @@ Blockly.Language.text_length = {
   helpUrl: 'http://www.w3schools.com/jsref/jsref_length_string.asp',
   init: function() {
     this.setColour(160);
-    this.appendValueInput("VALUE")
-        .setCheck(String)
-        .appendTitle("length");
-    this.setOutput(true, Number);
+    this.appendValueInput('VALUE')
+        .setCheck('String')
+        .appendTitle('length');
+    this.setOutput(true, 'Number');
     this.setTooltip('Returns number of letters in the provided text.');
   }
 };
@@ -64,16 +64,16 @@ To find a good colour, visit this [http://www.rapidtables.com/web/color/color-pi
 === setOutput ===
 
 {{{
-    this.setOutput(true, Number);
+    this.setOutput(true, 'Number');
 }}}
 
 http://blockly.googlecode.com/svn/wiki/setOutput.png
 
 Value blocks (as opposed to statements) need an output tab.  Blocks with an output tab may not also have a previous statement notch.
 
-This function also defines the expected value type that this block will output.  A block that outputs a number will refuse to connect to a block that inputs a string (e.g. `length(123)` does not make sense).  Blockly uses `Boolean`, `Number`, `String`, and `Array` as constants for the built-in types.  If creating a new type, use a short descriptive string, such as `"Date"`.
+This function also defines the expected value type that this block will output.  A block that outputs a number will refuse to connect to a block that inputs a string (e.g. `length(123)` does not make sense).  Use a short descriptive string, such as `"Boolean"`, `"Number"`, `"String"`, or `"Array"`.
 
-In the event that the block could return more than one type of value, use an array of types (e.g. `[Number, "Date"]`).  If the block could return any type of value (such as a variable's getter block), use `null` as the value.
+In the event that the block could return more than one type of value, use an array of types (e.g. `["Number", "Date"]`).  If the block could return any type of value (such as a variable's getter block), use `null` as the value.
 
 === setPreviousStatement ===
 
@@ -107,7 +107,7 @@ Optionally (and not typically), this function can take a second argument to limi
         .appendTitle('item')
         .appendTitle(new Blockly.FieldVariable());
     this.appendValueInput('LIST')
-        .setCheck(Array)
+        .setCheck('Array')
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendTitle('in list');
     this.appendStatementInput('DO')
