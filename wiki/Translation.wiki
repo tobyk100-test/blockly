@@ -1,5 +1,5 @@
 #summary How to help by translating text into other languages.
-#labels Phase-Support
+#labels Phase-Support,Featured
 
 = Introduction =
 
