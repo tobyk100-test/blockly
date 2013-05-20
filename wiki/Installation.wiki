@@ -7,7 +7,7 @@ Blockly is designed to easily install into your web application.  Users drag blo
 
 Blockly is 100% client-side, requiring no support from the server (unless one wants to use the cloud-storage feature).  There are no 3rd party dependencies (unless one wants to recompile the core).  Everything is open source.
 
-If you do not need to modify the code, you can use our public server at http://blockly-demo.appspot.com.  Installation is only recommended for developers who wish to modify or add source code.  
+If you do not need to modify the code, you can use our public server at http://blockly-demo.appspot.com.  Installation is only recommended for developers who wish to modify or add source code.
 
 == Get the Code ==
 
@@ -26,6 +26,7 @@ With your installation of Blockly verified as working, inject Blockly into a web
 == Configuration ==
 
 The `Blockly.inject` line contains as its second argument a dictionary of name-value pairs.  These are used for configuration.  The following options are supported:
+|| `collapse:` || boolean || Allows blocks to be collapsed or expanded.  Defaults to `true` if the toolbox has categories, `false` otherwise. ||
 || `maxBlocks:` || number || Maximum number of blocks that may be created.  Useful for student exercises. Defaults to `Infinity`. ||
 || `path:` || string || Path from page (or frame) to the Blockly root directory. Defaults to `"./"`. ||
 || `readOnly:` || boolean || If `true`, prevent the user from editing.  Supresses the toolbox and trashcan.  Defaults to `false`. ||
