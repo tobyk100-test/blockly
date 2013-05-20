@@ -86,6 +86,9 @@ Turtle.init = function() {
        rtl: rtl,
        toolbox: toolbox,
        trashcan: true});
+  if (Turtle.LEVEL == 1) {
+    Blockly.SNAP_RADIUS *= 2;
+  }
 
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  Blockly.Apps.checkTimeout(%1);\n';
 
@@ -298,8 +301,7 @@ Turtle.animate = function() {
     return;
   }
   var command = tuple.shift();
-  var id = tuple.pop();
-  Blockly.mainWorkspace.highlightBlock(id);
+  Blockly.Apps.highlight(tuple.pop());
   Turtle.step(command, tuple);
   Turtle.display();
 
