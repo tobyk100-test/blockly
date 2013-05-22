@@ -25,9 +25,11 @@ The ability to specify colours with changing numbers allows some beautiful turtl
 
 == Blending colours ==
 
-Unlike traditional turtle graphics systems, Blockly provides a means for blending two colours, as though one were blending two different colours of paint.  The following block provides the colour that would be obtained by mixing one half gallon of red paint (actually, red light) with one full gallon of yellow paint:
+Unlike traditional turtle graphics systems, Blockly provides a means for blending two colours, as though one were blending two different colours of paint.  The following block provides the colour that would be obtained by mixing equal amounts of red paint (actually, [http://www.newton.dep.anl.gov/askasci/gen99/gen99557.htm red light]) and yellow paint:
 
 http://blockly.googlecode.com/svn/wiki/colour-blend.png
+
+If the ratio were 0, the result would have no red and all yellow.  If the ratio were 1, the result would be all red and no yellow.
 
 =Technical details=
 
