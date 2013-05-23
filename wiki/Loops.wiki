@@ -8,10 +8,6 @@ The *Control* category holds blocks that control whether other blocks placed in 
 
 = Blocks =
 
-== Conditionals ==
-
-Although a type of control statement, IfElse blocks are covered on their own page.
-
 == Repeat ==
 
 The "repeat" block runs the code in its body the specified number of times.  For example, the following block will print "Hello!" ten times.
@@ -32,6 +28,8 @@ Imagine a game in which a player rolls a die and adds up all of the values rolle
 https://blockly.googlecode.com/svn/wiki/control-repeat-while.png
 
 When the loop completes, any subsequent blocks (not shown) would be run.  In our example, the loop would end after some number of random numbers in the range 1 to 6 had been printed, and the variable *total* would hold the sum of these numbers, which would be guaranteed to be at least 30.
+
+For more information, see [http://en.wikipedia.org/wiki/While_loop].
 
 === Repeat-until ===
 
