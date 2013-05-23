@@ -10,7 +10,7 @@ The *Control* category holds blocks that control whether other blocks placed in 
 
 == Repeat ==
 
-The "repeat" block runs the code in its body the specified number of times.  For example, the following block will print "Hello!" ten times.
+The simplest "repeat" block runs the code in its body the specified number of times.  For example, the following block will print "Hello!" ten times.
 
 https://blockly.googlecode.com/svn/wiki/control-repeat.png
 
