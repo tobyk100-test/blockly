@@ -1,12 +1,12 @@
 #summary Documentation of control loop blocks for translators and users.
 
-<wiki:toc max_depth="2" />
+<wiki:toc max_depth="3" />
 
 = Introduction and Terminology =
 
-The *Control* category holds blocks that control whether other blocks placed in their *body* is run.  There are two types of control blocks: IfElse (described on their own page) and these, which control how many times the body is run and, in some cases, the value of a variable used within the body.  These structures are called *loops* since the body is repeated (possibly) multiple times, reminiscent of a rope containing loops.    Each pass through the loop is called an *iteration*.  (How about our using the term "pass"?)  For more information, see [http://en.wikipedia.org/wiki/Control_flow#Loops].
+The *Control* category holds blocks that control whether other blocks placed in their *body* are run.  (For example, in the below "repeat" block, the body contains the "print" block and its input.)  There are two types of control blocks: IfElse (described on their own page) and these, which control how many times the body is run and, in some cases, the value of a variable used within the body.  These structures are called *loops* since the body is repeated (possibly) multiple times, reminiscent of a rope containing loops.    Each pass through the loop is called an *iteration*.  (How about our using the term "pass"?)  For more information, see [http://en.wikipedia.org/wiki/Control_flow#Loops].
 
-= Blocks =
+= Blocks for Loop Creation =
 
 == Repeat ==
 
@@ -36,3 +36,15 @@ For more information, see [http://en.wikipedia.org/wiki/While_loop].
 Repeat-while loops repeat their bodies _while_ some condition is true.  Repeat-until loops are similar except that they repeat their bodies _until_ some condition is true.  The following blocks are equivalent to the previous example because the loop contains until *total* is greater than or equal to 30.
 
 https://blockly.googlecode.com/svn/wiki/control-repeat-until.png
+
+== count with ==
+
+The *count with* block (called a [http://en.wikipedia.org/wiki/For_loop for loop] in most programming languages) advances a variable by one from a low value to a high value, running the body once for each value.  For example, the following program prints the numbers from 1 to 10.
+
+https://blockly.googlecode.com/svn/wiki/control-count-with.png
+
+== for each=
+
+The *for each* block (see [http://en.wikipedia.org/wiki/Foreach]) is similar, except instead of giving the loop variable values in a numeric sequence, it uses the values from a list in turn.  The following program prints each element of the list: "alpha", "beta", "gamma".
+
+https://blockly.googlecode.com/svn/wiki/control-for-each.png
