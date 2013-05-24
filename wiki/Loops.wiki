@@ -61,8 +61,8 @@ The following program prints "alpha" on the first iteration of the loop.  On the
 
 https://blockly.googlecode.com/svn/wiki/control-for-each-continue.png
 
-== break ==
+== break out of loop ==
 
-The *break* block provides [http://en.wikipedia.org/wiki/Control_flow#Early_exit_from_loops an early exit from a loop].  The following program prints "alpha" on the first iteration and "breaks out" of the loop on the second iteration when the loop variable is equal to "beta".  The third item in the list is never reached.
+The *break out of loop* block provides [http://en.wikipedia.org/wiki/Control_flow#Early_exit_from_loops an early exit from a loop].  The following program prints "alpha" on the first iteration and "breaks out" of the loop on the second iteration when the loop variable is equal to "beta".  The third item in the list is never reached.
 
 https://blockly.googlecode.com/svn/wiki/control-for-each-break.png
