@@ -14,7 +14,7 @@ The simplest "repeat" block runs the code in its body the specified number of ti
 
 https://blockly.googlecode.com/svn/wiki/control-repeat.png
 
-=== Repeat while ===
+=== repeat while ===
 
 Imagine a game in which a player rolls a die and adds up all of the values rolled as long as the total is less than 30.  The following blocks implement that game:
 
@@ -31,7 +31,7 @@ When the loop completes, any subsequent blocks (not shown) would be run.  In our
 
 For more information, see [http://en.wikipedia.org/wiki/While_loop].
 
-=== Repeat until ===
+=== repeat until ===
 
 "Repeat while" loops repeat their bodies _while_ some condition is true.  Repeat-until loops are similar except that they repeat their bodies _until_ some condition is true.  The following blocks are equivalent to the previous example because the loop contains until *total* is greater than or equal to 30.
 
