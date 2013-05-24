@@ -1,0 +1,41 @@
+#summary Description of Blockly "list" blocks for translators and users
+
+<wiki:toc max_depth="3" />
+
+= Introduction =
+
+As in everyday speech, a Blockly list is an ordered collection of items, such as a "to do" list or a shopping list.  Items in a list may be of any type, and the same value may appear more than once in a list.
+
+= List creation =
+
+== create empty list ==
+
+The simplest list is the empty list, which is created with the *create empty list* block:
+
+https://blockly.googlecode.com/svn/wiki/list-create-empty-list.png
+
+== create list with ==
+
+The *create list with* block allows the user to specify the initial values in a new list.  In this example, a list of words is being created and placed in a variable named *letters*:
+
+https://blockly.googlecode.com/svn/wiki/list-create-list-with-text.png
+
+(The variables defined in this section will be used in examples below.)  This shows the creation of a list of numbers:
+
+https://blockly.googlecode.com/svn/wiki/list-create-list-with-numbers.png
+
+This creates a list of colours:
+
+https://blockly.googlecode.com/svn/wiki/list-create-list-with-colours.png
+
+It is less common, but possible, to create a list with values of different types:
+
+https://blockly.googlecode.com/svn/wiki/list-create-list-with-mixture.png
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
