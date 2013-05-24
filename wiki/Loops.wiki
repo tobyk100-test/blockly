@@ -8,7 +8,7 @@ The *Control* category holds blocks that control whether other blocks placed in 
 
 = Blocks for Loop Creation =
 
-== Repeat ==
+== repeat ==
 
 The simplest "repeat" block runs the code in its body the specified number of times.  For example, the following block will print "Hello!" ten times.
 
