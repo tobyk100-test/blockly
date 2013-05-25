@@ -20,7 +20,9 @@ The *create list with* block allows the user to specify the initial values in a 
 
 https://blockly.googlecode.com/svn/wiki/list-create-list-with-text.png
 
-(The variables defined in this section will be used in examples below.)  This shows the creation of a list of numbers:
+For this document, we'll denote this list as ["alpha", "beta", "gamma"], and we will refer below to the variables defined in this section.
+
+This shows the creation of a list of numbers:
 
 https://blockly.googlecode.com/svn/wiki/list-create-list-with-numbers.png
 
@@ -32,10 +34,8 @@ It is less common, but possible, to create a list with values of different types
 
 https://blockly.googlecode.com/svn/wiki/list-create-list-with-mixture.png
 
+== create list with item ==
 
-= Details =
+The *create list with item* block lets you create a list that has the specified number of copies of an item.  For example, the following blocks set the variable *words* to the list containing ["very", "very", "very"].
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+https://blockly.googlecode.com/svn/wiki/list-create-list-with-item.png
