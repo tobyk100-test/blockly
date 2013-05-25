@@ -39,3 +39,67 @@ https://blockly.googlecode.com/svn/wiki/list-create-list-with-mixture.png
 The *create list with item* block lets you create a list that has the specified number of copies of an item.  For example, the following blocks set the variable *words* to the list containing ["very", "very", "very"].
 
 https://blockly.googlecode.com/svn/wiki/list-create-list-with-item.png
+
+= Checking a List's Length =
+
+== is empty ==
+
+The value of an *is empty* block is *true* if its input is the empty list and *false* if it is anything else (including a non-list).  IS THIS TRUE?  The value of the following blocks would be *false* because the variable *colours* is not empty: it has three items.
+
+https://blockly.googlecode.com/svn/wiki/list-empty.png
+
+Note the similarity to the [https://code.google.com/p/blockly/wiki/Text#Checking_for_empty_text "is empty" block for text].
+
+== length of ==
+
+The value of the *length of* block is the number of elements in the list used as an input.  For example, the value of the following blocks would be 3 because colour has three items.
+
+https://blockly.googlecode.com/svn/wiki/list-length.png
+
+Note that the *length of* block tells you how many items are in the list, not how many _different_ items are in it.  For example, the following has the value 3, even though *words* consists of three copies of the same text (["very", "very", "very"]).
+
+https://blockly.googlecode.com/svn/wiki/list-length2.png
+
+Note the similarity to the [https://code.google.com/p/blockly/wiki/Text#Text_length "length of" block for text].
+
+= Finding Items in a List =
+
+These blocks find the position of an item in a list.  For example, the following has a value of 1 because the first appearance of "very" is as the beginning of the *words* list (["very", "very", "very"]).
+
+https://blockly.googlecode.com/svn/wiki/list-find-first1.png
+
+The result of the following is 3 because the last appearance of "very" in *words* is in position 3.
+
+https://blockly.googlecode.com/svn/wiki/list-find-last.png
+
+If the item is nowhere in the list, the result is in the value 0, as in this example:
+
+https://blockly.googlecode.com/svn/wiki/list-find-first2.png
+
+These blocks are analogous to [https://code.google.com/p/blockly/wiki/Text#Finding_text the ones for finding letters in text].
+
+= Getting Items from a List =
+
+Recall the definition of the list *colours*:
+
+https://blockly.googlecode.com/svn/wiki/list-create-list-with-colours.png
+
+The following block gets the color <font color="blue">blue</font> because it is the second element in the list (counting from the beginning on the left):
+
+https://blockly.googlecode.com/svn/wiki/list-in-list-get1.png
+
+This gets <font color="green">green</font> because it is the first element counting from the end (right):
+
+https://blockly.googlecode.com/svn/wiki/list-in-list-get2.png
+
+This gets the first element, <font color="red">red</font>:
+
+https://blockly.googlecode.com/svn/wiki/list-in-list-get3.png
+
+This gets the last element, <font color="green">green</font>:
+
+https://blockly.googlecode.com/svn/wiki/list-in-list-get4.png
+
+This randomly selects an item from the list, returning any of <font color="red">red</font>, <font color="blue">blue</font>, or <font color="green">green</font> with equal likelihood.
+
+https://blockly.googlecode.com/svn/wiki/list-in-list-get5.png
