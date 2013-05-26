@@ -121,7 +121,21 @@ https://blockly.googlecode.com/svn/wiki/list-in-list-get5.png
 
 === Getting and removing an item ===
 
+A dropdown menu on the *in list ... get* block changes it to *in list ... get and remove*, which provides the same otuput but also modifies the original list:
 
+https://blockly.googlecode.com/svn/wiki/list-in-list-get-options.png
+
+This example sets the variable *first letter* to "alpha" and leaves *letters* as: ["beta", "gamma"].
+
+https://blockly.googlecode.com/svn/wiki/list-in-list-get-and-remove.png
+
+=== Removing an item ===
+
+Selecting "remove" on the dropdown causes the plug on the left of the block to disappear:
+
+https://blockly.googlecode.com/svn/wiki/list-in-list-remove.png
+
+This removes the first item from *letters*.
 
 == Getting a sublist ==
 
