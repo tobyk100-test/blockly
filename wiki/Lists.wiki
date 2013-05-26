@@ -6,7 +6,7 @@
 
 As in everyday speech, a Blockly list is an ordered collection of items, such as a "to do" list or a shopping list.  Items in a list may be of any type, and the same value may appear more than once in a list.
 
-= List creation =
+= List Creation =
 
 == create empty list ==
 
@@ -16,6 +16,7 @@ https://blockly.googlecode.com/svn/wiki/list-create-empty-list.png
 
 == create list with ==
 
+=== basic usage ===
 The *create list with* block allows the user to specify the initial values in a new list.  In this example, a list of words is being created and placed in a variable named *letters*:
 
 https://blockly.googlecode.com/svn/wiki/list-create-list-with-text.png
@@ -33,6 +34,19 @@ https://blockly.googlecode.com/svn/wiki/list-create-list-with-colours.png
 It is less common, but possible, to create a list with values of different types:
 
 https://blockly.googlecode.com/svn/wiki/list-create-list-with-mixture.png
+
+=== changing number of inputs ===
+
+To change the number of inputs, click on the plus ("+") icon.  This opens a new window:
+
+https://blockly.googlecode.com/svn/wiki/list-create-list-modify-tooltip.png
+
+You can then drag *item* sublocks from the left side of the window into the *if* block on the right side to add a new input, as shown:
+
+https://blockly.googlecode.com/svn/wiki/list-create-list-modify.gif
+
+While the new item was added at the bottom in this example, it can be added anywhere.  Similarly, unwanted *item* subblocks can be dragged off the *if* block to the left.
+
 
 == create list with item ==
 
