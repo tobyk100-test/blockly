@@ -180,3 +180,23 @@ It inserts a new item into the list at the specified location, before the item p
  # The word "you're" is inserted at the beginning of the list.  The final value of *words* is ["You're", "very", "very", "good"].
 
 https://blockly.googlecode.com/svn/wiki/list-insert-at-example.png
+
+=Related Blocks=
+
+== Printing a list ==
+
+The [Text#Printing_text print block] in the Text category can print lists.  The result of the following program is the shown alert box:
+
+https://blockly.googlecode.com/svn/wiki/list-print.png
+
+https://blockly.googlecode.com/svn/wiki/list-print-popup.png
+
+== Doing something for each item in a list ==
+
+The [Loops#for_each for-each block] in the Control category performs an operation on every item in a list.  For example, these blocks individually print each item in the list:
+
+https://blockly.googlecode.com/svn/wiki/control-for-each.png
+
+This does not remove the items from the original list.
+
+See also the examples of the [Loops#Loop_Termination_Blocks loop termination blocks].
