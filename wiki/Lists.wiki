@@ -116,3 +116,19 @@ https://blockly.googlecode.com/svn/wiki/list-in-list-get4.png
 This randomly selects an item from the list, returning any of <font color="red">red</font>, <font color="blue">blue</font>, <font color="green">green</font>, or <font color="orange">yellow</font> with equal likelihood.
 
 https://blockly.googlecode.com/svn/wiki/list-in-list-get5.png
+
+= Replacing Items in a List =
+
+== in list ... set ===
+
+The *in list ... set* block replaces the item at a specified location in a list with a different item.
+
+https://blockly.googlecode.com/svn/wiki/list-set.png
+
+For the meaning of each of the dropdown options, see the [Lists#Getting_Items_from_a_List previous section].
+
+The following example does two things:
+ # The list *words* is created with 3 items: ["very", "very", "very"].
+ # The third item in the list is replaced by "good".  The new value of *words* is ["very", "very", "good"].
+
+https://blockly.googlecode.com/svn/wiki/list-set-example.png
