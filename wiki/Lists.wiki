@@ -117,9 +117,9 @@ This randomly selects an item from the list, returning any of <font color="red">
 
 https://blockly.googlecode.com/svn/wiki/list-in-list-get5.png
 
-= Replacing Items in a List =
+= Modifying a List =
 
-== in list ... set ===
+== in list ... set ==
 
 The *in list ... set* block replaces the item at a specified location in a list with a different item.
 
@@ -132,3 +132,17 @@ The following example does two things:
  # The third item in the list is replaced by "good".  The new value of *words* is ["very", "very", "good"].
 
 https://blockly.googlecode.com/svn/wiki/list-set-example.png
+
+== in list ... insert at ==
+
+The *in list ... insert at* block is obtained by using the dropdown menu on the *in list ... set* block:
+
+https://blockly.googlecode.com/svn/wiki/list-insert-at.png
+
+It inserts a new item into the list at the specified location, before the item previously at that location.  The following example (built on an earlier one) does three things:
+
+ # The list *words* is created with 3 items: ["very", "very", "very"].
+ # The third item in the list is replaced by "good".  The new value of *words* is ["very", "very", "good"].
+ # The word "you're" is inserted at the beginning of the list.  The final value of *words* is ["You're", "very", "very", "good"].
+
+https://blockly.googlecode.com/svn/wiki/list-insert-at-example.png
