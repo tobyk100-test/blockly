@@ -102,18 +102,17 @@ The following block gets the color <font color="blue">blue</font> because it is 
 
 https://blockly.googlecode.com/svn/wiki/list-in-list-get1.png
 
-This gets <font color="green">green</font> because it is the first element counting from the end (right):
-
+This gets <font color="green">green</font> because it is the second element counting from the right end:
 https://blockly.googlecode.com/svn/wiki/list-in-list-get2.png
 
 This gets the first element, <font color="red">red</font>:
 
 https://blockly.googlecode.com/svn/wiki/list-in-list-get3.png
 
-This gets the last element, <font color="green">green</font>:
+This gets the last element, <font color="orange">yellow</font>:
 
 https://blockly.googlecode.com/svn/wiki/list-in-list-get4.png
 
-This randomly selects an item from the list, returning any of <font color="red">red</font>, <font color="blue">blue</font>, or <font color="green">green</font> with equal likelihood.
+This randomly selects an item from the list, returning any of <font color="red">red</font>, <font color="blue">blue</font>, <font color="green">green</font>, or <font color="orange">yellow</font> with equal likelihood.
 
 https://blockly.googlecode.com/svn/wiki/list-in-list-get5.png
