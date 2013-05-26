@@ -94,6 +94,8 @@ These blocks are analogous to [https://code.google.com/p/blockly/wiki/Text#Findi
 
 = Getting Items from a List =
 
+== Getting a single item ==
+
 Recall the definition of the list *colours*:
 
 https://blockly.googlecode.com/svn/wiki/list-create-list-with-colours.png
@@ -117,7 +119,25 @@ This randomly selects an item from the list, returning any of <font color="red">
 
 https://blockly.googlecode.com/svn/wiki/list-in-list-get5.png
 
-= Modifying a List =
+=== Getting and removing an item ===
+
+
+
+== Getting a sublist ==
+
+The *in list ... get sublist* block is similar to the *in list ... get* block except that it extracts a sublist, rather than an individual item.  There are several options for how the start and end of the sublist can be specified:
+
+https://blockly.googlecode.com/svn/wiki/list-sub-list1.png
+
+https://blockly.googlecode.com/svn/wiki/list-sub-list2.png
+
+In this example, a new list *first letters* is created.  This new list has two elements: ["alpha", "beta"].
+
+https://blockly.googlecode.com/svn/wiki/list-sub-list-example.png
+
+Note that this block does not modify the original list.
+
+= Adding Items to a List =
 
 == in list ... set ==
 
