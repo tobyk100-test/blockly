@@ -1,0 +1,102 @@
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MOOC: Turtle Graphics</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="text/javascript" src="/storage.js"></script>
+  <script type="text/javascript" src="../_soy/soyutils.js"></script>
+  <script type="text/javascript" src="template.js"></script>
+  <script>
+    var MSG = {
+      // Block text.
+      moveForward: 'move forward by',
+      moveBackward: 'move backward by',
+      turnRight: 'turn right by',
+      turnLeft: 'turn left by',
+      setWidth: 'set width',
+      setColour: 'set colour',
+      penUp: 'pen up',
+      penDown: 'pen down',
+      hideTurtle: 'hide turtle',
+      showTurtle: 'show turtle',
+      print: 'print',
+      font: 'font',
+      fontSize: 'size',
+      fontNormal: 'normal',
+      fontBold: 'bold',
+      fontItalic: 'italic',
+      // Tooltips for general blocks.
+      moveTooltip: 'Moves the turtle forward or backward\n' +
+          'by the specified amount.',
+      turnTooltip: 'Turns the turtle left or right\n' +
+          'by the specified number of degrees.',
+      widthTooltip: 'Changes the width of the pen.',
+      penTooltip: 'Lifts or lowers the pen,\n' +
+          'to start or stop drawing.',
+      colourTooltip: 'Changes the colour of the pen.',
+      turtleVisibilityTooltip: 'Makes the turtle (green circle and arrow) visible or invisible.',
+      printTooltip: 'Draws text in the turtle\'s direction at its location.',
+      fontTooltip: 'Sets the font used by the print block.',
+      codeTooltip: 'See generated JavaScript code.',
+      linkTooltip: 'Save and link to blocks.',
+      // HelpUrl links.
+      printHelpUrl: 'http://en.wikipedia.org/wiki/Printing',
+      fontHelpUrl: 'http://en.wikipedia.org/wiki/Font',
+      // Toolbox categories.
+      catTurtle: 'Turtle',
+      catControl: 'Control',
+      catLogic: 'Logic',
+      catMath: 'Math',
+      catLists: 'Lists',
+      catColour: 'Colour',
+      catVariables: 'Variables',
+      catProcedures: 'Procedures',
+      // Misc text.
+      level: 'Level',
+      capacity0: 'You have <span id="capacityNumber">0</span> blocks left.',
+      capacity1: 'You have <span id="capacityNumber">1</span> block left.',
+      capacity2: 'You have <span id="capacityNumber">%1</span> blocks left.',
+      runProgram: 'Run Program',
+      resetProgram: '\u00A0 \u00A0 Reset \u00A0 \u00A0',
+      nextLevel: 'Congratulations!\nAre you ready to proceed to level %1?',
+      finalLevel: 'Congratulations!\nYou have solved the final level.',
+      title: 'Turtle Graphics %1',
+      // Level prompts[page][level].
+      prompts: [
+        [], // There is no page 0.
+        // Page 1.
+        ['level 0', // There is no level 0.
+         'I\'m a turtle holding a pen in my tail. See what happens when I move forward 100 pixels.',
+         'Make me turn in order to draw a square.',
+         'Now make a square with the fewest possible blocks. \n' +
+           'NOTE: Instead of not allowing additional blocks, give feedback on if they can use fewer.',
+         'I carry different colours of ink.  Draw a red square.',
+         'Now draw a dark blue square.',
+         'Draw a triangle whose sides are all 100 pixels.  You\'ll have to figure out how far to turn.',
+         'Draw an arrow.',
+         'I\'d like a house (besides my shell).  Draw one whose sides are 75 pixels.',
+         'Let\'s draw a pinwheel in your favorite colour by drawing 36 squares, turning 10 degrees after each.',
+         'The pinwheel will be even prettier if you set a random colour before each square.',
+         'Draw anything you want. Some ideas are a stick figure, snowflake, or spiral. Have fun!'
+        ],
+        // Page 2.
+        ['level 0', // There is no level 0.
+         'Do you still remember how to make a square with the fewest possible blocks?'
+        ]
+      ]
+    };
+    if ('BlocklyStorage' in window) {
+      BlocklyStorage.HTTPREQUEST_ERROR = 'There was a problem with the request.\n';
+      BlocklyStorage.LINK_ALERT = 'Share your blocks with this link:\n\n';
+      BlocklyStorage.HASH_ERROR =
+          'Sorry, "%1" doesn\'t correspond with any saved Blockly file.';
+      BlocklyStorage.XML_ERROR = 'Could not load your saved file.\n'+
+          'Perhaps it was created with a different version of Blockly?\nXML: ';
+    }
+    var languageSrc = ['en_compressed.js'];
+  </script>
+</head>
+<body>
+  <script type="text/javascript" src="turtle.js"></script>
+</body>
+</html>
