@@ -37,7 +37,7 @@ Add the structure of the toolbox (see [Toolbox Defining the Toolbox] for more in
 {{{
   <xml id="toolbox" style="display: none">
     <block type="controls_if"></block>
-    <block type="controls_repeat"></block>
+    <block type="controls_repeat_ext"></block>
     <block type="logic_compare"></block>
     <block type="math_number"></block>
     <block type="math_arithmetic"></block>
