@@ -1,0 +1,46 @@
+#summary People who contributed to Blockly.
+
+IN PROGRESS
+
+= Translators =
+
+== Afrikaans (af) ==
+ * [https://translatewiki.net/wiki/User:Naudefj Naudefj]
+
+== Czech (cs) ==
+ * [https://translatewiki.net/wiki/User:Mormegil Mormegil]
+ * [https://translatewiki.net/wiki/User:Reaperman Reaperman]
+
+== Galician (gl) ==
+ * [https://translatewiki.net/wiki/User:Toli%C3%B1o Toliño]
+
+== German (de) ==
+ * [https://translatewiki.net/wiki/User:Metalhead64 Metalhead64]
+
+== Greek (el) ==
+
+ * Alexandros Zountas
+
+==  Hakka (hak) ==
+ *  [https://translatewiki.net/wiki/User:Anson2812 Anson2812]
+ *  [https://translatewiki.net/wiki/User:Jetlag Jetlag]
+
+== Hebrew (he) ==
+ *  [https://translatewiki.net/wiki/User:Inkbug]
+
+== Hungarian (hu) ==
+ * [https://translatewiki.net/wiki/User:Grin Grin]
+
+== Interlingua (ia) ==
+ * [https://translatewiki.net/wiki/User:McDutchie McDutchie]
+
+== Italian (it) ==
+ * [https://translatewiki.net/wiki/User:Beta16 Beta16]
+
+== Japanese (ja) ==
+ * [https://translatewiki.net/wiki/User:Shirayuki Shirayuki (しらゆき)]
+
+== Korean (ko) ==
+ * [https://translatewiki.net/wiki/User:%EC%95%84%EB%9D%BC 아라 (Ara)]
+== Spanish (es) ==
+ * [https://translatewiki.net/wiki/User:Fortega Fortega]
