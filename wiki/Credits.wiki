@@ -2,6 +2,13 @@
 
 IN PROGRESS
 
+= Engineers =
+ * Neil Fraser
+ * Quynh Neutron
+ * Chris Pirich
+ * Ellen Spertus
+ * Phil Wagner
+
 = Translators =
 
 == Afrikaans (af) ==
@@ -10,6 +17,9 @@ IN PROGRESS
 == Czech (cs) ==
  * [https://translatewiki.net/wiki/User:Mormegil Mormegil]
  * [https://translatewiki.net/wiki/User:Reaperman Reaperman]
+
+== Dutch/Flemish (nl) ==
+ * [http://translatewiki.net/wiki/User:Siebrand Siebrand Mazeland]
 
 == Galician (gl) ==
  * [https://translatewiki.net/wiki/User:Toli%C3%B1o Toliño]
@@ -42,5 +52,32 @@ IN PROGRESS
 
 == Korean (ko) ==
  * [https://translatewiki.net/wiki/User:%EC%95%84%EB%9D%BC 아라 (Ara)]
+
+== Latin (la) ==
+ * [http://translatewiki.net/wiki/User:Autokrator Autokrator]
+
+== Latvian (lv) ==
+ * [http://translatewiki.net/wiki/User:Elomage Leo Selavo]
+
+== Luxembourgish (lb) ==
+ * [http://translatewiki.net/wiki/User:Robby Robby]
+
+== Macedonian (mk) ==
+ * [http://translatewiki.net/wiki/User:Bjankuloski06 B. Jankuloski]
+
+== Polish (pl) ==
+ * [http://translatewiki.net/wiki/User:Rezonansowy Rezonansowy]
+
+== Portuguese (pt-br) ==
+ * [http://translatewiki.net/wiki/User:Luckas Luckas]
+ * [http://translatewiki.net/wiki/User:TheGabrielZaum TheGabrielZaum]
+
+== Russian (ru) ==
+ * [http://translatewiki.net/wiki/User:Eleferen Eleferen]
+ * [http://translatewiki.net/wiki/User:Kaganer Paul Kaganer]
+
 == Spanish (es) ==
  * [https://translatewiki.net/wiki/User:Fortega Fortega]
+
+== Swahili (sw) ==
+ * Caroline Chumo
