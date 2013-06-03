@@ -36,7 +36,7 @@ IN PROGRESS
  *  [https://translatewiki.net/wiki/User:Jetlag Jetlag]
 
 == Hebrew (he) ==
- *  [https://translatewiki.net/wiki/User:Inkbug]
+ *  [https://translatewiki.net/wiki/User:Inkbug Inkbug]
 
 == Hungarian (hu) ==
  * [https://translatewiki.net/wiki/User:Grin Grin]
