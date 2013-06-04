@@ -1,5 +1,5 @@
 body {
-  background-color: white;
+  background-color: #F2F2F2;
   font-family: sans-serif;
 }
 h1 {
@@ -11,15 +11,19 @@ a:hover {
   color: #f00;
 }
 .tab {
-  padding: 4px 10px 1px;
+  font-weight: bold;
+  padding: 11px 18px;
   text-decoration: none;
   color: #000;
 }
+.previous {
+  color: #0DA38A;
+}
 #selected {
-  font-weight: bold;
-  background-color: #eee;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  color: white;
+  border-radius: 24px;
+  border: 0;
+  background: #0DA38A;
 }
 #hintBubble {
   position: absolute;

@@ -10,21 +10,25 @@
  */
 {template .start}
   <table width="100%" height="100%">
+    <tr height="88">
+      <td colspan=2>
+        <h1>{$ij.MSG.title} &nbsp;
+          {for $i in range(1, 11)}
+            {if $i == $ij.level}
+              <span class="tab" id="selected">{$i}</span>
+            {else}
+              {if $i < $ij.level}
+                <a class="tab previous" href="?level={$i}">{$i}</a>
+              {else}
+                <a class="tab" href="?level={$i}">{$i}</a>
+              {/if}
+            {/if}
+          {/for}
+          </h1>
+      </td>
+    </tr>
     <tr>
       <td width="410" valign="top">
-        <h1><a href="../">MOOC</a> &gt;{sp}
-          {$ij.MSG.title}</h1>
-
-        <div>{$ij.MSG.level}: &nbsp;
-        {for $i in range(1, 11)}
-          {if $i == $ij.level}
-            <span class="tab" id="selected">{$i}</span>
-          {else}
-            <a class="tab" href="?level={$i}">{$i}</a>
-          {/if}
-        {/for}
-        </div>
-
         <div style="position: relative">
           <div id="hintBubble">
             <div id="hint">{$ij.MSG.hints[$ij.level]}</div>
