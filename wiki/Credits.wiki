@@ -20,9 +20,11 @@ Siebrand Mazeland helped immensely by setting us up at http://translatewiki.net,
  * xabierg@gmail.com
 
 == Catalan (ca) ==
-
  * Toni Hortal
  * Václav Novotný
+
+== Chinese (zh) ==
+ * [http://www.cs.cmu.edu/~nli1/ Nan Li]
 
 == Czech (cs) ==
  * [https://translatewiki.net/wiki/User:Mormegil Mormegil]
