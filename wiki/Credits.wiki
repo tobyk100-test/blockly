@@ -11,6 +11,8 @@ IN PROGRESS
 
 = Translators =
 
+Siebrand Mazeland helped immensely by setting us up at http://translatewiki.net, which we have been using.
+
 == Afrikaans (af) ==
  * [https://translatewiki.net/wiki/User:Naudefj Naudefj]
 
@@ -81,3 +83,13 @@ IN PROGRESS
 
 == Swahili (sw) ==
  * Caroline Chumo
+
+== Turkish (tr) ==
+
+ * [https://translatewiki.net/wiki/User:Bahadir Bahadir]
+ * [https://translatewiki.net/wiki/User:Emperyan Emperyan]
+
+== Vietnamese ==
+ * [https://translatewiki.net/wiki/User:Qneutron Quynh Neutron]
+ * [https://translatewiki.net/wiki/User:Tuankiet65 Tuankiet65]
+
