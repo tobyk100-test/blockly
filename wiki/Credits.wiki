@@ -16,12 +16,27 @@ Siebrand Mazeland helped immensely by setting us up at http://translatewiki.net,
 == Afrikaans (af) ==
  * [https://translatewiki.net/wiki/User:Naudefj Naudefj]
 
+== Basque (eu) ==
+ * xabierg@gmail.com
+
+== Catalan (ca) ==
+
+ * Toni Hortal
+ * Václav Novotný
+
 == Czech (cs) ==
  * [https://translatewiki.net/wiki/User:Mormegil Mormegil]
  * [https://translatewiki.net/wiki/User:Reaperman Reaperman]
 
+== Danish ==
+ * Peter Frøkjær Strand
+
 == Dutch/Flemish (nl) ==
  * [http://translatewiki.net/wiki/User:Siebrand Siebrand Mazeland]
+ * Johan Coppieters (johan.coppieters@howest.be)
+
+== French (fr) ==
+ * Thierry Grandpierre
 
 == Galician (gl) ==
  * [https://translatewiki.net/wiki/User:Toli%C3%B1o Toliño]
@@ -42,12 +57,14 @@ Siebrand Mazeland helped immensely by setting us up at http://translatewiki.net,
 
 == Hungarian (hu) ==
  * [https://translatewiki.net/wiki/User:Grin Grin]
+ * Takács Viktor László (tviktor75@gmail.com)
 
 == Interlingua (ia) ==
  * [https://translatewiki.net/wiki/User:McDutchie McDutchie]
 
 == Italian (it) ==
  * [https://translatewiki.net/wiki/User:Beta16 Beta16]
+ * [Tevac.com]
 
 == Japanese (ja) ==
  * [https://translatewiki.net/wiki/User:Shirayuki Shirayuki (しらゆき)]
@@ -67,8 +84,12 @@ Siebrand Mazeland helped immensely by setting us up at http://translatewiki.net,
 == Macedonian (mk) ==
  * [http://translatewiki.net/wiki/User:Bjankuloski06 B. Jankuloski]
 
+== Malay (ms) ==
+ * Sean Lip
+
 == Polish (pl) ==
  * [http://translatewiki.net/wiki/User:Rezonansowy Rezonansowy]
+ * Robert Posiadała
 
 == Portuguese (pt-br) ==
  * [http://translatewiki.net/wiki/User:Luckas Luckas]
@@ -77,6 +98,7 @@ Siebrand Mazeland helped immensely by setting us up at http://translatewiki.net,
 == Russian (ru) ==
  * [http://translatewiki.net/wiki/User:Eleferen Eleferen]
  * [http://translatewiki.net/wiki/User:Kaganer Paul Kaganer]
+ * Lola Nazarova
 
 == Spanish (es) ==
  * [https://translatewiki.net/wiki/User:Fortega Fortega]
@@ -92,4 +114,3 @@ Siebrand Mazeland helped immensely by setting us up at http://translatewiki.net,
 == Vietnamese ==
  * [https://translatewiki.net/wiki/User:Qneutron Quynh Neutron]
  * [https://translatewiki.net/wiki/User:Tuankiet65 Tuankiet65]
-
