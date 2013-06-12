@@ -17,10 +17,9 @@ Clicking on a variable's dropdown symbol (triangle) gives the following menu:
 
 https://blockly.googlecode.com/svn/wiki/variable-dropdown.png
 
-The menu lists:
+The menu provides the following options.
  * the names of all variables defined in the program.
- * "Rename variable...", which changes the name of this variable wherever it appears in the program.
- * "New variable...", which enables the user to enter a new name for the variable, without replacing or changing variables with the old name (here "item").
+ * "Rename variable...", which changes the name of this variable wherever it appears in the program.  Selecting this opens a small window that prompts the user for the new name with the text: "Rename all %1 variables to:", where %1 is replaced by the old name (here "item").
+ * "New variable...", which enables the user to enter a new name for the variable, without replacing or changing variables with the old name (here "item").  Selecting this opens a small window that prompts the user for the new name with the text "New variable name:".
 
 == Blocks ==
-
