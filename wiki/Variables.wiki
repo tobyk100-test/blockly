@@ -1,5 +1,7 @@
 #summary Information about variables for users and translators.
 
+<wiki:toc max_depth="2" />
+
 = Introduction =
 
 We use the term _variable_ the same as it is used in mathematics and in other programming languages: a named value that can be changed (varies).  Variables are used in several places:
