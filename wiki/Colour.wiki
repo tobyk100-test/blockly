@@ -23,6 +23,14 @@ Note that we use [http://www.december.com/html/spec/colorper.html a range from 0
 
 The ability to specify colours with changing numbers allows some beautiful turtle graphic applications, such as [https://plus.google.com/105063463762828771517/posts/HzzPaimTLwu this contest winner] (see code):
 
+== Generating a random colour ==
+
+The *random colour* block generates colours at random.
+
+https://blockly.googlecode.com/svn/wiki/colour-random-colour.png
+
+Specifically, each of the red, green, and blue components is a number from 0 to 255 (inclusive), with equal likelihood.
+
 == Blending colours ==
 
 Unlike traditional turtle graphics systems, Blockly provides a means for blending two colours, as though one were blending two different colours of paint.  The following block provides the colour that would be obtained by mixing equal amounts of red paint (actually, [http://www.newton.dep.anl.gov/askasci/gen99/gen99557.htm red light]) and yellow paint:
