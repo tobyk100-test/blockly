@@ -403,7 +403,7 @@ Maze.init = function() {
   Blockly.loadAudio_('apps/maze/win.wav', 'win');
   Blockly.loadAudio_('apps/maze/whack.wav', 'whack');
 
-  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  Blockly.Apps.checkTimeout(%1);\n';
+  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  BlocklyApps.checkTimeout(%1);\n';
   Maze.drawMap();
 
   //window.addEventListener('beforeunload', function(e) {
@@ -453,7 +453,7 @@ Maze.init = function() {
   }
 
   Maze.reset();
-  Blockly.addChangeListener(function() {Blockly.Apps.updateCapacity(MSG)});
+  Blockly.addChangeListener(function() {BlocklyApps.updateCapacity(MSG)});
 };
 
 window.addEventListener('load', Maze.init);
@@ -563,8 +563,8 @@ Maze.randomizeMarkers = function() {
  * Execute the user's code.  Heaven help us...
  */
 Maze.execute = function() {
-  Blockly.Apps.log = [];
-  Blockly.Apps.ticks = 1000;
+  BlocklyApps.log = [];
+  BlocklyApps.ticks = 1000;
   var code = Blockly.Generator.workspaceToCode('JavaScript');
   try {
     eval(code);
@@ -575,7 +575,7 @@ Maze.execute = function() {
       alert(e);
     }
   }
-  // Blockly.Apps.log now contains a transcript of all the user's actions.
+  // BlocklyApps.log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
   Maze.reset();
   Maze.pidList.push(window.setTimeout(Maze.animate, 100));
@@ -588,7 +588,7 @@ Maze.animate = function() {
   // All tasks should be complete now.  Clean up the PID list.
   Maze.pidList = [];
 
-  var action = Blockly.Apps.log.shift();
+  var action = BlocklyApps.log.shift();
   if (!action) {
     Blockly.mainWorkspace.highlightBlock(null);
     return;
@@ -641,7 +641,7 @@ Maze.animate = function() {
 };
 
 Maze.congratulations = function() {
-  Blockly.Apps.congratulations(window, level, Maze.MAX_LEVEL, MSG);
+  BlocklyApps.congratulations(window, level, Maze.MAX_LEVEL, MSG);
 };
 
 /**
@@ -828,7 +828,7 @@ Maze.isPathLeft = function() {
  */
 Maze.move = function(direction, id) {
   if (!Maze.isPath(direction)) {
-    Blockly.Apps.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
+    BlocklyApps.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
     throw false;
   }
   // If moving backward, flip the effective direction.
@@ -852,10 +852,10 @@ Maze.move = function(direction, id) {
       command = 'west';
       break;
   }
-  Blockly.Apps.log.push([command, id]);
+  BlocklyApps.log.push([command, id]);
   if (Maze.pegmanX == Maze.finish_.x && Maze.pegmanY == Maze.finish_.y) {
     // Finished.  Terminate the user's program.
-    Blockly.Apps.log.push(['finish', null]);
+    BlocklyApps.log.push(['finish', null]);
     throw true;
   }
 };
@@ -869,11 +869,11 @@ Maze.turn = function(direction, id) {
   if (direction) {
     // Right turn (clockwise).
     Maze.pegmanD++;
-    Blockly.Apps.log.push(['right', id]);
+    BlocklyApps.log.push(['right', id]);
   } else {
     // Left turn (counterclockwise).
     Maze.pegmanD--;
-    Blockly.Apps.log.push(['left', id]);
+    BlocklyApps.log.push(['left', id]);
   }
   Maze.pegmanD = Maze.constrainDirection4(Maze.pegmanD);
 };

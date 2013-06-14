@@ -114,7 +114,7 @@ Blockly.JavaScript.maze_if = function() {
   // Generate JavaScript for 'if' conditional if there is a path.
   var argument = 'Maze.' + this.getTitleValue('DIR') + '()';
   var branch = Blockly.JavaScript.statementToCode(this, 'DO');
-  var code = 'Blockly.Apps.highlight(\'' + this.id + '\');\n' +
+  var code = 'BlocklyApps.highlight(\'' + this.id + '\');\n' +
              'if (' + argument + ') {\n' + branch + '}';
   return code;
 };
@@ -144,7 +144,7 @@ Blockly.JavaScript.maze_ifElse = function() {
   var argument = 'Maze.' + this.getTitleValue('DIR') + '()';
   var branch0 = Blockly.JavaScript.statementToCode(this, 'DO');
   var branch1 = Blockly.JavaScript.statementToCode(this, 'ELSE');
-  var code = 'Blockly.Apps.highlight(\'' + this.id + '\');\n' +
+  var code = 'BlocklyApps.highlight(\'' + this.id + '\');\n' +
              'if (' + argument + ') {\n' + branch0 +
              '} else {\n' + branch1 + '}';
   return code;

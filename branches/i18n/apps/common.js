@@ -24,13 +24,13 @@
 
 'use strict';
 
-Blockly.Apps = {};
+var BlocklyApps = {};
 
 /**
  * Load the specified language file(s).
  * @param {!Array<string>} languageSrc Array of language files.
  */
-Blockly.Apps.loadLanguageScripts = function(languageSrc) {
+BlocklyApps.loadLanguageScripts = function(languageSrc) {
   for (var x = 0; x < languageSrc.length; x++) {
     var file = languageSrc[x];
     if (file.match(/^\w+\/\w+\.js$/)) {
@@ -49,7 +49,7 @@ Blockly.Apps.loadLanguageScripts = function(languageSrc) {
  * @param {!Object} MSG An object with appropriate text properties for
  *     capacity0, capacity1, and capacity2.
  */
-Blockly.Apps.updateCapacity = function(MSG) {
+BlocklyApps.updateCapacity = function(MSG) {
   var cap = Blockly.mainWorkspace.remainingCapacity();
   var p = document.getElementById('capacity');
   if (cap == Infinity) {
@@ -73,7 +73,7 @@ Blockly.Apps.updateCapacity = function(MSG) {
  * @param {!Object} MSG An object with appropriate text properties for
  *     MSG.nextLevel and MSG.finalLevel.
  */
-Blockly.Apps.congratulations = function(window, level, maxLevel, MSG) {
+BlocklyApps.congratulations = function(window, level, maxLevel, MSG) {
   if (level < maxLevel) {
     var proceed = window.confirm(MSG.nextLevel.replace('%1', level + 1));
     if (proceed) {
@@ -90,8 +90,8 @@ Blockly.Apps.congratulations = function(window, level, maxLevel, MSG) {
  * Log the block.
  * @param {string} id ID of block that triggered this action.
  */
-Blockly.Apps.highlight = function(id) {
-  Blockly.Apps.log.push([null, id]);
+BlocklyApps.highlight = function(id) {
+  BlocklyApps.log.push([null, id]);
 };
 
 /**
@@ -100,9 +100,9 @@ Blockly.Apps.highlight = function(id) {
  * @param {string} id ID of loop block to highlight if timeout is reached.
  * @throws {false} Throws an error to terminate the user's program.
  */
-Blockly.Apps.checkTimeout = function(id) {
-  Blockly.Apps.highlight(id);
-  if (Blockly.Apps.ticks-- < 0) {
+BlocklyApps.checkTimeout = function(id) {
+  BlocklyApps.highlight(id);
+  if (BlocklyApps.ticks-- < 0) {
     // Highlight an infinite loop on death.
     throw false;
   }
@@ -113,7 +113,7 @@ Blockly.Apps.checkTimeout = function(id) {
  * @param {string} code Generated code.
  * @return {string} The code without serial numbers and timeout checks.
  */
-Blockly.Apps.stripCode = function(code) {
+BlocklyApps.stripCode = function(code) {
   // Strip out tracking commands.
   code = code.replace(/ *Blockly\.Apps\.highlight\('\d+'\);\n/g, '');
   // Remove timeouts.
@@ -125,8 +125,8 @@ Blockly.Apps.stripCode = function(code) {
 /**
  * Show the user's code in raw JavaScript.
  */
-Blockly.Apps.showCode = function() {
+BlocklyApps.showCode = function() {
   var code = Blockly.Generator.workspaceToCode('JavaScript');
-  code = Blockly.Apps.stripCode(code);
+  code = BlocklyApps.stripCode(code);
   alert(code);
 };

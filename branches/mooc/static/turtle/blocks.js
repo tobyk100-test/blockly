@@ -167,9 +167,9 @@ Blockly.JavaScript.turtle_visibility = function() {
 };
 
 Turtle.drawPrint = function(text, id) {
-  Blockly.Apps.log.push(['DP', text, id]);
+  BlocklyApps.log.push(['DP', text, id]);
 };
 
 Turtle.drawFont = function(font, size, style, id) {
-  Blockly.Apps.log.push(['DF', font, size, style, id]);
+  BlocklyApps.log.push(['DF', font, size, style, id]);
 };
