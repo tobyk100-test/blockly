@@ -69,7 +69,7 @@ automatically with the appropriate blocks.
 
 {{{
   <category name="Variables" custom="VARIABLE"></category>
-  <category name="Procedures" custom="PROCEDURE"></category>
+  <category name="Functions" custom="PROCEDURE"></category>
 }}}
 
 == Tree of Categories ==
