@@ -83,8 +83,10 @@ BlocklyApps.updateCapacity = function(MSG) {
  * @param {number} maxLevel The maxmium available level.
  * @param {!Object} MSG An object with appropriate text properties for
  *     MSG.nextLevel and MSG.finalLevel.
+ * @param {?number} reinf Non-null if there is an interstitial to show after
+ *     this screen, in which case the value is included in the URL.
  */
-BlocklyApps.congratulations = function(page, level, maxLevel, MSG) {
+BlocklyApps.congratulations = function(page, level, maxLevel, MSG, reinf) {
   if (level < maxLevel) {
     var proceed = window.confirm(MSG.nextLevel.replace('%1', level + 1));
     if (proceed) {
@@ -94,6 +96,9 @@ BlocklyApps.congratulations = function(page, level, maxLevel, MSG) {
         url += 'page=' + page + '&';
       }
       url += 'level=' + (level + 1);
+      if (reinf) {
+        url += '&reinf=' + reinf;
+      }
       window.location = url;
     }
   } else {

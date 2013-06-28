@@ -11,10 +11,12 @@
       // Block text.
       moveForward: 'move forward by',
       moveBackward: 'move backward by',
+      pixels: 'pixels',
       turnRight: 'turn right by',
       turnLeft: 'turn left by',
+      degrees: 'degrees',
       setWidth: 'set width',
-      setColour: 'set colour',
+      setColour: 'set color',
       penUp: 'pen up',
       penDown: 'pen down',
       hideTurtle: 'hide turtle',
@@ -25,6 +27,7 @@
       fontNormal: 'normal',
       fontBold: 'bold',
       fontItalic: 'italic',
+
       // Tooltips for general blocks.
       moveTooltip: 'Moves the turtle forward or backward\n' +
           'by the specified amount.',
@@ -33,24 +36,29 @@
       widthTooltip: 'Changes the width of the pen.',
       penTooltip: 'Lifts or lowers the pen,\n' +
           'to start or stop drawing.',
-      colourTooltip: 'Changes the colour of the pen.',
+      colourTooltip: 'Changes the color of the pen.',
       turtleVisibilityTooltip: 'Makes the turtle (green circle and arrow) visible or invisible.',
       printTooltip: 'Draws text in the turtle\'s direction at its location.',
       fontTooltip: 'Sets the font used by the print block.',
       codeTooltip: 'See generated JavaScript code.',
       linkTooltip: 'Save and link to blocks.',
+      // Tooltips for tutorial-only blocks.
+      moveForwardTooltip: 'Moves the turtle forward.',
+      turnRightTooltip: 'Turns the turtle right by the specified angle.',
+
       // HelpUrl links.
       printHelpUrl: 'http://en.wikipedia.org/wiki/Printing',
       fontHelpUrl: 'http://en.wikipedia.org/wiki/Font',
+
       // Toolbox categories.
       catTurtle: 'Turtle',
       catControl: 'Control',
       catLogic: 'Logic',
       catMath: 'Math',
       catLists: 'Lists',
-      catColour: 'Colour',
+      catColour: 'Color',
       catVariables: 'Variables',
-      catProcedures: 'Procedures',
+      catProcedures: 'User-Defined',
       // Misc text.
       level: 'Level',
       capacity0: 'You have <span id="capacityNumber">0</span> blocks left.',
@@ -61,29 +69,135 @@
       nextLevel: 'Congratulations!\nAre you ready to proceed to level %1?',
       finalLevel: 'Congratulations!\nYou have solved the final level.',
       title: 'Turtle Graphics %1',
+
       // Level prompts[page][level].
       prompts: [
         [], // There is no page 0.
         // Page 1.
-        ['level 0', // There is no level 0.
-         'I\'m a turtle holding a pen in my tail. See what happens when I move forward 100 pixels.',
-         'Make me turn in order to draw a square.',
-         'Now make a square with the fewest possible blocks. \n' +
-           'NOTE: Instead of not allowing additional blocks, give feedback on if they can use fewer.',
-         'I carry different colours of ink.  Draw a red square.',
-         'Now draw a dark blue square.',
+        [undefined, // There is no level 0.
+         'I\'m a turtle with a pen on my belly. Stack up blocks and press "Run Program" to make me draw the shown picture.',
+         'Drag blocks from the gray toolbox to the white workspace to make me move and turn in order to draw a square.',
+         'Make a square in only 3 blocks.',
+         'Draw a square in your favorite colour.  (Mine is green.)',
          'Draw a triangle whose sides are all 100 pixels.  You\'ll have to figure out how far to turn.',
-         'Draw an arrow.',
-         'I\'d like a house (besides my shell).  Draw one whose sides are 75 pixels.',
-         'Let\'s draw a pinwheel in your favorite colour by drawing 36 squares, turning 10 degrees after each.',
-         'The pinwheel will be even prettier if you set a random colour before each square.',
+         'Draw a triangle and then a square.',
+         'Draw a square and then an overlapping triangle.',
+         'Can you figure out how to turn your square and triangle to draw an envelope?',
+         'Try drawing this dashed line.',
+         'See if you can draw these two squares 50 pixels apart.',
+         'After trying out these blocks, see what happens if you make them repeat 8 times.  It should look a little different every time you run it.',
+         'See if you can recreate the spikes from the last level.  (There were 8, each 100 pixels long in a random colour, 45 degrees apart.)',
          'Draw anything you want. Some ideas are a stick figure, snowflake, or spiral. Have fun!'
         ],
         // Page 2.
-        ['level 0', // There is no level 0.
-         'Do you still remember how to make a square with the fewest possible blocks?'
+        [undefined, // There is no level 0.
+         'Do you still remember how to make a square using the "repeat" block?',
+         'Thanks to the provided blocks, I now know how to draw a square.  Pull a "draw a square" block from the grey toolbar to tell me to draw a square.',
+         'Now draw 3 squares, starting 120 degrees apart, in random colors.',
+         'I think it looks pretty to draw 36 squares in random colors, each 10 degrees apart.',
+         'Teach me how to draw a triangle by dragging out a "to do something" block.  Rename it to "draw a triangle", and fill it in with the right blocks.  Then, you can use the "draw a triangle" block to draw a triangle.',
+         'See if you can figure out how to use "draw a square" and "draw a triangle" (and some other blocks) to draw a house.',
+         'Create a new block to draw a house and use it.',
+         'Draw squares with side length 50, 100, and 150.',
+         'Using "draw a square" as an example, add an input named "length" to "draw a triangle".  Then, draw triangles with side lengths of 50 and 100.',
+         'Add a "length" input to "draw a house" and build a tiny house for my snail friend.',
+         'Draw whatever you want.  One idea is a whole village with lots of houses of different sizes and colors.'
+        ],
+        // Page 3.
+        [undefined, // There is no level 0.
+         'Use the "draw a square" block to draw squares with sides of 50, 60, 70, 80, 90, and 100 pixels.',
+         'Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.',
+         'Let\'s make more boxes!  They should have side lengths from 10 to 100, still counting by tens.',
+         'How about turning 36 degrees after each square?',
+         'See if you can re-create the code to draw squares with side lengths from 50 to 100, counting by tens.  (You can always back up to prevous levels if you need a reminder.)',
+         'Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.',
+         'Create a new block "draw a hexagon", similar to "draw a square", and use it to draw hexagons with sides of length 50 and 75.',
+         'Rename "draw a hexagon" to "draw a polygon" and add an input named "sides".  You\'ll have to make some other changes, including the amount to turn.  Test your new block by drawing a red octagon (8-sided polygon) with sides of length 80.',
+         'You\'re now free to do whatever you want.  One idea is to try running this program with different turn amounts (higher or lower than 90).  Other ideas are to draw a star, circle, heart, or animal.'
         ]
-      ]
+      ],
+      // Reinforcement/interstitial text.
+      reinf_data: [
+        // There is no page 0.
+        [],
+        // Page 1.
+        [undefined, // There is no level 0.
+         undefined,
+         // Before square (2).
+         ['You can change the numbers in the program by clicking on them.  TODO: Add animation.', 'none'],
+         // Before repeat (3).
+         ['Tired of dragging and dropping?  Let the "repeat" block do the work for you.', 'animations', ['repeat-intro.gif']],
+         // Before use of colour (4).
+         ['I carry lots of different colors of ink.  You can choose them with the new "set color" block so you can draw pictures in whatever color you want.', 'picture', 'set-colour.png'],
+         // Before triangle (5).
+         ['Click on the picture that will be drawn by these blocks.  Assume that I start at the red dot, facing upwards.', 'quiz', [3, 3]],
+         // Before non-overlapping square and triangle (6)
+         ['If you right-click on a block, you can easily duplicate it (and the blocks it contains).  You can also use copy and paste.  TODO: Add animation.', 'none'],
+         // Before overlapping square and triangle (7).
+         ['It\'s okay to have me re-trace my path.  I don\'t mind.  TODO: Add animation.', 'none'],
+         // Before envelope (turned square and triangle) (8).
+         ['I can move backward.  TODO: Add animation', 'none'],
+         // Before separated squares (9).
+         ['I can move without leaving any marks if my pen is lifted up.  You can put it down when you want me to start drawing again.  TODO: Add videos/animation.', 'none'],
+         // Before spikes (10).
+         ['Like surprises?  Use the "random color" block to let me pick the pen color.', 'picture', 'random-colour.png'],
+         // Before spikes2 (11).
+         ['If you don\'t want me in your picture, use "hide turtle". You can always get me back with "show turtle".', 'picture', 'show-hide-turtle.png'],
+         // Before playground (12).
+         ['Here\'s a new block that changes the width of my pen line.  We\'ve been using a default width of 5.', 'picture', 'set-width.png']
+        ],
+        // Page 2
+        [undefined, // There is no level 0.
+         undefined,
+         // Before using "draw square".
+         ['It\'s possible to create new blocks, such as "draw a square", which draws a square with sides 100 pixels long.  Later on, you\'ll learn how to create a new block.  For now, you can see how "draw a square" was created on the left and how to use it on the right.', 'picture', 'draw-square-definition-and-use.png'],
+         // Before 3 squares.
+         ['Once you\'ve defined a block, you can use it as many times as you want.', 'animations', ['two-square-canvas.gif', 'two-square-code.png']],
+         // Before pinwheel.
+         ['Here\'s how I solved the previous level.  Make sure you understand it before proceeding.', 'picture', 'three-squares.png'],
+         // Before defining "draw a triangle" procedure.
+         ['Here\'s how the "draw a square" block was created.  On the next level, you\'ll create your own "draw a triangle" block.', 'animations', ['define-draw-a-square.gif']],
+         // Before drawing house.
+         ['Congratulations on adding a new block!  That\'s a huge step for a programmer.  Dividing big tasks into bite-sized pieces is what makes large programs possible.', 'none'],
+         // Before house procedure.
+         ['The new blocks that you define can be used just like the built-in blocks, including being used within another block definition...', 'none', 'procedures-within-procedures.png'],
+         // Before using parameterized "draw square".
+         ['Did you notice that the blocks we created can only draw shapes with sides of length 100?  We can also make blocks that can take an input, just like the built-in blocks "move forward" and "turn right". On the left is a new version of "draw a square" that lets you specify the side length, and on the right is a sample use.', 'picture', 'draw-a-square-with-input.png'],
+         // Before adding parameter to "draw triangle".
+        ['Let me show you how the input was added to "draw a square".  You\'ll need to know this for the next level, where you\'ll add an input to "draw a triangle".', 'animations', ['draw-a-square-add-input.gif']],
+         // Before writing parameterized house procedure.
+         ['TODO: Add video and text about collapsing and expanding blocks.', 'none'],
+         // Before final level.
+         ['Wow!  You completed all of the levels!  Welcome to the playground...', 'none']
+        ],
+        // Page 3
+        [undefined,  // There is no level 0.
+         // Before Level 1.  (It's new to have something before the first level.)
+         ['To make room for new blocks, we\'ve put the blocks into categories.  You may have to look around for your old favorite blocks, but they\'re all there.', 'none'],
+         // Before Level 2.
+         ['Wouldn\'t it be nice if you could tell me to count by tens from 50 to 100, drawing a square each time?  Well you can -- with the new "count with" block.  The programs on the left and right do the same thing. ', 'picture', 'count-loop-square.png'],
+         // Before Level 3.
+         ['Do you ever get tired of waiting for me?  You can make me move faster (or slower) with the speed slider.', 'picture', 'slider.gif'],
+         // Before Level 4.
+         ['Make sure you understand this code, since you\'ll be asked to create a "count with" block on the next level.', 'picture', 'counter-squares-code.png'],
+         // Before Level 5.
+         ['We call "counter" a variable -- a term from algebra that means a value that can change (vary).  It and other variables can be found in the "Variables" category.', 'picture', 'counter-squares-code.png'],
+         // Before Level 6.
+         ['This code draws a boxy spiral.  Fill in the blanks on the "count with" block to rewrite it.  TODO: Create form.', 'picture', 'spiral-quiz.png'],
+         // Before Level 7.
+         ['This table shows the angle for drawing different regular shapes (polygons).  Can you spot the pattern and guess the angle for drawing a hexagon?  TODO: Make them enter 60.', 'picture', 'shape-table.png'],
+         // Before Level 8.
+         ['Let\'s figure out how to draw a regular shape (polygon) with any number of sides.  Which of the below blocks correctly calculate the angle?  (You\'ll need the answer for the next problem.)', 'quiz', [4, 4]],
+         // Before Level 9.
+         ['Since you just drew a stop sign, this might be a good time to stop the lessons and let you play.  Congratulations on becoming a programmer!', 'none']
+        ]
+      ],
+
+      // Text on interstitial pages.
+      gotoNext: 'Continue',
+      showMe: 'Show me',
+      wrongAnswer: 'Wrong!  Try again.',
+      rightAnswer: 'You got it!'
     };
     if ('BlocklyStorage' in window) {
       BlocklyStorage.HTTPREQUEST_ERROR = 'There was a problem with the request.\n';

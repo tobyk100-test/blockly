@@ -9,82 +9,610 @@
  * Web page structure.
  */
 {template .start}
+  // Firefox doesn't like scripts inside tables.
+  <script type="text/javascript" src="../slider.js"></script>
+  <script type="text/javascript" src="../blockly_compressed.js"></script>
+  <script type="text/javascript" src="../javascript_compressed.js"></script>
+  <script type="text/javascript" src="../common.js"></script>
+  <script type="text/javascript">
+    BlocklyApps.loadLanguageScripts(languageSrc);
+  </script>
+  <script type="text/javascript" src="blocks.js"></script>
+  <script type="text/javascript" src="answers.js"></script>
+
+  // Show the starting blocks for the given page and level.
+  <div id="start_blocks" style="display: none">
+    {if $ij.page == 1}
+      {switch $ij.level}
+        {case 1, 2, 3}
+          <block type="draw_move_forward_inline" x="20" y="20"></block>
+        {case 4}
+          <block type="draw_colour" x="20" y="20">
+            <value name="COLOUR">
+              <block type="colour_picker"></block>
+            </value>
+          </block>
+        {case 5, 6}
+          <block type="controls_repeat" x="20" y="20">
+            <title name="TIMES">3</title>
+          </block>
+        {case 7, 8, 10}
+          <block type="controls_repeat" x="20" y="20">
+            <title name="TIMES">4</title>
+          </block>
+        {case 9}
+          <block type="draw_move_inline" x="20" y="20">
+            <title name="DIR">moveForward</title>
+            <title name="VALUE">50</title>
+          </block>
+        {case 11}
+          <block type="draw_colour" x="20" y="20">
+            <value name="COLOUR">
+              <block type="colour_random"></block>
+            </value>
+            <next>
+              <block type="draw_move_inline">
+                <title name="DIR">moveForward</title>
+                <title name="VALUE">100</title>
+                <next>
+                  <block type="draw_move_inline">
+                    <title name="DIR">moveBackward</title>
+                    <title name="VALUE">100</title>
+                    <next>
+                      <block type="draw_turn_inline">
+                        <title name="DIR">turnRight</title>
+                        <title name="VALUE">45</title>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        {case 12, 13}
+          <block type="draw_move_inline" x="20" y="20">
+            <title name="DIR">moveForward</title>
+            <title name="VALUE">100</title>
+          </block>
+      {/switch}
+    {elseif $ij.page == 2 or $ij.page == 3}
+      {if $ij.page == 2 and $ij.level == 1}
+        <block type="draw_move" x="20" y="20">
+          <value name="VALUE">
+            <block type="math_number">
+              <title name="NUM">100</title>
+            </block>
+          </value>
+        </block>
+      {elseif ($ij.page == 2 and $ij.level > 1) or ($ij.page == 3 and $ij.level != 6 and $ij.level <= 7)}
+        /*  Define "draw a square".  */
+        <block type="procedures_defnoreturn" x="20" y="{if $ij.level==5}100{else}20{/if}" {if $ij.page == 2 and $ij.level >= 10}collapsed="true"{/if}>
+          <mutation>
+          {if $ij.level > 7 or $ij.page == 3}
+            <arg name="length"></arg>
+          {/if}
+          </mutation>
+          <title name="NAME">draw a square</title>
+          {if $ij.level == 5 and $ij.page == 2}
+            <comment pinned="true" h="75" w="340">
+             Here's how we told the turtle how to "draw a square".  Use it as a model to create "draw a triangle".
+            </comment>
+          {/if}
+          <statement name="STACK">
+            <block type="controls_repeat">
+              <title name="TIMES">4</title>
+              <statement name="DO">
+                <block type="draw_move">
+                  <value name="VALUE">
+                    {if $ij.level > 7 or $ij.page == 3}
+                      <block type="variables_get_length"></block>
+                    {else}
+                      <block type="math_number">
+                        <title name="NUM">100</title>
+                      </block>
+                    {/if}
+                  </value>
+                  <next>
+                    <block type="draw_turn">
+                      <value name="VALUE">
+                        <block type="math_number">
+                          <title name="NUM">90</title>
+                        </block>
+                      </value>
+                    </block>
+                  </next>
+                </block>
+              </statement>
+            </block>
+          </statement>
+        </block>
+        {if ($ij.page == 2 and $ij.level == 8) or ($ij.page == 3 and $ij.level == 1)}
+          /*  Call "draw a square".  */
+          <block type="procedures_callnoreturn" inline="false" x="20" y="170">
+            <mutation name="draw a square">
+              <arg name="length"></arg>
+            </mutation>
+            <value name="ARG0">
+              <block type="math_number">
+                <title name="NUM">50</title>
+              </block>
+            </value>
+          </block>
+        {elseif $ij.page == 2 and $ij.level == 4}
+          <block type="controls_repeat" x="20" y="250">
+            <title name="TIMES">36</title>
+          </block>
+        {elseif $ij.page == 2 and $ij.level >= 6}
+          /*  Define "draw a triangle".  */
+          <block type="procedures_defnoreturn" {if $ij.page == 3 or ($ij.page == 2 and $ij.level >= 10)}collapsed="true" x="100" y="20"{else} x="20" y="175"{/if}>
+          <mutation>
+            {if $ij.level >= 10}
+              <arg name="length"></arg>
+            {/if}
+          </mutation>
+            <title name="NAME">draw a triangle</title>
+            {if $ij.level >= 6}
+              <statement name="STACK">
+                <block type="controls_repeat">
+                  <title name="TIMES">3</title>
+                  <statement name="DO">
+                    <block type="draw_move" inline="false">
+                      <title name="DIR">moveForward</title>
+                      <value name="VALUE">
+                      {if $ij.level >= 10}
+                        <block type="variables_get_length"></block>
+                      {else}
+                        <block type="math_number">
+                          <title name="NUM">100</title>
+                        </block>
+                      {/if}
+                      </value>
+                      <next>
+                        <block type="draw_turn" inline="false">
+                          <title name="DIR">turnRight</title>
+                          <value name="VALUE">
+                            <block type="math_number">
+                              <title name="NUM">120</title>
+                            </block>
+                          </value>
+                        </block>
+                      </next>
+                    </block>
+                  </statement>
+                </block>
+              </statement>
+            {/if}
+          </block>
+        {/if}
+        {if $ij.page == 2 and $ij.level >= 10}
+          /*  Define "draw a house".  */
+          <block type="procedures_defnoreturn" x="20" y="100">
+            <mutation>
+            {if $ij.level == 11}<arg name="length"></arg>{/if}
+            </mutation>
+            <title name="NAME">draw a house</title>
+            <statement name="STACK">
+              <block type="procedures_callnoreturn" inline="false">
+                <mutation name="draw a square">
+                  <arg name="length">
+                </mutation>
+                <value name="ARG0">
+                  {if $ij.level == 10}
+                    <block type="math_number">
+                      <title name="NUM">100</title>
+                    </block>
+                  {else}
+                    <block type="variables_get">
+                      <title name="VAR">length</title>
+                    </block>
+                  {/if}
+                </value>
+                <next>
+                  <block type="draw_move" inline="false">
+                    <title name="DIR">moveForward</title>
+                    <value name="VALUE">
+                      {if $ij.level == 10}
+                        <block type="math_number">
+                          <title name="NUM">100</title>
+                        </block>
+                      {else}
+                        <block type="variables_get">
+                          <title name="VAR">length</title>
+                        </block>
+                      {/if}
+                    </value>
+                    <next>
+                      <block type="draw_turn" inline="false">
+                        <title name="DIR">turnRight</title>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <title name="NUM">30</title>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="procedures_callnoreturn" inline="false">
+                            <mutation name="draw a triangle">
+                              <arg name="length"></arg>
+                            </mutation>
+                            <value name="ARG0">
+                              {if $ij.level == 10}
+                                <block type="math_number">
+                                  <title name="NUM">100</title>
+                                </block>
+                              {else}
+                                <block type="variables_get">
+                                  <title name="VAR">length</title>
+                                </block>
+                              {/if}
+                            </value>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        {/if}
+        {if $ij.page == 3 and ($ij.level == 2 or $ij.level == 3)}
+          <block type="controls_for" inline="true" x="20" y="170">
+            <title name="VAR">counter</title>
+            <value name="FROM">
+              <block type="math_number">
+                <title name="NUM">50</title>
+              </block>
+            </value>
+            <value name="TO">
+              <block type="math_number">
+                <title name="NUM">100</title>
+              </block>
+            </value>
+            <value name="BY">
+              <block type="math_number">
+                <title name="NUM">10</title>
+              </block>
+            </value>
+            <statement name="DO">
+              <block type="procedures_callnoreturn" inline="false">
+                <mutation name="draw a square">
+                  <arg name="length"></arg>
+                </mutation>
+                <value name="ARG0">
+                {if $ij.level == 2}
+                  <block type="math_number">
+                    <title name="NUM">10</title>
+                  </block>
+                {else}
+                  <block type="variables_get">
+                    <title name="VAR">counter</title>
+                  </block>
+                {/if}
+                </value>
+              </block>
+            </statement>
+          </block>
+        {elseif $ij.page == 3 and $ij.level == 4}
+          <block type="controls_for" inline="true" x="20" y="170">
+            <title name="VAR">counter</title>
+            <value name="FROM">
+              <block type="math_number">
+                <title name="NUM">10</title>
+              </block>
+            </value>
+            <value name="TO">
+              <block type="math_number">
+                <title name="NUM">100</title>
+              </block>
+            </value>
+            <value name="BY">
+              <block type="math_number">
+                <title name="NUM">10</title>
+              </block>
+            </value>
+            <statement name="DO">
+              <block type="draw_colour">
+                <value name="COLOUR">
+                  <block type="colour_random"></block>
+                </value>
+                <next>
+                  <block type="procedures_callnoreturn" inline="false">
+                    <mutation name="draw a square">
+                      <arg name="length"></arg>
+                    </mutation>
+                    <value name="ARG0">
+                      <block type="variables_get">
+                        <title name="VAR">counter</title>
+                      </block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        {/if}  /* End of region in which "draw a square" is defined.  */
+      {elseif $ij.page == 3}
+        {if $ij.level == 6}
+          {for $i in range(25, 61, 5)}
+            <block type="draw_move" inline="false" disabled="false">
+              <title name="DIR">moveForward</title>
+                <value name="VALUE">
+                  <block type="math_number">
+                    <title name="NUM">{$i}</title>
+                  </block>
+                </value>
+                <next>
+                  <block type="draw_turn" inline="false" disabled="false">
+                    <title name="DIR">turnRight</title>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <title name="NUM">90</title>
+                      </block>
+                    </value>
+                    <next>
+          {/for}
+          {for $i in range(5, 25, 5)}
+                  </block>
+                </next>
+              </block>
+            </next>
+          {/for}
+        {elseif $ij.level == 8}
+          /*  Draw a hexagon.  */
+          <block type="procedures_defnoreturn" x="20" y="20">
+            <mutation>
+              <arg name="length"></arg>
+            </mutation>
+            <title name="NAME">draw a hexagon</title>
+            <statement name="STACK">
+              <block type="controls_repeat_ext" inline="true">
+                <value name="TIMES">
+                  <block type="math_number">
+                    <title name="NUM">6</title>
+                  </block>
+                </value>
+                <statement name="DO">
+                  <block type="draw_move" inline="false">
+                    <title name="DIR">moveForward</title>
+                    <value name="VALUE">
+                      <block type="variables_get">
+                        <title name="VAR">length</title>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="draw_turn" inline="false">
+                        <title name="DIR">turnRight</title>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <title name="NUM">60</title>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </statement>
+          </block>
+          // As a hint, give them a divides block.
+          <block type="math_arithmetic" inline="true" x="100" y="180">
+            <title name="OP">DIVIDE</title>
+          </block>
+        {elseif $ij.level == 9}
+          <block type="draw_width" inline="false" x="158" y="67">
+            <value name="WIDTH">
+              <block type="math_number">
+                <title name="NUM">1</title>
+              </block>
+            </value>
+            <next>
+              <block type="controls_for" inline="true">
+                <title name="VAR">length</title>
+                <value name="FROM">
+                  <block type="math_number">
+                    <title name="NUM">1</title>
+                  </block>
+                </value>
+                <value name="TO">
+                  <block type="math_number">
+                    <title name="NUM">100</title>
+                  </block>
+                </value>
+                <value name="BY">
+                  <block type="math_number">
+                    <title name="NUM">1</title>
+                  </block>
+                </value>
+                <statement name="DO">
+                  <block type="draw_move" inline="false">
+                    <title name="DIR">moveForward</title>
+                    <value name="VALUE">
+                      <block type="variables_get">
+                        <title name="VAR">length</title>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="draw_turn" inline="false">
+                        <title name="DIR">turnRight</title>
+                        <value name="VALUE">
+                          <block type="math_number">
+                            <title name="NUM">91</title>
+                          </block>
+                        </value>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+                <next>
+                  <block type="turtle_visibility">
+                    <title name="VISIBILITY">hideTurtle</title>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        {/if}
+      {/if}  /*  End of region where page == 3.  */
+    {/if}
+  </div>
+
   <table width="100%" height="100%">
     <tr>
-      <td width="410" valign="top">
+      <td width="{if $ij.reinf and $ij.reinf != 0}100%{else}410{/if}" valign="top">
         <h1><a href="../">MOOC</a> &gt;{sp}
             {$ij.title}</h1>
 
-        <p class="levelLine">{$ij.MSG.level}: &nbsp;
-          {for $i in range(1, $ij.maxLevel + 1)}
-            {if $i == $ij.level}
-              <span class="tab" id="selected">{$i}</span>
-            {else}
-              <a class="tab" href="?page={$ij.page}&level={$i}">{$i}</a>
-            {/if}
-          {/for}
-        </p>
+        /* INTERSTITIALS.
+         *
+         * Show interstitial message if one is specified.
+         * A specification consists of an array of 2 or more elements:
+         *   0: A string to be displayed.
+         *   1: One of the following strings:
+         *      - 'picture', in which case the specified picture is displayed.
+         *      - 'picture-table', in which case the specified pictures are
+         *        displayed in a table, one per column.
+         *      - 'quiz', in which case a question picture and set of answers
+         *        are displayed; the user selects an answer; and the answer is
+         *        checked.  The user is not allowed to continue until the
+         *        correct answer has been chosen.
+         *      - 'animations', in which the specified images are hidden until
+         *        the user presses a "Show me" button.
+         *      - 'special', in which case special-purpose code based on the
+         *        page and level can be hardcoded below.
+         *      - 'none', in which case nothing further is shown.  (This is not
+         *        explicitly checked for.  Currently, any string not matching
+         *        the above cases is ignored.)
+         *   2: Presence and contents depend on previous cell value:
+         *      - 'picture': the URL of the picture to display.
+         *      - 'picture-table': an array of URLs of pictures to display.
+         *      - 'animations': an array of URLs of animated gifs to display.
+         *      - 'special': unspecified.
+         *      - 'none': not present.
+         */
+        {if $ij.reinf}
+          {if $ij.reinf[0]}
+            <div id="bubble">
+              <div id="hint"><b>{$ij.reinf[0]}</b></div>
+            </div>
+            <img id="turtle" height=45 width=130 src="turtle.png">
+          {/if}
+          {switch $ij.reinf[1]}
+            {case 'picture'}
+              <table>
+                <tr><br></tr>
+                <tr><td><img src="{$ij.reinf[2]}"></td></tr>
+                <tr height=40><br><br></tr>
+              </table>
+            {case 'picture-table'}
+              <table>
+                {foreach $tuple in $ij.reinf[2]}
+                  <tr height="100" valign="middle">
+                    <td><img src="{$tuple[1]}"></td><td>{$tuple[0]}</td>
+                  </tr>
+                {/foreach}
+              </table>
+            {case 'quiz'}
+              <table>
+                <tr><td colspan={$ij.reinf[2][0]}><img src="p{$ij.page}-l{$ij.level}-q.png"></td></tr>
+                <tr>
+                  {for $i in range(1, $ij.reinf[2][0] + 1)}
+                    <td><img src="p{$ij.page}-l{$ij.level}-a{$i}.png" class="answer" onclick="alert({if $i == $ij.reinf[2][1]}'{$ij.MSG.rightAnswer}'); document.getElementById('continueButton').style.display = 'inline';{else}'{$ij.MSG.wrongAnswer}');{/if}"></td>
+                  {/for}
+                </tr>
+              </table>
+            {case 'animations'}
+              <p><button id="showButton" style="display: inline" class="launch" onclick="this.style.display = 'none'; document.getElementById('animation').style.display='inline'; document.getElementById('continueButton').style.display='inline';">{$ij.MSG.showMe}</button></p>
+              <div id="animation" style="display: none">
+                <table>
+                  <tr>
+                    {foreach $file in $ij.reinf[2]}
+                      <td><img src="{$file}"></td>
+                    {/foreach}
+                  </tr>
+                </table>
+              </div>
+            {case 'special'}
+              // Special cases can be implemented here.
+          {/switch}
+          <button id="continueButton" style="display: {if $ij.reinf[1] == 'quiz' or $ij.reinf[1] == 'animations'}none{else}inline{/if}" class="launch" onclick="Turtle.continueButtonClick();">{$ij.MSG.gotoNext}</button>
+        {else}
+          // If we get here, this is a real level, not an interstitial.
+          <p class="levelLine">{$ij.MSG.level}: &nbsp;
+            {for $i in range(1, $ij.maxLevel + 1)}
+              {if $i == $ij.level}
+                <span class="tab" id="selected">{$i}</span>
+              {else}
+                <a class="tab" href="?page={$ij.page}&level={$i}">{$i}</a>
+              {/if}
+            {/for}
+          </p>
 
-        <div id="bubble">
-          <div id="prompt">{$ij.MSG.prompts[$ij.page][$ij.level]}</div>
-        </div>
-        <div id="capacity"></div>
+          <div id="bubble">
+            <div id="prompt">{$ij.MSG.prompts[$ij.page][$ij.level]}</div>
+          </div>
+          <div id="capacity"></div>
+          <img id="turtle" height=45 width=130 src="turtle.png">
 
-        <div>
-          <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
-          <canvas id="answer" width="400" height="400" style="display: none"></canvas>
-          <canvas id="display" width="400" height="400"></canvas>
-        </div>
-        <table style="padding-top: 1em;">
-          <tr>
-            <td style="width: 190px; text-align: center">
-              <script type="text/javascript" src="../slider.js"></script>
-              <svg
-                 id="slider"
-                 xmlns="http://www.w3.org/2000/svg"
-                 xmlns:svg="http://www.w3.org/2000/svg"
-                 xmlns:xlink="http://www.w3.org/1999/xlink"
-                 version="1.1"
-                 width="150"
-                 height="50">
-                <!-- Slow icon. -->
-                <clipPath id="slowClipPath">
-                  <rect width=26 height=12 x=5 y=14 />
-                </clipPath>
-                <image xlink:href="icons.png" height=42 width=84 x=-21 y=-10
-                    clip-path="url(#slowClipPath)" />
-                <!-- Fast icon. -->
-                <clipPath id="fastClipPath">
-                  <rect width=26 height=16 x=120 y=10 />
-                </clipPath>
-                <image xlink:href="icons.png" height=42 width=84 x=120 y=-11
-                    clip-path="url(#fastClipPath)" />
-              </svg>
-            </td>
-            <td style="width: 15px;">
-              <img id="spinner" style="visibility: hidden;" src="loading.gif" height=15 width=15>
-            </td>
-            <td style="width: 190px; text-align: center">
-              <button id="runButton" class="launch" onclick="Turtle.runButtonClick();">
-                {$ij.MSG.runProgram}
-              </button>
-              <button id="resetButton" class="launch" onclick="Turtle.resetButtonClick();" style="display: none">
-                {$ij.MSG.resetProgram}
-              </button>
-            </td>
-          </tr>
-        </table>
+          <div>
+            <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
+            <canvas id="answer" width="400" height="400" style="display: none"></canvas>
+            <canvas id="display" width="400" height="400"></canvas>
+          </div>
+          <table style="padding-top: 1em;">
+            <tr>
+              <td style="width: 190px; text-align: center">
+                <svg
+                   id="slider"
+                   xmlns="http://www.w3.org/2000/svg"
+                   xmlns:svg="http://www.w3.org/2000/svg"
+                   xmlns:xlink="http://www.w3.org/1999/xlink"
+                   version="1.1"
+                   width="150"
+                   height="50">
+                  <!-- Slow icon. -->
+                  <clipPath id="slowClipPath">
+                    <rect width=26 height=12 x=5 y=14 />
+                  </clipPath>
+                  <image xlink:href="icons.png" height=42 width=84 x=-21 y=-10
+                      clip-path="url(#slowClipPath)" />
+                  <!-- Fast icon. -->
+                  <clipPath id="fastClipPath">
+                    <rect width=26 height=16 x=120 y=10 />
+                  </clipPath>
+                  <image xlink:href="icons.png" height=42 width=84 x=120 y=-11
+                      clip-path="url(#fastClipPath)" />
+                </svg>
+              </td>
+              <td style="width: 15px;">
+                <img id="spinner" style="visibility: hidden;" src="loading.gif" height=15 width=15>
+              </td>
+              <td style="width: 190px; text-align: center">
+                <button id="runButton" class="launch" onclick="Turtle.runButtonClick();">
+                  {$ij.MSG.runProgram}
+                </button>
+                <button id="resetButton" class="launch" onclick="Turtle.resetButtonClick();" style="display: none">
+                  {$ij.MSG.resetProgram}
+                </button>
+              </td>
+            </tr>
+          </table>
 
-        <div id="toolbarDiv">
-          <button title="{$ij.MSG.codeTooltip}" onclick="BlocklyApps.showCode();">
-            <img src='../media/1x1.gif' class="code">
-          </button>
-          <button id="linkButton" title="{$ij.MSG.linkTooltip}" onclick="BlocklyStorage.link();">
-            <img src='../media/1x1.gif' class="link">
-          </button>
-        </div>
-      </td>
+          <div id="toolbarDiv">
+            <button title="{$ij.MSG.codeTooltip}" onclick="BlocklyApps.showCode();">
+              <img src='../media/1x1.gif' class="code">
+            </button>
+            <button id="linkButton" title="{$ij.MSG.linkTooltip}" onclick="BlocklyStorage.link();">
+              <img src='../media/1x1.gif' class="link">
+            </button>
+          </div>
+        </td>
+      {/if}
+
+      // The following code is run whether or not this is an interstitial page.
       <td valign="top">
+        {if $ij.reinf == 0}
+          {call .toolbox /}
+        {/if}
         <script type="text/javascript" src="../blockly_compressed.js"></script>
         <script type="text/javascript" src="../javascript_compressed.js"></script>
         <script type="text/javascript" src="../common.js"></script>
@@ -93,7 +621,6 @@
         </script>
         <script type="text/javascript" src="blocks.js"></script>
         <script type="text/javascript" src="answers.js"></script>
-        {call .toolbox /}
         <div id="blockly"></div>
       </td>
     </tr>
@@ -101,35 +628,214 @@
 {/template}
 
 /**
- * Toolbox.
- *
- * Blocks are only added, never taken away.  Some levels don't add any blocks.
+ * TOOLBOX.
  *
  * PAGE 1
  * ======
- * Level 1 [line]: move forward
- * Level 2 [square]: turn
- * level 3 [square in three blocks]: repeat
- * Level 4 [red square]: colour palette
- * Level 5 [blue square]:
- * level 6 [triangle]
- * level 7 [arrow]
- * Level 8 [house]
- * Level 9 [pinwheel]
- * Level 10 [color pinwheel]: random colour
- * Level 11 [free play]: all
+ * Within this page, blocks are only added, never taken away (although some are
+ * replaced by more general versions).  Some levels don't add any blocks.
+ *
+ * Level 1 [el]: Adds move_forward_inline and turn_right_inline.
+ * Level 2 [square]
+ * level 3 [square in three blocks]: Adds controls_repeat.
+ * Level 4 [coloured square]: Adds draw_colour with colour_picker.
+ * level 5 [triangle]
+ * level 6 [non-overlapping square and triangle]: Replaces move_forward_inline
+ *         with turn_right_inline with move_inline and turn_inline.
+ * Level 7 [overlapping square and triangle (sideways envelope)]
+ * Level 8 [envelope]: Adds draw_pen (up/down).
+ * Level 9 [dashed line]
+ * Level 10 [separated squares]
+ * Level 11 [spikes 1]: Adds draw_colour with colour_random.
+ * Level 12 [spikes 2]: Adds turtle_visibility.
+ * Level 13 [free play]: Adds colour_rgb and draw_width, both with math_number.
  *
  * PAGE 2
  * ======
- * All levels have: number, move forward, turn, repeat, set color,
- *                  colour palette, random color
+ * All levels have: draw_move, draw_turn, draw_colour with colour_picker,
+ *                  draw_colour with colour_random, controls_repeat,
+ *                  turtle_visibility.
+ * Since additional blocks are added and taken away, enumerating them in the
+ * comments was not deemed worthwhile.
+ * Level 1 [review: square]
+ * Level 2 [call "draw a square"]
+ * Level 3 [three squares]
+ * Level 4 [pinwheel]
+ * Level 5 [create "draw a triangle"]
+ * Level 6 [house]
+ * Level 7 [create "draw a house"]
+ * Level 8 [squares]
+ * Level 9 [parameterize triangle]
+ * Level 10 [parameterize house]
+ * Level 11 [free play]
  *
- * Level 1 [review: square]:
+ * PAGE 3
+ * ======
+ * Categories are introduced, with contents of:
+ * - Turtle
+ *   - draw_move with math_number
+ *   - draw_turn with math_number
+ *   - draw_width with math_number
+ *   - draw_pen (pen up/down)
+ *   - turtle_visibility (show/hide turtle)
+ * - Colour
+ *   - draw_colour (set colour)
+ *   - colour_picker
+ *   - colour_random
+ * - Control (added at level 2)
+ *   - controls_repeat
+ *   - controls_for
+ * - Math
+ *   - math_number
+ *   - math_arithmetic (added at level 8)
+ * - Procedures
+ * - Variables (added at level 2)
+ * Level 1 [nested squares without repeat block]
+ * Level 2 [nested squares with repeat block]
+ * Level 3 [more nested squares]
+ * Level 4 [repeat of level 2 without starter blocks]
+ * Level 5 [boxy spiral]
+ * Level 6 [square spiral]
+ * Level 7 [hexagon]
+ * Level 8 [polygon]
+ *
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none">
     {if $ij.page == 1}
-      {if $ij.level < $ij.maxLevel}
+      <block type="draw_move{if $ij.level < 6}_forward{/if}_inline"></block>">
+      <block type="draw_turn{if $ij.level < 6}_right{/if}_inline{if $ij.level < 9}_restricted{/if}">
+        <title name="VALUE">90</title>
+      </block>
+      {if $ij.level >= 3}
+        <block type="controls_repeat">
+          <title name="TIMES">4</title>
+        </block>
+      {/if}
+      {if $ij.level >= 4}
+        <block type="draw_colour">
+          <value name="COLOUR">
+            <block type="colour_picker"></block>
+          </value>
+        </block>
+      {/if}
+      {if $ij.level >= 8}
+        <block type="draw_pen"></block>
+      {/if}
+      {if $ij.level >= 11}
+        <block type="draw_colour">
+          <value name="COLOUR">
+            <block type="colour_random"></block>
+          </value>
+        </block>
+      {/if}
+      {if $ij.level == $ij.maxLevel}
+        <block type="draw_width">
+          <value name="WIDTH">
+            <block type="math_number">
+              <title name="NUM">1</title>
+            </block>
+          </value>
+        </block>
+        <block type="colour_rgb">
+          <value name="RED">
+            <block type="math_number">
+              <title name="NUM">0</title>
+            </block>
+          </value>
+          <value name="GREEN">
+            <block type="math_number">
+              <title name="NUM">0</title>
+            </block>
+          </value>
+          <value name="BLUE">
+            <block type="math_number">
+              <title name="NUM">1</title>
+            </block>
+          </value>
+        </block>
+      {/if}
+    {elseif $ij.page == 2}
+      <block type="draw_move">
+        <value name="VALUE">
+          <block type="math_number">
+            <title name="NUM">100</title>
+          </block>
+        </value>
+      </block>
+      <block type="draw_turn">
+        <value name="VALUE">
+          <block type="math_number">
+            <title name="NUM">90</title>
+          </block>
+        </value>
+      </block>
+      <block type="draw_colour">
+        <value name="COLOUR">
+          <block type="colour_picker"></block>
+        </value>
+      </block>
+      <block type="draw_colour">
+        <value name="COLOUR">
+          <block type="colour_random"></block>
+        </value>
+      </block>
+      <block type="controls_repeat">
+        <title name="TIMES">4</title>
+      </block>
+      <block type="turtle_visibility"></block>
+      {if $ij.level == 5 or $ij.level == 7}
+        <block type="procedures_defnoreturn">
+        </block>
+      {/if}
+      {if $ij.level >= 2}
+        <block type="procedures_callnoreturn">
+          <mutation name="draw a square">
+          {if $ij.level >= 8}
+            <arg name="length"></arg>
+          {/if}
+          </mutation>
+        </block>
+      {/if}
+      {if $ij.level >= 5}
+        <block type="procedures_callnoreturn">
+          <mutation name="draw a triangle">
+            {if $ij.level >= 9}
+              <arg name="length"></arg>
+            {/if}
+          </mutation>
+        </block>
+      {/if}
+      {if $ij.level == 7 or $ij.level >= 10}
+        <block type="procedures_callnoreturn">
+          <mutation name="draw a house">
+          {if $ij.level >= 10}
+            <arg name="length"></arg>
+          {/if}
+          </mutation>
+        </block>
+      {/if}
+      {if $ij.level >= 8}
+        <block type="math_number">
+          <title name="NUM">50</title>
+        </block>
+      {/if}
+      {if $ij.level >= 9}
+        <block type="variables_get_length"></block>
+      {/if}
+      {if $ij.level >= 10}
+      {/if}
+    {else}  // page == 3
+      {if $ij.level == $ij.maxLevel + 1}
+        <category name="FOR GENERATING EXAMPLES">
+          <block type="draw_move_forward_inline"></block>
+          <block type="draw_move_inline"></block>
+          <block type="draw_turn_right_inline_restricted"></block>
+          <block type="draw_turn_inline_restricted"></block>
+          <block type="draw_turn_inline"></block>
+        </category>
+      {/if}
+      <category name="{$ij.MSG.catTurtle}">
         <block type="draw_move">
           <value name="VALUE">
             <block type="math_number">
@@ -137,78 +843,40 @@
             </block>
           </value>
         </block>
-        {if $ij.level >= 2}
-          <block type="draw_turn">
-            <value name="VALUE">
-              <block type="math_number">
-                <title name="NUM">
-                  90
-                </title>
-              </block>
-            </value>
-          </block>
-        {/if}
-        {if $ij.level >= 3}
-          <block type="controls_repeat">
-            <title name="TIMES">4</title>
-          </block>
-        {/if}
-        {if $ij.level >= 4}
-          <block type="draw_colour">
-            <value name="COLOUR">
-              <block type="colour_picker"></block>
-            </value>
-          </block>
-        {/if}
-        {if $ij.level >= 10}
-          <block type="draw_colour">
-            <value name="COLOUR">
-              <block type="colour_random"></block>
-            </value>
-          </block>
-        {/if}
-      {else}
-        <category name="{$ij.MSG.catTurtle}">
-          <block type="draw_move">
-            <value name="VALUE">
-              <block type="math_number">
-                <title name="NUM">10</title>
-              </block>
-            </value>
-          </block>
-          <block type="draw_turn">
-            <value name="VALUE">
-              <block type="math_number">
-                <title name="NUM">90</title>
-              </block>
-            </value>
-          </block>
-          <block type="draw_width">
-            <value name="WIDTH">
-              <block type="math_number">
-                <title name="NUM">1</title>
-              </block>
-            </value>
-          </block>
-          <block type="draw_pen"></block>
-          <block type="turtle_visibility"></block>
-        </category>
-        <category name="{$ij.MSG.catColour}">
-          <block type="draw_colour">
-            <value name="COLOUR">
-              <block type="colour_picker"></block>
-            </value>
-          </block>
-          <block type="colour_picker"></block>
-          <block type="colour_random"></block>
+        <block type="draw_move"></block>
+        </block>
+        <block type="draw_turn">
+          <value name="VALUE">
+            <block type="math_number">
+              <title name="NUM">90</title>
+            </block>
+          </value>
+        </block>
+        <block type="draw_turn"></block>
+        <block type="draw_width">
+          <value name="WIDTH">
+            <block type="math_number">
+              <title name="NUM">1</title>
+            </block>
+          </value>
+        </block>
+        <block type="draw_pen"></block>
+        <block type="turtle_visibility"></block>
+      </category>
+      <category name="{$ij.MSG.catColour}">
+        <block type="draw_colour"></block>
+        <block type="colour_picker"></block>
+        <block type="colour_random"></block>
+        {if $ij.level == $ij.maxLevel}
           <block type="colour_rgb"></block>
           <block type="colour_blend"></block>
-        </category>
+        {/if}
+      </category>
+      {if $ij.level >= 2}
         <category name="{$ij.MSG.catControl}">
-          <block type="controls_if"></block>
           <block type="controls_repeat"></block>
-          <block type="controls_whileUntil"></block>
           <block type="controls_for">
+            <title name="VAR">counter</title>
             <value name="FROM">
               <block type="math_number">
                 <title name="NUM">1</title>
@@ -216,35 +884,26 @@
             </value>
             <value name="TO">
               <block type="math_number">
-                <title name="NUM">10</title>
+                  <title name="NUM">100</title>
+              </block>
+            </value>
+            <value name="BY">
+              <block type="math_number">
+                  <title name="NUM">1</title>
               </block>
             </value>
           </block>
-          <block type="controls_forEach"></block>
-          <block type="controls_flow_statements"></block>
         </category>
-        <category name="{$ij.MSG.catLogic}">
-          <block type="logic_compare"></block>
-          <block type="logic_operation"></block>
-          <block type="logic_negate"></block>
-          <block type="logic_boolean"></block>
-          <block type="logic_null"></block>
-          <block type="logic_ternary"></block>
-        </category>
-        <category name="{$ij.MSG.catMath}">
-          <block type="math_number"></block>
+      {/if}
+      <category name="{$ij.MSG.catMath}">
+        <block type="math_number"></block>
+        {if $ij.level >= 8}
           <block type="math_arithmetic"></block>
+        {/if}
+        {if $ij.level == $ij.maxLevel}
           <block type="math_single"></block>
           <block type="math_trig"></block>
           <block type="math_constant"></block>
-          <block type="math_number_property"></block>
-          <block type="math_change">
-            <value name="DELTA">
-              <block type="math_number">
-                <title name="NUM">1</title>
-              </block>
-            </value>
-          </block>
           <block type="math_round"></block>
           <block type="math_on_list"></block>
           <block type="math_modulo"></block>
@@ -273,63 +932,12 @@
             </value>
           </block>
           <block type="math_random_float"></block>
-        </category>
-        <category name="{$ij.MSG.catLists}">
-          <block type="lists_create_empty"></block>
-          <block type="lists_create_with"></block>
-          <block type="lists_repeat">
-            <value name="NUM">
-              <block type="math_number">
-                <title name="NUM">5</title>
-              </block>
-            </value>
-          </block>
-          <block type="lists_length"></block>
-          <block type="lists_isEmpty"></block>
-          <block type="lists_indexOf">
-            <value name="VALUE">
-              <block type="variables_get">
-                <title name="VAR">list</title>
-              </block>
-            </value>
-          </block>
-          <block type="lists_getIndex">
-            <value name="VALUE">
-              <block type="variables_get">
-                <title name="VAR">list</title>
-              </block>
-            </value>
-          </block>
-          <block type="lists_setIndex">
-            <value name="LIST">
-              <block type="variables_get">
-                <title name="VAR">list</title>
-              </block>
-            </value>
-          </block>
-          <block type="lists_getSublist">
-            <value name="LIST">
-              <block type="variables_get">
-                <title name="VAR">list</title>
-              </block>
-            </value>
-          </block>
-        </category>
+        {/if}
+      </category>
+      <category name="{$ij.MSG.catProcedures}" custom="PROCEDURE"></category>
+      {if $ij.level >= 2}
         <category name="{$ij.MSG.catVariables}" custom="VARIABLE"></category>
-        <category name="{$ij.MSG.catProcedures}" custom="PROCEDURE"></category>
       {/if}
-    {elseif $ij.page == 2}
-      <block type="math_number">
-        <title name="NUM">0</title>
-      </block>
-      <block type="draw_move"></block>
-      <block type="draw_turn"></block>
-      <block type="controls_repeat">
-        <title name="TIMES">4</title>
-      </block>
-      <block type="draw_colour"></block>
-      <block type="colour_picker"></block>
-      <block type="colour_random"></block>
     {/if}
   </xml>
 {/template}

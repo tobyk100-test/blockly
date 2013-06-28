@@ -27,6 +27,165 @@
 
 Blockly.JavaScript = Blockly.Generator.get('JavaScript');
 
+// Limited blocks for tutorial.
+
+Blockly.Language.draw_move_forward_inline = {
+  // Block for moving forward the internal number of pixels.
+  helpUrl: 'http://www.example.com/',
+  init: function() {
+    this.setColour(160);
+    this.appendDummyInput()
+        .appendTitle(MSG.moveForward);
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldTextInput('100',
+          Blockly.FieldTextInput.numberValidator), 'VALUE')
+        .appendTitle(MSG.pixels);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(MSG.moveForwardTooltip);
+  }
+};
+
+Blockly.JavaScript.draw_move_forward_inline = function() {
+  // Generate JavaScript for moving forward the internal number of pixels.
+  var value = window.parseFloat(this.getTitleValue('VALUE'));
+  return 'Turtle.moveForward(' + value + ', \'' + this.id + '\');\n';
+};
+
+Blockly.Language.draw_move_inline = {
+  // Block for moving forward or backward the internal number of pixels.
+  helpUrl: 'http://www.example.com/',
+  init: function() {
+    this.setColour(160);
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldDropdown(
+            Blockly.Language.draw_move.DIRECTIONS), 'DIR');
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldTextInput('100',
+          Blockly.FieldTextInput.numberValidator), 'VALUE')
+        .appendTitle(MSG.pixels);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(MSG.moveForwardTooltip);
+  }
+};
+
+Blockly.JavaScript.draw_move_inline = function() {
+  // Generate JavaScript for moving forward or backward the internal number of
+  // pixels.
+  var value = window.parseFloat(this.getTitleValue('VALUE'));
+  return 'Turtle.' + this.getTitleValue('DIR') +
+      '(' + value + ', \'' + this.id + '\');\n';
+};
+
+Blockly.Language.draw_turn_right_inline_restricted = {
+  // Block for turning right from among a fixed set of angles.
+  helpUrl: '',
+  init: function() {
+    this.setColour(160);
+    this.appendDummyInput()
+        .appendTitle(MSG.turnRight);
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldDropdown(this.VALUE), 'VALUE')
+        .appendTitle(MSG.degrees);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(MSG.turnTooltip);
+  }
+};
+
+Blockly.Language.draw_turn_right_inline_restricted.VALUE =
+    [30, 45, 60, 90, 120, 135, 150, 180].
+    map(function(t) {return [String(t), String(t)];});
+
+Blockly.JavaScript.draw_turn_right_inline_restricted = function() {
+  // Generate JavaScript for turning right from among a fixed set of angles.
+  var value = window.parseFloat(this.getTitleValue('VALUE'));
+  return 'Turtle.turnRight(' + value + ', \'' + this.id + '\');\n';
+};
+
+Blockly.Language.draw_turn_inline_restricted = {
+  // Block for turning either left or right from among a fixed set of angles.
+  helpUrl: '',
+  init: function() {
+    this.setColour(160);
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldDropdown(
+            Blockly.Language.draw_turn.DIRECTIONS), 'DIR');
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldDropdown(this.VALUE), 'VALUE')
+        .appendTitle(MSG.degrees);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(MSG.turnTooltip);
+  }
+};
+
+Blockly.Language.draw_turn_inline_restricted.VALUE =
+    Blockly.Language.draw_turn_right_inline_restricted.VALUE;
+
+Blockly.JavaScript.draw_turn_inline_restricted = function() {
+  // Generate JavaScript for turning either left or right from among a fixed
+  // set of angles.
+  var value = window.parseFloat(this.getTitleValue('VALUE'));
+  return 'Turtle.' + this.getTitleValue('DIR') +
+      '(' + value + ', \'' + this.id + '\');\n';
+};
+
+Blockly.Language.draw_turn_inline = {
+  // Block for turning left or right any number of degrees.
+  helpUrl: '',
+  init: function() {
+    this.setColour(160);
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldDropdown(
+            Blockly.Language.draw_turn.DIRECTIONS), 'DIR');
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldTextInput('90',
+            Blockly.FieldTextInput.numberValidator), 'VALUE')
+        .appendTitle(MSG.degrees);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(MSG.turnTooltip);
+  }
+};
+
+Blockly.JavaScript.draw_turn_inline = function() {
+  // Generate JavaScript for turning left or right.
+  var value = window.parseFloat(this.getTitleValue('VALUE'));
+  return 'Turtle.' + this.getTitleValue('DIR') +
+      '(' + value + ', \'' + this.id + '\');\n';
+};
+
+Blockly.Language.variables_get_length = {
+  // Block for getting the value of the variable named 'length'.
+  // (This exists so it is possible to get the value without a
+  // VARIABLES category.)
+  category: null,  // Variables are handled specially.
+  helpUrl: Blockly.LANG_VARIABLES_GET_HELPURL,
+  init: function() {
+    this.setColour(330);
+    this.appendDummyInput()
+        .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
+        .appendTitle(new Blockly.FieldDropdown([['length', 'length']]), 'VAR');
+    this.setOutput(true);
+    this.setTooltip(Blockly.LANG_VARIABLES_GET_TOOLTIP);
+  }
+};
+
+Blockly.JavaScript.variables_get_length = Blockly.JavaScript.variables_get;
+
+// Delete these standard blocks.
+delete Blockly.Language.procedures_defreturn;
+delete Blockly.Language.procedures_ifreturn;
+
+// General blocks.
+
 Blockly.Language.draw_move = {
   // Block for moving forward or backwards.
   helpUrl: '',
@@ -52,7 +211,6 @@ Blockly.JavaScript.draw_move = function() {
   return 'Turtle.' + this.getTitleValue('DIR') +
       '(' + value + ', \'block_id_' + this.id + '\');\n';
 };
-
 
 Blockly.Language.draw_turn = {
   // Block for turning left or right.
@@ -81,7 +239,7 @@ Blockly.JavaScript.draw_turn = function() {
 };
 
 Blockly.Language.draw_width = {
-  // Block for setting the width.
+  // Block for setting the pen width.
   helpUrl: '',
   init: function() {
     this.setColour(160);
@@ -95,7 +253,7 @@ Blockly.Language.draw_width = {
 };
 
 Blockly.JavaScript.draw_width = function() {
-  // Generate JavaScript for setting the width.
+  // Generate JavaScript for setting the pen width.
   var width = Blockly.JavaScript.valueToCode(this, 'WIDTH',
       Blockly.JavaScript.ORDER_NONE) || '1';
   return 'Turtle.penWidth(' + width + ', \'block_id_' + this.id + '\');\n';
@@ -114,7 +272,8 @@ Blockly.Language.draw_pen = {
   }
 };
 
-Blockly.Language.draw_pen.STATE = [[MSG.penUp, 'penUp'], [MSG.penDown, 'penDown']];
+Blockly.Language.draw_pen.STATE =
+    [[MSG.penUp, 'penUp'], [MSG.penDown, 'penDown']];
 
 Blockly.JavaScript.draw_pen = function() {
   // Generate JavaScript for pen up/down.
