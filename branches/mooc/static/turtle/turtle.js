@@ -33,10 +33,10 @@ var Turtle = {};
  * If the parameter is absent or less than min_value, min_value is
  * returned.  If it is greater than max_value, max_value is returned.
  *
- * @param {string} name the name of the parameter.
- * @param {number} min_value the minimum legal value.
- * @param {number} max_value the maximum legal value.
- * @return {number} a number in the range [min_value, max_value]
+ * @param {string} name The name of the parameter.
+ * @param {number} min_value The minimum legal value.
+ * @param {number} max_value The maximum legal value.
+ * @return {number} A number in the range [min_value, max_value].
  */
 Turtle.getNumberFromUrl = function(name, min_value, max_value) {
   var val = window.location.search.match(new RegExp('[?&]' + name + '=(\\d+)'));
@@ -45,22 +45,40 @@ Turtle.getNumberFromUrl = function(name, min_value, max_value) {
   return val;
 };
 
-Turtle.PAGE = Turtle.getNumberFromUrl('page', 1, 2);
+Turtle.PAGE = Turtle.getNumberFromUrl('page', 1, MSG.prompts.length);
 Turtle.MAX_LEVEL = MSG.prompts[Turtle.PAGE].length - 1;
 Turtle.LEVEL = Turtle.getNumberFromUrl('level', 1, Turtle.MAX_LEVEL);
+Turtle.REINF = Turtle.getNumberFromUrl(
+    'reinf', 0, MSG.reinf_data[Turtle.PAGE].length - 1);
 
 document.write(turtlepage.start({}, null,
     {MSG: MSG,
      title: MSG.title.replace('%1', Turtle.PAGE),
      page: Turtle.PAGE,
      level: Turtle.LEVEL,
+     reinf: Turtle.REINF ? MSG.reinf_data[Turtle.PAGE][Turtle.LEVEL] : 0,
      maxLevel: Turtle.MAX_LEVEL}));
+
 var maxBlocks = [
-  undefined, // Level 0
-  Infinity, Infinity, 7, Infinity, Infinity,
-  Infinity, Infinity, Infinity, Infinity, Infinity][Turtle.LEVEL];
+  [],  // Page 0.
+  // Page 1.
+  [undefined, // Level 0
+   Infinity, Infinity, 3, 5, 4,
+   8, 10, 9, Infinity, Infinity],
+  // Page 2.
+  [undefined,
+   5, Infinity, Infinity, 12, 13,
+   Infinity, 18, 12, 16, Infinity],
+  // Page 3.
+  [undefined,
+   Infinity, 20, Infinity, Infinity, Infinity, Infinity, Infinity]]
+  [Turtle.PAGE][Turtle.LEVEL];
 Turtle.HEIGHT = 400;
 Turtle.WIDTH = 400;
+
+// Page 1.
+Turtle.SET_COLOUR_LEVEL = 4;
+Turtle.MULTI_TULIP_LEVEL = 7;
 
 /**
  * PID of animation task currently executing.
@@ -76,12 +94,17 @@ Turtle.visible = true;
  * Initialize Blockly and the turtle.  Called on page load.
  */
 Turtle.init = function() {
+  if (Turtle.REINF) {
+    return;
+  }
+
   // document.dir fails in Mozilla, use document.body.parentNode.dir instead.
   // https://bugzilla.mozilla.org/show_bug.cgi?id=151407
   var rtl = document.body.parentNode.dir == 'rtl';
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
       {path: '../',
+       collapse: (Turtle.PAGE == 2 && Turtle.LEVEL >= 10) || Turtle.PAGE == 3,
        maxBlocks: maxBlocks,
        rtl: rtl,
        toolbox: toolbox,
@@ -118,17 +141,12 @@ Turtle.init = function() {
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1));
   } else {
-    // Load the editor with starting blocks.
-    var xml =
-        '  <block type="draw_move" x="70" y="70">' +
-        '    <value name="VALUE">' +
-        '      <block type="math_number">' +
-        '        <title name="NUM">100</title>' +
-        '      </block>' +
-        '    </value>' +
-        '  </block>';
-    xml = Blockly.Xml.textToDom('<xml>' + xml + '</xml>');
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+    var xml = document.getElementById('start_blocks').innerHTML;
+
+    if (xml) {
+      xml = Blockly.Xml.textToDom('<xml>' + xml + '</xml>');
+      Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+    }
   }
 
   Turtle.ctxDisplay = document.getElementById('display').getContext('2d');
@@ -389,17 +407,27 @@ Turtle.checkAnswer = function() {
   var len = Math.min(userImage.data.length, answerImage.data.length);
   var delta = 0;
   // Pixels are in RGBA format.  Only check the Alpha bytes.
-  for(var i = 3; i < len; i += 4) {
+  for (var i = 3; i < len; i += 4) {
+    // Check the Alpha byte.
     if ((userImage.data[i] == 0) != (answerImage.data[i] == 0)) {
       delta++;
     }
   }
   if (Turtle.isCorrect(delta)) {
     BlocklyApps.congratulations(Turtle.PAGE, Turtle.LEVEL, Turtle.MAX_LEVEL,
-                                 MSG);
+                                 MSG, 1);
   }
 };
 
+/**
+ * Goes to the next level from an interstitial screen.
+ */
+Turtle.continueButtonClick = function() {
+  document.getElementById('continueButton').style.display = 'none';
+  window.location = window.location.protocol + '//' + window.location.host +
+      window.location.pathname + '?page=' + Turtle.PAGE + '&level=' +
+      Turtle.LEVEL;
+};
 
 // Turtle API.
 
