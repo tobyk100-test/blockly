@@ -27,6 +27,7 @@ Include the following snippet in your web page:
 The iframe is where Blockly will appear.  It will be sized as needed using tables, CSS, or !JavaScript.  The next step is to create the frame for the editor.  Here's a good starting snippet for `frame.html`.
 
 {{{
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -38,6 +39,7 @@ The iframe is where Blockly will appear.  It will be sized as needed using table
         margin: 0;
         padding: 0;
         overflow: hidden;
+        height: 100%;
       }
       .blocklySvg {
         height: 100%;
