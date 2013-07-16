@@ -1,7 +1,0 @@
-{
-	"6708873735914356822-HTTPREQUEST_ERROR": "alert - This is displayed if the URL is invalid or a server error occurred; %1 is further information about the error.",
-	"554933267022847434-LINK_ALERT": "alert - This is shown after the user has pressed a button to save his/her program; %1 is the URL to retrieve the program.",
-	"8523039314512897997-HASH_ERROR": "alert - This is displayed if a request to retrieve a stored program does not have a valid URL. %1 is the invalid portion of the URL. 'Blockly' is the name of the system.  It should be left untranslated or transliterated.",
-	"2939986560796703529-XML_ERROR": "alert - This is displayed if there was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  Debugging information follows.",
-
-}
