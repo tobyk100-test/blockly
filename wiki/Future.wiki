@@ -41,5 +41,6 @@ Writing large programs in most visual programming environments is cumbersome.  T
  * Debugging hooks.  Being able to run a program, step forwards and backwards, inspect variables, set break points.
  * Search.  Find functions, callers, variables, and other code searching activities.  Likewise, a search and replace feature would allow for easier maintenance of code.
  * Libraries.  How does one bundle code into a reusable, publishable module that other programs may include and depend on?
+ * Collaboration.  Blockly was designed from the beginning to integrate well with the [https://developers.google.com/drive/realtime/ Google Drive SDK].  This would allow real-time multi-user collaborative editing.
 
-Let us know what your priorities are.  Also, Blockly is open source so if there is a feature you need then you are free to work on it.
+But most important of all, grab a copy of Blockly, integrate it with your apps, and see how your users like it.  We love to see Blockly out in the real world -- from teaching programming to students, to controlling heavy machinery in a factory.
