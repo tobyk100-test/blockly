@@ -11,7 +11,7 @@ IN PROGRESS
 
 = Translators =
 
-Siebrand Mazeland helped immensely by setting us up at http://translatewiki.net, which we have been using.
+Siebrand Mazeland helped immensely by setting us up at http://translatewiki.net, which we have been using.  Anatoly Techtonik helped with several Serbian languages.
 
 == Afrikaans (af) ==
  * [https://translatewiki.net/wiki/User:Naudefj Naudefj]
