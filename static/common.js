@@ -24,15 +24,91 @@
 
 'use strict';
 
-/**
- * The richness of block colours, regardless of the hue.
- * MOOC blocks should be brighter (target audience is younger).
- * Must be in the range of 0 (inclusive) to 1 (exclusive).
- * Blockly's default is 0.45.
- */
-Blockly.HSV_SATURATION = 0.6;
-
 var BlocklyApps = {};
+
+/**
+ * Extracts a parameter from the URL.
+ * If the parameter is absent default_value is returned.
+ * @param {string} name The name of the parameter.
+ * @param {string} defaultValue Value to return if paramater not found.
+ * @return {string} The parameter value or the default value if not found.
+ */
+BlocklyApps.getStringParamFromUrl = function(name, defaultValue) {
+  var val =
+      window.location.search.match(new RegExp('[?&]' + name + '=([^&]+)'));
+  return val ? decodeURIComponent(val[1]) : defaultValue;
+};
+
+/**
+ * Extracts a numeric parameter from the URL.
+ * If the parameter is absent or less than min_value, min_value is
+ * returned.  If it is greater than max_value, max_value is returned.
+ * @param {string} name The name of the parameter.
+ * @param {number} minValue The minimum legal value.
+ * @param {number} maxValue The maximum legal value.
+ * @return {number} A number in the range [min_value, max_value].
+ */
+BlocklyApps.getNumberParamFromUrl = function(name, minValue, maxValue) {
+  var val = Number(BlocklyApps.getStringParamFromUrl(name, 'NaN'));
+  return isNaN(val) ? minValue : Math.min(Math.max(minValue, val), maxValue);
+};
+
+/**
+ * Use a series of heuristics that determine the likely language of this user.
+ * Use a session cookie to load/save the language preference.
+ * @return {string} User's language.
+ * @throws {string} If no languages exist in this app.
+ */
+BlocklyApps.getLang = function() {
+  // First choice: The URL specified language.
+  var lang = BlocklyApps.getStringParamFromUrl('lang', '');
+  if (BlocklyApps.LANGUAGES[lang]) {
+    // Save this explicit choice as cookie.
+    // Use of a session cookie for saving language is explicitly permitted
+    // in the EU's Cookie Consent Exemption policy.  Section 3.6:
+    // http://ec.europa.eu/justice/data-protection/article-29/documentation/
+    //   opinion-recommendation/files/2012/wp194_en.pdf
+    document.cookie = 'lang=' + escape(lang) + '; path=/';
+    return lang;
+  }
+  // Second choice: Language cookie.
+  var cookie = document.cookie.match(/(^|;)\s*lang=(\w+)/);
+  if (cookie) {
+    lang = unescape(cookie[2]);
+    if (BlocklyApps.LANGUAGES[lang]) {
+      return lang;
+    }
+  }
+  // Third choice: The browser's language.
+  lang = navigator.language;
+  if (BlocklyApps.LANGUAGES[lang]) {
+    return lang;
+  }
+  // Fourth choice: English.
+  lang = 'en';
+  if (BlocklyApps.LANGUAGES[lang]) {
+    return lang;
+  }
+  // Fifth choice: I'm feeling lucky.
+  for (var lang in BlocklyApps.LANGUAGES) {
+    return lang;
+  }
+  // Sixth choice: Die.
+  throw 'No languages available.'
+};
+
+/**
+ * User's language.
+ * @type {?string}
+ */
+BlocklyApps.LANG = undefined;
+
+/**
+ * List of languages supported by this app.  Keys should be in ISO 639 format.
+ * @type {Object}
+ */
+BlocklyApps.LANGUAGES = undefined;
+
 
 /**
  * Load the specified language file(s).
@@ -157,4 +233,19 @@ BlocklyApps.showCode = function() {
   var code = Blockly.Generator.workspaceToCode('JavaScript');
   code = BlocklyApps.stripCode(code);
   window.alert(code);
+};
+
+/**
+ * Gets the message with the given key from the document.
+ * @param {string} key The key of the document element.
+ * @return {string} The innerHTML of the specified element, or undefined if the
+ *     element was not found.
+ */
+BlocklyApps.getMsg = function(key) {
+  var element = document.getElementById(key);
+  if (element) {
+    return element.innerHTML;
+  } else {
+    return '[Unknown message: ' +  key + ']';
+  }
 };
