@@ -28,40 +28,84 @@
  */
 var Maze = {};
 
-/**
- * Extracts a numeric parameter from the URL.
- * If the parameter is absent or less than min_value, min_value is
- * returned.  If it is greater than max_value, max_value is returned.
- *
- * @param {string} name the name of the parameter.
- * @param {number} min_value the minimum legal value.
- * @param {number} max_value the maximum legal value.
- * @return {number} a number in the range [min_value, max_value]
- */
-Maze.getNumberFromUrl = function(name, min_value, max_value) {
-  var val = window.location.search.match(new RegExp('[?&]' + name + '=(\\d+)'));
-  val = val ? val[1] : min_value;
-  val = Math.min(Math.max(min_value, val), max_value);
-  return val;
-};
+// Supported languages.
+BlocklyApps.LANGUAGES = {
+  // Format: ['Language name', 'direction', 'XX_compressed.js']
+  ca: ['Català', 'ltr', 'en_compressed.js'],
+  cs: ['Čeština', 'ltr', 'en_compressed.js'],
+  sr: ['Српски', 'ltr', 'en_compressed.js'],
+  da: ['Dansk', 'ltr', 'en_compressed.js'],
+  de: ['Deutsch', 'ltr', 'de_compressed.js'],
+  en: ['English', 'ltr', 'en_compressed.js'],
+  es: ['Español', 'ltr', 'en_compressed.js'],
+  eu: ['Euskara', 'ltr', 'en_compressed.js'],
+  el: ['Eλληνικά', 'ltr', 'en_compressed.js'],
+  fr: ['Français', 'ltr', 'en_compressed.js'],
+  it: ['Italiano', 'ltr', 'en_compressed.js'],
+  sw: ['Kishwahili', 'ltr', 'en_compressed.js'],
+  lv: ['Latviešu', 'ltr', 'en_compressed.js'],
+  hu: ['Magyar', 'ltr', 'en_compressed.js'],
+  nl: ['Nederlands', 'ltr', 'en_compressed.js'],
+  pl: ['Polski', 'ltr', 'en_compressed.js'],
+  pt: ['Português', 'ltr', 'en_compressed.js'],
+  ru: ['Русский', 'ltr', 'en_compressed.js'],
+  tr: ['Türkçe', 'ltr', 'en_compressed.js'],
+  vi: ['Tiếng Việt', 'ltr', 'vi_compressed.js'],
+  th: ['ภาษาไทย', 'ltr', 'en_compressed.js']};
+BlocklyApps.LANG = BlocklyApps.getLang();
 
-Maze.MAX_LEVEL = MSG.hints.length - 1;
-Maze.LEVEL = Maze.getNumberFromUrl('level', 1, Maze.MAX_LEVEL);
-document.write(mazepage.start({}, null,
-    {MSG: MSG,
-     level: Maze.LEVEL}));
-var maxBlocks = [undefined, // Level 0.
-    Infinity, Infinity, 2, 5, 5, 5, 5, 10, 7, 10][Maze.LEVEL];
+document.write('<script type="text/javascript" src="' +
+               BlocklyApps.LANG + '.js"></script>\n');
+
+Maze.MAX_LEVEL = 11;
+Maze.MAX_REINF = 9;
+
+Maze.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1, Maze.MAX_LEVEL);
+Maze.REINF = BlocklyApps.getNumberParamFromUrl('reinf', 1, Maze.MAX_REINF);
+Maze.idealBlockNum = [undefined, //  0.
+  2, 5, 2, 5, 5, 4, 4, 4, 6, 6, 4][Maze.LEVEL];
+
+Maze.SKINS = [
+  // sprite: A 1029x51 set of 21 avatar images.
+  // tiles: A 250x200 set of 20 map images.
+  // marker: A 20x34 goal image.
+  // background: An optional 400x450 background image, or false.
+  // graph: Colour of optional grid lines, or false.
+  // look: Colour of sonar-like look icon.
+  {
+    sprite: 'pegman.png',
+    tiles: 'tiles_pegman.png',
+    marker: 'marker.png',
+    background: false,
+    graph: false,
+    look: '#000'
+  },
+  {
+    sprite: 'astro.png',
+    tiles: 'tiles_astro.png',
+    marker: 'marker.png',
+    background: 'bg_astro.jpg',
+    // Coma star cluster, photo by George Hatfield, used with permission.
+    graph: false,
+    look: '#fff'
+  },
+  {
+    sprite: 'panda.png',
+    tiles: 'tiles_panda.png',
+    marker: 'marker.png',
+    background: 'bg_panda.jpg',
+    // Spring canopy, photo by Rupert Fleetingly, CC licensed for reuse.
+    graph: false,
+    look: '#000'
+  }
+];
+Maze.SKIN_ID = BlocklyApps.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
+Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
 
 /**
  * Milliseconds between each animation frame.
  */
 Maze.stepSpeed;
-
-/**
- * Display a less-realistic, more mathematical map with grid lines.
- */
-Maze.GRAPH_UI = false;
 
 /**
  * The types of squares in the maze, which is represented
@@ -80,7 +124,7 @@ Maze.SquareType = {
 Maze.map = [
  // Level 0.
  undefined,
- // Level 1.
+// Level 1.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -89,16 +133,7 @@ Maze.map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
- // Level 2.
- [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 3, 0, 0, 0],
-  [0, 0, 2, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
- // Level 3.
+// Level 2.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -107,7 +142,39 @@ Maze.map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
- // Level 4.
+// Level 3.
+ [[0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 2, 1, 1, 1, 1, 3, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]],
+// Level 4.
+ [[0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 1, 3, 0, 0, 0],
+  [0, 0, 2, 1, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]],
+// Level 5.
+/**
+ *  Note, the path continues past the start and the
+ *  goal in both directions. This is intentionally
+ *  done so kids see the maze is about getting from
+ *  the start to the finish and not necessarily
+ *  about moving over every part of the maze, 'mowing
+ *  the lawn' as Neil calls it.
+ */
+/**
+ * Note, the path continues past the start and the goal in both directions.
+ * This is intentionally done so kids see the maze is about getting from
+ * the start to the goal and not necessarily about moving over every part of
+ * the maze, 'mowing the lawn' as Neil calls it.
+ */
  [[0, 0, 0, 0, 0, 0, 0, 1],
   [0, 0, 0, 0, 0, 0, 1, 1],
   [0, 0, 0, 0, 0, 1, 3, 0],
@@ -116,7 +183,7 @@ Maze.map = [
   [0, 0, 1, 1, 0, 0, 0, 0],
   [0, 2, 1, 0, 0, 0, 0, 0],
   [1, 1, 0, 0, 0, 0, 0, 0]],
- // Level 5.
+// Level 6.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 3, 0, 0],
   [0, 0, 0, 0, 0, 1, 0, 0],
@@ -125,7 +192,7 @@ Maze.map = [
   [0, 0, 0, 0, 0, 1, 0, 0],
   [0, 0, 0, 2, 1, 1, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
- // Level 6.
+// Level 7.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 1, 1, 1, 1, 1, 0, 0],
@@ -134,16 +201,16 @@ Maze.map = [
   [0, 0, 0, 0, 0, 1, 0, 0],
   [0, 2, 1, 1, 1, 1, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
- // Level 7.
+// Level 8.
  [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 2, 1, 1, 1, 1, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 0],
+  [0, 0, 0, 0, 0, 1, 0, 0],
   [0, 1, 1, 3, 0, 1, 0, 0],
-  [0, 1, 0, 1, 0, 1, 0, 0],
-  [0, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 0, 0, 0, 1, 0, 0],
+  [0, 1, 1, 1, 1, 1, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
- // Level 8.
+// Level 9.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 1, 1, 1, 1, 0, 0, 0],
@@ -152,23 +219,23 @@ Maze.map = [
   [0, 0, 0, 1, 0, 1, 0, 0],
   [0, 2, 1, 1, 0, 3, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
- // Level 9.
+// Level 10.
  [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 1, 1, 0, 0],
-  [0, 0, 1, 0, 0, 0, 0, 0],
-  [3, 1, 1, 1, 1, 1, 1, 0],
-  [0, 1, 0, 1, 0, 1, 1, 0],
-  [1, 1, 1, 1, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 2, 1, 0],
+  [0, 1, 1, 1, 0, 0, 0, 0],
+  [0, 1, 0, 1, 0, 0, 0, 0],
+  [0, 1, 0, 1, 0, 1, 1, 1],
+  [0, 1, 0, 1, 0, 1, 0, 1],
+  [2, 1, 0, 1, 1, 1, 0, 3],
+  [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
- // Level 10.
+// Level 11.
  [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 0, 3, 0, 1, 0],
-  [0, 1, 1, 0, 1, 1, 1, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0],
-  [0, 1, 1, 1, 1, 1, 1, 0],
-  [0, 0, 1, 0, 0, 0, 1, 0],
-  [0, 2, 1, 1, 1, 0, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 1, 1, 3, 1, 0, 0],
+  [0, 0, 1, 1, 1, 1, 0, 0],
+  [0, 0, 1, 1, 1, 1, 0, 0],
+  [0, 0, 2, 1, 1, 1, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]]
 ][Maze.LEVEL];
 // Add blank row at top for hint bubble.
@@ -255,7 +322,18 @@ Maze.drawMap = function() {
   square.setAttribute('stroke', '#CCB');
   svg.appendChild(square);
 
-  if (Maze.GRAPH_UI) {
+  if (Maze.SKIN.background) {
+    var tile = document.createElementNS(Blockly.SVG_NS, 'image');
+    tile.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+        Maze.SKIN.background);
+    tile.setAttribute('height', Maze.MAZE_HEIGHT);
+    tile.setAttribute('width', Maze.MAZE_WIDTH);
+    tile.setAttribute('x', 0);
+    tile.setAttribute('y', 0);
+    svg.appendChild(tile);
+  }
+
+  if (Maze.SKIN.graph) {
     // Draw the grid lines.
     // The grid lines are offset so that the lines pass through the centre of
     // each square.  A half-pixel offset is also added to as standard SVG
@@ -266,7 +344,7 @@ Maze.drawMap = function() {
       h_line.setAttribute('y1', k * Maze.SQUARE_SIZE + offset);
       h_line.setAttribute('x2', Maze.MAZE_WIDTH);
       h_line.setAttribute('y2', k * Maze.SQUARE_SIZE + offset);
-      h_line.setAttribute('stroke', '#CCB');
+      h_line.setAttribute('stroke', Maze.SKIN.graph);
       h_line.setAttribute('stroke-width', 1);
       svg.appendChild(h_line);
     }
@@ -275,7 +353,7 @@ Maze.drawMap = function() {
       v_line.setAttribute('x1', k * Maze.SQUARE_SIZE + offset);
       v_line.setAttribute('x2', k * Maze.SQUARE_SIZE + offset);
       v_line.setAttribute('y2', Maze.MAZE_HEIGHT);
-      v_line.setAttribute('stroke', '#CCB');
+      v_line.setAttribute('stroke', Maze.SKIN.graph);
       v_line.setAttribute('stroke-width', 1);
       svg.appendChild(v_line);
     }
@@ -305,9 +383,8 @@ Maze.drawMap = function() {
 
       // Draw the tile.
       if (!Maze.tile_SHAPES[tile]) {
-        if (Maze.GRAPH_UI) {
-          tile = 'null0';
-        } else if (tile == '00000' && Math.random() > 0.3) {
+        // Empty square.  Use null0 for large areas, with null1-4 for borders.
+        if (tile == '00000' && Math.random() > 0.3) {
           tile = 'null0';
         } else {
           tile = 'null' + Math.floor(1 + Math.random() * 4);
@@ -330,7 +407,7 @@ Maze.drawMap = function() {
       // Tile sprite.
       var tile = document.createElementNS(Blockly.SVG_NS, 'image');
       tile.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-          'tiles.png');
+          Maze.SKIN.tiles);
       tile.setAttribute('height', Maze.SQUARE_SIZE * 4);
       tile.setAttribute('width', Maze.SQUARE_SIZE * 5);
       tile.setAttribute('clip-path', 'url(#tileClipPath' + tileId + ')');
@@ -345,7 +422,7 @@ Maze.drawMap = function() {
   var finishMarker = document.createElementNS(Blockly.SVG_NS, 'image');
   finishMarker.setAttribute('id', 'finish');
   finishMarker.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      'marker.png');
+      Maze.SKIN.marker);
   finishMarker.setAttribute('height', 34);
   finishMarker.setAttribute('width', 20);
   svg.appendChild(finishMarker);
@@ -364,9 +441,9 @@ Maze.drawMap = function() {
   var pegmanIcon = document.createElementNS(Blockly.SVG_NS, 'image');
   pegmanIcon.setAttribute('id', 'pegman');
   pegmanIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      'pegman.png');
+      Maze.SKIN.sprite);
   pegmanIcon.setAttribute('height', Maze.PEGMAN_HEIGHT);
-  pegmanIcon.setAttribute('width', Maze.PEGMAN_WIDTH * 18); // 49 * 18 = 882
+  pegmanIcon.setAttribute('width', Maze.PEGMAN_WIDTH * 21); // 49 * 21 = 1029
   pegmanIcon.setAttribute('clip-path', 'url(#pegmanClipPath)');
   svg.appendChild(pegmanIcon);
 };
@@ -375,18 +452,49 @@ Maze.drawMap = function() {
  * Initialize Blockly and the maze.  Called on page load.
  */
 Maze.init = function() {
-  // document.dir fails in Mozilla, use document.body.parentNode.dir instead.
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=151407
-  var rtl = document.body.parentNode.dir == 'rtl';
+  BlocklyApps.init();
+
+  // Setup the Pegman menu.
+  var pegmanImg = document.querySelector('#pegmanButton>img');
+  pegmanImg.style.backgroundImage = 'url(' + Maze.SKIN.sprite + ')';
+  var pegmanMenu = document.getElementById('pegmanMenu');
+  var handlerFactory = function(n) {
+    return function() {
+      Maze.changePegman(n);
+    };
+  };
+  for (var i = 0; i < Maze.SKINS.length; i++) {
+    if (i == Maze.SKIN_ID) {
+      continue;
+    }
+    var div = document.createElement('div');
+    var img = document.createElement('img');
+    img.src = '../media/1x1.gif';
+    img.style.backgroundImage = 'url(' + Maze.SKINS[i].sprite + ')';
+    div.appendChild(img);
+    pegmanMenu.appendChild(div);
+    Blockly.bindEvent_(div, 'mousedown', null, handlerFactory(i));
+  }
+  Blockly.bindEvent_(window, 'resize', null, Maze.hidePegmanMenu);
+
+  var rtl = BlocklyApps.LANGUAGES[BlocklyApps.LANG][1] == 'rtl';
   var toolbox = document.getElementById('toolbox');
+
+  /**
+   * The richness of block colours, regardless of the hue.
+   * MOOC blocks should be brighter (target audience is younger).
+   * Must be in the range of 0 (inclusive) to 1 (exclusive).
+   * Blockly's default is 0.45.
+   */
+  Blockly.HSV_SATURATION = 0.6;
+
   Blockly.inject(document.getElementById('blockly'),
       {path: '../',
-       maxBlocks: maxBlocks,
        rtl: rtl,
        toolbox: toolbox,
        trashcan: true});
-  Blockly.loadAudio_('maze/win.wav', 'win');
-  Blockly.loadAudio_('maze/whack.wav', 'whack');
+  Blockly.loadAudio_(['maze/win.mp3', 'maze/win.ogg'], 'win');
+  Blockly.loadAudio_(['maze/whack.mp3', 'maze/whack.ogg'], 'whack');
   if (Maze.LEVEL == 1) {
     Blockly.SNAP_RADIUS *= 2;
   }
@@ -404,24 +512,11 @@ Maze.init = function() {
   window.addEventListener('resize', onresize);
   onresize();
 
-  if (!('BlocklyStorage' in window)) {
-    document.getElementById('linkButton').className = 'disabled';
-  }
-  // An href with #key trigers an AJAX call to retrieve saved blocks.
-  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
-    BlocklyStorage.retrieveXml(window.location.hash.substring(1));
-  } else {
-    // Load the editor with a starting block.
-    var xml = Blockly.Xml.textToDom(
-        '<xml>' +
-        '  <block type="maze_moveForward" x="70" y="70"></block>' +
-        '</xml>');
-    // Configure any level-specific buttons.
-    if (Maze.LEVEL > 9) {
-      document.getElementById('randomizeButton').style.display = 'inline';
-    }
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
-  }
+  var defaultXml =
+      '<xml>' +
+      '  <block type="maze_moveForward" x="70" y="70"></block>' +
+      '</xml>';
+  BlocklyApps.loadBlocks(defaultXml);
 
   // Locate the start and finish squares.
   for (var y = 0; y < Maze.ROWS; y++) {
@@ -434,21 +529,91 @@ Maze.init = function() {
     }
   }
 
-  Maze.reset();
-  Blockly.addChangeListener(function() {BlocklyApps.updateCapacity(MSG)});
+  Maze.reset(true);
+  Blockly.addChangeListener(function() {BlocklyApps.updateCapacity()});
 };
 
 window.addEventListener('load', Maze.init);
 
 /**
- * Reset the maze to the start position and kill any pending animation tasks.
+ * Reload with a different Pegman skin.
+ * @param {number} skin ID of new skin.
  */
-Maze.reset = function() {
+Maze.changePegman = function(newSkin) {
+  Maze.saveToStorage();
+  window.location = window.location.protocol + '//' +
+      window.location.host + window.location.pathname +
+      '?lang=' + BlocklyApps.LANG + '&level=' + Maze.LEVEL + '&skin=' + newSkin;
+};
+
+/**
+ * Save the blocks for a one-time reload.
+ */
+Maze.saveToStorage = function() {
+  var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+  var text = Blockly.Xml.domToText(xml);
+  window.sessionStorage.loadOnceBlocks = text;
+};
+
+/**
+ * Display the Pegman skin-change menu.
+ */
+Maze.showPegmanMenu = function() {
+  var menu = document.getElementById('pegmanMenu');
+  if (menu.style.display == 'block') {
+    return;  // Menu is already open.
+  }
+  var button = document.getElementById('pegmanButton');
+  Blockly.addClass_(button, 'buttonHover');
+  menu.style.top = (button.offsetTop + button.offsetHeight) + 'px';
+  menu.style.left = button.offsetLeft + 'px';
+  menu.style.display = 'block';
+  window.setTimeout(function() {
+      Maze.pegmanMenuMouse_ = Blockly.bindEvent_(document.body, 'mousedown',
+                                                 null, Maze.hidePegmanMenu);
+      }, 0);
+};
+
+/**
+ * Hide the Pegman skin-change menu.
+ */
+Maze.hidePegmanMenu = function() {
+  document.getElementById('pegmanMenu').style.display = 'none';
+  Blockly.removeClass_(document.getElementById('pegmanButton'), 'buttonHover');
+  if (Maze.pegmanMenuMouse_) {
+    Blockly.unbindEvent_(Maze.pegmanMenuMouse_);
+    delete Maze.pegmanMenuMouse_;
+  }
+};
+
+/**
+ * Reset the maze to the start position and kill any pending animation tasks.
+ * @param {boolean} first True if an opening animation is to be played.
+ */
+Maze.reset = function(first) {
+  // Kill all tasks.
+  for (var x = 0; x < Maze.pidList.length; x++) {
+    window.clearTimeout(Maze.pidList[x]);
+  }
+  Maze.pidList = [];
+
   // Move Pegman into position.
   Maze.pegmanX = Maze.start_.x;
   Maze.pegmanY = Maze.start_.y;
-  Maze.pegmanD = Maze.startDirection;
-  Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4);
+
+  if (first) {
+    Maze.pegmanD = Maze.startDirection + 1;
+    Maze.scheduleFinish(false);
+    Maze.pidList.push(window.setTimeout(function() {
+      Maze.stepSpeed = 100;
+      Maze.schedule([Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4],
+                    [Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4 - 4]);
+      Maze.pegmanD++;
+    }, Maze.stepSpeed * 5));
+  } else {
+    Maze.pegmanD = Maze.startDirection;
+    Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, Maze.pegmanD * 4);
+  }
 
   // Move the finish icon into position.
   var finishIcon = document.getElementById('finish');
@@ -461,12 +626,10 @@ Maze.reset = function() {
   var lookIcon = document.getElementById('look');
   lookIcon.style.display = 'none';
   lookIcon.parentNode.appendChild(lookIcon);
-
-  // Kill all tasks.
-  for (var x = 0; x < Maze.pidList.length; x++) {
-    window.clearTimeout(Maze.pidList[x]);
+  var paths = lookIcon.getElementsByTagName('path');
+  for (var i = 0, path; path = paths[i]; i++) {
+    path.setAttribute('stroke', Maze.SKIN.look);
   }
-  Maze.pidList = [];
 };
 
 /**
@@ -475,18 +638,19 @@ Maze.reset = function() {
 Maze.runButtonClick = function() {
   // Only allow a single top block on levels 1 and 2.
   if (Maze.LEVEL <= 2 && Blockly.mainWorkspace.getTopBlocks().length > 1) {
-    window.alert(MSG.oneTopBlock);
+    window.alert(BlocklyApps.getMsg('oneTopBlock'));
     return;
   }
   var runButton = document.getElementById('runButton');
   var resetButton = document.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.
   if (!resetButton.style.minWidth) {
-    resetButton.style.minWidth = runButton.offsetWidth;
+    resetButton.style.minWidth = runButton.offsetWidth + 'px';
   }
   runButton.style.display = 'none';
   resetButton.style.display = 'inline';
   Blockly.mainWorkspace.traceOn(true);
+  Maze.reset(false);
   Maze.execute();
 };
 
@@ -497,59 +661,7 @@ Maze.resetButtonClick = function() {
   document.getElementById('runButton').style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   Blockly.mainWorkspace.traceOn(false);
-  Maze.reset();
-};
-
-// Randomization.
-
-/**
- * Move the start and finish to random locations.
- * Set the starting direction randomly.
- */
-Maze.randomizeMarkers = function() {
-  /**
-   * Find a random point that's a dead-end on the maze.
-   * Set this point to be the given SquareType.
-   * This function is a closure, but does not reference any outside variables.
-   * @param {Maze.SquareType} state Should be either Maze.SquareType.START or
-   *     Maze.SquareType.FINISH.
-   * @return {!Object} X-Y coordinates of new point.
-   */
-  function findCorner(state) {
-    while (true) {
-      var x = Math.floor(Math.random() * (Maze.map[0].length - 2)) + 1;
-      var y = Math.floor(Math.random() * (Maze.map.length - 2) + 1);
-      if (Maze.map[y][x] == Maze.SquareType.OPEN) {
-        // Count the walls.
-        var walls = 0;
-        if (Maze.map[y + 1][x] == Maze.SquareType.WALL) {
-          walls++;
-        }
-        if (Maze.map[y - 1][x] == Maze.SquareType.WALL) {
-          walls++;
-        }
-        if (Maze.map[y][x + 1] == Maze.SquareType.WALL) {
-          walls++;
-        }
-        if (Maze.map[y][x - 1] == Maze.SquareType.WALL) {
-          walls++;
-        }
-        if (walls == 3) {
-          Maze.map[y][x] = state;
-          return {x: x, y: y};
-        }
-      }
-    }
-  }
-
-  // Clear the existing start and finish locations.
-  Maze.map[Maze.start_.y][Maze.start_.x] = Maze.SquareType.OPEN;
-  Maze.map[Maze.finish_.y][Maze.finish_.x] = Maze.SquareType.OPEN;
-
-  Maze.start_ = findCorner(Maze.SquareType.START);
-  Maze.finish_ = findCorner(Maze.SquareType.FINISH);
-  Maze.startDirection = Math.floor(Math.random() * 4);
-  Maze.reset();
+  Maze.reset(false);
 };
 
 /**
@@ -593,7 +705,6 @@ Maze.report = function(app, id, level, result, program) {
 
 /**
  * Execute the user's code.  Heaven help us...
- * Also send code to the server.
  */
 Maze.execute = function() {
   BlocklyApps.log = [];
@@ -614,9 +725,14 @@ Maze.execute = function() {
   } catch (e) {
     // A boolean is thrown for normal termination.
     // Abnormal termination is a user error.
-    if (typeof e == 'boolean') {
-      result = e ? Maze.ResultType.SUCCESS : Maze.ResultType.TIMEOUT;
+    if (e === Infinity) {
+      result = Maze.ResultType.TIMEOUT;
+    } else if (e === true) {
+      result = Maze.ResultType.SUCCESS;
+    } else if (e === false) {
+      result = Maze.ResultType.ERROR;
     } else {
+      // Syntax error, can't happen.
       result = Maze.ResultType.ERROR;
       alert(e);
     }
@@ -631,7 +747,7 @@ Maze.execute = function() {
 
   // BlocklyApps.log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
-  Maze.reset();
+  Maze.reset(false);
   Maze.pidList.push(window.setTimeout(Maze.animate, 100));
 };
 
@@ -699,15 +815,21 @@ Maze.animate = function() {
       Maze.pegmanD = Maze.constrainDirection4(Maze.pegmanD + 1);
       break;
     case 'finish':
-      Maze.scheduleFinish();
-      window.setTimeout(Maze.congratulations, 1000);
+      Maze.scheduleFinish(true);
+      window.setTimeout(Maze.giveFeedback, 1000);
   }
 
   Maze.pidList.push(window.setTimeout(Maze.animate, Maze.stepSpeed * 5));
 };
 
-Maze.congratulations = function() {
-  BlocklyApps.congratulations(null, Maze.LEVEL, Maze.MAX_LEVEL, MSG, null);
+
+/**
+ * Determine if the ideal number of blocks were used and which kind of
+ * feedback, hint or congratulations is displayed.
+ */
+Maze.giveFeedback = function() {
+  var numBlocks = Blockly.mainWorkspace.getAllBlocks().length;
+  Maze.showDialog(Maze.LEVEL, numBlocks <= Maze.idealBlockNum);
 };
 
 /**
@@ -760,8 +882,8 @@ Maze.scheduleFail = function(forward) {
       break;
   }
   if (!forward) {
-    deltaX = - deltaX;
-    deltaY = - deltaY;
+    deltaX = -deltaX;
+    deltaY = -deltaY;
   }
   var direction16 = Maze.constrainDirection16(Maze.pegmanD * 4);
   Maze.displayPegman(Maze.pegmanX + deltaX,
@@ -786,14 +908,17 @@ Maze.scheduleFail = function(forward) {
 
 /**
  * Schedule the animations and sound for a victory dance.
+ * @param {boolean} sound Play the victory sound.
  */
-Maze.scheduleFinish = function() {
+Maze.scheduleFinish = function(sound) {
   var direction16 = Maze.constrainDirection16(Maze.pegmanD * 4);
   Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
-  Blockly.playAudio('win', .5);
+  if (sound) {
+    Blockly.playAudio('win', .5);
+  }
   Maze.stepSpeed = 150;  // Slow down victory animation a bit.
   Maze.pidList.push(window.setTimeout(function() {
-    Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 17);
+    Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 18);
     }, Maze.stepSpeed));
   Maze.pidList.push(window.setTimeout(function() {
     Maze.displayPegman(Maze.pegmanX, Maze.pegmanY, 16);
@@ -1034,4 +1159,112 @@ Maze.isPath = function(direction, id) {
     BlocklyApps.log.push([command, id]);
   }
   return square !== Maze.SquareType.WALL && square !== undefined;
+};
+
+/**
+ * Show the help pop-up for reinf levels so we can set text appropriately.
+ * @param {string} reinfLevel 'q' + reinforcement level number +
+ *   'r' or 'w' (right or wrong answer).
+ */
+Maze.showReinfHelp = function(reinfLevel) {
+  var qNum = Maze.LEVEL;
+  var responseType = reinfLevel.charAt(reinfLevel.length - 1);
+  document.getElementById('reinfDone').style.display = 'block';
+  var textColor;
+  var responseType;
+  var img = document.createElement('IMG');
+  if (responseType == 'w') {
+    textColor = 'red';
+    responseType = 'wrong';
+    img.src = 'wrong.png';
+  } else if (responseType == 'r') {
+    textColor = 'green';
+    responseType = 'right';
+    img.src = 'check.png';
+  } else {
+    throw 'Response not w or r.';
+  }
+  var textDiv = document.getElementById('reinfFeedbackText');
+  textDiv.style.color = textColor;
+  textDiv.value = BlocklyApps.getMsg('q' + qNum + responseType);
+  var imageDiv = document.getElementById('reinfFeedbackImage');
+  imageDiv.appendChild(img);
+  imageDiv.firstChild;
+  document.getElementById('shadow').style.display = 'block';
+};
+
+/**
+ * Hide the reinforcement feedback pop-up.
+ */
+Maze.hideReinfHelp = function() {
+  document.getElementById('reinfDone').style.display = 'none';
+  document.getElementById('shadow').style.display = 'none';
+  var img = document.getElementById('reinfFeedbackImage')
+      .getElementsByTagName('img')[0];
+  img.parentElement.removeChild(img);
+};
+
+/**
+ * Click the continue or try again button.
+ * If continue, go to next level.
+ * If try again, stay on current level.
+ * @param {number} gotoNextLevel true to continue to next level 
+ * false to try level again.
+ */
+Maze.closeDialogButtonClick = function(gotoNextLevel) {
+  Maze.hideDialog();
+  if (gotoNextLevel) {
+    window.location = window.location.protocol + '//' +
+        window.location.host + window.location.pathname +
+        '?lang=' + BlocklyApps.LANG + '&level=' + (Maze.LEVEL + 1) +
+        '&skin=' + Maze.SKIN_ID;
+  } else {
+    Maze.resetButtonClick();
+    // Avoid flicker of loading window twice on levels without reinforcement.
+  }
+};
+
+/**
+ * Show dialog at the end of a level and display feedback and/or interstitial.
+ * @param {number} levelNum the number of the current level.
+ * @param {boolean} levelDone is true only if level was solved using the optimal
+ * number of blocks.
+ * If levelDone is true, show feedback and interstitial (if there is one).
+ * If there is a reinfElement/MSG (determined in template.soy reinfMsg switch/case)
+ * then show the reinforcement. Otherwise just show the next/final level message.
+ * If levelDone is false, only feedback is shown.
+ */
+Maze.showDialog = function(levelNum, levelDone) {
+  var feedbackColor;
+  var feedbackText = document.getElementById('levelFeedbackText');
+  if (levelDone) {
+    feedbackColor = 'green';
+    if (levelNum < Maze.MAX_LEVEL) {
+      feedbackText.value = BlocklyApps.getMsg('nextLevel');
+    } else {
+      feedbackText.value = BlocklyApps.getMsg('finalLevel');
+    }
+    var reinfElement = document.getElementById('reinfMsg');
+    var reinfMSG = reinfElement.innerHTML.match(/\S/);
+    if (reinfElement && reinfMSG) {
+      document.getElementById('interstitial').style.display = 'block';
+    }
+    document.getElementById('nextLevelButton').style.display = 'inline';
+    document.getElementById('tryLevelAgainButton').style.display = 'none';
+  } else {
+    feedbackColor = 'red';
+    document.getElementById('tryLevelAgainButton').style.display = 'inline';
+    document.getElementById('nextLevelButton').style.display = 'none';
+  }
+  document.getElementById('shadow').style.display = 'block';
+  document.getElementById('levelFeedback').style.display = 'block';
+  feedbackText.style.color = feedbackColor;
+};
+
+/**
+ * Hide the end of level dialog.
+ */
+Maze.hideDialog = function() {
+  document.getElementById('levelFeedback').style.display = 'none';
+  document.getElementById('shadow').style.display = 'none';
 };
