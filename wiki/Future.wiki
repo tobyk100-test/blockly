@@ -17,6 +17,8 @@ It is important that everyone be able to use Blockly.  That means running in as 
 
 Different applications need different blocks.  There are a few types of blocks that are repeatedly requested:
 
+ * Text split, List join.  Split text into a list based on a delimiter, join a list into a text based on a separator.
+ * List sort.  Choice of alphabetic, numeric, case-insensitive, and length modes.  Ascending or descending order.
  * 2D grids.  Arrays of arrays are clumsy and hard to visualize.  A new category of blocks that deals with grid data (spreadsheets) is needed.  Most of the existing list blocks would have grid equivalents.
  * Multi-line strings.  A block with a text area one can type paragraphs into.  Also useful would be a character picker widget that allows one to select Unicode characters.
  * Date/Time selection.  A calendar picker (similar to the existing colour picker) would allow users to choose dates and times easily.
