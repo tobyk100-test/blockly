@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Information about Boolean logic blocks.
 
 <wiki:toc max_depth="2" />
 
