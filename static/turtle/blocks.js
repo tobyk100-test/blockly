@@ -162,23 +162,64 @@ Blockly.JavaScript.draw_turn_inline = function() {
       '(' + value + ', \'' + this.id + '\');\n';
 };
 
-Blockly.Language.variables_get_length = {
-  // Block for getting the value of the variable named 'length'.
-  // (This exists so it is possible to get the value without a
-  // VARIABLES category.)
+Blockly.Language.variables_get_counter = {
+  // Variable getter.
   category: null,  // Variables are handled specially.
   helpUrl: Blockly.LANG_VARIABLES_GET_HELPURL,
   init: function() {
     this.setColour(330);
     this.appendDummyInput()
         .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
-        .appendTitle(new Blockly.FieldDropdown([['length', 'length']]), 'VAR');
+        .appendTitle(new Blockly.FieldLabel('counter'), 'VAR');
     this.setOutput(true);
     this.setTooltip(Blockly.LANG_VARIABLES_GET_TOOLTIP);
+  },
+  getVars: function() {
+    return [this.getTitleValue('VAR')];
+  }
+};
+
+Blockly.JavaScript.variables_get_counter = Blockly.JavaScript.variables_get;
+
+// TODO(spertus): Find out from Neil best way to generalize.
+Blockly.Language.variables_get_length = {
+  // Variable getter.
+  category: null,  // Variables are handled specially.
+  helpUrl: Blockly.LANG_VARIABLES_GET_HELPURL,
+  init: function() {
+    this.setColour(330);
+    this.appendDummyInput()
+        .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
+        .appendTitle(new Blockly.FieldLabel('length'), 'VAR');
+    this.setOutput(true);
+    this.setTooltip(Blockly.LANG_VARIABLES_GET_TOOLTIP);
+  },
+  getVars: function() {
+    return [this.getTitleValue('VAR')];
   }
 };
 
 Blockly.JavaScript.variables_get_length = Blockly.JavaScript.variables_get;
+
+// TODO(spertus): Find out from Neil best way to generalize.
+Blockly.Language.variables_get_sides = {
+  // Variable getter.
+  category: null,  // Variables are handled specially.
+  helpUrl: Blockly.LANG_VARIABLES_GET_HELPURL,
+  init: function() {
+    this.setColour(330);
+    this.appendDummyInput()
+        .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
+        .appendTitle(new Blockly.FieldLabel('sides'), 'VAR');
+    this.setOutput(true);
+    this.setTooltip(Blockly.LANG_VARIABLES_GET_TOOLTIP);
+  },
+  getVars: function() {
+    return [this.getTitleValue('VAR')];
+  }
+};
+
+Blockly.JavaScript.variables_get_sides = Blockly.JavaScript.variables_get;
 
 // Delete these standard blocks.
 delete Blockly.Language.procedures_defreturn;

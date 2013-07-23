@@ -58,7 +58,7 @@
       catLists: 'Lists',
       catColour: 'Color',
       catVariables: 'Variables',
-      catProcedures: 'User-Defined',
+      catProcedures: 'Functions',
       // Misc text.
       level: 'Level',
       capacity0: 'You have <span id="capacityNumber">0</span> blocks left.',
@@ -91,27 +91,25 @@
         ],
         // Page 2.
         [undefined, // There is no level 0.
-         'Do you still remember how to make a square using the "repeat" block?',
-         'Thanks to the provided blocks, I now know how to draw a square.  Pull a "draw a square" block from the grey toolbar to tell me to draw a square.',
-         'Now draw 3 squares, starting 120 degrees apart, in random colors.',
+         'Find the familiar blocks in the new categories to draw a square in your favorite color.',
+         'We\'ve given you a "draw a square" block, which can be found in the "Functions" category.  Use it to draw 3 squares, 120 degrees apart, in random colors.  TODO: Make "draw a square" block invisible on this and next levels.',
          'I think it looks pretty to draw 36 squares in random colors, each 10 degrees apart.',
-         'Teach me how to draw a triangle by dragging out a "to do something" block.  Rename it to "draw a triangle", and fill it in with the right blocks.  Then, you can use the "draw a triangle" block to draw a triangle.',
-         'See if you can figure out how to use "draw a square" and "draw a triangle" (and some other blocks) to draw a house.',
-         'Create a new block to draw a house and use it.',
-         'Draw squares with side length 50, 100, and 150.',
-         'Using "draw a square" as an example, add an input named "length" to "draw a triangle".  Then, draw triangles with side lengths of 50 and 100.',
-         'Add a "length" input to "draw a house" and build a tiny house for my snail friend.',
-         'Draw whatever you want.  One idea is a whole village with lots of houses of different sizes and colors.'
+         'Draw squares with sides of 50, 60, 70, 80, 90, and 100 pixels.  You\'ll need lots of blocks.',
+         'Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.',
+         'Let\'s make more boxes!  They should have side lengths from 10 to 100, still counting by tens.',
+         'See if you can re-create the code to draw squares with side lengths from 50 to 100, counting by tens, in your favorite color (besides black).  (You can always back up to prevous levels if you need a reminder.)',
+         'How about setting a random color before drawing each square and moving forward 10 pixels after each one?',
+         'Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.',
+         'Draw whatever you want.  One idea is experimenting with different types of spirals.  What happens if you change the turn amount, rather than the move amount?'
         ],
         // Page 3.
         [undefined, // There is no level 0.
-         'Use the "draw a square" block to draw squares with sides of 50, 60, 70, 80, 90, and 100 pixels.',
-         'Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.',
-         'Let\'s make more boxes!  They should have side lengths from 10 to 100, still counting by tens.',
-         'How about turning 36 degrees after each square?',
-         'See if you can re-create the code to draw squares with side lengths from 50 to 100, counting by tens.  (You can always back up to prevous levels if you need a reminder.)',
-         'Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.',
-         'Create a new block "draw a hexagon", similar to "draw a square", and use it to draw hexagons with sides of length 50 and 75.',
+         'Using the "draw a square" function as an example, create a "draw a triangle" function and use it.',
+         'See if you can figure out how to use "draw a square" and "draw a triangle" (and some other blocks) to draw a house.',
+         'Create (and use) a new function to draw a house.',
+         'Using "draw a square" as an example, add an input named "length" to "draw a triangle".  Then, draw triangles in different colors with side lengths of 50 and 100.',
+         'Add a "length" input to "draw a house" and build a tiny house for my snail friend.',
+         'Create a new block "draw a hexagon", similar to "draw a square", and use it to draw hexagons in different colors with sides of length 50 and 75.',
          'Rename "draw a hexagon" to "draw a polygon" and add an input named "sides".  You\'ll have to make some other changes, including the amount to turn.  Test your new block by drawing a red octagon (8-sided polygon) with sides of length 80.',
          'You\'re now free to do whatever you want.  One idea is to try running this program with different turn amounts (higher or lower than 90).  Other ideas are to draw a star, circle, heart, or animal.'
         ]
@@ -147,48 +145,43 @@
          ['Here\'s a new block that changes the width of my pen line.  We\'ve been using a default width of 5.', 'picture', 'set-width.png']
         ],
         // Page 2
-        [undefined, // There is no level 0.
-         undefined,
-         // Before using "draw square".
-         ['It\'s possible to create new blocks, such as "draw a square", which draws a square with sides 100 pixels long.  Later on, you\'ll learn how to create a new block.  For now, you can see how "draw a square" was created on the left and how to use it on the right.', 'picture', 'draw-square-definition-and-use.png'],
-         // Before 3 squares.
-         ['Once you\'ve defined a block, you can use it as many times as you want.', 'animations', ['two-square-canvas.gif', 'two-square-code.png']],
-         // Before pinwheel.
-         ['Here\'s how I solved the previous level.  Make sure you understand it before proceeding.', 'picture', 'three-squares.png'],
-         // Before defining "draw a triangle" procedure.
-         ['Here\'s how the "draw a square" block was created.  On the next level, you\'ll create your own "draw a triangle" block.', 'animations', ['define-draw-a-square.gif']],
-         // Before drawing house.
-         ['Congratulations on adding a new block!  That\'s a huge step for a programmer.  Dividing big tasks into bite-sized pieces is what makes large programs possible.', 'none'],
-         // Before house procedure.
-         ['The new blocks that you define can be used just like the built-in blocks, including being used within another block definition...', 'none', 'procedures-within-procedures.png'],
-         // Before using parameterized "draw square".
-         ['Did you notice that the blocks we created can only draw shapes with sides of length 100?  We can also make blocks that can take an input, just like the built-in blocks "move forward" and "turn right". On the left is a new version of "draw a square" that lets you specify the side length, and on the right is a sample use.', 'picture', 'draw-a-square-with-input.png'],
-         // Before adding parameter to "draw triangle".
-        ['Let me show you how the input was added to "draw a square".  You\'ll need to know this for the next level, where you\'ll add an input to "draw a triangle".', 'animations', ['draw-a-square-add-input.gif']],
-         // Before writing parameterized house procedure.
-         ['TODO: Add video and text about collapsing and expanding blocks.', 'none'],
-         // Before final level.
-         ['Wow!  You completed all of the levels!  Welcome to the playground...', 'none']
-        ],
-        // Page 3
         [undefined,  // There is no level 0.
          // Before Level 1.  (It's new to have something before the first level.)
          ['To make room for new blocks, we\'ve put the blocks into categories.  You may have to look around for your old favorite blocks, but they\'re all there.', 'none'],
          // Before Level 2.
-         ['Wouldn\'t it be nice if you could tell me to count by tens from 50 to 100, drawing a square each time?  Well you can -- with the new "count with" block.  The programs on the left and right do the same thing. ', 'picture', 'count-loop-square.png'],
+         ['TODO: Say something about the new "Functions" category.', 'none'],
          // Before Level 3.
-         ['Do you ever get tired of waiting for me?  You can make me move faster (or slower) with the speed slider.', 'picture', 'slider.gif'],
+         ['Here\'s how I solved the previous level.  Make sure you understand it before proceeding.', 'picture', 'three-squares.png'],
+         // Before Level 3.
+         ['Let\'s explore what we can do with squares of different sizes...', 'none'],
          // Before Level 4.
-         ['Make sure you understand this code, since you\'ll be asked to create a "count with" block on the next level.', 'picture', 'counter-squares-code.png'],
+         ['Wouldn\'t it be nice if you could tell me to count by tens from 50 to 100, drawing a square each time?  Well you can -- with the new "count with" block.  The programs on the left and right do the same thing. ', 'picture', 'count-loop-square.png'],
          // Before Level 5.
-         ['We call "counter" a variable -- a term from algebra that means a value that can change (vary).  It and other variables can be found in the "Variables" category.', 'picture', 'counter-squares-code.png'],
+         ['Do you ever get tired of waiting for me?  You can make me move faster (or slower) with the speed slider.', 'picture', 'slider.gif'],
          // Before Level 6.
-         ['This code draws a boxy spiral.  Fill in the blanks on the "count with" block to rewrite it.  TODO: Create form.', 'picture', 'spiral-quiz.png'],
+         ['Make sure you understand this code, since you\'ll be asked to create a "count with" block on the next level.', 'picture', 'counter-squares-code.png'],
          // Before Level 7.
-         ['This table shows the angle for drawing different regular shapes (polygons).  Can you spot the pattern and guess the angle for drawing a hexagon?  TODO: Make them enter 60.', 'picture', 'shape-table.png'],
+         ['We call "counter" a variable -- a term from algebra that means a value that can change (vary).  It and other variables can be found in the "Variables" category.', 'picture', 'counter-squares-code.png'],
          // Before Level 8.
-         ['Let\'s figure out how to draw a regular shape (polygon) with any number of sides.  Which of the below blocks correctly calculate the angle?  (You\'ll need the answer for the next problem.)', 'quiz', [4, 4]],
-         // Before Level 9.
+         ['This code draws a boxy spiral.  Fill in the blanks on the "count with" block to rewrite it.  TODO: Create form.', 'picture', 'spiral-quiz.png']
+       ],
+       // Page 3
+       [undefined,  // There is no level 0.
+        // Before creating "draw a triangle" (1).
+        ['Here\'s how the "draw a square" block was created.  On the next level, you\'ll create your own "draw a triangle" block.  TODO: Replace with a video showing categories.', 'animations', ['define-draw-a-square.gif']],
+        // Before drawing a house using square and triangle procedures (2).
+        ['Congratulations on adding a new block!  That\'s a huge step for a programmer.  Dividing big tasks into bite-sized pieces is what makes large programs possible.', 'none'],
+        // Before creating a "draw a house" function (3).
+        ['The new blocks that you define can be used just like the built-in blocks, including being used within another block definition...', 'none'],
+        // Before adding length parameter to "draw a triangle" (4).
+        ['Let me show you how the input was added to "draw a square".  You\'ll need to know this for the next level, where you\'ll add an input to "draw a triangle".  TODO: Replace with video.', 'animations', ['draw-a-square-add-input.gif']],
+        // Before adding length parameter to "draw a house" (5).
+        ['TODO: Put something here.', 'none'],
+        // Before creating a "draw a hexagon" function (6).
+        ['This table shows the angle for drawing different regular shapes (polygons).  Can you spot the pattern and guess the angle for drawing a hexagon?  TODO: Make them enter 60.', 'picture', 'shape-table.png'],
+        // Before creating "draw a polygon" (7).
+        ['Let\'s figure out how to draw a regular shape (polygon) with any number of sides.  Which of the below blocks correctly calculate the angle?  (You\'ll need the answer for the next problem.)', 'quiz', [4, 4]],
+         // Before final play level (8).
          ['Since you just drew a stop sign, this might be a good time to stop the lessons and let you play.  Congratulations on becoming a programmer!', 'none']
         ]
       ],
