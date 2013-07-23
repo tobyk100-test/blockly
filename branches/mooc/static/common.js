@@ -110,6 +110,22 @@ BlocklyApps.LANG = undefined;
 BlocklyApps.LANGUAGES = undefined;
 
 /**
+ * Load the specified language file(s).
+ * @param {!Array<string>} languageSrc Array of language files.
+ */
+BlocklyApps.loadLanguageScripts = function(languageSrc) {
+  for (var x = 0; x < languageSrc.length; x++) {
+    var file = languageSrc[x];
+    if (file.match(/^(\w+\/)*\w+\.js$/)) {
+      document.writeln('<script type="text/javascript" ' +
+          'src="../' + file + '"><' + '/script>');
+    } else {
+      console.error('Illegal language file: ' + file);
+    }
+  }
+};
+
+/**
  * Common startup tasks for all apps.
  */
 BlocklyApps.init = function() {
@@ -197,6 +213,37 @@ BlocklyApps.changeLanguage = function() {
 
   window.location = window.location.protocol + '//' +
       window.location.host + window.location.pathname + search;
+};
+
+/**
+ * Congratulates the user for completing the level and offers to
+ * direct them to the next level, if available.
+ * @param {?number} page The current page.
+ * @param {number} level The current level.
+ * @param {number} maxLevel The maxmium available level.
+ * @param {!Object} MSG An object with appropriate text properties for
+ *     MSG.nextLevel and MSG.finalLevel.
+ * @param {?number} reinf Non-null if there is an interstitial to show after
+ *     this screen, in which case the value is included in the URL.
+ */
+BlocklyApps.congratulations = function(page, level, maxLevel, MSG, reinf) {
+  if (level < maxLevel) {
+    var proceed = window.confirm(MSG.nextLevel.replace('%1', level + 1));
+    if (proceed) {
+      var url = window.location.protocol + '//' +
+          window.location.host + window.location.pathname + '?';
+      if (page) {
+        url += 'page=' + page + '&';
+      }
+      url += 'level=' + (level + 1);
+      if (reinf) {
+        url += '&reinf=' + reinf;
+      }
+      window.location = url;
+    }
+  } else {
+    window.alert(MSG.finalLevel);
+  }
 };
 
 /**

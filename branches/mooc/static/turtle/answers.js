@@ -31,8 +31,13 @@
  */
 Turtle.answer = function() {
   // Helper functions.
-  function setRandomColour() {
+  function setRandomVisibleColour() {
     var num = Math.floor(Math.random() * Math.pow(2, 24));
+    // Make sure at least one component is at least 0x40, to prevent white.
+    if (num & 0xff < 0x40 && num & 0xff00 < 0x4000
+        && num & 0xff0000 < 0x400000) {
+      num += 0x80;  // Arbitrarily add some blue.
+    }
     Turtle.penColour('#' + ('00000' + num.toString(16)).substr(-6));
   }
   function drawSquare(length) {
@@ -110,7 +115,7 @@ Turtle.answer = function() {
         drawSquare(100);
         Turtle.moveForward(100);
         Turtle.turnRight(90);
-          drawTriangle(100);
+        drawTriangle(100);
         break;
       case 9:
         // Dashed line.
@@ -132,7 +137,7 @@ Turtle.answer = function() {
       case 12:
         // Spiky.
         for (var count = 0; count < 8; count++) {
-          setRandomColour();
+          setRandomVisibleColour();
           Turtle.moveForward(100);
           Turtle.moveBackward(100);
           Turtle.turnRight(45);
@@ -142,97 +147,98 @@ Turtle.answer = function() {
   } else if (Turtle.PAGE == 2) {
     switch (Turtle.LEVEL) {
       case 1:
-        // Review of using repeat to draw a square.  (Fall through to next case.)
-      case 2:
-        // Call the new "draw a square" block.
+        // Single square in some color.
+        setRandomVisibleColour();
         drawSquare(100);
         break;
-      case 3:
-        // Three squares.
+      case 2:
+        // Three squares, 120 degrees apart, in random colors.
         for (var count = 0; count < 3; count++) {
-          setRandomColour();
+          setRandomVisibleColour();
           drawSquare(100);
           Turtle.turnRight(120);
         }
         break;
-      case 4:
-        // Pinwheel.
-        for (var count2 = 0; count2 < 36; count2++) {
-          setRandomColour();
+      case 3:
+        // 36 squares, 10 degrees apart, in random colors.
+        for (var count = 0; count < 36; count++) {
+          setRandomVisibleColour();
           drawSquare(100);
           Turtle.turnRight(10);
         }
         break;
+      case 7:  // Re-create with for-loops from scratch.  (Fall through to next
+               // case after setting colour.)
+        Turtle.penColour('#0000ff');  // green
+      case 4:  // Draw without using for-loop.  (Fall through to next case.)
       case 5:
-        // Create and call "draw triangle".
-        drawTriangle(100);
-        break;
-      case 6:
-        // Draw a house.  (Fall through to next case.)
-      case 7:
-        // Create and call "draw house".
-        drawSquare(100);
-        Turtle.moveForward(100);
-        Turtle.turnRight(30);
-        drawTriangle(100);
-        break;
-      case 8:
-        // Call parameterized "draw square" three times.
-        drawSquare(50);
-        drawSquare(100);
-        drawSquare(150);
-        break;
-      case 9:
-        // Parameterize "draw triangle" and call it twice.
-        drawTriangle(50);
-        drawTriangle(100);
-        break;
-      case 10:
-        // Parameterize "draw house" and draw one with sides of 50.
-        drawSquare(50);
-        Turtle.moveForward(50);
-        Turtle.turnRight(30);
-        drawTriangle(50);
-        break;
-    }
-  } else if (Turtle.PAGE == 3) {
-    switch (Turtle.LEVEL) {
-      case 1:  // Draw without using for-loop.  (Fall through to next case.)
-      case 2:  // Given code, add random colours.  (Fall through to next case.)
-      case 4:  // Re-create with for-loops from scratch.
         // Squares with sides of 50, 60, 70, 80, 90, and 100 pixels.
         for (var len = 50; len <= 100; len += 10) {
           drawSquare(len);
         }
         break;
-      case 3:
+      case 6:
         // Squares with sides of 10, 20, 30, 40, 50, 60, 70, 80, 90, and 100
         // pixels.
         for (var len = 10; len <= 100; len += 10) {
           drawSquare(len);
         }
         break;
-      case 5:
+      case 8:
         // Squares with sides of 10, 20, 30, 40, 50, 60, 70, 80, 90, and 100
-        // pixels, with 36 degree turns between each.
+        // pixels, moving forward ten before each.
         for (var len = 10; len <= 100; len += 10) {
+          setRandomVisibleColour();
           drawSquare(len);
-          Turtle.turnRight(36);
+          Turtle.moveForward(10);
         }
         break;
-      case 6:
+      case 9:
         // Mini-spiral.
         for (var len = 25; len <= 60; len += 5) {
           Turtle.moveForward(len);
           Turtle.turnRight(90);
         }
         break;
-      case 7:
+    }
+  } else if (Turtle.PAGE == 3) {
+    switch (Turtle.LEVEL) {
+      case 1:
+        // Draw a triangle.
+        drawTriangle(100);
+        break;
+      case 2:
+        // Draw a house using "draw a square" and "draw a triangle".
+        // Fall through to next case...
+      case 3:
+        // Create a "draw a house" procedure.
+        drawSquare(100);
+        Turtle.moveForward(100);
+        Turtle.turnRight(30);
+        drawTriangle(100);
+        break;
+      case 4:
+        // Call parameterized "draw a triangle" twice with different colours.
+        setRandomVisibleColour();
+        drawTriangle(50);
+        setRandomVisibleColour();
+        drawTriangle(100);
+        break;
+      case 5:
+        // Add a parameter to the "draw a house" procedure.
+        drawSquare(50);
+        Turtle.moveForward(50);
+        Turtle.turnRight(30);
+        drawTriangle(50);
+        break;
+      case 6:
         // Hexagons.
+        setRandomVisibleColour();
         drawNgon(50, 6);
+        setRandomVisibleColour();
         drawNgon(75, 6);
         break;
-      case 8:
+      case 7:
         // Red octagon (stop sign).
         Turtle.penColour('#ff0000');  // red
         drawNgon(80, 8);

@@ -59,20 +59,7 @@ document.write(turtlepage.start({}, null,
      reinf: Turtle.REINF ? MSG.reinf_data[Turtle.PAGE][Turtle.LEVEL] : 0,
      maxLevel: Turtle.MAX_LEVEL}));
 
-var maxBlocks = [
-  [],  // Page 0.
-  // Page 1.
-  [undefined, // Level 0
-   Infinity, Infinity, 3, 5, 4,
-   8, 10, 9, Infinity, Infinity],
-  // Page 2.
-  [undefined,
-   5, Infinity, Infinity, 12, 13,
-   Infinity, 18, 12, 16, Infinity],
-  // Page 3.
-  [undefined,
-   Infinity, 20, Infinity, Infinity, Infinity, Infinity, Infinity]]
-  [Turtle.PAGE][Turtle.LEVEL];
+var maxBlocks = Infinity;
 Turtle.HEIGHT = 400;
 Turtle.WIDTH = 400;
 
@@ -154,7 +141,6 @@ Turtle.init = function() {
   Turtle.ctxScratch = document.getElementById('scratch').getContext('2d');
   Turtle.drawAnswer();
   Turtle.reset();
-  Blockly.addChangeListener(function() {BlocklyApps.updateCapacity(MSG)});
 };
 
 window.addEventListener('load', Turtle.init);
