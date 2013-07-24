@@ -4,12 +4,12 @@
 
 = Introduction =
 
-We use the term _variable_ the same as it is used in mathematics and in other programming languages: a named value that can be changed (varies).  Variables are used in several places:
- * Every *count with* and *for each* block uses a variable and defines its values.  These values can only be used within the block.
- * They are also used when passing values to a procedure (user-defined block).  These values can only be used within the procedure.
- * Users may create new variables at any time.  These values can be used anywhere in the program.
+We use the term _variable_ the same as it is used in mathematics and in other programming languages: a named value that can be changed (varies).  Variables can be created in several different ways.
+ * Every *count with* and *for each* block uses a variable and defines its values.  These values can only be used within the block.  A traditional computer science term for these are [http://en.wikipedia.org/wiki/Loop_variable loop variables].
+ * User-defined functions (also known as "procedures") can define inputs, which creates variables that can be used only within the function.  These are traditionally called "[http://en.wikipedia.org/wiki/Parameter parameters]" or "arguments".
+ * Users may create variables at any time through the "set" block.  These are traditionally called "[http://en.wikipedia.org/wiki/Global_variables global variables]".
+Blockly does not support [http://en.wikipedia.org/wiki/Local_variable  local variables].
 
-The same variable can hold different types of values -- numbers, booleans, text, or lists -- at different times.
 
 == Default names ==
 
