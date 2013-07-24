@@ -16,7 +16,7 @@ If you're not already a Blockly user, try it out.  Some good starting places are
 
 = Translatewiki =
 
-We are in the process of moving translation from being a manual process to using [http://translatewiki.net translatewiki.net]. 
+All of Blockly's translations are handled by [http://translatewiki.net translatewiki.net]. 
 
 == Creating an account at Translatewiki ==
 
