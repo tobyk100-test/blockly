@@ -21,6 +21,11 @@ The *create text with* block combines (concatenates) the value of the `greeting`
 
 http://blockly.googlecode.com/svn/wiki/text-create.png
 
+To increase the number of text inputs, click on the plus sign, which changes the view to:
+
+http://blockly.googlecode.com/svn/wiki/text-append-modify.png
+
+Additional inputs are added by dragging an "item" block from the gray toolbox on the left into the "join" block.
 
 ==Text modification==
 
