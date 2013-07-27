@@ -31,6 +31,7 @@ The `Blockly.inject` line contains as its second argument a dictionary of name-v
 || `path:` || string || Path from page (or frame) to the Blockly root directory. Defaults to `"./"`. ||
 || `readOnly:` || boolean || If `true`, prevent the user from editing.  Supresses the toolbox and trashcan.  Defaults to `false`. ||
 || `rtl:` || boolean || If `true`, mirror the editor for Arabic or Hebrew locales.  See [http://blockly-demo.appspot.com/static/demos/rtl/index.html RTL demo].  Defaults to `false`. ||
+|| `scrollbars:` || boolean || If `false`, supress scrollbars that appear if the toolbox has categories.  Defaults to `true`. ||
 || `toolbox:` || XML nodes or string || Tree structure of categories and blocks available to the user.  See [Toolbox Defining the Toolbox] for more information. ||
 || `trashcan:` || boolean || Displays or hides the trashcan.  Defaults to `true` if the toolbox has categories, `false` otherwise. ||
 
