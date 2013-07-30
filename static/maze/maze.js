@@ -1,5 +1,5 @@
 /**
- * Blockly Demo: Maze
+ * Blockly Apps: Maze
  *
  * Copyright 2012 Google Inc.
  * http://blockly.googlecode.com/
@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Demonstration of Blockly: Solving a maze.
+ * @fileoverview JavaScript for Blockly's Maze application.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -33,28 +33,29 @@ BlocklyApps.LANGUAGES = {
   // Format: ['Language name', 'direction', 'XX_compressed.js']
   ca: ['Català', 'ltr', 'en_compressed.js'],
   cs: ['Čeština', 'ltr', 'en_compressed.js'],
-  sr: ['Српски', 'ltr', 'en_compressed.js'],
   da: ['Dansk', 'ltr', 'en_compressed.js'],
   de: ['Deutsch', 'ltr', 'de_compressed.js'],
+  el: ['Eλληνικά', 'ltr', 'en_compressed.js'],
   en: ['English', 'ltr', 'en_compressed.js'],
   es: ['Español', 'ltr', 'en_compressed.js'],
   eu: ['Euskara', 'ltr', 'en_compressed.js'],
-  el: ['Eλληνικά', 'ltr', 'en_compressed.js'],
   fr: ['Français', 'ltr', 'en_compressed.js'],
-  it: ['Italiano', 'ltr', 'en_compressed.js'],
-  sw: ['Kishwahili', 'ltr', 'en_compressed.js'],
-  lv: ['Latviešu', 'ltr', 'en_compressed.js'],
   hu: ['Magyar', 'ltr', 'en_compressed.js'],
+  it: ['Italiano', 'ltr', 'en_compressed.js'],
+  lv: ['Latviešu', 'ltr', 'en_compressed.js'],
   nl: ['Nederlands', 'ltr', 'en_compressed.js'],
   pl: ['Polski', 'ltr', 'en_compressed.js'],
   pt: ['Português', 'ltr', 'en_compressed.js'],
   ru: ['Русский', 'ltr', 'en_compressed.js'],
+  sr: ['Српски', 'ltr', 'en_compressed.js'],
+  sw: ['Kishwahili', 'ltr', 'en_compressed.js'],
+  th: ['ภาษาไทย', 'ltr', 'en_compressed.js'],
   tr: ['Türkçe', 'ltr', 'en_compressed.js'],
-  vi: ['Tiếng Việt', 'ltr', 'vi_compressed.js'],
-  th: ['ภาษาไทย', 'ltr', 'en_compressed.js']};
+  vi: ['Tiếng Việt', 'ltr', 'vi_compressed.js']
+};
 BlocklyApps.LANG = BlocklyApps.getLang();
 
-document.write('<script type="text/javascript" src="' +
+document.write('<script type="text/javascript" src="generated/' +
                BlocklyApps.LANG + '.js"></script>\n');
 
 Maze.MAX_LEVEL = 11;
@@ -122,7 +123,7 @@ Maze.SquareType = {
 // The maze square constants defined above are inlined here
 // for ease of reading and writing the static mazes.
 Maze.map = [
- // Level 0.
+// Level 0.
  undefined,
 // Level 1.
  [[0, 0, 0, 0, 0, 0, 0, 0],
@@ -161,14 +162,6 @@ Maze.map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 5.
-/**
- *  Note, the path continues past the start and the
- *  goal in both directions. This is intentionally
- *  done so kids see the maze is about getting from
- *  the start to the finish and not necessarily
- *  about moving over every part of the maze, 'mowing
- *  the lawn' as Neil calls it.
- */
 /**
  * Note, the path continues past the start and the goal in both directions.
  * This is intentionally done so kids see the maze is about getting from
@@ -503,12 +496,19 @@ Maze.init = function() {
   Maze.drawMap();
 
   var blocklyDiv = document.getElementById('blockly');
+  var visualization = document.getElementById('visualization');
   var onresize = function(e) {
-    blocklyDiv.style.width = (window.innerWidth - blocklyDiv.offsetLeft - 18) +
-        'px';
-    blocklyDiv.style.height = (window.innerHeight - blocklyDiv.offsetTop - 18) +
-        'px';
+    var top = visualization.offsetTop;
+    blocklyDiv.style.top = top + 'px';
+    blocklyDiv.style.left = rtl ? '10px' : '420px';
+    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
+    blocklyDiv.style.height =
+        (window.innerHeight - top - 20 + window.scrollY) + 'px';
   };
+  window.addEventListener('scroll', function() {
+      onresize();
+      Blockly.fireUiEvent(window, 'resize');
+    });
   window.addEventListener('resize', onresize);
   onresize();
 
@@ -1208,7 +1208,7 @@ Maze.hideReinfHelp = function() {
  * Click the continue or try again button.
  * If continue, go to next level.
  * If try again, stay on current level.
- * @param {number} gotoNextLevel true to continue to next level 
+ * @param {number} gotoNextLevel true to continue to next level
  * false to try level again.
  */
 Maze.closeDialogButtonClick = function(gotoNextLevel) {
