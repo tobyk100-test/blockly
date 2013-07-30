@@ -4,24 +4,18 @@
  * This is a Closure Template.  Build multilingually:
  *
  * # Create en.js.
- * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat en.js --srcs template.soy
+ * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs template.soy
  *
  * # Extract messages from template.soy.
  * java -jar ../_soy/SoyMsgExtractor.jar --outputFile extracted_msgs.xlf template.soy
  *
  * # Create en.json, qqq.json.
- * ../../i18n/xliff_to_json.py extracted_msgs.xlf
+ * ../../../../trunk/i18n/xliff_to_json.py extracted_msgs.xlf
  *
  * Once translations have been made into <LANG>.json:
  *
- * # Create *.xlf.  By default, qqq.json and keys.json are skipped.
- * ../../i18n/json_to_xliff.py *.json
- *
- * # Create .js files by running script recommended by previous command.  It will
- * # start with "java -jar ../_soy/SoyToJsSrcCompiler.jar".
- *
- * # The .xlf files may be deleted.  They should not be checked in.
- * rm *.xlf
+ * # Create *.js for each *.json file.  By default, qqq.json and keys.json are skipped.
+ * ../../../../trunk/i18n/json_to_js.py *.json
  */
 
 /**
@@ -29,7 +23,7 @@
  */
 {template .start}
   <div id="MSG" style="display: none">
-    <span id="moveForward">{msg meaning="Maze.moveForward" desc="verb - 
+    <span id="moveForward">{msg meaning="Maze.moveForward" desc="verb -
       imperative or infinitive for a person moving (walking) in the direction
       he/she is facing."}move forward{/msg}</span>
     <span id="turnLeft">{msg meaning="Maze.turnLeft" desc="verb - imperative
@@ -37,7 +31,7 @@
       counter-clockwise.  Prefer a translation that has text in common with the
       translation of 'turn right'.  See [[Translating:Blockly#Drop-Down_Menus]]."}
       turn left{/msg}</span>
-    <span id="turnRight">{msg meaning="Maze.turnRight" desc="verb - imperative 
+    <span id="turnRight">{msg meaning="Maze.turnRight" desc="verb - imperative
       or infinitive for a person turning his head and body one quarter rotation
       clockwise. Prefer a translation that has text in common with the
       translation of 'turn left'.  See [[Translating:Blockly#Drop-Down_Menus]]."}
@@ -111,10 +105,10 @@
       (< and >), although you may move them within the phrase and replace 1 with
       one or more words."}You have <span id='capacityNumber'>1</span> block left.{/msg}</span>
     <span id="capacity2">{msg meaning="Maze.capacity2" desc="warning - Only %1
-      more blocks may be used, where %1 is an integer greater than 1.  Do not 
+      more blocks may be used, where %1 is an integer greater than 1.  Do not
       alter the portions between pointy brackets (< and >), although you may
       move them within the phrase."}You have <span id='capacityNumber'>%1</span> blocks left.{/msg}</span>
-    <span id="nextLevel">{msg meaning="Maze.nextLevel" desc="alert - This is 
+    <span id="nextLevel">{msg meaning="Maze.nextLevel" desc="alert - This is
       displayed when the user solves the maze, inviting them to precede to the
       next level of difficulty."}
       Congratulations! You have completed this level.{/msg}</span>
@@ -141,17 +135,9 @@
     <span id="xmlError">{msg meaning="Apps.xmlError" desc="alert - There was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  This message will be folllowed by technical information useful to engineers trying to understand the problem."}Could not load your saved file.  Perhaps it was created with a different version of Blockly?{/msg}</span>
   </div>
 
-  <table width="100%" height="100%">
-    <tr height="88">
-      <td colspan=3>
-        <div style="display: none;">
-          <select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select>
-          {sp}&nbsp;{sp}
-          <button id="pegmanButton" onmousedown="Maze.showPegmanMenu();">
-            <img src="../media/1x1.gif">
-            <span>&#x25BE;</span>
-          </button>
-        </div>
+  <table width="100%">
+    <tr>
+      <td>
         <h1>
           <span id="title">
             <a href="../index.html">{{msg meaning="Apps.blocklyMessage" desc="The project name.  If readers of your language would know approximately how to pronounce 'Blockly', leave unchanged.  Otherwise, include a transliteration in parentheses, such as the Russian: 'Blockly (Блoкли)'.  This should be identical to {lb}{lb}msg-blockly|Maze-Apps.blocklyMessage{rb}{rb}."}}Blockly{{/msg}}</a>
@@ -179,389 +165,381 @@
           {/for}
         </h1>
       </td>
+      <td class="farSide">
+        <select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select>
+        {sp}&nbsp;{sp}
+        <button id="pegmanButton" onmousedown="Maze.showPegmanMenu();">
+          <img src="../media/1x1.gif">
+          <span>&#x25BE;</span>
+        </button>
+      </td>
     </tr>
-    <tr>
-      <td width="400" valign="top">
-        /**
-         * For processing the window input after finishing a level. 
-         */
-        <div id="shadow"></div>
-        <div id="levelFeedback">
-          <div style="padding-bottom: 0.7ex;"><br>
-            <textarea id="levelFeedbackText" rows=2 cols=40 style="resize: none;
-              border: 0; text-align: center; overflow: hidden; font-size: 16pt;
-              font-family: Arial;">
-              {switch $ij.level}
-                {case 1, 2, 4}
-                  {msg meaning="Maze.hint1" desc="hint - 'block' refers to a
-                    child's stackable toys."}Use only the blocks you need to get
-                    to complete the level.{/msg}
-                {case 3}
-                  {msg meaning="Maze.hint3" desc="hint - A 'repeat' block is used
-                    to repeat blocks over and over. The red marker is the goal to
-                    be reached in the maze."}Try using the repeat block so you can
-                    complete the level with only 2 blocks.{/msg}
-                {case 5, 6, 7, 8}
-                  {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
-                    to repeat blocks over and over."}Try using the repeat block.{/msg}
-                {case 9, 10}
-                  {msg meaning="Maze.hint9" desc="hint - An example of an
-                    'if-else' block is if there is a path ahead move forward,
-                    else turn left."}Use two 'if' statements so I can move left
-                    and right when needed.{/msg}
-                {case 11}
-                  {msg meaning="Maze.hint11" desc="hint - an example of an
-                    'if-else' block is: 'if there is a path to the left,
-                    turn left, else or otherwise turn right'."}This level
-                    requires only four blocks if you use an if-else block.{/msg}
-              {/switch}
-          </textarea>
-          /**
-           * Interstitial levels. 
-           */
-          <div id="interstitial" style="display: none;">
-          /**
-           * Show image above avatar for these reinf levels. 
-           */
-          {if $ij.level == 2}
-            <img style="margin-left: 110px;" src="repeat_block.png">
-          {/if}
-          <br>
-          <div id="reinfbubble">
-            <span id="reinfMsg">
-              {switch $ij.level}
-                {case 2}
-                  {msg meaning="Maze.reinfMsg2" desc="instructions - 'block' refers
-                    to a child's stackable toys. A 'repeat' block is used to repeat
-                    blocks over and over. The red marker is the goal to be reached
-                    in the maze."}A repeat block repeats the blocks inside it until
-                    I reach the red marker.{/msg}
-                {case 3}
-                  {msg meaning="Maze.reinfMsg3" desc="instructions - 'program'
-                    refers to a series of instructions that tell the computer
-                    what to do next."}You have just written some programs. Good job!{/msg}        
-                {case 4}
-                  {msg meaning="Maze.reinfMsg4" desc="instructions - program'
-                    refers to a series of instructions that tell the computer
-                    what to do next."}Which direction am I facing after this
-                    program ends?{/msg}
-                {case 5}
-                  {msg meaning="Maze.reinfMsg5" desc="instructions - An example
-                    of an 'if' block is if there is a path to the left, turn
-                    left."}Here is an if block: I will turn left if there is a
-                    path to the left.{/msg}
-                {case 6}
-                  {msg meaning="Maze.reinfMsg6" desc="instructions - An example
-                    of an 'if' block is if there is a path to the left, turn left.
-                    A 'repeat' block is used to repeat blocks over and over.
-                    'program' refers to a series of instructions that tell the
-                    computer what to do next."}We can place 'if' blocks inside
-                    'repeat' blocks. Where am I when this program ends?
-                    Click on the correct picture below.{/msg}
-                {case 7}
-                  {msg meaning="Maze.reinfMsg7" desc="instructions - A 'repeat'
-                    block is used to repeat blocks over and over. "}Repeat blocks
-                    allow me to do an action multiple times without additional blocks.
-                    'if' blocks allow me to do an action based on my surroundings.{/msg}
-                {case 9}
-                  {msg meaning="Maze.reinfMsg9" desc="instructions - An example of an
-                    'if-else' block is if there is a path ahead move forward, else
-                    turn left."}Here is an 'if-else' block: I move forward if there
-                    is a path ahead, but I turn left if not.{/msg}
-                {case 10}
-                  {msg meaning="Maze.reinfMsg10" desc="instructions - 'block' refers
-                    to a child's stackable toys. A 'repeat' block is used to repeat
-                    blocks over and over. The red marker is the goal to be reached
-                    in the maze."}Will the blocks below move me to the red marker?{/msg}
-              {/switch}
-            </span>
-          </div>
-          <img id="pegman_bubble" height=42 width=55 src="pegman_bubble.png">
-    
+  </table>
 
-          /** 
-           * Show image below avatar for these reinf levels. 
-           */
-          {if $ij.level == 4}
-            <p><img border=2 src="dirs.png">&nbsp;<img src="dirs2.png"><br>
-          {/if}
-          {if $ij.level == 5}
-            <p><img style="margin-left: 110px;" src="ifblock.png"><br>
-          {/if}
-          {if $ij.level == 6}
-            <img style="margin-top: 10px;" border=2 src="repeat_block2.png"><br>
-          {/if}
-          {if $ij.level == 9}
-            <p><img style="margin-left: 60px; height: 150px; width: 260px;" 
-                src="if-else2.png"><br><br>
-          {/if}
-          {if $ij.level == 10}
-           <p><img style="margin-left: 10px; height: 350px; width: 490px;" 
-               src="ifelse.png"><br>
-          {/if}
+  /**
+   * For processing the window input after finishing a level.
+   */
+  <div id="levelFeedback">
+    <div style="padding-bottom: 0.7ex;"><br>
+      <textarea id="levelFeedbackText" rows=2 cols=40 style="resize: none;
+        border: 0; text-align: center; overflow: hidden; font-size: 16pt;
+        font-family: Arial;">
+        {switch $ij.level}
+          {case 1, 2, 4}
+            {msg meaning="Maze.hint1" desc="hint - 'block' refers to a
+              child's stackable toys."}Use only the blocks you need to get
+              to complete the level.{/msg}
+          {case 3}
+            {msg meaning="Maze.hint3" desc="hint - A 'repeat' block is used
+              to repeat blocks over and over. The red marker is the goal to
+              be reached in the maze."}Try using the repeat block so you can
+              complete the level with only 2 blocks.{/msg}
+          {case 5, 6, 7, 8}
+            {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
+              to repeat blocks over and over."}Try using the repeat block.{/msg}
+          {case 9, 10}
+            {msg meaning="Maze.hint9" desc="hint - An example of an
+              'if-else' block is if there is a path ahead move forward,
+              else turn left."}Use two 'if' statements so I can move left
+              and right when needed.{/msg}
+          {case 11}
+            {msg meaning="Maze.hint11" desc="hint - an example of an
+              'if-else' block is: 'if there is a path to the left,
+              turn left, else or otherwise turn right'."}This level
+              requires only four blocks if you use an if-else block.{/msg}
+        {/switch}
+    </textarea>
+    /**
+     * Interstitial levels.
+     */
+    <div id="interstitial" style="display: none;">
+    /**
+     * Show image above avatar for these reinf levels.
+     */
+    {if $ij.level == 2}
+      <img style="margin-left: 110px;" src="repeat_block.png">
+    {/if}
+    <br>
+    <div id="reinfbubble">
+      <span id="reinfMsg">
+        {switch $ij.level}
+          {case 2}
+            {msg meaning="Maze.reinfMsg2" desc="instructions - 'block' refers
+              to a child's stackable toys. A 'repeat' block is used to repeat
+              blocks over and over. The red marker is the goal to be reached
+              in the maze."}A repeat block repeats the blocks inside it until
+              I reach the red marker.{/msg}
+          {case 3}
+            {msg meaning="Maze.reinfMsg3" desc="instructions - 'program'
+              refers to a series of instructions that tell the computer
+              what to do next."}You have just written some programs. Good job!{/msg}
+          {case 4}
+            {msg meaning="Maze.reinfMsg4" desc="instructions - program'
+              refers to a series of instructions that tell the computer
+              what to do next."}Which direction am I facing after this
+              program ends?{/msg}
+          {case 5}
+            {msg meaning="Maze.reinfMsg5" desc="instructions - An example
+              of an 'if' block is if there is a path to the left, turn
+              left."}Here is an if block: I will turn left if there is a
+              path to the left.{/msg}
+          {case 6}
+            {msg meaning="Maze.reinfMsg6" desc="instructions - An example
+              of an 'if' block is if there is a path to the left, turn left.
+              A 'repeat' block is used to repeat blocks over and over.
+              'program' refers to a series of instructions that tell the
+              computer what to do next."}We can place 'if' blocks inside
+              'repeat' blocks. Where am I when this program ends?
+              Click on the correct picture below.{/msg}
+          {case 7}
+            {msg meaning="Maze.reinfMsg7" desc="instructions - A 'repeat'
+              block is used to repeat blocks over and over. "}Repeat blocks
+              allow me to do an action multiple times without additional blocks.
+              'if' blocks allow me to do an action based on my surroundings.{/msg}
+          {case 9}
+            {msg meaning="Maze.reinfMsg9" desc="instructions - An example of an
+              'if-else' block is if there is a path ahead move forward, else
+              turn left."}Here is an 'if-else' block: I move forward if there
+              is a path ahead, but I turn left if not.{/msg}
+          {case 10}
+            {msg meaning="Maze.reinfMsg10" desc="instructions - 'block' refers
+              to a child's stackable toys. A 'repeat' block is used to repeat
+              blocks over and over. The red marker is the goal to be reached
+              in the maze."}Will the blocks below move me to the red marker?{/msg}
+        {/switch}
+      </span>
+    </div>
+    <img id="pegman_bubble" height=42 width=55 src="pegman_bubble.png">
 
 
-        /**
-         * Multiple choice question. 
-         */
-        {if $ij.level == 4} 
-          <p>
-            <input type="radio" name="q4" id="q41" 
-              onclick="Maze.showReinfHelp('q4w')">
-              <span style="font-weight: bold">
-                {msg meaning="Maze.dirN" desc="An abbreviation of the direction
-                  North"} N{/msg}
-              </span><br>
-            <input type="radio" name="q4" id="q42" 
-              onclick="Maze.showReinfHelp('q4w')">
-              <span style="font-weight: bold">
-                {msg meaning="Maze.dirE" desc="An abbreviation of the direction
-                  East"} E{/msg}
-              </span><br>
-            <input type="radio" name="q4" id="q43"
-              onclick="Maze.showReinfHelp('q4w')">
-              <span style="font-weight: bold">
-                {msg meaning="Maze.dirS" desc="An abbreviation of the direction
-                  North"} S{/msg}
-              </span><br>
-            <input type="radio" name="q4" id="q44"
-              onclick="Maze.showReinfHelp('q4r')">
-              <span style="font-weight: bold">
-                {msg meaning="Maze.dirW" desc="An abbreviation of the direction
-                  West"} W{/msg}
-              </span><br><br>
-          </p>
-          <div id="shadow"></div>
-          <div id="reinfDone">
-            <div style="padding-bottom: 0.7ex;">
-              <div style="text-align: center;" id="reinfFeedbackImage"></div><br>
-              <textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none;
-                border: none; text-align: center; overflow: hidden; font-size: 16pt;
-                font-family: Arial;"></textarea>
-            </div>
-            <div style="text-align: center; padding-top: 1ex; padding-right: 3ex">
-              <button id="okButton" class="launch" onclick="Maze.hideReinfHelp()&nbsp">
-                <span>
-                  {msg meaning="Maze.ok" desc="Closes the dialog box."}OK{/msg}
-                </span>
-              </button>
-            </div>
-          </div>
-        {/if}
-        {if $ij.level == 6} 
-          <p>
-            <img style="margin-left: 30px;" src="repeat_blocka1.png"
-              onclick="Maze.showReinfHelp('q5w')">
-            <img style="margin-left: 20px;" src="repeat_blocka2.png"
-              onclick="Maze.showReinfHelp('q5r')">
-            <img style="margin-left: 20px;" src="repeat_blocka3.png"
-              onclick="Maze.showReinfHelp('q5w')">
-          </p>
-          <div id="shadow"></div>
-          <div id="reinfDone">
-            <div style="padding-bottom: 0.7ex">
-              <div style="text-align: center;" id="reinfFeedbackImage"></div><br>
-              <textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none;
-                border: none; text-align: center; overflow: hidden; font-size: 16pt;
-                font-family: Arial;"></textarea>
-            </div>
-            <div style="text-align: center; padding-top: 1ex; padding-right: 3ex;">
-              <button id="okButton" class="launch" onclick="Maze.hideReinfHelp()">
-                <span>
-                  {msg meaning="Maze.ok" desc="Closes the dialog box."}OK{/msg}
-                </span>
-              </button>
-            </div>
-          </div>
-        {/if}
-        {if $ij.level == 10} 
-          <p>
-            <input type="radio" name="q8" id="q81"
-              onClick="Maze.showReinfHelp('q10r')">
-              <span style="font-weight: bold">{msg meaning="Maze.yes" desc="Yes 
-                indicates that this option is true and correct."} Yes{/msg}
-              </span><br>
-            <input type="radio" name="q8" id="q82"
-              onClick="Maze.showReinfHelp('q10w')">
-              <span style="font-weight: bold">
-                {msg meaning="Maze.no" desc="No indicates that this option is
-                  false and incorrect."} No{/msg}
-              </span><br><br>
-          </p>
-          <div id="shadow"></div>
-          <div id="reinfDone">
-            <div style="padding-bottom: 0.7ex;">
-              <div style="text-align:center;" id="reinfFeedbackImage"></div><br>
-              <textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none;
-                border: none; text-align: center; overflow: hidden;
-                font-size: 16pt; font-family: Arial;"></textarea>
-            </div>
-            <div style="text-align: center; padding-top: 1ex; padding-right: 3ex;">
-              <button id="okButton" class="launch" onclick="Maze.hideReinfHelp()">
-                <span>
-                  {msg meaning="Maze.ok" desc="Closes the dialog box."}OK{/msg}
-                </span>
-              </button>
-            </div>
-          </div>
-        {/if}
+    /**
+     * Show image below avatar for these reinf levels.
+     */
+    {if $ij.level == 4}
+      <p><img border=2 src="dirs.png">&nbsp;<img src="dirs2.png"><br>
+    {/if}
+    {if $ij.level == 5}
+      <p><img style="margin-left: 110px;" src="ifblock.png"><br>
+    {/if}
+    {if $ij.level == 6}
+      <img style="margin-top: 10px;" border=2 src="repeat_block2.png"><br>
+    {/if}
+    {if $ij.level == 9}
+      <p><img style="margin-left: 60px; height: 150px; width: 260px;"
+          src="if-else2.png"><br><br>
+    {/if}
+    {if $ij.level == 10}
+     <p><img style="margin-left: 10px; height: 350px; width: 490px;"
+         src="ifelse.png"><br>
+    {/if}
+
+
+  /**
+   * Multiple choice question.
+   */
+  {if $ij.level == 4}
+    <p>
+      <input type="radio" name="q4" id="q41"
+        onclick="Maze.showReinfHelp('q4w')">
+        <span style="font-weight: bold">
+          {msg meaning="Maze.dirN" desc="An abbreviation of the direction
+            North"} N{/msg}
+        </span><br>
+      <input type="radio" name="q4" id="q42"
+        onclick="Maze.showReinfHelp('q4w')">
+        <span style="font-weight: bold">
+          {msg meaning="Maze.dirE" desc="An abbreviation of the direction
+            East"} E{/msg}
+        </span><br>
+      <input type="radio" name="q4" id="q43"
+        onclick="Maze.showReinfHelp('q4w')">
+        <span style="font-weight: bold">
+          {msg meaning="Maze.dirS" desc="An abbreviation of the direction
+            North"} S{/msg}
+        </span><br>
+      <input type="radio" name="q4" id="q44"
+        onclick="Maze.showReinfHelp('q4r')">
+        <span style="font-weight: bold">
+          {msg meaning="Maze.dirW" desc="An abbreviation of the direction
+            West"} W{/msg}
+        </span><br><br>
+    </p>
+    <div id="shadow"></div>
+    <div id="reinfDone">
+      <div style="padding-bottom: 0.7ex;">
+        <div style="text-align: center;" id="reinfFeedbackImage"></div><br>
+        <textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none;
+          border: none; text-align: center; overflow: hidden; font-size: 16pt;
+          font-family: Arial;"></textarea>
       </div>
-      /**
-       * End reinf level processing. 
-       */
-       <br><br>
-       <div style="text-align: center">
-          <button id="tryLevelAgainButton" class="launch" style="display: none"
-            onclick="Maze.closeDialogButtonClick(false);">
-            {msg meaning="Maze.tryAgain" desc="button - Closes the dialog and
-              stays on the current level"}Try again{/msg}
-          </button>
-          <button id="nextLevelButton" class="launch" style="display: none"
-            onclick="Maze.closeDialogButtonClick(true);">
-              {msg meaning="Maze.nextLevel" desc="button - Closes the dialog and
-                continues to the next level"}Continue{/msg}
-          </button>
-       </div>
+      <div style="text-align: center; padding-top: 1ex; padding-right: 3ex">
+        <button id="okButton" class="launch" onclick="Maze.hideReinfHelp()&nbsp">
+          <span>
+            {msg meaning="Maze.ok" desc="Closes the dialog box."}OK{/msg}
+          </span>
+        </button>
       </div>
     </div>
-
-    <div id='maze' style="display: inline;">
-      <div style="position: relative">
-        <div id="hintBubble">
-          <div id="hint">
-            {switch $ij.level}
-              {case 1}
-                {msg meaning="Maze.instructions1" desc="instructions - the word
-                  'program' refers to a computer program, and the words for
-                  'stack' and 'blocks' should be the same as for stacking
-                  children's blocks. Use the imperative verb form appropriate 
-                  for speaking to a child, gender unspecified.  If no
-                  gender-neutral singular/familiar form exists but a gender-neutral
-                  plural/formal form exists, use that instead."}A program is a
-                  sequence of statements. Stack a couple of 'move forward'
-                  blocks together to help me reach the goal.{/msg}
-              {case 2}
-                {msg meaning="Maze.instructions2" desc="instructions - 'path'
-                  refers to a path through a maze"}Help me reach the end of
-                  this path.{/msg}
-              {case 3}
-                {msg meaning="Maze.instructions3" desc="instructions - 'path'
-                  refers to a path through a maze, and 'block' refers to a
-                  child's building block."}Computers have limited memory.
-                  Reach the end of this path using only two blocks.{/msg}
-              {case 4}
-                {msg meaning="Maze.instructions4" desc="instructions - the
-                  word 'steps' refers to instructions in a computer program;
-                  'path' refers to the path through a maze. See previous
-                  description for tense."}What should I do to follow this path?{/msg}
-              {case 5}
-                {msg meaning="Maze.instructions5" desc="instructions - the
-                  goal is reaching the end point in a maze; 'block' refers
-                  to a child's building block."}Reach the goal using only
-                  five blocks.{/msg}
-              {case 6}
-                {msg meaning="Maze.instructions6" desc="instructions -
-                  'turn left' refers to rotating in place a quarter
-                  circle counter-clockwise."}I will have to turn left
-                  when I cannot go straight.{/msg}
-              {case 7}
-                {msg meaning="Maze.instructions7" desc="instructions -
-                  an example of an 'if' block is: 'if there is a path to
-                  the left, turn left'."}An 'if' condition will do
-                  something only if the condition is true.  Try turning
-                  left if there is a path to the left.{/msg}
-              {case 8}
-                {msg meaning="Maze.instructions8" desc="instructions -
-                  'blocks' refers to a child's building blocks"}A small
-                  change to the blocks from the previous maze will solve
-                  this level.{/msg}
-              {case 9}
-                {msg meaning="Maze.instructions9" desc="instructions - an
-                  example of an 'if' block is: 'if there is a path to the
-                  left, turn left'."}You can use more than one 'if' statement.{/msg}
-              {case 10}
-                {msg meaning="Maze.instructions10" desc="instructions - 'block'
-                  refers to a child's building block."}Can you use the blocks
-                  you have learned to get me over the mountains?{/msg}
-              {case 11}
-                {msg meaning="Maze.instructions11" desc="instructions - an
-                  example of an 'if-else' block is: 'if there is a path to the
-                  left, turn left, else or otherwise turn right'."}Use the
-                  'if-else' block to help me get out of the maze!{/msg}
-            {/switch}
-          </div>
-        </div>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="450px">
-          <g id="look">
-            <path d="M 0,-15 a 15 15 0 0 1 15 15" />
-            <path d="M 0,-35 a 35 35 0 0 1 35 35" />
-            <path d="M 0,-55 a 55 55 0 0 1 55 55" />
-          </g>
-        </svg>
-        <div id="capacityBubble">
-          <div id="capacity"></div>
-        </div>
+  {/if}
+  {if $ij.level == 6}
+    <p>
+      <img style="margin-left: 30px;" src="repeat_blocka1.png"
+        onclick="Maze.showReinfHelp('q5w')">
+      <img style="margin-left: 20px;" src="repeat_blocka2.png"
+        onclick="Maze.showReinfHelp('q5r')">
+      <img style="margin-left: 20px;" src="repeat_blocka3.png"
+        onclick="Maze.showReinfHelp('q5w')">
+    </p>
+    <div id="shadow"></div>
+    <div id="reinfDone">
+      <div style="padding-bottom: 0.7ex">
+        <div style="text-align: center;" id="reinfFeedbackImage"></div><br>
+        <textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none;
+          border: none; text-align: center; overflow: hidden; font-size: 16pt;
+          font-family: Arial;"></textarea>
       </div>
-      <table width="100%">
-        <tr>
-          <td style="width: 190px; text-align: center; vertical-align: top;">
-            <button title="{msg meaning="Maze.codeTooltip" desc="tooltip
-              (pop-up help) for button; pressing the button causes a program
-              in the JavaScript computer language to be displayed, based on the
-              program created by the user."}See generated JavaScript code.{/msg}"
-              onclick="BlocklyApps.showCode();">
-              <img src='../media/1x1.gif' class="code icon21">
-            </button>
-            <button id="linkButton" title="{msg meaning="Maze.linkTooltip" 
-              desc="tooltip (pop-up help) for button; pressing the button
-              causes the user's program to be saved and for a URL to be
-              provided for retrieving it.  The word 'blocks' is as in
-              children's toy blocks."}Save and link to blocks.{/msg}"
-              onclick="BlocklyStorage.link();">
-              <img src='../media/1x1.gif' class="link icon21">
-            </button>
-            <button id="randomizeButton" title="{msg
-              meaning="Maze.randomizeMarkerTooltip" desc="tooltip (pop-up help)
-              for button; pressing the button causes the start marker and finish
-              markers in the current maze to be moved to random locations,
-              without othwerise changing the maze."}Randomize start and finish
-              markers.{/msg} onclick="Maze.randomizeMarkers();" style="display: none">
-              <img src='../media/1x1.gif' class="random icon21">
-            </button>
-          </td>
-          <td>
-            <button id="runButton" class="launch" onclick="Maze.runButtonClick();">
-                <img src="../media/1x1.gif" class="run icon21"> {msg meaning="Maze.runProgram"
-                desc="button label - Pressing the button runs the computer program the user has
-                written."} Run Program{/msg}
-              </button>
-            </button>
-            <button id="resetButton" class="launch" 
-              onclick="Maze.resetButtonClick();" style="display: none">
-                <img src="../media/1x1.gif" class="stop icon21">
-                  {msg meaning="Maze.resetProgram" desc="button label -
-                    Pressing the button causes Pegman return to the start of the maze
-                    (but does not delete the user's program.)"} Reset{/msg}
-              </button>
-          </td>
-        </tr>
-      </table>
-    </td>
-
-    <td valign="top">
-      <script type="text/javascript" src="../blockly_compressed.js"></script>
-      <script type="text/javascript" src="../javascript_compressed.js"></script>
-      <script type="text/javascript" src="../{$ij.langSrc}"></script>
-      <script type="text/javascript" src="blocks.js"></script>
-      {call .toolbox /}
-      <div id="blockly"></div>
-    </td>
-  </tr>
-  </table>
+      <div style="text-align: center; padding-top: 1ex; padding-right: 3ex;">
+        <button id="okButton" class="launch" onclick="Maze.hideReinfHelp()">
+          <span>
+            {msg meaning="Maze.ok" desc="Closes the dialog box."}OK{/msg}
+          </span>
+        </button>
+      </div>
+    </div>
+  {/if}
+  {if $ij.level == 10}
+    <p>
+      <input type="radio" name="q8" id="q81"
+        onClick="Maze.showReinfHelp('q10r')">
+        <span style="font-weight: bold">{msg meaning="Maze.yes" desc="Yes
+          indicates that this option is true and correct."} Yes{/msg}
+        </span><br>
+      <input type="radio" name="q8" id="q82"
+        onClick="Maze.showReinfHelp('q10w')">
+        <span style="font-weight: bold">
+          {msg meaning="Maze.no" desc="No indicates that this option is
+            false and incorrect."} No{/msg}
+        </span><br><br>
+    </p>
+    <div id="shadow"></div>
+    <div id="reinfDone">
+      <div style="padding-bottom: 0.7ex;">
+        <div style="text-align:center;" id="reinfFeedbackImage"></div><br>
+        <textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none;
+          border: none; text-align: center; overflow: hidden;
+          font-size: 16pt; font-family: Arial;"></textarea>
+      </div>
+      <div style="text-align: center; padding-top: 1ex; padding-right: 3ex;">
+        <button id="okButton" class="launch" onclick="Maze.hideReinfHelp()">
+          <span>
+            {msg meaning="Maze.ok" desc="Closes the dialog box."}OK{/msg}
+          </span>
+        </button>
+      </div>
+    </div>
+  {/if}
+  </div>
+  /**
+  * End reinf level processing.
+  */
+  <br><br>
+  <div style="text-align: center">
+    <button id="tryLevelAgainButton" class="launch" style="display: none"
+      onclick="Maze.closeDialogButtonClick(false);">
+      {msg meaning="Maze.tryAgain" desc="button - Closes the dialog and
+        stays on the current level"}Try again{/msg}
+    </button>
+    <button id="nextLevelButton" class="launch" style="display: none"
+      onclick="Maze.closeDialogButtonClick(true);">
+        {msg meaning="Maze.nextLevel" desc="button - Closes the dialog and
+          continues to the next level"}Continue{/msg}
+    </button>
+  </div>
+  </div>
   </div>
 
+  <div id="visualization">
+    <div id="hintBubble">
+      <div id="hint">
+        {switch $ij.level}
+          {case 1}
+            {msg meaning="Maze.instructions1" desc="instructions - the word
+              'program' refers to a computer program, and the words for
+              'stack' and 'blocks' should be the same as for stacking
+              children's blocks. Use the imperative verb form appropriate
+              for speaking to a child, gender unspecified.  If no
+              gender-neutral singular/familiar form exists but a gender-neutral
+              plural/formal form exists, use that instead."}A program is a
+              sequence of statements. Stack a couple of 'move forward'
+              blocks together to help me reach the goal.{/msg}
+          {case 2}
+            {msg meaning="Maze.instructions2" desc="instructions - 'path'
+              refers to a path through a maze"}Help me reach the end of
+              this path.{/msg}
+          {case 3}
+            {msg meaning="Maze.instructions3" desc="instructions - 'path'
+              refers to a path through a maze, and 'block' refers to a
+              child's building block."}Computers have limited memory.
+              Reach the end of this path using only two blocks.{/msg}
+          {case 4}
+            {msg meaning="Maze.instructions4" desc="instructions - the
+              word 'steps' refers to instructions in a computer program;
+              'path' refers to the path through a maze. See previous
+              description for tense."}What should I do to follow this path?{/msg}
+          {case 5}
+            {msg meaning="Maze.instructions5" desc="instructions - the
+              goal is reaching the end point in a maze; 'block' refers
+              to a child's building block."}Reach the goal using only
+              five blocks.{/msg}
+          {case 6}
+            {msg meaning="Maze.instructions6" desc="instructions -
+              'turn left' refers to rotating in place a quarter
+              circle counter-clockwise."}I will have to turn left
+              when I cannot go straight.{/msg}
+          {case 7}
+            {msg meaning="Maze.instructions7" desc="instructions -
+              an example of an 'if' block is: 'if there is a path to
+              the left, turn left'."}An 'if' condition will do
+              something only if the condition is true.  Try turning
+              left if there is a path to the left.{/msg}
+          {case 8}
+            {msg meaning="Maze.instructions8" desc="instructions -
+              'blocks' refers to a child's building blocks"}A small
+              change to the blocks from the previous maze will solve
+              this level.{/msg}
+          {case 9}
+            {msg meaning="Maze.instructions9" desc="instructions - an
+              example of an 'if' block is: 'if there is a path to the
+              left, turn left'."}You can use more than one 'if' statement.{/msg}
+          {case 10}
+            {msg meaning="Maze.instructions10" desc="instructions - 'block'
+              refers to a child's building block."}Can you use the blocks
+              you have learned to get me over the mountains?{/msg}
+          {case 11}
+            {msg meaning="Maze.instructions11" desc="instructions - an
+              example of an 'if-else' block is: 'if there is a path to the
+              left, turn left, else or otherwise turn right'."}Use the
+              'if-else' block to help me get out of the maze!{/msg}
+        {/switch}
+      </div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="450px">
+      <g id="look">
+        <path d="M 0,-15 a 15 15 0 0 1 15 15" />
+        <path d="M 0,-35 a 35 35 0 0 1 35 35" />
+        <path d="M 0,-55 a 55 55 0 0 1 55 55" />
+      </g>
+    </svg>
+    <div id="capacityBubble">
+      <div id="capacity"></div>
+    </div>
+  </div>
+  <table width="400">
+    <tr>
+      <td style="width: 190px; text-align: center; vertical-align: top;">
+        <button title="{msg meaning="Maze.codeTooltip" desc="tooltip
+          (pop-up help) for button; pressing the button causes a program
+          in the JavaScript computer language to be displayed, based on the
+          program created by the user."}See generated JavaScript code.{/msg}"
+          onclick="BlocklyApps.showCode();">
+          <img src='../media/1x1.gif' class="code icon21">
+        </button>
+        <button id="linkButton" title="{msg meaning="Maze.linkTooltip"
+          desc="tooltip (pop-up help) for button; pressing the button
+          causes the user's program to be saved and for a URL to be
+          provided for retrieving it.  The word 'blocks' is as in
+          children's toy blocks."}Save and link to blocks.{/msg}"
+          onclick="BlocklyStorage.link();">
+          <img src='../media/1x1.gif' class="link icon21">
+        </button>
+      </td>
+      <td>
+        <button id="runButton" class="launch" onclick="Maze.runButtonClick();">
+            <img src="../media/1x1.gif" class="run icon21"> {msg meaning="Maze.runProgram"
+            desc="button label - Pressing the button runs the computer program the user has
+            written."} Run Program{/msg}
+          </button>
+        </button>
+        <button id="resetButton" class="launch"
+          onclick="Maze.resetButtonClick();" style="display: none">
+            <img src="../media/1x1.gif" class="stop icon21">
+              {msg meaning="Maze.resetProgram" desc="button label -
+                Pressing the button causes Pegman return to the start of the maze
+                (but does not delete the user's program.)"} Reset{/msg}
+          </button>
+      </td>
+    </tr>
+  </table>
+
+  <script type="text/javascript" src="../blockly_compressed.js"></script>
+  <script type="text/javascript" src="../javascript_compressed.js"></script>
+  <script type="text/javascript" src="../{$ij.langSrc}"></script>
+  <script type="text/javascript" src="blocks.js"></script>
+  {call .toolbox /}
+  <div id="blockly"></div>
 
   <div id="pegmanMenu"></div>
+  <div id="shadow"></div>
 {/template}
 
 /**

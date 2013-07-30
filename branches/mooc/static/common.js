@@ -1,5 +1,5 @@
 /**
- * Visual Blocks Editor
+ * Blockly Apps: Common code
  *
  * Copyright 2013 Google Inc.
  * http://blockly.googlecode.com/
@@ -21,7 +21,6 @@
  * @fileoverview Common support code for Blockly apps.
  * @author fraser@google.com (Neil Fraser)
  */
-
 'use strict';
 
 var BlocklyApps = {};
@@ -140,28 +139,42 @@ BlocklyApps.init = function() {
       BlocklyApps.LANGUAGES[BlocklyApps.LANG][1]);
   document.head.parentElement.setAttribute('lang', BlocklyApps.LANG);
 
+  // Sort languages alphabetically.
+  var languages = [];
+  for (var lang in BlocklyApps.LANGUAGES) {
+    languages.push(BlocklyApps.LANGUAGES[lang].concat(lang));
+  }
+  var comp = function(a, b) {
+    // Sort based on first argument ('English', 'Русский', '简体字', etc).
+    if (a[0] > b[0]) return 1;
+    if (a[0] < b[0]) return -1;
+    return 0;
+  };
+  languages.sort(comp);
   // Populate the language selection menu.
   var languageMenu = document.getElementById('languageMenu');
   languageMenu.options.length = 0;
-  for (var lang in BlocklyApps.LANGUAGES) {
-    var option = new Option(BlocklyApps.LANGUAGES[lang][0], lang);
+  for (var i = 0; i < languages.length; i++) {
+    var tuple = languages[i];
+    var lang = tuple[tuple.length - 1];
+    var option = new Option(tuple[0], lang);
     if (lang == BlocklyApps.LANG) {
       option.selected = true;
     }
     languageMenu.options.add(option);
   }
 
-  // Move the language menu div (which may include other elements) to the far
-  // side of the screen.
-  // HACK: Firefox v21 does not allow the setting of style.float.
-  // Use setAttribute instead.
-  languageMenu.parentElement.setAttribute('style',
-      'display: block; float: ' + (rtl ? 'left' : 'right') + ';');
-
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
   if (linkButton && !('BlocklyStorage' in window)) {
     linkButton.className = 'disabled';
+  }
+
+  // Fixes viewport for small screens.
+ 	var viewport = document.querySelector('meta[name="viewport"]');
+  if (viewport && screen.availWidth < 725) {
+    viewport.setAttribute('content',
+        'width=725, initial-scale=.35, user-scalable=no');
   }
 };
 

@@ -1,6 +1,7 @@
 body {
   background-color: #F2F2F2;
   font-family: sans-serif;
+  margin-top: 0;
 }
 h1 {
   font-weight: normal;
@@ -9,6 +10,13 @@ h1 {
 a:hover {
   color: #f00;
 }
+.farSide {
+  text-align: right;
+}
+html[dir="RTL"] .farSide {
+  text-align: left;
+}
+
 .tab {
   font-weight: bold;
   padding: 14px 15px;
@@ -31,6 +39,12 @@ a:hover {
 .singleDigit {
   padding: 14px 22px;
   margin: 5px;
+}
+#blockly {
+  position: absolute;
+}
+#visualization {
+  position: relative;
 }
 #hintBubble {
   position: absolute;
@@ -183,9 +197,6 @@ button.disabled {
 }
 input[type="radio"] {
   margin-left: 40px;
-}
-#blockly {
-  position: fixed;
 }
 #languageMenu {
   vertical-align: top;
