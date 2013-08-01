@@ -201,6 +201,11 @@ Blockly.BUMP_DELAY = 250;
 Blockly.mainWorkspace = null;
 
 /**
+ * The document user Agent;
+ */
+Blockly.userAgent = goog.userAgent;
+
+/**
  * Contents of the local clipboard.
  * @type {Element}
  * @private
