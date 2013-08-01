@@ -23,7 +23,6 @@
 "Maze.capacity1": "1740099458630159531",
 "Maze.capacity2": "8194173010046025493",
 "Maze.nextLevel": "475166420037717394",
-"Maze.nextLevel": "5618067999937101313",
 "Maze.finalLevel": "7149849676690329496",
 "Maze.oneTopBlock": "4051416073809352347",
 "Apps.httpRequestError": "6491926390857975299",
@@ -53,6 +52,7 @@
 "Maze.yes": "1586819974845642024",
 "Maze.no": "5025864945089722941",
 "Maze.tryAgain": "3844507338825329004",
+"Maze.continue": "7849089032479822046",
 "Maze.instructions1": "289046711390728342",
 "Maze.instructions2": "3074186020274965662",
 "Maze.instructions3": "821836719187803924",
@@ -66,7 +66,6 @@
 "Maze.instructions11": "4332374580422128273",
 "Maze.codeTooltip": "5729392237036335843",
 "Maze.linkTooltip": "2194902007208446636",
-"Maze.randomizeMarkerTooltip": "4569563074235560111",
 "Maze.runProgram": "3556617363956639899",
 "Maze.resetProgram": "2655054833692063393"
 }

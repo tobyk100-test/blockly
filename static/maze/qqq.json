@@ -23,7 +23,6 @@
     "Maze.capacity1": "warning - Only one more block may be added.  Do not alter the portions between pointy brackets (< and >), although you may move them within the phrase and replace 1 with one or more words.",
     "Maze.capacity2": "warning - Only %1 more blocks may be used, where %1 is an integer greater than 1.  Do not alter the portions between pointy brackets (< and >), although you may move them within the phrase.",
     "Maze.nextLevel": "alert - This is displayed when the user solves the maze, inviting them to precede to the next level of difficulty.",
-    "Maze.nextLevel": "button - Closes the dialog and continues to the next level",
     "Maze.finalLevel": "alert - This is displayed when the user solves the most difficult level.",
     "Maze.oneTopBlock": "alert - This is displayed if a user attempts to run a program composed of multiple stacks of blocks, letting them know they need to create a single stack.",
     "Apps.httpRequestError": "alert - The URL is invalid or a server error occurred.  This message will be followed by technical information useful to engineers trying to understand the problem.",
@@ -53,6 +52,7 @@
     "Maze.yes": "Yes indicates that this option is true and correct.",
     "Maze.no": "No indicates that this option is false and incorrect.",
     "Maze.tryAgain": "button - Closes the dialog and stays on the current level",
+    "Maze.continue": "button - Closes the dialog and continues to the next level",
     "Maze.instructions1": "instructions - the word 'program' refers to a computer program, and the words for 'stack' and 'blocks' should be the same as for stacking children's blocks. Use the imperative verb form appropriate for speaking to a child, gender unspecified.  If no gender-neutral singular/familiar form exists but a gender-neutral plural/formal form exists, use that instead.",
     "Maze.instructions2": "instructions - 'path' refers to a path through a maze",
     "Maze.instructions3": "instructions - 'path' refers to a path through a maze, and 'block' refers to a child's building block.",
@@ -66,7 +66,6 @@
     "Maze.instructions11": "instructions - an example of an 'if-else' block is: 'if there is a path to the left, turn left, else or otherwise turn right'.",
     "Maze.codeTooltip": "tooltip (pop-up help) for button; pressing the button causes a program in the JavaScript computer language to be displayed, based on the program created by the user.",
     "Maze.linkTooltip": "tooltip (pop-up help) for button; pressing the button causes the user's program to be saved and for a URL to be provided for retrieving it.  The word 'blocks' is as in children's toy blocks.",
-    "Maze.randomizeMarkerTooltip": "tooltip (pop-up help) for button; pressing the button causes the start marker and finish markers in the current maze to be moved to random locations, without othwerise changing the maze.",
     "Maze.runProgram": "button label - Pressing the button runs the computer program the user has written.",
     "Maze.resetProgram": "button label - Pressing the button causes Pegman return to the start of the maze (but does not delete the user's program.)"
 }

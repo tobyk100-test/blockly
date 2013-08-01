@@ -3,19 +3,20 @@
 /**
  * This is a Closure Template.  Build multilingually:
  *
- * # Create en.js.
+ * # Create en.js if that's the only language you care about.
  * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs template.soy
  *
+ * # To fully internationalize, follow these steps...
  * # Extract messages from template.soy.
  * java -jar ../_soy/SoyMsgExtractor.jar --outputFile extracted_msgs.xlf template.soy
  *
  * # Create en.json, qqq.json.
- * ../../../../trunk/i18n/xliff_to_json.py extracted_msgs.xlf
+ * ../../i18n/xliff_to_json.py --xlf extracted_msgs.xlf
  *
  * Once translations have been made into <LANG>.json:
  *
  * # Create *.js for each *.json file.  By default, qqq.json and keys.json are skipped.
- * ../../../../trunk/i18n/json_to_js.py *.json
+ * ../../i18n/json_to_js.py --path_to_jar=../_soy *.json
  */
 
 /**
@@ -411,7 +412,7 @@
     </button>
     <button id="nextLevelButton" class="launch" style="display: none"
       onclick="Maze.closeDialogButtonClick(true);">
-        {msg meaning="Maze.nextLevel" desc="button - Closes the dialog and
+        {msg meaning="Maze.continue" desc="button - Closes the dialog and
           continues to the next level"}Continue{/msg}
     </button>
   </div>
