@@ -1,7 +1,7 @@
 {
     "@metadata": {
         "author": "Ellen Spertus <ellen.spertus@gmail.com>",
-        "lastupdated": "2013-07-31 10:12:15.718669",
+        "lastupdated": "2013-08-02 11:20:37.843137",
         "locale": "en",
         "messagedocumentation" : "qqq"
     },
@@ -37,11 +37,11 @@
     "Apps.xmlError": "Could not load your saved file.  Perhaps it was created with a different version of Blockly?",
     "Apps.blocklyMessage": "Blockly",
     "Maze.maze": "Maze",
-    "Maze.hint1": "Use only the blocks you need to get to complete the level.",
-    "Maze.hint3": "Try using the repeat block so you can complete the level with only 2 blocks.",
-    "Maze.hint5": "Try using the repeat block.",
-    "Maze.hint9": "Use two 'if' statements so I can move left and right when needed.",
-    "Maze.hint11": "This level requires only four blocks if you use an if-else block.",
+    "Maze.finalLevelMsg": "Congratulations! You have solved the final level.",
+    "BlocklyApps.emptyBlocksErrorMsg": "Remove unused empty blocks.",
+    "BlocklyApps.ifErrorMsg": "Try using the if block.",
+    "BlocklyApps.whileErrorMsg": "Try using the repeat block.",
+    "BlocklyApps.tooManyBlocksMsg": "This level can be solved with fewer blocks",
     "Maze.reinfMsg2": "A repeat block repeats the blocks inside it until I reach the red marker.",
     "Maze.reinfMsg3": "You have just written some programs. Good job!",
     "Maze.reinfMsg4": "Which direction am I facing after this program ends?",
