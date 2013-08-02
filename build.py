@@ -160,7 +160,7 @@ class Gen_compressed(threading.Thread):
 
     # Read in all the source files.
     filenames = calcdeps.CalculateDependencies(self.search_paths,
-        ['core/blockly.js'])
+        ['core/blockly.js', 'apps/common.js'])
     for filename in filenames:
       # Filter out the Closure files (the compiler will add them).
       if filename.startswith('../'):
@@ -295,7 +295,7 @@ if __name__ == '__main__':
 http://code.google.com/p/blockly/wiki/Closure""")
     sys.exit(1)
   search_paths = calcdeps.ExpandDirectories(
-      ['core/', '../closure-library-read-only/'])
+      ['apps/', 'core/', '../closure-library-read-only/'])
 
   # Run both tasks in parallel threads.
   # Uncompressed is limited by processor speed.

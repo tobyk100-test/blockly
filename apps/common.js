@@ -163,6 +163,32 @@ BlocklyApps.init = function() {
 };
 
 /**
+ * Where to report back information about the user program.
+ */
+BlocklyApps.REPORT_URL = '/report';
+
+BlocklyApps.report = function(app, id, level, result, program) {
+  var gameData = {
+    'app': app,
+    'id': id,
+    'level': level,
+    'result': result,
+    'finished': result == Maze.ResultType.SUCCESS && level >= Maze.MAX_LEVEL
+  };
+  if ('BlocklyStorage' in window) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open('POST', BlocklyApps.REPORT_URL);
+    httpRequest.setRequestHeader('Content-Type',
+        'application/x-www-form-urlencoded');
+    httpRequest.send('app=' + app +
+        '&id=' + id +
+        '&level=' + level +
+        '&result=' + result +
+        '&program=' + encodeURIComponent(program));
+  }
+};
+
+/**
  * Load blocks saved on App Engine Storage or in session/local storage.
  * @param {string} defaultXml Text representation of default blocks.
  */

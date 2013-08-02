@@ -23,6 +23,8 @@
  */
 'use strict';
 
+goog.require('goog.pubsub.PubSub');
+
 /**
  * Create a namespace for the application.
  */
@@ -655,10 +657,6 @@ Maze.ResultType = {
   ERROR: -2
 };
 
-/**
- * Where to report back information about the user program.
- */
-Maze.REPORT_URL = '/report';
 
 /**
  * Report back to the server, if available.
@@ -669,19 +667,6 @@ Maze.REPORT_URL = '/report';
  * @param {number} result An indicator of the success of the code.
  * @param {string} program The user program, which will get URL-encoded.
  */
-Maze.report = function(app, id, level, result, program) {
-  if ('BlocklyStorage' in window) {
-    var httpRequest = new XMLHttpRequest();
-    httpRequest.open('POST', Maze.REPORT_URL);
-    httpRequest.setRequestHeader('Content-Type',
-        'application/x-www-form-urlencoded');
-    httpRequest.send('app=' + app +
-       '&id=' + id +
-       '&level=' + level +
-       '&result=' + result +
-       '&program=' + encodeURIComponent(program));
-  }
-};
 
 /**
  * Execute the user's code.  Heaven help us...
@@ -719,7 +704,7 @@ Maze.execute = function() {
   }
 
   // Report result to server.
-  Maze.report('maze', Maze.LEVEL_ID, Maze.LEVEL, result,
+  BlocklyApps.report('maze', Maze.LEVEL_ID, Maze.LEVEL, result,
               BlocklyApps.stripCode(code));
 
   // Fast animation if execution is successful.  Slow otherwise.

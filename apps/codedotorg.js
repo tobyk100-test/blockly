@@ -19,5 +19,4 @@ BlocklyApps.hintLandscape = function() {
     displayHint();
   }
 };
-
 window.addEventListener('load', BlocklyApps.hintLandscape, false);
