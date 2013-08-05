@@ -45,18 +45,16 @@ Turtle.getNumberFromUrl = function(name, min_value, max_value) {
   return val;
 };
 
-Turtle.PAGE = Turtle.getNumberFromUrl('page', 1, MSG.prompts.length);
-Turtle.MAX_LEVEL = MSG.prompts[Turtle.PAGE].length - 1;
+Turtle.PAGE = Turtle.getNumberFromUrl('page', 1, 3);
+Turtle.MAX_LEVEL = [undefined, 10, 10, 8][Turtle.PAGE];
 Turtle.LEVEL = Turtle.getNumberFromUrl('level', 1, Turtle.MAX_LEVEL);
 Turtle.REINF = Turtle.getNumberFromUrl(
-    'reinf', 0, MSG.reinf_data[Turtle.PAGE].length - 1);
+    'reinf', 0, reinf_data[Turtle.PAGE].length - 1);
 
 document.write(turtlepage.start({}, null,
-    {MSG: MSG,
-     title: MSG.title.replace('%1', Turtle.PAGE),
-     page: Turtle.PAGE,
+    {page: Turtle.PAGE,
      level: Turtle.LEVEL,
-     reinf: Turtle.REINF ? MSG.reinf_data[Turtle.PAGE][Turtle.LEVEL] : 0,
+     reinf: Turtle.REINF ? reinf_data[Turtle.PAGE][Turtle.LEVEL] : 0,
      maxLevel: Turtle.MAX_LEVEL}));
 
 var maxBlocks = Infinity;
@@ -400,8 +398,7 @@ Turtle.checkAnswer = function() {
     }
   }
   if (Turtle.isCorrect(delta)) {
-    BlocklyApps.congratulations(Turtle.PAGE, Turtle.LEVEL, Turtle.MAX_LEVEL,
-                                 MSG, 1);
+    BlocklyApps.congratulations(Turtle.PAGE, Turtle.LEVEL, Turtle.MAX_LEVEL, 1);
   }
 };
 
@@ -455,12 +452,4 @@ Turtle.hideTurtle = function(id) {
 
 Turtle.showTurtle = function(id) {
   BlocklyApps.log.push(['ST', id]);
-};
-
-Turtle.drawPrint = function(text, id) {
-  BlocklyApps.log.push(['DP', text, id]);
-};
-
-Turtle.drawFont = function(font, size, style, id) {
-  BlocklyApps.log.push(['DF', font, size, style, id]);
 };

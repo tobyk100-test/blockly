@@ -238,14 +238,13 @@ BlocklyApps.changeLanguage = function() {
  * @param {?number} page The current page.
  * @param {number} level The current level.
  * @param {number} maxLevel The maxmium available level.
- * @param {!Object} MSG An object with appropriate text properties for
- *     MSG.nextLevel and MSG.finalLevel.
  * @param {?number} reinf Non-null if there is an interstitial to show after
  *     this screen, in which case the value is included in the URL.
  */
-BlocklyApps.congratulations = function(page, level, maxLevel, MSG, reinf) {
+BlocklyApps.congratulations = function(page, level, maxLevel, reinf) {
   if (level < maxLevel) {
-    var proceed = window.confirm(MSG.nextLevel.replace('%1', level + 1));
+    var proceed = window.confirm(
+        BlocklyApps.getMsg('nextLevel').replace('%1', level + 1));
     if (proceed) {
       var url = window.location.protocol + '//' +
           window.location.host + window.location.pathname + '?';
