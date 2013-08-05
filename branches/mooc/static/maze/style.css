@@ -19,8 +19,7 @@ html[dir="RTL"] .farSide {
 
 .tab {
   font-weight: bold;
-  padding: 14px 15px;
-  margin: 12px;
+  padding: 6px 12px;
   text-decoration: none;
   color: #000;
 }
@@ -29,16 +28,16 @@ html[dir="RTL"] .farSide {
 }
 .selected {
   color: white;
-  border-radius: 28px;
+  border-radius: 20px;
   border: 0;
   background: #0DA38A;
 }
 .doubleDigit {
-  padding: 14px 15px;
+  padding: 8px 8px;
+  margin-left: 4px;
 }
 .singleDigit {
-  padding: 14px 22px;
-  margin: 5px;
+  padding: 6px 12px;
 }
 #blockly {
   position: absolute;
