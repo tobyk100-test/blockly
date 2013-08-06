@@ -5,7 +5,7 @@ if (typeof turtlepage == 'undefined') { var turtlepage = {}; }
 
 
 turtlepage.start = function(opt_data, opt_ignored, opt_ijData) {
-  var output = '<script type="text/javascript" src="../slider.js"><\/script><script type="text/javascript" src="../blockly_compressed.js"><\/script><script type="text/javascript" src="../javascript_compressed.js"><\/script><script type="text/javascript" src="../common.js"><\/script><script type="text/javascript">BlocklyApps.loadLanguageScripts(languageSrc);<\/script><script type="text/javascript" src="blocks.js"><\/script><script type="text/javascript" src="answers.js"><\/script><div id="start_blocks" style="display: none">';
+  var output = '<script type="text/javascript" src="../slider.js"><\/script><script type="text/javascript" src="../blockly_compressed.js"><\/script><script type="text/javascript" src="../javascript_compressed.js"><\/script><script type="text/javascript">BlocklyApps.loadLanguageScripts(languageSrc);<\/script><script type="text/javascript" src="blocks.js"><\/script><script type="text/javascript" src="answers.js"><\/script><div id="start_blocks" style="display: none">';
   if (opt_ijData.page == 1) {
     switch (opt_ijData.level) {
       case 1:

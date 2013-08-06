@@ -30,6 +30,11 @@ BlocklyApps.IDEAL_TEST_FAIL = 2;
 BlocklyApps.ALL_TESTS_PASS = 3;
 
 /**
+ * Pseudo-random identifier used for tracking user progress within a level.
+ */
+BlocklyApps.LEVEL_ID = Math.random();
+
+/**
  * Extracts a parameter from the URL.
  * If the parameter is absent default_value is returned.
  * @param {string} name The name of the parameter.
@@ -454,6 +459,33 @@ BlocklyApps.getMsgOrNull = function(key) {
     return text;
   } else {
     return null;
+  }
+};
+
+/**
+ * Where to report back information about the user program.
+ */
+BlocklyApps.REPORT_URL = '/report';
+
+/**
+ * Report back to the server, if available.
+ * @param {string} app The name of the application.
+ * @param {number} id A unique identifier generated when the page was loaded.
+ * @param {number} level The current level of the application.
+ * @param {number} result An indicator of the success of the code.
+ * @param {string} program The user program, which will get URL-encoded.
+ */
+BlocklyApps.report = function(app, id, level, result, program) {
+  if ('BlocklyStorage' in window) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.open('POST', BlocklyApps.REPORT_URL);
+    httpRequest.setRequestHeader('Content-Type',
+        'application/x-www-form-urlencoded');
+    httpRequest.send('app=' + app +
+        '&id=' + id +
+        '&level=' + level +
+        '&result=' + result +
+        '&program=' + encodeURIComponent(program));
   }
 };
 
