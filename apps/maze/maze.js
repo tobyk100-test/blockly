@@ -665,17 +665,6 @@ Maze.ResultType = {
   ERROR: -2
 };
 
-
-/**
- * Report back to the server, if available.
- * TODO(spertus): Move so it can be used by other demos/apps.
- * @param {string} app The name of the application.
- * @param {number} id A unique identifier generated when the page was loaded.
- * @param {level} level The current level of the application.
- * @param {number} result An indicator of the success of the code.
- * @param {string} program The user program, which will get URL-encoded.
- */
-
 /**
  * Execute the user's code.  Heaven help us...
  */
@@ -710,10 +699,6 @@ Maze.execute = function() {
       alert(e);
     }
   }
-
-  // Report result to server.
-  BlocklyApps.report('maze', Maze.LEVEL_ID, Maze.LEVEL, result,
-              BlocklyApps.stripCode(code));
 
   // Fast animation if execution is successful.  Slow otherwise.
   Maze.stepSpeed = (result == Maze.ResultType.SUCCESS) ? 100 : 150;
