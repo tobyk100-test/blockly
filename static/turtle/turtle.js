@@ -51,6 +51,11 @@ Turtle.LEVEL = Turtle.getNumberFromUrl('level', 1, Turtle.MAX_LEVEL);
 Turtle.REINF = Turtle.getNumberFromUrl(
     'reinf', 0, reinf_data[Turtle.PAGE].length - 1);
 
+/**
+ * Pseudo-random identifier used for tracking user progress within a level.
+ */
+BlocklyApps.LEVEL_ID = Math.random();
+
 document.write(turtlepage.start({}, null,
     {page: Turtle.PAGE,
      level: Turtle.LEVEL,
@@ -271,9 +276,9 @@ Turtle.execute = function() {
   BlocklyApps.log = [];
   BlocklyApps.ticks = 1000000;
 
-  var code = Blockly.Generator.workspaceToCode('JavaScript');
+  Turtle.code = Blockly.Generator.workspaceToCode('JavaScript');
   try {
-    eval(code);
+    eval(Turtle.code);
   } catch (e) {
     // Null is thrown for infinite loop.
     // Otherwise, abnormal termination is a user error.
@@ -397,7 +402,10 @@ Turtle.checkAnswer = function() {
       delta++;
     }
   }
-  if (Turtle.isCorrect(delta)) {
+  var correct = Turtle.isCorrect(delta);
+  BlocklyApps.report('turtle', BlocklyApps.LEVEL_ID, Turtle.LEVEL, correct,
+      BlocklyApps.stripCode(Turtle.code));
+  if (correct) {
     BlocklyApps.congratulations(Turtle.PAGE, Turtle.LEVEL, Turtle.MAX_LEVEL, 1);
   }
 };
