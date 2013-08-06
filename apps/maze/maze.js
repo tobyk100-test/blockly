@@ -97,6 +97,14 @@ Maze.SKINS = [
     // Spring canopy, photo by Rupert Fleetingly, CC licensed for reuse.
     graph: false,
     look: '#000'
+  },
+  {
+    sprite: 'zombieman.png',
+    tiles: 'tiles_panda.png',
+    marker: 'board_pvz.png',
+    background: 'mkr_sunflower.png',
+    graph: false,
+    look: '#000'
   }
 ];
 Maze.SKIN_ID = BlocklyApps.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
