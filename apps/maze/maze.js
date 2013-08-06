@@ -23,8 +23,6 @@
  */
 'use strict';
 
-goog.require('goog.pubsub.PubSub');
-
 /**
  * Create a namespace for the application.
  */
