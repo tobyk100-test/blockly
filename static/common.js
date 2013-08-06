@@ -404,6 +404,7 @@ BlocklyApps.setErrorFeedbackBasedOnTestResults = function() {
   // If there are empty blocks, display the empty block error.
   if (BlocklyApps.hasEmptyTopLevelBlocks()) {
     document.getElementById('emptyBlocksError').style.display = 'list-item';
+    document.getElementById('star1').style.display = 'block';
     return BlocklyApps.BLOCK_TEST_FAIL;
   } else {
     document.getElementById('emptyBlocksError').style.display = 'none';
@@ -418,6 +419,7 @@ BlocklyApps.setErrorFeedbackBasedOnTestResults = function() {
         blockErrorElement.style.display = 'list-item';
       }
     }
+    document.getElementById('star1').style.display = 'block';
     return BlocklyApps.BLOCK_TEST_FAIL;
   }
   /**
@@ -426,9 +428,11 @@ BlocklyApps.setErrorFeedbackBasedOnTestResults = function() {
    */
   if (BlocklyApps.hasIdealNumberOfBlocks()) {
     document.getElementById('tooManyBlocksError').style.display = 'none';
+    document.getElementById('star3').style.display = 'block';
     return BlocklyApps.ALL_TESTS_PASS;
   } else {
     document.getElementById('tooManyBlocksError').style.display = 'list-item';
+    document.getElementById('star2').style.display = 'block';
     return BlocklyApps.IDEAL_TEST_FAIL;
   }
 };
@@ -561,7 +565,7 @@ BlocklyApps.hideReinfHelp = function() {
  */
 BlocklyApps.hideFeedback = function() {
   document.getElementById('levelFeedbackText').style.display = 'none';
-  var feedbackArray = document.getElementsByClassName('blockErrors');
+  var feedbackArray = document.querySelectorAll('.feedback');
   for (var f = 0, feedback; feedback = feedbackArray[f]; f++) {
     feedback.style.display = 'none';
   }

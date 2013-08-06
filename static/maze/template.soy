@@ -182,6 +182,9 @@
    */
   <div id="levelFeedback">
     <div style="padding-bottom: 0.7ex;"><br>
+      <img class="stars feedback" id="star1" src="star1.png">
+      <img class="stars feedback" id="star2" src="star2.png">
+      <img class="stars feedback" id="star3" src="star3.png">
       <ul id="levelFeedbackText" style="resize: none;
         border: 0; text-align: center; overflow: hidden; font-size: 16pt;
         font-family: Arial;">
@@ -194,20 +197,20 @@
           meaning="Maze.finalLevelMsg" desc="alert - This is displayed when
           the user solves the most difficult level."}Congratulations! You
           have solved the final level.{/msg}</li>
-        <li id="emptyBlocksError" class="blockErrors" style="display:none">
+        <li id="emptyBlocksError" class="feedback" style="display: none">
           {msg meaning="BlocklyApps.emptyBlocksErrorMsg" desc="TODO"}Remove
             unused empty blocks.{/msg}</li>
-        <li id="ifError" class="blockErrors" style="display: none">
+        <li id="ifError" class="feedback" style="display: none">
           {msg meaning="BlocklyApps.ifErrorMsg" desc="If blocks only run
             the statements inside them if the statement is true. If-else
             blocks run the else statement when the if statement is not
             true"}Try using the if block.{/msg}</li>
-        <li id="whileError" class="blockErrors" style="display:none">
+        <li id="whileError" class="feedback" style="display: none">
           {msg meaning="BlocklyApps.whileErrorMsg" desc="Repeat refers to
             a block that will perform each of the instructions inside it
             over and over until it reaches the goal."}Try using the
             repeat block.{/msg}</li>
-        <li id="tooManyBlocksError" class=blockErrors" style="display:none">
+        <li id="tooManyBlocksError" class=feedback" style="display: none">
           {msg meaning="BlocklyApps.tooManyBlocksMsg" desc="The level can
             be solved with fewer blocks."}This level can be solved with
             fewer blocks{/msg}</li>
