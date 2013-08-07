@@ -102,8 +102,6 @@ html[dir="RTL"] .farSide {
   top: 5em;
   z-index: 1;
   border-radius: 8px;
-  -box-shado-mozw: 5px 5px 5px #888;
-  -webkit-box-shadow: 5px 5px 5px #888;
   box-shadow: 5px 5px 5px #888;
   padding: 10px;
 }
@@ -125,17 +123,6 @@ html[dir="RTL"] .farSide {
 }
 #reinfDone {
   display: none;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  min-width: 380px;
-  position: absolute;
-  left: 2.5em;
-  top: 5em;
-  z-index: 1;
-  border-radius: 8px;
-  box-shadow: 5px 5px 5px #888;
-  padding: 10px;
 }
 #shadow {
   display: none;
@@ -150,7 +137,6 @@ html[dir="RTL"] .farSide {
 html[dir=rtl] #capacity {
   float: left;
 }
-
 
 /* 'Look' icon */
 #look>path {

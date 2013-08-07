@@ -387,9 +387,6 @@ BlocklyApps.hasIdealNumberOfBlocks = function() {
 };
 
 /**
- * Run tests on the user's code and return 
-
-/**
  * Run all of the code tests and set appropriate feedback to display when
  * modal dialog is displayed.
  * @return {number}
@@ -551,16 +548,6 @@ BlocklyApps.showDialogAndFeedback = function(feedbackType) {
 };
 
 /**
- * Hide the reinforcement feedback pop-up.
- */
-BlocklyApps.hideReinfHelp = function() {
-  document.getElementById('reinfDone').style.display = 'none';
-  document.getElementById('shadow').style.display = 'none';
-  var img = document.querySelector('#reinfFeedbackImage img');
-  img.parentElement.removeChild(img);
-};
-
-/**
  * Hide end of level feedback.
  */
 BlocklyApps.hideFeedback = function() {
@@ -591,37 +578,34 @@ BlocklyApps.showReinfHelp = function(reinfLevel) {
   document.getElementById('reinfDone').style.display = 'block';
   var textColor;
   var responseType;
-  var img = document.createElement('IMG');
   if (responseType == 'w') {
     textColor = 'red';
     responseType = 'wrong';
-    img.src = 'wrong.png';
   } else if (responseType == 'r') {
     textColor = 'green';
     responseType = 'right';
-    img.src = 'check.png';
+    document.getElementById('continueButton').style.display = 'inline';
   } else {
     throw 'Response not w or r.';
   }
   var textDiv = document.getElementById('reinfFeedbackText');
   textDiv.style.color = textColor;
   textDiv.value = BlocklyApps.getMsg('q' + qNum + responseType);
-  var imageDiv = document.getElementById('reinfFeedbackImage');
-  imageDiv.appendChild(img);
-  imageDiv.firstChild;
-  document.getElementById('shadow').style.display = 'block';
 };
 
 /**
- * @param {boolean} gotoNext true to continue to next level/reinforcement,
+ * @param {boolean} gotoNext true to continue to next level/interstitial,
  *     false to try level again.
  */
-BlocklyApps.closeModalDialog = function(gotoNext) {
+BlocklyApps.displayInterstitialOrCloseModalDialog = function(gotoNext) {
   if (gotoNext) {
     var reinfMSG = document.getElementById('reinfMsg').innerHTML.match(/\S/);
     var interstitial = document.getElementById('interstitial').style.display;
     if (reinfMSG && interstitial == 'none') {
       BlocklyApps.hideFeedback();
+      if (document.querySelector('.quiz')) {
+        document.getElementById('continueButton').style.display = 'none';
+      }
       document.getElementById('interstitial').style.display = 'block';
       document.getElementById('tryAgainButton').style.display = 'none';
     } else {
