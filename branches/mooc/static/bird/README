@@ -1,0 +1,10 @@
+To run bird in compressed mode, source the following tag:
+<script type="text/javascript" src="bird_compressed.js"></script>
+
+To run bird in uncompressed mode, source the following tags and modify the path to closure as needed:
+<script type="text/javascript" src="../../../closure-library-read-only/closure/goog/base.js"></script>
+<script type="text/javascript" src="gridapp.js"></script>
+<script type="text/javascript" src="bird.js"></script>
+
+To compile, run:
+../../../closure-library-read-only/closure/bin/build/closurebuilder.py --root=../../../closure-library-read-only --root=./ --namespace="Bird" --output_mode=compiled --compiler_jar=../../../closure-library-read-only/compiler.jar > ./bird_compressed.js
