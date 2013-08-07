@@ -300,7 +300,7 @@
        * Multiple choice question.
        */
       {if $ij.level == 3}
-        <p>
+        <p class="quiz">
           <input type="radio" name="q3" id="q31"
             onclick="BlocklyApps.showReinfHelp('q3w')">
             <label for="q31" style="font-weight: bold">
@@ -326,24 +326,9 @@
                 West"}{sp}W{/msg}
             </label><br><br>
         </p>
-        <div id="reinfDone">
-          <div style="padding-bottom: 0.7ex;">
-            <div style="text-align: center;" id="reinfFeedbackImage"></div><br>
-            <textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none;
-              border: none; text-align: center; overflow: hidden; font-size: 16pt;
-              font-family: Arial;"></textarea>
-          </div>
-          <div style="text-align: center; padding-top: 1ex; padding-right: 3ex">
-            <button id="okButton" class="launch" onclick="BlocklyApps.hideReinfHelp()&nbsp">
-              <span>
-                {msg meaning="Maze.ok" desc="Closes the dialog box."}OK{/msg}
-              </span>
-            </button>
-          </div>
-        </div>
       {/if}
       {if $ij.level == 5}
-        <p>
+        <p class="quiz">
           <img style="margin-left: 30px;" src="repeat_blocka1.png"
             onclick="BlocklyApps.showReinfHelp('q5w')">
           <img style="margin-left: 20px;" src="repeat_blocka2.png"
@@ -351,24 +336,9 @@
           <img style="margin-left: 20px;" src="repeat_blocka3.png"
             onclick="BlocklyApps.showReinfHelp('q5w')">
         </p>
-        <div id="reinfDone">
-          <div style="padding-bottom: 0.7ex">
-            <div style="text-align: center;" id="reinfFeedbackImage"></div><br>
-            <textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none;
-              border: none; text-align: center; overflow: hidden; font-size: 16pt;
-              font-family: Arial;"></textarea>
-          </div>
-          <div style="text-align: center; padding-top: 1ex; padding-right: 3ex;">
-            <button id="okButton" class="launch" onclick="BlocklyApps.hideReinfHelp()">
-              <span>
-                {msg meaning="Maze.ok" desc="Closes the dialog box."}OK{/msg}
-              </span>
-            </button>
-          </div>
-        </div>
       {/if}
       {if $ij.level == 9}
-        <p>
+        <p class="quiz">
           <input type="radio" name="q9" id="q91"
             onClick="BlocklyApps.showReinfHelp('q9r')">
             <label for="q91" style="font-weight: bold">{msg meaning="Maze.yes"
@@ -382,22 +352,19 @@
                 false and incorrect."}{sp}No{/msg}
             </span><br><br>
         </p>
-        <div id="reinfDone">
-          <div style="padding-bottom: 0.7ex;">
-            <div style="text-align:center;" id="reinfFeedbackImage"></div><br>
-            <textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none;
-              border: none; text-align: center; overflow: hidden;
-              font-size: 16pt; font-family: Arial;"></textarea>
-          </div>
-          <div style="text-align: center; padding-top: 1ex; padding-right: 3ex;">
-            <button id="okButton" class="launch" onclick="BlocklyApps.hideReinfHelp()">
-              <span>
-                {msg meaning="Maze.ok" desc="Closes the dialog box."}OK{/msg}
-              </span>
-            </button>
+      {/if}
+      /**
+       * Reinforcement quiz feedback.
+       */
+      <div id="reinfDone">
+        <div style="padding-bottom: 0.7ex;">
+          <div style="text-align:center;" id="reinfFeedbackImage"></div><br>
+            <textarea id="reinfFeedbackText" rows=2 cols=40
+              style="resize: none; border: none; text-align: center;
+              overflow: hidden; font-size: 16pt; font-family: Arial;">
+            </textarea>
           </div>
         </div>
-      {/if}
       </div>
       /**
       * End reinf level processing.
@@ -405,12 +372,12 @@
       <br><br>
       <div style="text-align: center">
         <button id="tryAgainButton" class="launch" style="display: none"
-          onclick="BlocklyApps.closeModalDialog(false);">
+          onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(false);">
           {msg meaning="Maze.tryAgain" desc="button - Closes the dialog and
             stays on the current level"}Try again{/msg}
         </button>
         <button id="continueButton" class="launch" style="display: none"
-          onclick="BlocklyApps.closeModalDialog(true);">
+          onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(true);">
             {msg meaning="Maze.continue" desc="button - Closes the dialog and
               continues to the next level"}Continue{/msg}
         </button>
