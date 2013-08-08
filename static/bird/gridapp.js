@@ -18,12 +18,26 @@ document.write('<script type="text/javascript" src="generated/' +
  * @param {number} square_size The pixel size of each square.
  * @constructor
  */
-GridApp = function(cols, rows, square_size) {
-  this.COLS = cols;
-  this.ROWS = rows;
-  this.SQUARE_SIZE = square_size;
-  this.GAME_WIDTH = cols * square_size;
-  this.GAME_HEIGHT = rows * square_size;
+GridApp = function(width, height) {
+  this.GAME_WIDTH = width;
+  this.GAME_HEIGHT = height;
+  /**
+   * @type {!Array.<!GridApp.Skin>}
+   * @private
+   */
+  this.skins_ = [];
+};
+
+/**
+ * An internal class representing a skin.
+ * @param {Object} opt_skin @see {Bird.prototype.addSkin}
+ * @protected
+ * @constructor
+ */
+GridApp.Skin = function(opt_skin) {
+    // Spring canopy, photo by Rupert Fleetingly, CC licensed for reuse.
+    this.background = opt_skin.background || 'media/bg_panda.jpg';
+    this.look = opt_skin.look || '#000';
 };
 
 /**
@@ -31,14 +45,15 @@ GridApp = function(cols, rows, square_size) {
  */
 GridApp.prototype.drawBackground = function() {
   var svg = document.getElementById('svgBird');
-  if (this.SKIN.background) {
+  if (this.skin.background) {
     var tile = document.createElementNS(Blockly.SVG_NS, 'image');
     tile.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-        this.SKIN.background);
+        this.skin.background);
     tile.setAttribute('height', this.GAME_HEIGHT);
     tile.setAttribute('width', this.GAME_WIDTH);
     tile.setAttribute('x', 0);
     tile.setAttribute('y', 0);
+    tile.setAttribute('opacity', .3);
     svg.appendChild(tile);
   }
 };
