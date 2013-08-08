@@ -99,8 +99,8 @@ Maze.SKINS = [
   {
     sprite: 'zombieman.png',
     tiles: 'tiles_panda.png',
-    marker: 'board_pvz.png',
-    background: 'mkr_sunflower.png',
+    marker: 'mkr_sunflower.png',
+    background: 'board_pvz.png',
     graph: false,
     look: '#000'
   }
