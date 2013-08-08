@@ -1,1 +1,0 @@
-../../blockly_uncompressed.js

@@ -1,4 +1,4 @@
-application: blockly-test
+application: blockly-production
 version: 1
 runtime: python
 api_version: 1

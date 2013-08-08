@@ -466,7 +466,11 @@ BlocklyApps.getMsgOrNull = function(key) {
 /**
  * Where to report back information about the user program.
  */
-BlocklyApps.REPORT_URL = '/report';
+
+BlocklyApps.USER = BlocklyApps.getStringParamFromUrl('user', '0');
+
+BlocklyApps.REPORT_URL = 'http://patrick-code-org.herokuapp.com/user/' +
+    BlocklyApps.USER;
 
 /**
  * Report back to the server, if available.
