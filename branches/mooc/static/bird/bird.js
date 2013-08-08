@@ -18,162 +18,166 @@
  * @fileoverview JavaScript for Blockly's Bird application.
  * @author tobyk100@gmail.com (Tobias Kahan)
  */
-'use strict';
+goog.require('goog.math');
 
 goog.provide('Bird');
 
-goog.require('GridApp');
-
 /**
+ * Creates a Bird character in this BirdGame.
+ * @param {number} startX The bird's initial location.
+ * @param {number} startY The bird's initial location.
+ * @param {number} radius The bird's radius, used for calculating contact.
+ * @param {!DOMElement} svg The svg element in which to place game elements.
+ * @param {string} sprite Pathname of sprite image.
+ * @param {number} spriteImages The number of evenly spaced images in sprite.
  * @constructor
  */
-Bird = function() {
-  GridApp.call(this, 100, 100, 4);
-  this.MAX_LEVEL = 10;
-  this.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1, this.MAX_LEVEL);
-  this.BIRD_WIDTH = 50;
-  this.BIRD_HEIGHT = 50;
-
-  /**
-   * @type {Array.<Bird.Level>}
-   * @private
-   */
-  this.levels_ = [];
-  /**
-   * @type {Array.<Bird.Skin>}
-   * @private
-   */
-  this.skins_ = [];
+Bird = function(startX, startY, radius, svg, sprite, spriteImages) {
+  this.x = startX;
+  this.y = startY;
+  this.radius = radius;
+  this.svg = svg;
+  //TODO(tobyk100) abstract out height, width, numIcons.
+  this.icon = new Bird.Icon(svg, sprite, 49, 51, 21);
 };
-goog.inherits(Bird, GridApp);
 
 /**
- * Starts a Bird game. This method draws the map, places the characters,
- * and should leave the page in a state that the user can play with.
+ * Displays the Bird at the given coordinates faceing the given direction.
+ * @param {number} x
+ * @param {number} y
+ * @param {number} direction The direction Bird is facing.
  */
-Bird.prototype.startGame = function() {
-  this.SKIN = this.skins_[0];
-  this.drawLevel();
+Bird.prototype.display = function(x, y, direction) {
+  var icon = this.icon;
+  var spriteIndex = this.getSpriteIndex(direction);
+  icon.display(x, y, spriteIndex);
 };
 
+/**
+ * @param {number} direction The direction (in degrees) that Bird is facing.
+ * @return {number} The index into the sprite which corresponds most closely
+ *     to the direction.
+ */
+Bird.prototype.getSpriteIndex = function(direction) {
+  return 3;
+};
 
 /**
- * An internal class representing a skin.
- * @param {Object} opt_skin @see {Bird.prototype.addSkin}
- * @private
+ * Moves bird in the given direction by the given amount. This function does
+ * not check the legality of the move. Bird faithfully updates its coordinates
+ * and animates a move.
+ * @param {number} direction The direction in degrees to move.
+ * @param {number} length The length to move.
+ * @return {{x: number, y: number}} Bird's new coordinates.
+ */
+Bird.prototype.move = function(direction, length) {
+  // calculate new coordinates
+  var directionRadians = goog.math.toRadians(direction);
+  var oldX = this.x,
+      oldY = this.y,
+      deltaX = Math.cos(directionRadians) * length,
+      deltaY = Math.sin(directionRadians) * length,
+      newX = oldX + deltaX,
+      newY = oldY + deltaY;
+  this.x = newX;
+  this.y = newY;
+  this.animateMove({x: oldX, y: oldY}, {x: newX, y: newY}, 100);
+  return {x: newX, y: newY};
+};
+
+/**
+ * Animates a bird move from start to end.
+ * @param {x: number, y: number} start The bird's start coordinates.
+ * @param {x: number, y: number} end The bird's end coordinates.
+ * @param {number} stepSpeed The speed at which to animate the move.
+ */
+Bird.prototype.animateMove = function(start, end, stepSpeed) {
+  // Loop from start to end displaying the icon as we go.
+  // Determine x and y step sizes
+  // Move 1 unit along the line from start to end.
+  //
+  // Use similar triangles to find stepX and stepY, which are the legs of a
+  // right triangle with hypotenuse 1.
+  var dx = end.x - start.x,
+      dy = end.y - start.y,
+      dz = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)),
+      stepX = dx / dz,
+      stepY = dy / dz;
+  // At this point stepX and stepY are absolute.
+  if (dx < 0 ) {
+    stepX = stepX * -1;
+  }
+  if (dy < 0) {
+    stepY = stepY * -1;
+  }
+  var curX = start.x,
+      curY = start.y;
+  while (dx > 0 || dy > 0) {
+    curX += stepX;
+    curY += stepY;
+    dx -= stepX;
+    dy -= stepY;
+  }
+
+  this.display(end.x, end.y, 0);
+};
+
+/** Begin inner classes **/
+
+/**
+ * @param {!DOMElement} svg The svg element in which to place game objects.
+ * @param {string} sprite Path to the Bird's sprite.
+ * @param {number} iconWidth The width of a single image in the sprite.
+ * @param {number} iconHeight The height of a single image in the sprite.
+ * @param {number} numIcons The number of icons in the sprite.
  * @constructor
  */
-Bird.Skin_ = function(opt_skin) {
-    // Spring canopy, photo by Rupert Fleetingly, CC licensed for reuse.
-    this.sprite = opt_skin.sprite || 'media/panda.png';
-    this.tiles = opt_skin.tiles || 'media/tiles_panda.png';
-    this.marker = opt_skin.marker || 'meadia/marker.png';
-    this.food = opt_skin.food || 'media/marker.png';
-    this.background = opt_skin.background || 'media/bg_panda.jpg';
-    this.look = opt_skin.look || '#000';
+Bird.Icon = function(svg, sprite, iconWidth, iconHeight, numIcons) {
+  // Create dom element corresponding to sprite.
+  var el = document.createElementNS(Blockly.SVG_NS, 'image');
+  el.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', sprite);
+
+  // Set up initial instance variables.
+  this.el = el;
+  this.iconWidth = iconWidth;
+  this.numIcons = numIcons;
+
+  el.setAttribute('height', iconHeight);
+  el.setAttribute('width', iconWidth * numIcons);
+
+  // Create icon (character sprite)
+  var iconClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
+  this.iconClip = iconClip;
+  var iconClipId = 'iconClipPath';
+  iconClip.setAttribute('id', iconClipId);
+
+  // Create clip rectangle to display proper image from sprite.
+  var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
+  this.clipRect = clipRect;
+  clipRect.setAttribute('width', iconWidth);
+  clipRect.setAttribute('height', iconHeight);
+  iconClip.appendChild(clipRect);
+
+  el.setAttribute('clip-path', 'url(#' + iconClipId + ')');
+  svg.appendChild(iconClip);
+  svg.appendChild(el);
 };
 
 /**
- * @param {{sprite: ?string, tiles: ?string, marker: ?string, food: ?string,
- *     background: ?string, look: ?string}=} opt_skin A set of options to
- *     pass to Skin function. Descriptions of each parameter:
- *     sprite: A 1029x51 set of 21 avatar images.
- *     tiles: A 250x200 set of 20 map images.
- *     marker: A 20x34 goal image.
- *     food: A 20x34 food image.
- *     background: An 400x450 background image, false if no background image
- *     is desired.
- *     look: Colour of sonar-like look icon.
+ * @param {number} x
+ * @param {number} y
+ * @param {number} index The index of the desired image in the sprite.
+ * Display the image corresponding to the index into the sprite at coordinates
+ * (x, y).
  */
-Bird.prototype.addSkin = function(opt_skin) {
-  var skin = new Bird.Skin_(opt_skin || {});
-  this.skins_.push(skin);
+Bird.Icon.prototype.display = function(x, y, index) {
+  // Move this.clipRect to be centered on x, y.
+  var clipRect = this.clipRect;
+  var el = this.el;
+  clipRect.setAttribute('x', x);
+  clipRect.setAttribute('y', y);
+  // Shift this.el to proper place.
+  el.setAttribute('x', x - this.iconWidth * index);
+  el.setAttribute('y', y);
 };
-
-/**
- * A static wall constructor. Walls must be vertical or horizontal, i.e. either
- * start.x - end.x and/or start.y - end.y must equal 0.
- * @param {!{x: number, y: number}} start The coordinates of the wall
- *     startpoint.
- * @param {!{x: number, y: number}} end The coordinates of the wall endpoint.
- * @constructor
- */
-Bird.Wall = function(start, end) {
-  this.start = start;
-  this.end = end;
-};
-
-/**
- * A static level constructor.
- * @param {number} width The width of the maze, in spaces not pixels.
- * @param {number} height Like width.
- * @param {!{x: number, y: number}} start The bird's start position.
- * @param {!{x: number, y: number}} end The bird's end position.
- * @param {!{x: number, y: number}} worm The worm's position.
- * @param {Array.<Bird.Wall>} walls The walls for this level.
- * @private
- * @constructor
- */
-Bird.Level_ = function(width, height, start, end, worm, walls) {
-  this.width = width;
-  this.height = height;
-  this.start = start;
-  this.end = end;
-  this.worm = worm;
-  this.walls = walls;
-};
-
-/**
- * Add a level to Bird.
- * @param {number} width The width of the maze, in spaces not pixels.
- * @param {number} height Like width.
- * @param {!{x: number, y: number}} start The bird's start position.
- * @param {!{x: number, y: number}} end The bird's end position.
- * @param {!{x: number, y: number}} worm The worm's position.
- * @param {Array.<Bird.Wall>} walls The walls for this level.
- */
-Bird.prototype.addLevel = function(width, height, start, end, worm, walls) {
-  var level = new Bird.Level_(width, height, start, end, worm, walls);
-  this.levels_.push(level);
-};
-
-/**
- * Draw the current level.
- */
-Bird.prototype.drawLevel = function() {
-  // First place background.
-  this.drawBackground();
-  // Iterate through walls, drawing each wall.
-  var level = this.levels_[this.LEVEL - 1];  // this.LEVEL is not 0-based.
-  // Draw bird.
-  // Draw worm.
-};
-
-/**
- * Reset the level to the start position and kill any pending animation tasks.
- * @param {boolean} first True if an opening animation is to be played.
- */
-Bird.prototype.reset = function(first) {
-
-};
-
-/**
- * Click the run button. Start the program.
- */
-Bird.prototype.runButtonClick = function() {
-
-};
-
-/**
- * Click the reset button. Reset the level.
- */
-Bird.prototype.resetButtonClick = function() {
-
-};
-
-/**
- * Execute the user's code. Heaven help us...
- */
-Bird.prototype.execute = function() {
-
-};
+/** End inner classes **/
