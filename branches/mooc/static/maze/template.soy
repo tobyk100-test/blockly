@@ -141,7 +141,11 @@
       <td>
         <h1>
           <span id="title">
-            <a href="../index.html">{{msg meaning="Apps.blocklyMessage" desc="The project name.  If readers of your language would know approximately how to pronounce 'Blockly', leave unchanged.  Otherwise, include a transliteration in parentheses, such as the Russian: 'Blockly (Блoкли)'.  This should be identical to {lb}{lb}msg-blockly|Maze-Apps.blocklyMessage{rb}{rb}."}}Blockly{{/msg}}</a>
+            <a href="https://sites.google.com/site/computersciencefirst/">
+              {msg meaning="Apps.projectMessage" desc="The project name. 'CS'
+              is an abbreviation for Computer Science. 'First' refers to the
+              project's goal of introducing students to programming as
+              early as possible in their life."}CS First{/msg}</a>
             {sp}:{sp}
             {msg meaning="Maze.maze" desc="brief title - Specifies that this is Blockly's '''Maze''' tutorial."}
               Maze
@@ -305,25 +309,25 @@
             onclick="BlocklyApps.showReinfHelp('q3w')">
             <label for="q31" style="font-weight: bold">
               {msg meaning="Maze.dirN" desc="An abbreviation of the direction
-                North"}{sp}N{/msg}
+                North"}N{/msg}
             </label><br>
           <input type="radio" name="q3" id="q32"
             onclick="BlocklyApps.showReinfHelp('q3w')">
             <label for="q32" style="font-weight: bold">
               {msg meaning="Maze.dirE" desc="An abbreviation of the direction
-                East"}{sp}E{/msg}
+                East"}E{/msg}
             </label><br>
           <input type="radio" name="q3" id="q33"
             onclick="BlocklyApps.showReinfHelp('q3w')">
             <label for="q33" style="font-weight: bold">
               {msg meaning="Maze.dirS" desc="An abbreviation of the direction
-                North"}{sp}S{/msg}
+                North"}S{/msg}
             </label><br>
           <input type="radio" name="q3" id="q34"
             onclick="BlocklyApps.showReinfHelp('q3r')">
             <label for="q34" style="font-weight: bold">
               {msg meaning="Maze.dirW" desc="An abbreviation of the direction
-                West"}{sp}W{/msg}
+                West"}W{/msg}
             </label><br><br>
         </p>
       {/if}
@@ -342,14 +346,13 @@
           <input type="radio" name="q9" id="q91"
             onClick="BlocklyApps.showReinfHelp('q9r')">
             <label for="q91" style="font-weight: bold">{msg meaning="Maze.yes"
-              desc="Yes indicates that this option is true and correct."}{sp}
-              Yes{/msg}
+              desc="Yes indicates that this option is correct."}Yes{/msg}
             </label><br>
           <input type="radio" name="q9" id="q92"
             onClick="BlocklyApps.showReinfHelp('q9w')">
             <label for="q92" style="font-weight: bold">
               {msg meaning="Maze.no" desc="No indicates that this option is
-                false and incorrect."}{sp}No{/msg}
+                incorrect."}No{/msg}
             </span><br><br>
         </p>
       {/if}
@@ -478,9 +481,9 @@
       </td>
       <td>
         <button id="runButton" class="launch" onclick="Maze.runButtonClick();">
-            <img src="../media/1x1.gif" class="run icon21"> {msg meaning="Maze.runProgram"
+            <img src="../media/1x1.gif" class="run icon21">{msg meaning="Maze.runProgram"
             desc="button label - Pressing the button runs the computer program the user has
-            written."}{sp}Run Program{/msg}
+            written."}Run{/msg}
           </button>
         </button>
         <button id="resetButton" class="launch"
@@ -488,7 +491,7 @@
             <img src="../media/1x1.gif" class="stop icon21">
               {msg meaning="Maze.resetProgram" desc="button label -
                 Pressing the button causes Pegman return to the start of the maze
-                (but does not delete the user's program.)"}{sp}Reset{/msg}
+                (but does not delete the user's program.)"}Reset{/msg}
           </button>
       </td>
     </tr>

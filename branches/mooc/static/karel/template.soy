@@ -32,7 +32,14 @@
       imperative or infinitive for a person putting down a ball."}put down ball{/msg}</span>    
     <span id="pickUpBall">{msg meaning="Maze.pickUpBall" desc="verb -
       imperative or infinitive for a person picking up a ball."}pick up ball{/msg}</span>    
-
+    <span id="while">{msg meaning="Maze.while" desc="condensed form of 'while
+      something is true'"}while{/msg}</span>
+    <span id="ballsPresent">{msg meaning="Maze.ballsPresent" desc="Indicates
+      the presence of at least one ball, as in 'he brought a ball, there
+      are now balls present'"}balls present{/msg}</span>
+    <span id="noBallsPresent">{msg meaning="Maze.noBallsPresent" desc="Indicates
+      the lack of any balls, as in 'she took the last ball, there
+      are now no balls present'"}no balls present{/msg}</span>
     <span id="turnLeft">{msg meaning="Maze.turnLeft" desc="verb - imperative
       or infinitive for a person turning his head and body one quarter rotation
       counter-clockwise.  Prefer a translation that has text in common with the
@@ -49,14 +56,19 @@
       'otherwise', introducing commands to be performed if a previous condition
       was not true, as in 'if x>3, do this, else do that'."}else{/msg}</span>
     <span id="pathAhead">{msg meaning="Maze.pathAhead" desc="condensed form of
-      'if there is a path ahead', as in: 'if path ahead, go forward'."}if
-      path ahead{/msg}</span>
+      'if there is a path ahead', as in: 'if path ahead, go forward'."}path ahead{/msg}</span>
     <span id="pathLeft">{msg meaning="Maze.pathLeft" desc="condensed form of 'if
-      there is a path to the left', as in: 'if path to the left, turn left'."}if
-      path to the left{/msg}</span>
+      there is a path to the left', as in: 'if path to the left, turn left'."}path to the left{/msg}</span>
     <span id="pathRight">{msg meaning="Maze.pathRight" desc="condensed form of
       'if there is a path to the right', as in: 'if path to the right, turn
-      right'."}if path to the right{/msg}</span>
+      right'."}path to the right{/msg}</span>
+    <span id="noPathAhead">{msg meaning="Maze.noPathAhead" desc="condensed form of
+      'if there is a no path ahead', as in: 'if no path ahead, go forward'."}no path ahead{/msg}</span>
+    <span id="noPathLeft">{msg meaning="Maze.noPathLeft" desc="condensed form of 'if
+      there is a no path to the left', as in: 'if no path to the left, turn left'."}no path to the left{/msg}</span>
+    <span id="noPathRight">{msg meaning="Maze.noPathRight" desc="condensed form of
+      'if there is a no path to the right', as in: 'if no path to the right, turn
+      right'."}no path to the right{/msg}</span>
     <span id="repeatUntil">{msg meaning="Maze.repeatUntil" desc="verb -
       imperative or infinitive to repeat the following commands.  The phrase is
       followed by the symbol denoting the end of the maze."}repeat until{/msg}</span>
@@ -560,6 +572,7 @@
     // Nan's
     <block type="maze_putDownBall"></block>
     <block type="maze_pickUpBall"></block>
+    <block type="maze_while"></block>
     {if $ij.level > 2}
       <block type="maze_forever"></block>
       {if $ij.level == 6}

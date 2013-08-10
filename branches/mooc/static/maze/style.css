@@ -160,12 +160,13 @@ button {
   color: #000;
 }
 button.launch {
-  border: 1px solid #d43;
-  background-color: #d43;
+  border: 1px solid #0DA38A;
+  background-color: #0DA38A;
   color: #fff;
   font-size: large;
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
+  min-width: 96px;
 }
 html[dir="RTL"] button.launch {
   text-align: right;
@@ -188,6 +189,7 @@ button.disabled {
 }
 input[type="radio"] {
   margin-left: 40px;
+  margin-right: 10px;
 }
 #languageMenu {
   vertical-align: top;
@@ -208,9 +210,11 @@ input[type="radio"] {
 }
 .run {
   background-position: 0px -21px;
+  padding-right: 3px;
 }
 .stop {
   background-position: -21px -21px;
+  padding-right: 3px;
 }
 
 #pegmanButton {

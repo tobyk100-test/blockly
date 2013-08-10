@@ -45,6 +45,30 @@ Blockly.JavaScript.maze_moveForward = function() {
   return 'Maze.moveForward(\'block_id_' + this.id + '\');\n';
 };
 
+Blockly.Language.maze_while = {
+  init: function() {
+    this.setColour(290);
+    this.appendDummyInput()
+        .appendTitle(BlocklyApps.getMsg('while'));
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldDropdown(this.CONDITIONS), 'CONDITION');
+    this.setInputsInline(true);
+  }
+};
+Blockly.JavaScript.maze_while = {
+};
+
+Blockly.Language.maze_while.CONDITIONS =
+     [[BlocklyApps.getMsg('ballsPresent'), 'ballsPresent'],
+     [BlocklyApps.getMsg('noBallsPresent'), 'noBallsPresent'],
+     [BlocklyApps.getMsg('pathAhead'), 'pathAhead'],
+     [BlocklyApps.getMsg('pathLeft'), 'pathLeft'],
+     [BlocklyApps.getMsg('pathRight'), 'pathRight'],
+     [BlocklyApps.getMsg('noPathAhead'), 'noPathAhead'],
+     [BlocklyApps.getMsg('noPathLeft'), 'noPathLeft'],
+     [BlocklyApps.getMsg('noPathRight'), 'noPathRight']];
+
+
 // Nan's
 Blockly.Language.maze_putDownBall = {
   // Block for putting down a ball.
