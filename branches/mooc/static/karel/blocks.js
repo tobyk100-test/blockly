@@ -53,20 +53,28 @@ Blockly.Language.maze_while = {
     this.appendDummyInput()
         .appendTitle(new Blockly.FieldDropdown(this.CONDITIONS), 'CONDITION');
     this.setInputsInline(true);
+    this.appendStatementInput('DO')
+        .appendTitle(Blockly.LANG_CONTROLS_FOR_INPUT_DO);
   }
 };
-Blockly.JavaScript.maze_while = {
+Blockly.JavaScript.maze_while = function() {
+  var branch = Blockly.JavaScript.statementToCode(this, 'DO');
+  var result =
+    'while (' + this.getTitleValue('CONDITION') + ') {' +
+      branch +
+    '};';
+  return result;
 };
 
 Blockly.Language.maze_while.CONDITIONS =
-     [[BlocklyApps.getMsg('ballsPresent'), 'ballsPresent'],
-     [BlocklyApps.getMsg('noBallsPresent'), 'noBallsPresent'],
-     [BlocklyApps.getMsg('pathAhead'), 'pathAhead'],
-     [BlocklyApps.getMsg('pathLeft'), 'pathLeft'],
-     [BlocklyApps.getMsg('pathRight'), 'pathRight'],
-     [BlocklyApps.getMsg('noPathAhead'), 'noPathAhead'],
-     [BlocklyApps.getMsg('noPathLeft'), 'noPathLeft'],
-     [BlocklyApps.getMsg('noPathRight'), 'noPathRight']];
+     [[BlocklyApps.getMsg('ballsPresent'), 'Maze.ballsPresent()'],
+     [BlocklyApps.getMsg('noBallsPresent'), '!Maze.ballsPresent()'],
+     [BlocklyApps.getMsg('pathAhead'), 'Maze.isPathForward()'],
+     [BlocklyApps.getMsg('pathLeft'), 'Maze.isPathLeft()'],
+     [BlocklyApps.getMsg('pathRight'), 'Maze.isPathRight()'],
+     [BlocklyApps.getMsg('noPathAhead'), '!Maze.isPathAhead()'],
+     [BlocklyApps.getMsg('noPathLeft'), '!Maze.isPathLeft()'],
+     [BlocklyApps.getMsg('noPathRight'), '!Maze.isPathRight()']];
 
 
 // Nan's
