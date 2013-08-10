@@ -12,6 +12,11 @@
         <note priority="1" from="description">hint - A 'repeat' block is used to repeat blocks over and over. The red marker is the goal to be reached in the maze.</note>
         <note priority="1" from="meaning">Maze.hint3</note>
       </trans-unit>
+      <trans-unit id="166604769037462092" datatype="html">
+        <source>path to the right</source>
+        <note priority="1" from="description">condensed form of 'if there is a path to the right', as in: 'if path to the right, turn right'.</note>
+        <note priority="1" from="meaning">Maze.pathRight</note>
+      </trans-unit>
       <trans-unit id="289046711390728342" datatype="html">
         <source>A program is a sequence of statements. Stack a couple of 'move forward' blocks together to help me reach the goal.</source>
         <note priority="1" from="description">instructions - the word 'program' refers to a computer program, and the words for 'stack' and 'blocks' should be the same as for stacking children's blocks. Use the imperative verb form appropriate for speaking to a child, gender unspecified.  If no gender-neutral singular/familiar form exists but a gender-neutral plural/formal form exists, use that instead.</note>
@@ -57,11 +62,6 @@
         <note priority="1" from="description">warning - Only one more block may be added.  Do not alter the portions between pointy brackets (&lt; and &gt;), although you may move them within the phrase and replace 1 with one or more words.</note>
         <note priority="1" from="meaning">Maze.capacity1</note>
       </trans-unit>
-      <trans-unit id="2149839397262503913" datatype="html">
-        <source>if path to the left</source>
-        <note priority="1" from="description">condensed form of 'if there is a path to the left', as in: 'if path to the left, turn left'.</note>
-        <note priority="1" from="meaning">Maze.pathLeft</note>
-      </trans-unit>
       <trans-unit id="2194902007208446636" datatype="html">
         <source>Save and link to blocks.</source>
         <note priority="1" from="description">tooltip (pop-up help) for button; pressing the button causes the user's program to be saved and for a URL to be provided for retrieving it.  The word 'blocks' is as in children's toy blocks.</note>
@@ -76,6 +76,11 @@
         <source>You have just written some programs. Good job!</source>
         <note priority="1" from="description">instructions - 'program' refers to a series of instructions that tell the computer what to do next.</note>
         <note priority="1" from="meaning">Maze.reinfMsg3</note>
+      </trans-unit>
+      <trans-unit id="2631713814520617565" datatype="html">
+        <source>no path to the left</source>
+        <note priority="1" from="description">condensed form of 'if there is a no path to the left', as in: 'if no path to the left, turn left'.</note>
+        <note priority="1" from="meaning">Maze.noPathLeft</note>
       </trans-unit>
       <trans-unit id="2655054833692063393" datatype="html">
         <source> Reset</source>
@@ -101,11 +106,6 @@
         <source> E</source>
         <note priority="1" from="description">An abbreviation of the direction East</note>
         <note priority="1" from="meaning">Maze.dirE</note>
-      </trans-unit>
-      <trans-unit id="3293197141663117591" datatype="html">
-        <source>if path ahead</source>
-        <note priority="1" from="description">condensed form of 'if there is a path ahead', as in: 'if path ahead, go forward'.</note>
-        <note priority="1" from="meaning">Maze.pathAhead</note>
       </trans-unit>
       <trans-unit id="3556617363956639899" datatype="html">
         <source> Run Program</source>
@@ -257,6 +257,16 @@
         <note priority="1" from="description">instructions - program' refers to a series of instructions that tell the computer what to do next.</note>
         <note priority="1" from="meaning">Maze.reinfMsg4</note>
       </trans-unit>
+      <trans-unit id="6233146306920585813" datatype="html">
+        <source>balls present</source>
+        <note priority="1" from="description">Indicates the presence of at least one ball, as in 'he brought a ball, there are now balls present'</note>
+        <note priority="1" from="meaning">Maze.ballsPresent</note>
+      </trans-unit>
+      <trans-unit id="6475513019511424195" datatype="html">
+        <source>no balls present</source>
+        <note priority="1" from="description">Indicates the lack of any balls, as in 'she took the last ball, there are now no balls present'</note>
+        <note priority="1" from="meaning">Maze.noBallsPresent</note>
+      </trans-unit>
       <trans-unit id="6491926390857975299" datatype="html">
         <source>There was a problem with the request.</source>
         <note priority="1" from="description">alert - The URL is invalid or a server error occurred.  This message will be followed by technical information useful to engineers trying to understand the problem.</note>
@@ -276,6 +286,11 @@
         <source>Blockly</source>
         <note priority="1" from="description">The project name.  If readers of your language would know approximately how to pronounce 'Blockly', leave unchanged.  Otherwise, include a transliteration in parentheses, such as the Russian: 'Blockly (Блoкли)'.  This should be identical to {lb}{lb}msg-blockly|Maze-Apps.blocklyMessage{rb}{rb}.</note>
         <note priority="1" from="meaning">Apps.blocklyMessage</note>
+      </trans-unit>
+      <trans-unit id="6663227050172613777" datatype="html">
+        <source>no path ahead</source>
+        <note priority="1" from="description">condensed form of 'if there is a no path ahead', as in: 'if no path ahead, go forward'.</note>
+        <note priority="1" from="meaning">Maze.noPathAhead</note>
       </trans-unit>
       <trans-unit id="7083250244318947033" datatype="html">
         <source>You have<x id="START_SPAN"/>0<x id="END_SPAN"/> blocks left.</source>
@@ -312,10 +327,20 @@
         <note priority="1" from="description">verb - imperative or infinitive for a person picking up a ball.</note>
         <note priority="1" from="meaning">Maze.pickUpBall</note>
       </trans-unit>
+      <trans-unit id="7516996109829111678" datatype="html">
+        <source>no path to the right</source>
+        <note priority="1" from="description">condensed form of 'if there is a no path to the right', as in: 'if no path to the right, turn right'.</note>
+        <note priority="1" from="meaning">Maze.noPathRight</note>
+      </trans-unit>
       <trans-unit id="7849089032479822046" datatype="html">
         <source>Continue</source>
         <note priority="1" from="description">button - Closes the dialog and continues to the next level</note>
         <note priority="1" from="meaning">Maze.continue</note>
+      </trans-unit>
+      <trans-unit id="8028022855784397108" datatype="html">
+        <source>while</source>
+        <note priority="1" from="description">condensed form of 'while something is true'</note>
+        <note priority="1" from="meaning">Maze.while</note>
       </trans-unit>
       <trans-unit id="8059549568675910785" datatype="html">
         <source>Will the blocks below move me to the red marker?</source>
@@ -337,15 +362,20 @@
         <note priority="1" from="description">instructions - An example of an 'if' block is if there is a path to the left, turn left. A 'repeat' block is used to repeat blocks over and over. 'program' refers to a series of instructions that tell the computer what to do next.</note>
         <note priority="1" from="meaning">Maze.reinfMsg6</note>
       </trans-unit>
-      <trans-unit id="8496210457380227143" datatype="html">
-        <source>if path to the right</source>
-        <note priority="1" from="description">condensed form of 'if there is a path to the right', as in: 'if path to the right, turn right'.</note>
-        <note priority="1" from="meaning">Maze.pathRight</note>
+      <trans-unit id="8490342916685895591" datatype="html">
+        <source>path to the left</source>
+        <note priority="1" from="description">condensed form of 'if there is a path to the left', as in: 'if path to the left, turn left'.</note>
+        <note priority="1" from="meaning">Maze.pathLeft</note>
       </trans-unit>
       <trans-unit id="8638216014684354224" datatype="html">
         <source>An 'if' condition will do something only if the condition is true.  Try turning left if there is a path to the left.</source>
         <note priority="1" from="description">instructions - an example of an 'if' block is: 'if there is a path to the left, turn left'.</note>
         <note priority="1" from="meaning">Maze.instructions7</note>
+      </trans-unit>
+      <trans-unit id="8831916710728780139" datatype="html">
+        <source>path ahead</source>
+        <note priority="1" from="description">condensed form of 'if there is a path ahead', as in: 'if path ahead, go forward'.</note>
+        <note priority="1" from="meaning">Maze.pathAhead</note>
       </trans-unit>
       <trans-unit id="8867426554323455503" datatype="html">
         <source>Reach the goal using only five blocks.</source>
