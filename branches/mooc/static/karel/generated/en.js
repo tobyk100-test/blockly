@@ -63,34 +63,34 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
   output += '</span></div><img id="pegman_bubble" height=42 width=55 src="pegman_bubble.png">' + ((opt_ijData.level == 4) ? '<p><img border=2 src="dirs.png">&nbsp;<img src="dirs2.png"><br>' : '') + ((opt_ijData.level == 5) ? '<p><img style="margin-left: 110px;" src="ifblock.png"><br>' : '') + ((opt_ijData.level == 6) ? '<img style="margin-top: 10px;" border=2 src="repeat_block2.png"><br>' : '') + ((opt_ijData.level == 9) ? '<p><img style="margin-left: 60px; height: 150px; width: 260px;" src="if-else2.png"><br><br>' : '') + ((opt_ijData.level == 10) ? '<p><img style="margin-left: 10px; height: 350px; width: 490px;" src="ifelse.png"><br>' : '') + ((opt_ijData.level == 4) ? '<p><input type="radio" name="q4" id="q41" onclick="Maze.showReinfHelp(\'q4w\')"><span style="font-weight: bold"> N</span><br><input type="radio" name="q4" id="q42" onclick="Maze.showReinfHelp(\'q4w\')"><span style="font-weight: bold"> E</span><br><input type="radio" name="q4" id="q43" onclick="Maze.showReinfHelp(\'q4w\')"><span style="font-weight: bold"> S</span><br><input type="radio" name="q4" id="q44" onclick="Maze.showReinfHelp(\'q4r\')"><span style="font-weight: bold"> W</span><br><br></p><div id="shadow"></div><div id="reinfDone"><div style="padding-bottom: 0.7ex;"><div style="text-align: center;" id="reinfFeedbackImage"></div><br><textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none; border: none; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;"></textarea></div><div style="text-align: center; padding-top: 1ex; padding-right: 3ex"><button id="okButton" class="launch" onclick="Maze.hideReinfHelp()&nbsp"><span>OK</span></button></div></div>' : '') + ((opt_ijData.level == 6) ? '<p><img style="margin-left: 30px;" src="repeat_blocka1.png" onclick="Maze.showReinfHelp(\'q5w\')"><img style="margin-left: 20px;" src="repeat_blocka2.png" onclick="Maze.showReinfHelp(\'q5r\')"><img style="margin-left: 20px;" src="repeat_blocka3.png" onclick="Maze.showReinfHelp(\'q5w\')"></p><div id="shadow"></div><div id="reinfDone"><div style="padding-bottom: 0.7ex"><div style="text-align: center;" id="reinfFeedbackImage"></div><br><textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none; border: none; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;"></textarea></div><div style="text-align: center; padding-top: 1ex; padding-right: 3ex;"><button id="okButton" class="launch" onclick="Maze.hideReinfHelp()"><span>OK</span></button></div></div>' : '') + ((opt_ijData.level == 10) ? '<p><input type="radio" name="q8" id="q81" onClick="Maze.showReinfHelp(\'q10r\')"><span style="font-weight: bold"> Yes</span><br><input type="radio" name="q8" id="q82" onClick="Maze.showReinfHelp(\'q10w\')"><span style="font-weight: bold"> No</span><br><br></p><div id="shadow"></div><div id="reinfDone"><div style="padding-bottom: 0.7ex;"><div style="text-align:center;" id="reinfFeedbackImage"></div><br><textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none; border: none; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;"></textarea></div><div style="text-align: center; padding-top: 1ex; padding-right: 3ex;"><button id="okButton" class="launch" onclick="Maze.hideReinfHelp()"><span>OK</span></button></div></div>' : '') + '</div><br><br><div style="text-align: center"><button id="tryLevelAgainButton" class="launch" style="display: none" onclick="Maze.closeDialogButtonClick(false);">Try again</button><button id="nextLevelButton" class="launch" style="display: none" onclick="Maze.closeDialogButtonClick(true);">Continue</button></div></div></div><div id="visualization"><div id="hintBubble"><div id="hint">';
   switch (opt_ijData.level) {
     case 1:
-      output += 'A program is a sequence of statements. Stack a couple of \'move forward\' blocks together to help me reach the goal.';
+      output += 'Write a program to have Karel go to the tennis ball and pick it up.';
       break;
     case 2:
-      output += 'Help me reach the end of this path.';
+      output += 'Write a program to have karel create a short stack of tennis balls. Karel should move one spot, put down two tennis balls, and then move again.';
       break;
     case 3:
-      output += 'Computers have limited memory. Reach the end of this path using only two blocks.';
+      output += 'Follow the yellow ball road and pick up balls on the road! Simple. While Karel is on top of a ball, Karel should pick up the ball and move once. At the end of the program, Karel will have reached the end of the road and stop.';
       break;
     case 4:
-      output += 'What should I do to follow this path?';
+      output += 'Lay down a row of tennis balls using a while loop.';
       break;
     case 5:
-      output += 'Reach the goal using only five blocks.';
+      output += 'Pick up the row of tennis balls using a while loop.';
       break;
     case 6:
-      output += 'I will have to turn left when I cannot go straight.';
+      output += 'There is a stack of 10 tennis balls in front of karel. Have karel move to the stack, take all of the tennis balls, and then move one more time. Use a for loop!';
       break;
     case 7:
-      output += 'An \'if\' condition will do something only if the condition is true.  Try turning left if there is a path to the left.';
+      output += 'Lay down a row of tennis balls using a while loop. At each position, put down a stack of 5 balls.';
       break;
     case 8:
-      output += 'A small change to the blocks from the previous maze will solve this level.';
+      output += 'Try to lay down a square of tennis balls using a for loop.';
       break;
     case 9:
-      output += 'You can use more than one \'if\' statement.';
+      output += 'Let Karel move to the end of the path, and pick up balls on the road. If there is a ball in the first spot, pick up the ball, and move once. Otherwise, simply move once.';
       break;
     case 10:
-      output += 'Can you use the blocks you have learned to get me over the mountains?';
+      output += 'If there is a ball in the first spot, pick up the ball, and move once. Otherwise, simply move once.';
       break;
     case 11:
       output += 'Use the \'if-else\' block to help me get out of the maze!';
