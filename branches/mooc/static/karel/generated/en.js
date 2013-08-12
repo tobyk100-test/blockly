@@ -90,25 +90,25 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
       output += 'Let Karel move to the end of the path, and pick up balls on the road. If there is a ball in the first spot, pick up the ball, and move once. Otherwise, simply move once.';
       break;
     case 10:
-      output += 'If there is a ball in the first spot, pick up the ball, and move once. Otherwise, simply move once.';
+      output += 'You are given a new block that lets Karel put down 5 balls. It is definition is shown in the workspace. Don\'t delete it! Try using the new block to let Karel put down 5 balls, and move to the destination.';
       break;
     case 11:
-      output += 'Use the \'if-else\' block to help me get out of the maze!';
+      output += 'Lay down a row of tennis balls using a while loop. At each position, put down a stack of 5 balls by calling the new block.';
       break;
     case 12:
-      output += 'Use the \'if-else\' block to help me get out of the maze!';
+      output += 'Let\'s try defining your own function of putting down 7 balls. Lay down a sequence of 7 balls in diagonol.';
       break;
     case 13:
-      output += 'Use the \'if-else\' block to help me get out of the maze!';
+      output += 'Karel needs to pick up a stack of balls on the 2nd, 4th, and 6th columns. Each stack of balls should have three balls. Create a new block called "pick up three balls" to help karel solve this problem.';
       break;
     case 14:
-      output += 'Use the \'if-else\' block to help me get out of the maze!';
+      output += 'You are given two new blocks, "pick up the ball tower" and "put down the ball tower" . Try using them to solve this problem!';
       break;
     case 15:
-      output += 'Use the \'if-else\' block to help me get out of the maze!';
+      output += 'Write a program to have karel jump over each of the hurdles, pick up the balls in the dip, and end up up at the other end of the world. You must use for loops and define the new block "jump hurdle" in this program.';
       break;
     case 16:
-      output += 'Use the \'if-else\' block to help me get out of the maze!';
+      output += 'Write a program that has Karel run to the other side of world, jumping over all of the hurdles, and collecting balls along its ways. However, the hurdles can be in random locations. Try defining the "jump hurdle" block to help Karel to solve the problem.';
       break;
   }
   output += '</div></div><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="450px"><g id="look"><path d="M 0,-15 a 15 15 0 0 1 15 15" /><path d="M 0,-35 a 35 35 0 0 1 35 35" /><path d="M 0,-55 a 55 55 0 0 1 55 55" /></g></svg><div id="capacityBubble"><div id="capacity"></div></div></div><table width="400"><tr><td style="width: 190px; text-align: center; vertical-align: top;"><button title="See generated JavaScript code." onclick="BlocklyApps.showCode();"><img src=\'../media/1x1.gif\' class="code icon21"></button><button id="linkButton" title="Save and link to blocks." onclick="BlocklyStorage.link();"><img src=\'../media/1x1.gif\' class="link icon21"></button></td><td><button id="runButton" class="launch" onclick="Maze.runButtonClick();"><img src="../media/1x1.gif" class="run icon21">  Run Program</button></button><button id="resetButton" class="launch" onclick="Maze.resetButtonClick();" style="display: none"><img src="../media/1x1.gif" class="stop icon21"> Reset</button></td></tr></table><script type="text/javascript" src="../blockly_compressed.js"><\/script><script type="text/javascript" src="../javascript_compressed.js"><\/script><script type="text/javascript" src="../' + soy.$$escapeHtml(opt_ijData.langSrc) + '"><\/script><script type="text/javascript" src="blocks.js"><\/script>' + mazepage.toolbox(null, null, opt_ijData) + '<div id="blockly"></div><div id="pegmanMenu"></div><div id="shadow"></div>';
