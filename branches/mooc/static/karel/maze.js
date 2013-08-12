@@ -798,13 +798,13 @@ Maze.drawMap = function() {
   }
 
   // Add finish marker.
-  var finishMarker = document.createElementNS(Blockly.SVG_NS, 'image');
+  /* var finishMarker = document.createElementNS(Blockly.SVG_NS, 'image');
   finishMarker.setAttribute('id', 'finish');
   finishMarker.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       Maze.SKIN.marker);
   finishMarker.setAttribute('height', 34);
   finishMarker.setAttribute('width', 20);
-  svg.appendChild(finishMarker);
+  svg.appendChild(finishMarker); */
 
   
   // Move the finish ball marker icons into position.
@@ -932,8 +932,8 @@ Maze.init = function() {
         Maze.finish_ = {x: x, y: y};
       // Nan's
       } else if (Maze.map[y][x] == Maze.SquareType.STARTANDFINISH) {
-	Maze.start_ = {x: x, y: y};
-	Maze.finish_ = {x: x, y: y};
+	      Maze.start_ = {x: x, y: y};
+	      Maze.finish_ = {x: x, y: y};
       }
     }
   }
@@ -1035,11 +1035,11 @@ Maze.reset = function(first) {
   }
 
   // Move the finish icon into position.
-  var finishIcon = document.getElementById('finish');
+  /* var finishIcon = document.getElementById('finish');
   finishIcon.setAttribute('x', Maze.SQUARE_SIZE * (Maze.finish_.x + 0.5) -
       finishIcon.getAttribute('width') / 2);
   finishIcon.setAttribute('y', Maze.SQUARE_SIZE * (Maze.finish_.y + 0.6) -
-      finishIcon.getAttribute('height'));
+      finishIcon.getAttribute('height')); */
 
   // Make 'look' icon invisible and promote to top.
   var lookIcon = document.getElementById('look');
@@ -1055,34 +1055,34 @@ Maze.reset = function(first) {
   var ballId = 0;
   for (var y = 0; y < Maze.ROWS; y++) {
     for (var x = 0; x < Maze.COLS; x++) {
-  Maze.balls_[y][x] = Maze.init_ball_map[y][x];
-  if (Maze.balls_[y][x] > 0 ) {
-      var ballIcon = document.getElementById('ball' + ballId);
-      if (ballIcon == null) {
-    // If the original ballIcon has been removed, recreate it.
-    var svg = document.getElementById('svgMaze');
-    ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
-    ballIcon.setAttribute('id', 'ball' + ballId);
-    ballIcon.setAttributeNS(
-        'http://www.w3.org/1999/xlink', 'xlink:href',
-        Maze.balls_[y][x] + Maze.SKIN.ball);
-    ballIcon.setAttribute('height', 34);
-    ballIcon.setAttribute('width', 20);
-    svg.appendChild(ballIcon);
+      Maze.balls_[y][x] = Maze.init_ball_map[y][x];
+        if (Maze.balls_[y][x] > 0 ) {
+          var ballIcon = document.getElementById('ball' + ballId);
+          if (ballIcon == null) {
+            // If the original ballIcon has been removed, recreate it.
+            var svg = document.getElementById('svgMaze');
+            ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
+            ballIcon.setAttribute('id', 'ball' + ballId);
+            ballIcon.setAttributeNS(
+              'http://www.w3.org/1999/xlink', 'xlink:href',
+              Maze.balls_[y][x] + Maze.SKIN.ball);
+            ballIcon.setAttribute('height', 34);
+            ballIcon.setAttribute('width', 20);
+            svg.appendChild(ballIcon);
+          }
+          ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
+                                ballIcon.getAttribute('width') / 2);
+          ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
+                                ballIcon.getAttribute('height'));
+        } else {
+          // Remove the ballIcon created during execution
+          var ballIcon = document.getElementById('ball' + ballId);
+          if (ballIcon != null) {
+            var svg = document.getElementById('svgMaze');
+            svg.removeChild(ballIcon);
+        }
       }
-      ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
-          finishIcon.getAttribute('width') / 2);
-      ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
-          finishIcon.getAttribute('height'));
-  } else {
-      // Remove the ballIcon created during execution
-      var ballIcon = document.getElementById('ball' + ballId);
-      if (ballIcon != null) {
-    var svg = document.getElementById('svgMaze');
-    svg.removeChild(ballIcon);
-      }
-  }
-  ++ballId;
+      ++ballId;
     }
   }
 
@@ -1094,9 +1094,9 @@ Maze.reset = function(first) {
   if (Maze.finish_ball_map[y][x] > 0) {
       var ballIcon = document.getElementById('finish_ball' + ballId);
       ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
-          finishIcon.getAttribute('width') / 2);
+          ballIcon.getAttribute('width') / 2);
       ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
-          finishIcon.getAttribute('height'));
+          ballIcon.getAttribute('height'));
   }
   ++ballId;
     }
@@ -1451,6 +1451,7 @@ Maze.schedulePutDownBall = function() {
         ballIcon.getAttribute('width') / 2);
     ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
         ballIcon.getAttribute('height'));
+
 };
 
 // Nan's
@@ -1636,24 +1637,25 @@ Maze.move = function(direction, id) {
   }
   BlocklyApps.log.push([command, id]);
   // Nan's
-  Maze.checkSuccess();
+  // Maze.checkSuccess();
 };
 
 // Nan's
 Maze.checkSuccess = function() {
   console.log('checkSuccess called');
-  if (Maze.pegmanX == Maze.finish_.x && Maze.pegmanY == Maze.finish_.y) {
+  // if (Maze.pegmanX == Maze.finish_.x && Maze.pegmanY == Maze.finish_.y) {
     // Nan's
     // Check to see whether the number of balls is the same as the target
     var succeed = true;
     for (var y = 0; y < Maze.ROWS; y++) {
       for (var x = 0; x < Maze.COLS; x++) {
-          if (Maze.balls_[y][x] != Maze.finish_ball_map[y][x]) {
-        console.log(
+        if (Maze.balls_[y][x] != Maze.finish_ball_map[y][x]) {
+          console.log(
             y + ',' + x + ': ' + Maze.balls_[y][x] + ' vs '
-          + Maze.finish_ball_map[y][x]);
-        succeed = false;
-          }
+                + Maze.finish_ball_map[y][x]);
+            succeed = false;
+            break;
+        }
       }
     }
     console.log(succeed);
@@ -1662,7 +1664,7 @@ Maze.checkSuccess = function() {
         BlocklyApps.log.push(['finish', null]);
         throw true;
     }
-  }
+  // }
 }
 
 /**
