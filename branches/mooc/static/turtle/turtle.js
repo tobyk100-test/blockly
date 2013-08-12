@@ -46,7 +46,7 @@ Turtle.getNumberFromUrl = function(name, min_value, max_value) {
 };
 
 Turtle.PAGE = Turtle.getNumberFromUrl('page', 1, 3);
-Turtle.MAX_LEVEL = [undefined, 10, 10, 8][Turtle.PAGE];
+Turtle.MAX_LEVEL = [undefined, 10, 10, 10][Turtle.PAGE];
 Turtle.LEVEL = Turtle.getNumberFromUrl('level', 1, Turtle.MAX_LEVEL);
 Turtle.REINF = Turtle.getNumberFromUrl(
     'reinf', 0, reinf_data[Turtle.PAGE].length - 1);
@@ -131,17 +131,28 @@ Turtle.init = function() {
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1));
   } else {
-    var xml = document.getElementById('start_blocks').innerHTML;
-
+    if (Turtle.PAGE == 3 && (Turtle.LEVEL == 8 || Turtle.LEVEL == 9)) {
+      var xml = window.sessionStorage.turtle3Blocks;
+      if (xml === undefined) {
+        xml = '';
+      }
+    } else {
+      var xml = document.getElementById('start_blocks').innerHTML;
+      if (xml) {
+        xml = '<xml>' + xml + '</xml>';
+      }
+    }
     if (xml) {
-      xml = Blockly.Xml.textToDom('<xml>' + xml + '</xml>');
-      Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+      var dom = Blockly.Xml.textToDom(xml);
+      Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, dom);
     }
   }
 
   Turtle.ctxDisplay = document.getElementById('display').getContext('2d');
   Turtle.ctxAnswer = document.getElementById('answer').getContext('2d');
+  Turtle.ctxImages= document.getElementById('images').getContext('2d');
   Turtle.ctxScratch = document.getElementById('scratch').getContext('2d');
+  Turtle.drawImages();
   Turtle.drawAnswer();
   Turtle.reset();
 };
@@ -166,6 +177,68 @@ Turtle.drawAnswer = function() {
 };
 
 /**
+ * Place an image at the specified coordinates.
+ * Code from http://stackoverflow.com/questions/5495952. Thanks, Phrogz.
+ *
+ * @param {string} fileName Relative path to image.
+ * @param {!Array} coordinates List of x-y pairs.
+ */
+Turtle.placeImage = function(filename, coordinates) {
+  var img = new Image;
+  img.onload = function(){
+    for (var i = 0; i < coordinates.length; i++) {
+      Turtle.ctxImages.drawImage(img, coordinates[i][0], coordinates[i][1]);
+    }
+    Turtle.display();
+  };
+  img.src = filename;
+};
+
+/**
+ * Draw the images for this page and level onto Turtle.ctxImages.
+ * TODO: Consider putting specification in template.soy.
+ */
+Turtle.drawImages = function() {
+  if (Turtle.PAGE == 3) {
+    switch (Turtle.LEVEL) {
+      case 3:
+        Turtle.placeImage('cat.svg', [[170, 247], [170, 47]]);
+        Turtle.placeImage('cow.svg', [[182, 147]]);
+        break;
+      case 4:
+        Turtle.placeImage('lion.svg', [[197, 97]]);
+        break;
+      case 5:
+        Turtle.placeImage('cat.svg', [[170, 90], [222, 90]]);
+        break;
+      case 6:
+        Turtle.placeImage('lion.svg', [[185, 100]]);
+        Turtle.placeImage('cat.svg', [[175, 248]]);
+        break;
+      case 7:
+        Turtle.placeImage('elephant.svg', [[205, 220]]);
+        break;
+      case 8:
+        Turtle.placeImage('cat.svg', [[16, 170]]);
+        Turtle.placeImage('lion.svg', [[15, 250]]);
+        Turtle.placeImage('elephant.svg', [[127, 220]]);
+        Turtle.placeImage('cow.svg', [[255, 250]]);
+        break;
+      case 9:
+        Turtle.placeImage('cat.svg', [[-10, 270]]);
+        Turtle.placeImage('cow.svg', [[53, 250]]);
+        Turtle.placeImage('elephant.svg', [[175, 220]]);
+        break;
+    }
+
+    Turtle.ctxImages.globalCompositeOperation = 'copy';
+    Turtle.ctxImages.drawImage(Turtle.ctxScratch.canvas, 0, 0);
+    Turtle.ctxImages.globalCompositeOperation = 'source-over';
+  }
+};
+
+
+/**
  * Reset the turtle to the start position, clear the display, and kill any
  * pending tasks.
  */
@@ -177,6 +250,24 @@ Turtle.reset = function() {
   Turtle.penDownValue = true;
   Turtle.visible = true;
 
+  // Special cases.
+  // TODO: Consider putting specification in template.soy.
+  if (Turtle.PAGE == 2 && (Turtle.LEVEL == 8 || Turtle.LEVEL == 9)) {
+    Turtle.x = 100;
+  } else if (Turtle.PAGE == 3) {
+    switch (Turtle.LEVEL) {
+      case 3:
+      case 6:
+      case 7:
+        Turtle.y = 350;
+        break;
+      case 8:
+      case 9:
+        Turtle.x = 20;
+        Turtle.y = 350;
+        break;
+    }
+  }
   // Clear the display.
   Turtle.ctxScratch.canvas.width = Turtle.ctxScratch.canvas.width;
   Turtle.ctxScratch.strokeStyle = '#000000';
@@ -202,9 +293,15 @@ Turtle.display = function() {
   Turtle.ctxDisplay.globalAlpha = 0.1;
   Turtle.ctxDisplay.drawImage(Turtle.ctxAnswer.canvas, 0, 0);
   Turtle.ctxDisplay.globalAlpha = 1;
+
+  // Draw the images layer.
+  Turtle.ctxDisplay.globalCompositeOperation = 'source-over';
+  Turtle.ctxDisplay.drawImage(Turtle.ctxImages.canvas, 0, 0);
+
   // Draw the user layer.
   Turtle.ctxDisplay.globalCompositeOperation = 'source-over';
   Turtle.ctxDisplay.drawImage(Turtle.ctxScratch.canvas, 0, 0);
+
   // Draw the turtle.
   if (Turtle.visible) {
     // Draw the turtle body.
@@ -329,6 +426,8 @@ Turtle.step = function(command, values) {
         Turtle.ctxScratch.beginPath();
         Turtle.ctxScratch.moveTo(Turtle.x, Turtle.y);
       }
+      // Fall through...
+    case 'JF':  // Jump forward
       var distance = values[0];
       if (distance) {
         Turtle.x += distance * Math.sin(2 * Math.PI * Turtle.heading / 360);
@@ -338,7 +437,7 @@ Turtle.step = function(command, values) {
         // WebKit (unlike Gecko) draws nothing for a zero-length line.
         var bump = 0.1;
       }
-      if (Turtle.penDownValue) {
+      if (command == 'FD' && Turtle.penDownValue) {
         Turtle.ctxScratch.lineTo(Turtle.x, Turtle.y + bump);
         Turtle.ctxScratch.stroke();
       }
@@ -406,6 +505,13 @@ Turtle.checkAnswer = function() {
   BlocklyApps.report('turtle', BlocklyApps.LEVEL_ID, Turtle.LEVEL, correct,
       BlocklyApps.stripCode(Turtle.code));
   if (correct) {
+    if (Turtle.PAGE == 3 && (Turtle.LEVEL == 7 || Turtle.LEVEL == 8)) {
+      // Store the blocks for the next level.
+      var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+      var text = Blockly.Xml.domToText(xml);
+      window.sessionStorage.turtle3Blocks = text;
+    }
+
     BlocklyApps.congratulations(Turtle.PAGE, Turtle.LEVEL, Turtle.MAX_LEVEL, 1);
   }
 };
@@ -428,6 +534,14 @@ Turtle.moveForward = function(distance, id) {
 
 Turtle.moveBackward = function(distance, id) {
   BlocklyApps.log.push(['FD', -distance, id]);
+};
+
+Turtle.jumpForward = function(distance, id) {
+  BlocklyApps.log.push(['JF', distance, id]);
+};
+
+Turtle.jumpBackward = function(distance, id) {
+  BlocklyApps.log.push(['JF', -distance, id]);
 };
 
 Turtle.turnRight = function(angle, id) {

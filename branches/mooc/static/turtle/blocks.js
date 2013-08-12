@@ -29,30 +29,6 @@ Blockly.JavaScript = Blockly.Generator.get('JavaScript');
 
 // Limited blocks for tutorial.
 
-Blockly.Language.draw_move_forward_inline = {
-  // Block for moving forward the internal number of pixels.
-  helpUrl: 'http://www.example.com/',
-  init: function() {
-    this.setColour(160);
-    this.appendDummyInput()
-        .appendTitle(BlocklyApps.getMsg('moveForward'));
-    this.appendDummyInput()
-        .appendTitle(new Blockly.FieldTextInput('100',
-          Blockly.FieldTextInput.numberValidator), 'VALUE')
-        .appendTitle(BlocklyApps.getMsg('pixels'));
-    this.setInputsInline(true);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyApps.getMsg('moveForwardTooltip'));
-  }
-};
-
-Blockly.JavaScript.draw_move_forward_inline = function() {
-  // Generate JavaScript for moving forward the internal number of pixels.
-  var value = window.parseFloat(this.getTitleValue('VALUE'));
-  return 'Turtle.moveForward(' + value + ', \'' + this.id + '\');\n';
-};
-
 Blockly.Language.draw_move_inline = {
   // Block for moving forward or backward the internal number of pixels.
   helpUrl: 'http://www.example.com/',
@@ -64,7 +40,7 @@ Blockly.Language.draw_move_inline = {
     this.appendDummyInput()
         .appendTitle(new Blockly.FieldTextInput('100',
           Blockly.FieldTextInput.numberValidator), 'VALUE')
-        .appendTitle(BlocklyApps.getMsg('pixels'));
+        .appendTitle(BlocklyApps.getMsg('dots'));
     this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
@@ -80,32 +56,6 @@ Blockly.JavaScript.draw_move_inline = function() {
       '(' + value + ', \'' + this.id + '\');\n';
 };
 
-Blockly.Language.draw_turn_right_inline_restricted = {
-  // Block for turning right from among a fixed set of angles.
-  helpUrl: '',
-  init: function() {
-    this.setColour(160);
-    this.appendDummyInput()
-        .appendTitle(BlocklyApps.getMsg('turnRight'));
-    this.appendDummyInput()
-        .appendTitle(new Blockly.FieldDropdown(this.VALUE), 'VALUE')
-        .appendTitle(BlocklyApps.getMsg('degrees'));
-    this.setInputsInline(true);
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setTooltip(BlocklyApps.getMsg('turnRightTooltip'));
-  }
-};
-
-Blockly.Language.draw_turn_right_inline_restricted.VALUE =
-    [30, 45, 60, 90, 120, 135, 150, 180].
-    map(function(t) {return [String(t), String(t)];});
-
-Blockly.JavaScript.draw_turn_right_inline_restricted = function() {
-  // Generate JavaScript for turning right from among a fixed set of angles.
-  var value = window.parseFloat(this.getTitleValue('VALUE'));
-  return 'Turtle.turnRight(' + value + ', \'' + this.id + '\');\n';
-};
 
 Blockly.Language.draw_turn_inline_restricted = {
   // Block for turning either left or right from among a fixed set of angles.
@@ -126,7 +76,8 @@ Blockly.Language.draw_turn_inline_restricted = {
 };
 
 Blockly.Language.draw_turn_inline_restricted.VALUE =
-    Blockly.Language.draw_turn_right_inline_restricted.VALUE;
+    [30, 45, 60, 90, 120, 135, 150, 180].
+    map(function(t) {return [String(t), String(t)];});
 
 Blockly.JavaScript.draw_turn_inline_restricted = function() {
   // Generate JavaScript for turning either left or right from among a fixed
@@ -250,38 +201,53 @@ Blockly.JavaScript.draw_a_square = function() {
       '  Turtle.turnRight(90);\n}\n';
 };
 
-// Create a fake "draw a snowball" function so it can be made available to
+// Create a fake "draw a snowman" function so it can be made available to
 // users without being shown in the workspace.
-Blockly.Language.draw_a_snowball = {
+Blockly.Language.draw_a_snowman = {
   // Draw a circle in front of the turtle, ending up on the opposite side.
   init: function() {
     this.setColour(290);
     this.appendDummyInput()
-        .appendTitle('draw a snowball');
+        .appendTitle(BlocklyApps.getMsg('drawASnowman'));
     this.appendValueInput('VALUE')
         .setAlign(Blockly.ALIGN_RIGHT)
         .setCheck('Number')
-        .appendTitle(BlocklyApps.getMsg('diameterParameter') + ':');
+        .appendTitle(BlocklyApps.getMsg('heightParameter') + ':');
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip('');
   }
 };
 
-Blockly.JavaScript.draw_a_snowball = function() {
-  // Generate JavaScript for drawing a circle in front of the turtle,
-  // ending up on the opposite side.
+Blockly.JavaScript.draw_a_snowman = function() {
+  // Generate JavaScript for drawing a snowman in front of the turtle.
   var value = Blockly.JavaScript.valueToCode(
       this, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+  var distancesVar = Blockly.JavaScript.variableDB_.getDistinctName(
+      'distances', Blockly.Variables.NAME_TYPE);
   var loopVar = Blockly.JavaScript.variableDB_.getDistinctName(
-      'degrees', Blockly.Variables.NAME_TYPE);
+      'counter', Blockly.Variables.NAME_TYPE);
+  var degreeVar = Blockly.JavaScript.variableDB_.getDistinctName(
+      'degree', Blockly.Variables.NAME_TYPE);
+  var distanceVar = Blockly.JavaScript.variableDB_.getDistinctName(
+      'distance', Blockly.Variables.NAME_TYPE);
   return 'Turtle.turnLeft(90);\n' +
-      'for (var ' + loopVar + ' = 0; ' + loopVar + ' < 540; ' +
-      loopVar + '++) {\n' +
-      '  Turtle.moveForward(' + value + '/ 115.0);\n' +
-      '  Turtle.turnRight(1);\n' +
-      '}\n' +
-      'Turtle.turnLeft(90);\n';
+      'var ' + distancesVar + ' = [' + value + ' * .5, ' + value + ' * .3,' +
+          value + ' * .2];\n' +
+      'for (var ' + loopVar + ' = 0; ' + loopVar + ' < 6; ' +
+          loopVar + '++) {\n' +
+      '  var ' + distanceVar + ' = ' + distancesVar + '[' + loopVar +
+          ' < 3 ? ' + loopVar + ': 5 - ' + loopVar + '] / 57.5;\n'  +
+      '  for (var ' + degreeVar + ' = 0; ' + degreeVar + ' < 90; ' +
+          degreeVar + '++) {\n' +
+      '    Turtle.moveForward(' + distanceVar + ');\n' +
+      '    Turtle.turnRight(2);\n' +
+      '  }\n' +
+      '  if (' + loopVar + ' != 2) {\n' +
+      '    Turtle.turnLeft(180);\n' +
+      '  }\n' +
+      '  Turtle.turnLeft(90);\n' +
+      '}\n';
 };
 
 // This is a modified copy of Blockly.Language.controls_for with the
@@ -352,6 +318,9 @@ Blockly.Language.draw_move = {
         .setCheck('Number')
         .appendTitle(new Blockly.FieldDropdown(
             Blockly.Language.draw_move.DIRECTIONS), 'DIR');
+    this.appendDummyInput()
+        .appendTitle(BlocklyApps.getMsg('dots'));
+    this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(BlocklyApps.getMsg('moveTooltip'));
@@ -370,6 +339,36 @@ Blockly.JavaScript.draw_move = function() {
       '(' + value + ', \'block_id_' + this.id + '\');\n';
 };
 
+Blockly.Language.jump = {
+  // Block for moving forward or backwards.
+  helpUrl: '',
+  init: function() {
+    this.setColour(160);
+    this.appendValueInput('VALUE')
+        .setCheck('Number')
+        .appendTitle(new Blockly.FieldDropdown(
+            Blockly.Language.jump.DIRECTIONS), 'DIR');
+    this.appendDummyInput()
+        .appendTitle(BlocklyApps.getMsg('dots'));
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(BlocklyApps.getMsg('jumpTooltip'));
+  }
+};
+
+Blockly.Language.jump.DIRECTIONS =
+    [[BlocklyApps.getMsg('jumpForward'), 'jumpForward'],
+     [BlocklyApps.getMsg('jumpBackward'), 'jumpBackward']];
+
+Blockly.JavaScript.jump = function() {
+  // Generate JavaScript for jumping forward or backwards.
+  var value = Blockly.JavaScript.valueToCode(this, 'VALUE',
+      Blockly.JavaScript.ORDER_NONE) || '0';
+  return 'Turtle.' + this.getTitleValue('DIR') +
+      '(' + value + ', \'block_id_' + this.id + '\');\n';
+};
+
 Blockly.Language.draw_turn = {
   // Block for turning left or right.
   helpUrl: '',
@@ -379,6 +378,9 @@ Blockly.Language.draw_turn = {
         .setCheck('Number')
         .appendTitle(new Blockly.FieldDropdown(
             Blockly.Language.draw_turn.DIRECTIONS), 'DIR');
+    this.appendDummyInput()
+        .appendTitle(BlocklyApps.getMsg('degrees'));
+    this.setInputsInline(true);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(BlocklyApps.getMsg('turnTooltip'));

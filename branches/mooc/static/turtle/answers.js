@@ -33,13 +33,11 @@ Turtle.answer = function() {
   // Helper functions.
   function setRandomVisibleColour() {
     var num = Math.floor(Math.random() * Math.pow(2, 24));
-    // Make sure at least one component is at least 0x60, to prevent
-    // too light of colours.
-    if (num & 0xff < 0x60 && num & 0xff00 < 0x6000
-        && num & 0xff0000 < 0x600000) {
-      num += 0x80;  // Arbitrarily add some blue.
-    }
-    Turtle.penColour('#' + ('00000' + num.toString(16)).substr(-6));
+    // Make sure at least one component is below 0x80 and the rest
+    // below 0xA0, to prevent too light of colours.
+    num &= 0x9f7f9f;
+    var colour = '#' + ('00000' + num.toString(16)).substr(-6);
+    Turtle.penColour(colour);
   }
   function drawSquare(length, random_colour) {
     for (var count = 0; count < 4; count++) {
@@ -59,12 +57,32 @@ Turtle.answer = function() {
       Turtle.turnRight(120);
     }
   }
-  function drawNgon(length, sides) {
-    for (var count = 0; count < sides; count++) {
-      Turtle.moveForward(length);
-      Turtle.turnRight(360 / sides);
+  function drawSnowman(height) {
+    Turtle.turnLeft(90);
+    var distances = [height * .5, height * .3, height * .2];
+    for (var i = 0; i < 6; i++) {
+      var distance = distances[i < 3 ? i : 5 - i] / 57.5;
+      for (var d = 0; d < 180; d += 2) {
+        Turtle.moveForward(distance);
+        Turtle.turnRight(2);
+      }
+      if (i != 2) {
+        Turtle.turnRight(180);
+      }
     }
+    Turtle.turnLeft(90);
   }
+  function drawHouse(length) {
+    drawSquare(length);
+    Turtle.moveForward(length);
+    Turtle.turnRight(30);
+    drawTriangle(length);
+    Turtle.turnRight(60);
+    Turtle.moveForward(length);
+    Turtle.turnLeft(90);
+    Turtle.moveBackward(length);
+  }
+
   if (Turtle.PAGE == 1) {
     switch (Turtle.LEVEL) {
       case 1:
@@ -91,12 +109,10 @@ Turtle.answer = function() {
         drawTriangle(100);
         break;
       case 6:
-        // Envelope.
-        Turtle.penColour('#ff0000');  // red
-        drawSquare(100);
-        Turtle.moveForward(100);
-        Turtle.turnRight(90);
+        // Triangle and square.
         drawTriangle(100);
+        Turtle.turnRight(180);
+        drawSquare(100);
         break;
       case 7:
         // Glasses.
@@ -159,33 +175,29 @@ Turtle.answer = function() {
         }
         break;
       case 7:
-        // Squares with sides of 100, 90, ..., 10 pixels,
-        // moving backward 10 pixels before each.
-        for (var len = 100; len >= 10; len -= 10) {
-          setRandomVisibleColour();
-          Turtle.moveBackward(10);
-          drawSquare(len);
-        }
-        break;
-      case 8:
         // Mini-spiral.
         for (var len = 25; len <= 60; len += 5) {
           Turtle.moveForward(len);
           Turtle.turnRight(90);
         }
         break;
-      case 9:
-        // Snowman.
-        for (var diameter = 70; diameter >= 30; diameter -= 20) {
-          // This is a special version of circle drawing that puts the
-          // circle in front of the turtle, leaving the turtle facing
-          // its original direction on the far side of the circle.
-          var step = diameter / 115.0;
+      case 8:
+        // Same-height snowmen.
+        for (var i = 0; i < 3; i++) {
+          setRandomVisibleColour();
+          drawSnowman(150);
+          Turtle.turnRight(90);
+          Turtle.jumpForward(100);
           Turtle.turnLeft(90);
-          for (var i = 0; i < 540; i++) {
-            Turtle.moveForward(step);
-            Turtle.turnRight(1);
-          }
+        }
+        break;
+      case 9:
+        // Different height snowmen.
+        for (var height = 110; height >= 70; height -= 10) {
+          setRandomVisibleColour();
+          drawSnowman(height);
+          Turtle.turnRight(90);
+          Turtle.jumpForward(60);
           Turtle.turnLeft(90);
         }
         break;
@@ -193,44 +205,48 @@ Turtle.answer = function() {
   } else if (Turtle.PAGE == 3) {
     switch (Turtle.LEVEL) {
       case 1:
+        // Draw a square.
+        drawSquare(100);
+        break;
+      case 2:
         // Draw a triangle.
         drawTriangle(100);
         break;
-      case 2:
-        // Draw a house using "draw a square" and "draw a triangle".
-        // Fall through to next case...
       case 3:
-        // Create a "draw a house" procedure.
+        drawTriangle(100);
+        Turtle.moveForward(100);
         drawSquare(100);
         Turtle.moveForward(100);
-        Turtle.turnRight(30);
         drawTriangle(100);
         break;
       case 4:
-        // Call parameterized "draw a triangle" twice with different colours.
-        setRandomVisibleColour();
-        drawTriangle(50);
-        setRandomVisibleColour();
-        drawTriangle(100);
+        // Draw a house using "draw a square" and "draw a triangle".
+        drawHouse(100);
         break;
       case 5:
-        // Add a parameter to the "draw a house" procedure.
-        drawSquare(50);
-        Turtle.moveForward(50);
-        Turtle.turnRight(30);
-        drawTriangle(50);
+        // Draw a house using a function.
+        drawHouse(100);
         break;
       case 6:
-        // Hexagons.
         setRandomVisibleColour();
-        drawNgon(50, 6);
+        drawTriangle(100);
+        Turtle.moveForward(100);
         setRandomVisibleColour();
-        drawNgon(75, 6);
+        drawTriangle(200);
         break;
       case 7:
-        // Red octagon (stop sign).
-        Turtle.penColour('#ff0000');  // red
-        drawNgon(80, 8);
+        // Add a parameter to the "draw a house" procedure.
+        drawHouse(150);
+        break;
+      case 8:
+        drawHouse(100);
+        drawHouse(150);
+        drawHouse(100);
+        break;
+      case 9:
+        for (var count = 50; count <= 150; count += 50) {
+          drawHouse(count);
+        }
         break;
     }
   }
