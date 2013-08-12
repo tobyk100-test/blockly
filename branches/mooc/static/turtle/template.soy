@@ -554,7 +554,7 @@
                     {case 6}{msg meaning="Turtle.instructions2_6" desc="TODO"}Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.{/msg}
                     {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.{/msg}
                     {case 8}{msg meaning="Turtle.instructions2_8" desc="TODO"}Draw three snowmen 150 dots tall in different colours, 100 dots apart.  Use the new "draw a snowman" function and "jump forward" block.{/msg}
-                    {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Draw a family of snowmen with heights of 110, 100, 90, 80, and 70, each 50 dots apart.{/msg}
+                    {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Draw a family of snowmen with heights of 110, 100, 90, 80, and 70, each 60 dots apart.{/msg}
                     {case 10}{msg meaning="Turtle.instructions2_10" desc="TODO"}Draw whatever you want.  One idea is experimenting with different types of spirals.  What happens if you change the turn amount, rather than the move amount?  TODO: Add starting blocks.{/msg}
                   {/switch}
                 {case 3}
@@ -687,9 +687,9 @@
  * Level 4 [36 squares]
  * Level 5 [nested squares without controls_for]
  * Level 6 [nested squares with controls_for]
- * Level 7 [telescoping squares]
- * Level 8 [mini-spiral]
- * Level 9 [snowman]: add "draw a snowball"
+ * Level 7 [mini-spiral]
+ * Level 8 [3 snowmen]: add "draw a snowman"
+ * Level 9 [snowman family]
  * Level 10 [free play]
  *
  * PAGE 3
@@ -809,7 +809,7 @@
               </block>
             </value>
           </block>
-          {if $ij.level >= 9}
+          {if $ij.level >= 8}
             <block type="draw_a_snowman" inline="true">
               <value name="VALUE">
                 <block type="math_number">
@@ -854,14 +854,14 @@
               </block>
             </value>
           </block>
-          <block type="controls_repeat_ext">
-            <value name="TIMES">
-              <block type="math_number">
-                <title name="NUM">4</title>
-              </block>
-            </value>
-          </block>
         {/if}
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="math_number">
+              <title name="NUM">4</title>
+            </block>
+          </value>
+        </block>
       </category>
       // Math: Just number blocks until final level.
       <category name="{msg meaning="Turtle.catMath" desc="TODO"}Math{/msg}">

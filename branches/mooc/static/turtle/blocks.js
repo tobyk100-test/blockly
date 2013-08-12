@@ -246,8 +246,8 @@ Blockly.JavaScript.draw_a_snowman = function() {
       '  if (' + loopVar + ' != 2) {\n' +
       '    Turtle.turnLeft(180);\n' +
       '  }\n' +
-      '  Turtle.turnLeft(90);\n' +
-      '}\n';
+      '}\n' +
+      'Turtle.turnLeft(90);\n';
 };
 
 // This is a modified copy of Blockly.Language.controls_for with the
