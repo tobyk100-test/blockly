@@ -36,27 +36,27 @@
     </mutation>
     <title name="NAME">{$title}</title>
     <statement name="STACK">
-      <block type="controls_repeat_ext" editable="false" deletable="false" movable="false">
+      <block type="controls_repeat_ext" {$modifiers}>
         <value name="TIMES">
-          <block type="math_number" editable="false" deletable="false" movable="false">
+          <block type="math_number" {$modifiers}>
             <title name="NUM">{$sides}</title>
           </block>
         </value>
         <statement name="DO">
-          <block type="draw_move" editable="false" deletable="false" movable="false">
+          <block type="draw_move" {$modifiers}>
             <value name="VALUE">
               {if $length == 0}
                 <block type="variables_get_length"></block>
               {else}
-                <block type="math_number" editable="false" deletable="false" movable="false">
+                <block type="math_number" {$modifiers}>
                   <title name="NUM">{$length}</title>
                 </block>
               {/if}
             </value>
             <next>
-              <block type="draw_turn" editable="false" deletable="false" movable="false">
+              <block type="draw_turn" {$modifiers}>
                 <value name="VALUE">
-                  <block type="math_number" editable="false" deletable="false" movable="false">
+                  <block type="math_number" {$modifiers}>
                     <title name="NUM">{360 / $sides}</title>
                   </block>
                 </value>
@@ -361,7 +361,7 @@
         /*  Define "draw a triangle".  */
         {call .polygon}
           {param title}draw a triangle{/param}
-          {param modifiers}{if $ij.level == 6}x="20" y="170"{else}x="340" y="20"{/if}{/param}
+          {param modifiers}{if $ij.level == 6}x="20" y="190"{else}x="340" y="20"{/if}{/param}
           {param sides: 3 /}
           {param length}{if $ij.level >= 7}0{else}100{/if}{/param}
         {/call}
@@ -891,6 +891,9 @@
         </category>
       {elseif $ij.page == 3 and $ij.level >= 6}
         <category name="{msg meaning="Turtle.catVariables" desc="TODO"}Variables{/msg}">
+          {if $ij.level >= 9}
+            <block type="variables_get_counter"></block>
+          {/if}
           <block type="variables_get_length"></block>
         </category>
       {/if}

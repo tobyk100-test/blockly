@@ -453,6 +453,7 @@ Blockly.Language.draw_colour = {
         .appendTitle(BlocklyApps.getMsg('setColour'));
     this.setPreviousStatement(true);
     this.setNextStatement(true);
+    this.setInputsInline(true);
     this.setTooltip(BlocklyApps.getMsg('colourTooltip'));
   }
 };
