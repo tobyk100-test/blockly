@@ -1,7 +1,7 @@
 {
     "@metadata": {
         "author": "Ellen Spertus <ellen.spertus@gmail.com>",
-        "lastupdated": "2013-08-05 16:41:28.763885",
+        "lastupdated": "2013-08-13 10:39:58.079594",
         "locale": "en",
         "messagedocumentation" : "qqq"
     },
@@ -35,7 +35,7 @@
     "Apps.linkAlert": "Share your blocks with this link:\n\n%1",
     "Apps.hashError": "Sorry, '%1' doesn't correspond with any saved Blockly file.",
     "Apps.xmlError": "Could not load your saved file.  Perhaps it was created with a different version of Blockly?",
-    "Apps.blocklyMessage": "Blockly",
+    "Apps.projectMessage": "CS First",
     "Maze.maze": "Maze",
     "Maze.finalLevelMsg": "Congratulations! You have solved the final level.",
     "BlocklyApps.emptyBlocksErrorMsg": "Remove unused empty blocks.",
@@ -49,13 +49,12 @@
     "Maze.reinfMsg6": "Repeat blocks allow me to do an action multiple times without additional blocks. 'if' blocks allow me to do an action based on my surroundings.",
     "Maze.reinfMsg8": "Here is an 'if-else' block: I move forward if there is a path ahead, but I turn left if not.",
     "Maze.reinfMsg9": "Will the blocks below move me to the red marker?",
-    "Maze.dirN": " N",
-    "Maze.dirE": " E",
-    "Maze.dirS": " S",
-    "Maze.dirW": " W",
-    "Maze.ok": "OK",
-    "Maze.yes": " Yes",
-    "Maze.no": " No",
+    "Maze.dirN": "N",
+    "Maze.dirE": "E",
+    "Maze.dirS": "S",
+    "Maze.dirW": "W",
+    "Maze.yes": "Yes",
+    "Maze.no": "No",
     "Maze.tryAgain": "Try again",
     "Maze.continue": "Continue",
     "Maze.instructions1": "A program is a sequence of statements. Stack a couple of 'move forward' blocks together to help me reach the goal.",
@@ -70,6 +69,6 @@
     "Maze.instructions10": "Use the 'if-else' block to help me get out of the maze!",
     "Maze.codeTooltip": "See generated JavaScript code.",
     "Maze.linkTooltip": "Save and link to blocks.",
-    "Maze.runProgram": " Run Program",
-    "Maze.resetProgram": " Reset"
+    "Maze.runProgram": "Run",
+    "Maze.resetProgram": "Reset"
 }
