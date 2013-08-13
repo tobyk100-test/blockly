@@ -47,6 +47,7 @@ html[dir="RTL"] .farSide {
 }
 #blockly {
   position: absolute;
+  box-shadow: 7px 7px 10px #888;
 }
 #visualization {
   position: relative;
@@ -96,7 +97,7 @@ html[dir="RTL"] .farSide {
   background-color: #fff;
   color: #000;
   border: 1px solid #000;
-  min-width: 380px;
+  max-width: 600px;
   position: absolute;
   left: 2.5em;
   top: 5em;
@@ -105,6 +106,14 @@ html[dir="RTL"] .farSide {
   box-shadow: 5px 5px 5px #888;
   padding: 10px;
 }
+#levelFeedbackText {
+  border: 0;
+  text-align: center;
+  overflow: hidden;
+  font-size: 16pt;
+  font-family: Arial;
+  margin: 30px 10px;
+}
 #pegman_bubble {
   position: relative;
   top: -1px;
@@ -112,17 +121,15 @@ html[dir="RTL"] .farSide {
   margin-right: 20px;
 }
 #reinfbubble {
-  width: 385px;
+  width: 435px;
   padding: 7px;
   border: 1px solid #CCB;
   border-radius: 15px;
   background-color: #ff7;
+  display: block;
 }
 #reinfmsg {
   font-weight: bold;
-}
-#reinfDone {
-  display: none;
 }
 #shadow {
   display: none;
@@ -184,8 +191,10 @@ button:hover, .buttonHover {
 button>img {
   opacity: 0.6;
 }
-button.disabled {
-  visibility: hidden;
+button:disabled, button[disabled=disabled] {
+  border: 1px solid #C7C7C7;
+  background-color: #C7C7C7;
+  box-shadow: none;
 }
 input[type="radio"] {
   margin-left: 40px;
@@ -245,6 +254,9 @@ html[dir="RTL"] #pegmanButton>img {
 }
 html[dir="RTL"] #pegmanButton>span {
   margin-right: -15px;
+}
+#svgMaze {
+  border: solid 1px #BEBEBE;
 }
 #pegmanMenu {
   border: 1px solid #ddd;

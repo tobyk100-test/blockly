@@ -67,9 +67,10 @@ BlocklyApps.idealBlockNum = [undefined, //  0.
 
 // Blocks that are expected to be used on each level.
 BlocklyApps.requiredBlocks = [undefined, // 0.
-  ['moveForward'], , ['moveForward', 'while'], ['while'],
-  ['if', 'while'], ['if', 'while'], ['if', 'while'], ['if', 'while'],
-  ['if', 'while'], ['if', 'while']][BlocklyApps.LEVEL];
+  ['moveForward'], ['moveForward', 'turn'], ['moveForward', 'while'],
+  ['while', 'turn'], ['if', 'turn', 'while'], ['if', 'turn', 'while'],
+  ['if', 'turn', 'while'], ['if', 'turn', 'while'], ['if', 'turn', 'while'],
+  ['else', 'while']][BlocklyApps.LEVEL];
 
 Maze.SKINS = [
   // sprite: A 1029x51 set of 21 avatar images.
@@ -677,7 +678,7 @@ Maze.execute = function() {
   BlocklyApps.log = [];
   BlocklyApps.ticks = 1000;
   var code = Blockly.Generator.workspaceToCode('JavaScript');
-  var result = Maze.ResultType.UNSET;
+  BlocklyApps.result = Maze.ResultType.UNSET;
 
   // Try running the user's code.  There are four possible outcomes:
   // 1. If pegman reaches the finish [SUCCESS], true is thrown.
@@ -688,29 +689,41 @@ Maze.execute = function() {
   //    no error or exception is thrown.
   try {
     eval(code);
-    result = Maze.ResultType.FAILURE;
+    BlocklyApps.result = Maze.ResultType.FAILURE;
   } catch (e) {
     // A boolean is thrown for normal termination.
     // Abnormal termination is a user error.
     if (e === Infinity) {
-      result = Maze.ResultType.TIMEOUT;
+      BlocklyApps.result = Maze.ResultType.TIMEOUT;
     } else if (e === true) {
-      result = Maze.ResultType.SUCCESS;
+      BlocklyApps.result = Maze.ResultType.SUCCESS;
     } else if (e === false) {
-      result = Maze.ResultType.ERROR;
+      BlocklyApps.result = Maze.ResultType.ERROR;
     } else {
       // Syntax error, can't happen.
-      result = Maze.ResultType.ERROR;
+      BlocklyApps.result = Maze.ResultType.ERROR;
       alert(e);
     }
   }
 
   // Report result to server.
-  BlocklyApps.report('maze', BlocklyApps.LEVEL_ID, BlocklyApps.LEVEL, result,
-              BlocklyApps.stripCode(code));
+  BlocklyApps.report('maze', BlocklyApps.LEVEL_ID, BlocklyApps.LEVEL,
+                     BlocklyApps.result, BlocklyApps.stripCode(code));
 
-  // Fast animation if execution is successful.  Slow otherwise.
-  Maze.stepSpeed = (result == Maze.ResultType.SUCCESS) ? 100 : 150;
+  /**
+  * Fast animation if execution is successful.  Slow otherwise.
+  */
+  var successfulSpeed;
+  var level = BlocklyApps.Level;
+  if (level <= 3) {
+    successfulSpeed = 100;
+  } else if (level <= 5) {
+    successfulSpeed = 80;
+  } else {
+    successfulSpeed = 60;
+  }
+  Maze.stepSpeed = (BlocklyApps.result == Maze.ResultType.SUCCESS) ?
+      successfulSpeed : 150;
 
   // BlocklyApps.log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
@@ -728,8 +741,12 @@ Maze.animate = function() {
   var action = BlocklyApps.log.shift();
   if (!action) {
     BlocklyApps.highlight(null);
+    BlocklyApps.levelComplete = (BlocklyApps.result == Maze.ResultType.SUCCESS);
+    BlocklyApps.attempts++;
+    window.setTimeout(Maze.displayFeedback, 1000);
     return;
   }
+
   BlocklyApps.highlight(action[1]);
 
   switch (action[0]) {
@@ -783,7 +800,6 @@ Maze.animate = function() {
       break;
     case 'finish':
       Maze.scheduleFinish(true);
-      window.setTimeout(Maze.runTestsAndDisplayFeedback, 1000);
   }
 
   Maze.pidList.push(window.setTimeout(Maze.animate, Maze.stepSpeed * 5));
@@ -792,8 +808,8 @@ Maze.animate = function() {
 /**
  * Display feedback based on test results.
  */
-Maze.runTestsAndDisplayFeedback = function() {
-  var feedbackType = BlocklyApps.setErrorFeedbackBasedOnTestResults();
+Maze.displayFeedback = function() {
+  var feedbackType = BlocklyApps.runTestsAndSetErrorFeedback();
   BlocklyApps.showDialogAndFeedback(feedbackType);
 };
 
