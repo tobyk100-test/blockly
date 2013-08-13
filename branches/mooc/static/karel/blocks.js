@@ -106,7 +106,6 @@ Blockly.JavaScript.maze_turn = function() {
   return 'Maze.' + dir + '(\'block_id_' + this.id + '\');\n';
 };
 
-
 Blockly.Language.maze_if = {
   // Block for 'if' conditional if there is a path.
   helpUrl: '',
@@ -176,8 +175,7 @@ Blockly.JavaScript.maze_ifElse = function() {
 Blockly.Language.maze_ifElse.DIRECTIONS =
     Blockly.Language.maze_if.DIRECTIONS;
 
-Blockly.Language.maze_forever = {
-  // Do forever loop.
+Blockly.Language.maze_untilBlocked = {
   helpUrl: 'http://code.google.com/p/blockly/wiki/Repeat',
   init: function() {
     this.setColour(120);
@@ -185,17 +183,60 @@ Blockly.Language.maze_forever = {
         .appendTitle(BlocklyApps.getMsg('repeatUntil'));
     this.appendStatementInput('DO').appendTitle(BlocklyApps.getMsg('doCode'));
     this.setPreviousStatement(true);
+    this.setNextStatement(true);
     this.setTooltip(BlocklyApps.getMsg('whileTooltip'));
   }
 };
 
 
-Blockly.JavaScript.maze_forever = function() {
-  // Generate JavaScript for do forever loop.
+Blockly.JavaScript.maze_untilBlocked = function() {
   var branch = Blockly.JavaScript.statementToCode(this, 'DO');
-  if (Blockly.JavaScript.INFINITE_LOOP_TRAP) {
-    branch = Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(/%1/g,
-        '\'block_id_' + this.id + '\'') + branch;
+  return 'while (Maze.isPathForward()) {\n' + branch + '}\n';
+};
+
+Blockly.Language.maze_putDown5 = {
+  init: function() {
+    this.setColour(210);
+    this.appendDummyInput()
+        .appendTitle(BlocklyApps.getMsg('putDown5'));
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
   }
-  return 'while (true) {\n' + branch + '}\n';
+};
+
+Blockly.JavaScript.maze_putDown5 = function() {
+  return 'for (var i = 0; i < 5; i++) {\n' +
+    Blockly.JavaScript.maze_putDownBall() + '\n}\n';
+};
+
+Blockly.Language.maze_pickupTower = {
+  init: function() {
+    this.setColour(210);
+    this.appendDummyInput()
+        .appendTitle(BlocklyApps.getMsg('pickupTower'));
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+  }
+};
+
+Blockly.JavaScript.maze_pickupTower = function() {
+  return 'for (var i = 0; i < 3; i++) {\n' +
+    Blockly.JavaScript.maze_pickUpBall() + ';\n' +
+    Blockly.JavaScript.maze_moveForward() + '\n}\n';
+};
+
+Blockly.Language.maze_putdownTower = {
+  init: function() {
+    this.setColour(210);
+    this.appendDummyInput()
+        .appendTitle(BlocklyApps.getMsg('putdownTower'));
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+  }
+};
+
+Blockly.JavaScript.maze_putdownTower = function() {
+  return 'for (var i = 0; i < 3; i++) {\n' +
+    Blockly.JavaScript.maze_putDownBall() + ';\n' +
+    Blockly.JavaScript.maze_moveForward() + '\n}\n';
 };
