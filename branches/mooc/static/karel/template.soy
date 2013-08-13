@@ -32,8 +32,6 @@
       imperative or infinitive for a person putting down a ball."}put down ball{/msg}</span>    
     <span id="pickUpBall">{msg meaning="Maze.pickUpBall" desc="verb -
       imperative or infinitive for a person picking up a ball."}pick up ball{/msg}</span>    
-    <span id="while">{msg meaning="Maze.while" desc="condensed form of 'while
-      something is true'"}while{/msg}</span>
     <span id="ballsPresent">{msg meaning="Maze.ballsPresent" desc="Indicates
       the presence of at least one ball, as in 'he brought a ball, there
       are now balls present'"}balls present{/msg}</span>
@@ -63,7 +61,7 @@
       'if there is a path to the right', as in: 'if path to the right, turn
       right'."}path to the right{/msg}</span>
     <span id="noPathAhead">{msg meaning="Maze.noPathAhead" desc="condensed form of
-      'if there is a no path ahead', as in: 'if no path ahead, go forward'."}no path ahead{/msg}</span>
+      'if there is a no path ahead', as in: 'if no path ahead, go forward'."}path is blocked{/msg}</span>
     <span id="noPathLeft">{msg meaning="Maze.noPathLeft" desc="condensed form of 'if
       there is a no path to the left', as in: 'if no path to the left, turn left'."}no path to the left{/msg}</span>
     <span id="noPathRight">{msg meaning="Maze.noPathRight" desc="condensed form of
@@ -71,7 +69,7 @@
       right'."}no path to the right{/msg}</span>
     <span id="repeatUntil">{msg meaning="Maze.repeatUntil" desc="verb -
       imperative or infinitive to repeat the following commands.  The phrase is
-      followed by the symbol denoting the end of the maze."}repeat until{/msg}</span>
+      followed by the symbol denoting the end of the maze."}repeat until path is blocked{/msg}</span>
     <span id="moveForwardTooltip">{msg meaning="Maze.moveForwardTooltip"
       desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.
       See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).
@@ -613,36 +611,34 @@
     <block type="maze_moveForward"></block>
     <block type="maze_turn"><title name="DIR">turnLeft</title></block>
     <block type="maze_turn"><title name="DIR">turnRight</title></block>
-    // Nan's
-    <block type="maze_putDownBall"></block>
     <block type="maze_pickUpBall"></block>
-    <block type="maze_while"></block>
-    <block type="controls_for">
-      <value name="FROM">
-        <block type="math_number">
-          <title name="NUM">1</title>
-        </block>
-      </value>
-      <value name="TO">
-        <block type="math_number">
-          <title name="NUM">10</title>
-        </block>
-      </value>
-      <value name="BY">
-        <block type="math_number">
-          <title name="NUM">1</title>
-        </block>
-      </value>
-    </block>
-    <block type="math_number"></block>
-    {if $ij.level > 2}
-      <block type="maze_forever"></block>
-      {if $ij.level == 6}
-        <block type="maze_if"><title name="DIR">isPathLeft</title></block>
-      {elseif $ij.level > 6}
-        <block type="maze_if"></block>
-        {if $ij.level > 9}
-          <block type="maze_ifElse"></block>
+    {if $ij.level > 1}
+      <block type="maze_putDownBall"></block>
+      {if $ij.level > 2}
+        <block type="maze_forever"></block>
+        {if $ij.level > 3}
+          <block type="maze_putDownBall"></block>
+          {if $ij.level > 4}
+            {if $ij.level > 5}
+              <block type="controls_for">
+                <value name="FROM">
+                  <block type="math_number">
+                    <title name="NUM">1</title>
+                  </block>
+                </value>
+                <value name="TO">
+                  <block type="math_number">
+                    <title name="NUM">10</title>
+                  </block>
+                </value>
+                <value name="BY">
+                  <block type="math_number">
+                    <title name="NUM">1</title>
+                  </block>
+                </value>
+              </block>
+            {/if}
+          {/if}
         {/if}
       {/if}
     {/if}
