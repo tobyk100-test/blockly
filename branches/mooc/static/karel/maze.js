@@ -83,8 +83,7 @@ Maze.SKINS = [
     background: false,
     graph: false,
     look: '#000',
-    ball: 'check.png',
-    finish_ball: 'dotted_check.png'
+    ball: 'check.png'
   },
   {
     sprite: 'astro.png',
@@ -94,8 +93,7 @@ Maze.SKINS = [
     // Coma star cluster, photo by George Hatfield, used with permission.
     graph: false,
     look: '#fff',
-    ball: 'check.png',
-    finish_ball: 'dotted_check.png'
+    ball: 'check.png'
   },
   {
     sprite: 'panda.png',
@@ -105,8 +103,7 @@ Maze.SKINS = [
     // Spring canopy, photo by Rupert Fleetingly, CC licensed for reuse.
     graph: false,
     look: '#000',
-    ball: 'check.png',
-    finish_ball: 'dotted_check.png'
+    ball: 'check.png'
   }
 ];
 Maze.SKIN_ID = BlocklyApps.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
@@ -312,7 +309,7 @@ Maze.init_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
+  [0, -2, 0, 0, 0, 0, 0, 0]],
 // Level 3.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -330,7 +327,7 @@ Maze.init_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
+  [-1, -1, -1, -1, -1, -1, -1, -1]],
 // Level 5.
 /**
  * Note, the path continues past the start and the goal in both directions.
@@ -363,7 +360,7 @@ Maze.init_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
+  [0, -5, -5, -5, -5, -5, -5, -5]],
 // Level 8.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -390,7 +387,7 @@ Maze.init_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
+  [0, -5, 0, 0, 0, 0, 0, 0]],
 // Level 11.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -399,16 +396,16 @@ Maze.init_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
+  [0, -5, -5, -5, -5, -5, -5, -5]],
 // Level 12.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]],
+  [0, 0, 0, -7, 0, 0, 0, 0],
+  [0, 0, -7, 0, 0, 0, 0, 0],
+  [0, -7, 0, 0, 0, 0, 0, 0],
+  [-7, 0, 0, 0, 0, 0, 0, 0]],
 // Level 13.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -424,9 +421,9 @@ Maze.init_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0]],
+  [1, 0, 0, 0, 0, 0, 0, -1],
+  [1, 0, 0, 0, 0, 0, 0, -1],
+  [1, 0, 0, 0, 0, 0, 0, -1]],
 // Level 15.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -471,7 +468,7 @@ Maze.finish_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 2, 0, 0, 0, 0, 0, 0]],
+  [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 3.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -489,7 +486,7 @@ Maze.finish_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 1, 1, 1, 1]],
+  [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 5.
 /**
  * Note, the path continues past the start and the goal in both directions.
@@ -522,7 +519,7 @@ Maze.finish_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 5, 5, 5, 5, 5, 5, 5]],
+  [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 8.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -549,7 +546,7 @@ Maze.finish_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 5, 0, 0, 0, 0, 0, 0]],
+  [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 11.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -558,16 +555,16 @@ Maze.finish_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 5, 5, 5, 5, 5, 5, 5]],
+  [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 12.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 7, 0, 0, 0, 0, 0],
-  [0, 7, 0, 0, 0, 0, 0, 0],
-  [7, 0, 0, 0, 0, 0, 0, 0]],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 13.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -583,9 +580,9 @@ Maze.finish_ball_map = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 0, 1],
-  [0, 0, 0, 0, 0, 0, 0, 1]],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 15.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -808,22 +805,22 @@ Maze.drawMap = function() {
 
   
   // Move the finish ball marker icons into position.
-  var ballId = 0;
+  /* var ballId = 0;
   for (var y = 0; y < Maze.ROWS; y++) {
     for (var x = 0; x < Maze.COLS; x++) {
-  if (Maze.finish_ball_map[y][x] > 0 ) {
-      var ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
-      ballIcon.setAttribute('id', 'finish_ball' + ballId);
-      ballIcon.setAttributeNS(
-    'http://www.w3.org/1999/xlink', 'xlink:href',
-    Maze.finish_ball_map[y][x] + Maze.SKIN.finish_ball);
-      ballIcon.setAttribute('height', 34);
-      ballIcon.setAttribute('width', 20);
-      svg.appendChild(ballIcon);
-  }
-  ++ballId;
+      if (Maze.finish_ball_map[y][x] > 0 ) {
+        var ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
+        ballIcon.setAttribute('id', 'finish_ball' + ballId);
+        ballIcon.setAttributeNS(
+          'http://www.w3.org/1999/xlink', 'xlink:href',
+          Maze.finish_ball_map[y][x] + Maze.SKIN.finish_ball);
+        ballIcon.setAttribute('height', 34);
+        ballIcon.setAttribute('width', 20);
+        svg.appendChild(ballIcon);
+      }
+      ++ballId;
     }
-  }
+  } */
 
   // Pegman's clipPath element, whose (x, y) is reset by Maze.displayPegman
   var pegmanClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
@@ -1056,7 +1053,7 @@ Maze.reset = function(first) {
   for (var y = 0; y < Maze.ROWS; y++) {
     for (var x = 0; x < Maze.COLS; x++) {
       Maze.balls_[y][x] = Maze.init_ball_map[y][x];
-        if (Maze.balls_[y][x] > 0 ) {
+        if (Maze.balls_[y][x] != 0 ) {
           var ballIcon = document.getElementById('ball' + ballId);
           if (ballIcon == null) {
             // If the original ballIcon has been removed, recreate it.
@@ -1074,33 +1071,38 @@ Maze.reset = function(first) {
                                 ballIcon.getAttribute('width') / 2);
           ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
                                 ballIcon.getAttribute('height'));
-        } else {
+        } else if (Maze.balls_[y][x] == 0) {
           // Remove the ballIcon created during execution
           var ballIcon = document.getElementById('ball' + ballId);
           if (ballIcon != null) {
             var svg = document.getElementById('svgMaze');
             svg.removeChild(ballIcon);
+          }
+          ballIcon = document.getElementById('finish_ball' + ballId);
+          if (ballIcon != null) {
+            var svg = document.getElementById('svgMaze');
+            svg.removeChild(ballIcon);
+          }
         }
-      }
       ++ballId;
     }
   }
 
   // Nan's
   // Move the finish ball marker icons into position.
-  var ballId = 0;
+  /* var ballId = 0;
   for (var y = 0; y < Maze.ROWS; y++) {
     for (var x = 0; x < Maze.COLS; x++) {
-  if (Maze.finish_ball_map[y][x] > 0) {
-      var ballIcon = document.getElementById('finish_ball' + ballId);
-      ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
-          ballIcon.getAttribute('width') / 2);
-      ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
-          ballIcon.getAttribute('height'));
-  }
-  ++ballId;
+      if (Maze.finish_ball_map[y][x] > 0) {
+        var ballIcon = document.getElementById('finish_ball' + ballId);
+        ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
+                              ballIcon.getAttribute('width') / 2);
+        ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
+                              ballIcon.getAttribute('height'));
+      }
+      ++ballId;
     }
-  }
+  } */
 
 };
 
@@ -1432,51 +1434,76 @@ Maze.schedulePutDownBall = function() {
   var y = Maze.pegmanY;
   var ballId = x + Maze.COLS * y;
   var ballIcon;
-  if (Maze.balls_[y][x] > 0) {
-      // There is already a ball at the position
-      ballIcon = document.getElementById('ball' + ballId);
-  } else {
-      // If not, create a new ballIcont for the current location
-      var svg = document.getElementById('svgMaze');
-      ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
-      ballIcon.setAttribute('id', 'ball' + ballId);
-      ballIcon.setAttribute('height', 34);
-      ballIcon.setAttribute('width', 20);
-      svg.appendChild(ballIcon);
-  }
+  if (Maze.balls_[y][x] < -1 || Maze.balls_[y][x] > 0) {
+    // There is already a ball at the position
+    ballIcon = document.getElementById('ball' + ballId);
     ++Maze.balls_[y][x];
     ballIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-             Maze.balls_[y][x] + Maze.SKIN.ball);
+                            Maze.balls_[y][x] + Maze.SKIN.ball);
     ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
-        ballIcon.getAttribute('width') / 2);
+                          ballIcon.getAttribute('width') / 2);
     ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
-        ballIcon.getAttribute('height'));
+                          ballIcon.getAttribute('height'));
+  } else if (Maze.balls_[y][x] == 0) {
+    // If not, create a new ballIcon for the current location
+    var svg = document.getElementById('svgMaze');
+    ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
+    ballIcon.setAttribute('id', 'ball' + ballId);
+    ballIcon.setAttribute('height', 34);
+    ballIcon.setAttribute('width', 20);
+    svg.appendChild(ballIcon);
 
+    ++Maze.balls_[y][x];
+    ballIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+                            Maze.balls_[y][x] + Maze.SKIN.ball);
+    ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
+                          ballIcon.getAttribute('width') / 2);
+    ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
+                          ballIcon.getAttribute('height'));
+  } else if (Maze.balls_[y][x] == -1) {
+    // Remove the ballIcon
+    ballIcon = document.getElementById('ball' + ballId);
+    var svg = document.getElementById('svgMaze')
+    svg.removeChild(ballIcon);
+     ++Maze.balls_[y][x];
+  }
 };
 
 // Nan's
 Maze.schedulePickUpBall = function() {
-    var x = Maze.pegmanX;
-    var y = Maze.pegmanY;
-    var ballId = x + Maze.COLS * y;
-    var ballIcon;
-    if (Maze.balls_[y][x] > 1) {
-  // The ballIcon should still exist after picking up a ball
-  Maze.balls_[y][x] = Maze.balls_[y][x] - 1;
-  ballIcon = document.getElementById('ball' + ballId);
-  ballIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-             Maze.balls_[y][x] + Maze.SKIN.ball);
-    } else if (Maze.balls_[y][x] == 1) {
-  // Need to remove this ballIcon
-  ballIcon = document.getElementById('ball' + ballId);
-  var svg = document.getElementById('svgMaze');
-  svg.removeChild(ballIcon);
-  Maze.balls_[y][x] = Maze.balls_[y][x] - 1;
-    } else {
-  // TODO: Throw an error
-  console.log(
-      'Picking up a ball at [' + y + ',' + x + '] while there is none.');
-    }
+  var x = Maze.pegmanX;
+  var y = Maze.pegmanY;
+  var ballId = x + Maze.COLS * y;
+  var ballIcon;
+  if (Maze.balls_[y][x] > 1 || Maze.balls_[y][x] < 0) {
+    // The ballIcon should still exist after picking up a ball
+    Maze.balls_[y][x] = Maze.balls_[y][x] - 1;
+    ballIcon = document.getElementById('ball' + ballId);
+    ballIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+                            Maze.balls_[y][x] + Maze.SKIN.ball);
+  } else if (Maze.balls_[y][x] == 0) {
+    // Create ballIcon
+    Maze.balls_[y][x] = Maze.balls_[y][x] - 1;
+    var svg = document.getElementById('svgMaze');
+    ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
+    ballIcon.setAttribute('id', 'ball' + ballId);
+    ballIcon.setAttribute('height', 34);
+    ballIcon.setAttribute('width', 20);
+    svg.appendChild(ballIcon);
+
+    ballIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+                            Maze.balls_[y][x] + Maze.SKIN.ball);
+    ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
+                          ballIcon.getAttribute('width') / 2);
+    ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
+                          ballIcon.getAttribute('height'));
+  } else if (Maze.balls_[y][x] == 1) {
+    // Need to remove this ballIcon
+    ballIcon = document.getElementById('ball' + ballId);
+    var svg = document.getElementById('svgMaze');
+    svg.removeChild(ballIcon);
+    Maze.balls_[y][x] = Maze.balls_[y][x] - 1;
+  }
 };
 
 /**
