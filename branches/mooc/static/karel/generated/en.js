@@ -126,7 +126,6 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
     case 9:
       break;
     case 10:
-      output += '<block type="procedures_defnoreturn" x="20" y="200"><title name="NAME">dump 5 shovelfuls</title>' + mazepage.controlsFor(null, null, opt_ijData) + '</block>';
       break;
     case 11:
       break;
