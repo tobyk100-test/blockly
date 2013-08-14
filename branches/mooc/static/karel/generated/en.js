@@ -93,7 +93,7 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
 
 
 mazepage.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<xml id="toolbox" style="display: none;"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block>' + ((opt_ijData.level > 1) ? '<block type="maze_putDownBall"></block>' + ((opt_ijData.level > 2) ? '<block type="maze_untilBlocked"></block>' + ((opt_ijData.level > 5) ? '<block type="controls_for"><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">10</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value></block>' + ((opt_ijData.level > 8) ? '<block type="maze_if"></block>' + ((opt_ijData.level > 9) ? ((opt_ijData.level == 14) ? '' : '') + ((opt_ijData.level > 14) ? '<block type="procedures_defnoreturn"></block><block type="procedures_callnoreturn"></block>' : '') : '') : '') : '') : '') : '') + '</xml>';
+  return '<xml id="toolbox" style="display: none;"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block>' + ((opt_ijData.level > 1) ? '<block type="maze_putDownBall"></block>' + ((opt_ijData.level > 2) ? '<block type="maze_untilBlocked"></block>' + ((opt_ijData.level > 5) ? mazepage.controlsFor(null, null, opt_ijData) + ((opt_ijData.level > 8) ? '<block type="maze_if"></block>' + ((opt_ijData.level > 9) ? ((opt_ijData.level == 14) ? '' : '') + ((opt_ijData.level > 14) ? '<block type="procedures_defnoreturn"></block><block type="procedures_callnoreturn"></block>' : '') : '') : '') : '') : '') : '') + '</xml>';
 };
 
 
@@ -143,4 +143,9 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
       break;
   }
   return output;
+};
+
+
+mazepage.controlsFor = function(opt_data, opt_ignored, opt_ijData) {
+  return '<block type="controls_for"><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">10</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value></block>';
 };
