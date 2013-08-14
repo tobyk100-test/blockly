@@ -913,12 +913,7 @@ Maze.init = function() {
     });
   window.addEventListener('resize', onresize);
   onresize();
-
-  var defaultXml =
-      '<xml>' +
-      '  <block type="maze_moveForward" x="70" y="70"></block>' +
-      '</xml>';
-  BlocklyApps.loadBlocks(defaultXml);
+  Blockly.svgResize();
 
   // Locate the start and finish squares.
   for (var y = 0; y < Maze.ROWS; y++) {
@@ -929,8 +924,8 @@ Maze.init = function() {
         Maze.finish_ = {x: x, y: y};
       // Nan's
       } else if (Maze.map[y][x] == Maze.SquareType.STARTANDFINISH) {
-	      Maze.start_ = {x: x, y: y};
-	      Maze.finish_ = {x: x, y: y};
+        Maze.start_ = {x: x, y: y};
+        Maze.finish_ = {x: x, y: y};
       }
     }
   }
@@ -944,7 +939,11 @@ Maze.init = function() {
       Maze.balls_[y][x] = Maze.init_ball_map[y][x];
     }
   }
-  
+
+  var xml = document.getElementById('start_blocks').innerHTML;
+  xml = '<xml>' + xml + '</xml>';
+  BlocklyApps.loadBlocks(xml);
+
   Maze.reset(true);
   Blockly.addChangeListener(function() {BlocklyApps.updateCapacity()});
 };
