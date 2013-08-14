@@ -469,8 +469,8 @@ BlocklyApps.getMsgOrNull = function(key) {
 
 BlocklyApps.USER = BlocklyApps.getStringParamFromUrl('user', '0');
 
-BlocklyApps.REPORT_URL = 'http://patrick-code-org.herokuapp.com/user/' +
-    BlocklyApps.USER;
+BlocklyApps.REPORT_URL = BlocklyApps.getStringParamFromUrl('callback',
+    '/report');
 
 /**
  * Report back to the server, if available.
