@@ -119,7 +119,7 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
       output += '<block type="maze_moveForward" x="70" y="70"></block>';
       break;
     case 7:
-      output += '<block type="maze_untilBlocked" x="70" y="70"></block>';
+      output += '<block type="maze_untilBlocked" x="70" y="70"></block>' + mazepage.fillFiveShovelfuls(null, null, opt_ijData);
       break;
     case 8:
       break;
@@ -144,6 +144,12 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
 };
 
 
+mazepage.fillFiveShovelfuls = function(opt_data, opt_ignored, opt_ijData) {
+  return '<block type="procedures_defnoreturn" x="20" y="200"><title name="NAME">Fill five shovelfuls</title><statement name="STACK">' + mazepage.controlsFor({doStatement: '<block type="maze_putDownBall"></block>'}, null, opt_ijData) + '</statement></block>';
+};
+
+
 mazepage.controlsFor = function(opt_data, opt_ignored, opt_ijData) {
-  return '<block type="controls_for"><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">10</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value></block>';
+  opt_data = opt_data || {};
+  return '<block type="controls_for"><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">10</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value>' + ((opt_data.doStatement) ? '<statement name="DO">' + opt_data.doStatement + '</statement>' : '') + '</block>';
 };
