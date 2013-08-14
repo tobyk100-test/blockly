@@ -1,27 +1,65 @@
 body {
   background-color: white;
   font-family: sans-serif;
+  margin-top: 0;
 }
 h1 {
   font-weight: normal;
   font-size: 140%;
 }
+a:hover {
+  color: #f00;
+}
+
+/* Levels */
 .tab {
-  padding: 4px 10px 1px;
-  text-decoration: none;
-}
-.levelLine {
-  border-bottom: solid 1px #ddd;
-}
-#selected {
   font-weight: bold;
-  background-color: #eee;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  padding: 6px 12px;
+  text-decoration: none;
+  color: #000;
+}
+.previous {
+  color: #0DA38A;
+}
+.selected {
+  color: white;
+  border-radius: 20px;
+  border: 0;
+  background: #0DA38A;
+}
+.doubleDigit {
+  padding: 8px 8px;
+  margin-left: 4px;
+}
+.singleDigit {
+  padding: 6px 12px;
+}
+
+/* Instructions. */
+#bubble {
+  width: 385px;
+  padding: 7px;
+  border: 1px solid #CCB;
+  border-radius: 15px;
+  background-color: #ff7;
 }
 #prompt {
-  font-style: italic;
+  font-weight: bold;
 }
+
+/**
+ * Interstitials.
+ */
+#hint {
+  padding: 5px 1em;
+  font-size: large;
+}
+img.answer {
+  border:1px solid #000;
+  padding: 5px;
+}
+
+/* Capacity */
 #capacity {
   padding: 15px 1ex 0;
   float: right;
@@ -32,13 +70,6 @@ html[dir=rtl] #capacity {
 #capacityNumber {
   font-weight: bold;
 }
-#bubble {
-  width: 385px;
-  padding: 7px;
-  border: 1px solid #CCB;
-  border-radius: 15px;
-  background-color: #ff7;
-}
 
 /* Buttons */
 button {
@@ -46,35 +77,42 @@ button {
   margin-right: 12px;
   margin-left: 0;
   padding: 10px;
-  font-size: large;
   border-radius: 5px;
   border: 1px solid #ddd;
   background-color: #eee;
-  color: black;
+  font-size: 10%;
+  color: #000;
 }
 button.launch {
-  border: 1px solid #d43;
-  background-color: #d43;
-  color: white;
+  border: 1px solid #0DA38A;
+  background-color: #0DA38A;
+  color: #fff;
+  font-size: large;
+  /* Can't use "text-align: start" due to IE. */
+  text-align: left;
+  min-width: 96px;
+}
+html[dir="RTL"] button.launch {
+  text-align: right;
+}
+button.launch>img {
+  opacity: 1;
+  vertical-align: text-bottom;
 }
 button:active {
   border: 1px solid blue !important;
 }
-button:hover {
+button:hover, .buttonHover {
   box-shadow: 2px 2px 5px #888;
 }
 button>img {
   opacity: 0.6;
 }
-button:hover>img {
-  opacity: 1;
-}
-button.disabled:hover>img {
-  opacity: 0.6;
-}
 button.disabled {
-  display: none;
+  visibility: hidden;
 }
+
+/* Block areas */
 #toolbarDiv {
   text-align: center;
   padding-top: 1em;
@@ -85,9 +123,17 @@ button.disabled {
 #display {
   border: 1px solid #ccc;
 }
-img.answer {
-  border:1px solid #000;
-  padding: 5px;
+
+/* Language */
+#languageMenu {
+  vertical-align: top;
+  margin-top: 12px;
+}
+.farSide {
+  text-align: right;
+}
+html[dir="RTL"] .farSide {
+  text-align: left;
 }
 
 /* Slider. */
@@ -107,15 +153,22 @@ img.answer {
 }
 
 /* Sprited icons. */
-.code {
+.icon21 {
   height: 21px;
   width: 21px;
   background-image: url(icons.png);
-  background-position: -42px 0px;
+}
+.code {
+ background-position: -42px 0px;
 }
 .link {
-  height: 21px;
-  width: 21px;
-  background-image: url(icons.png);
   background-position: -21px 0px;
+}
+.run {
+  background-position: -63px -21px;
+  padding-right: 3px;
+}
+.stop {
+  background-position: -63px 0px;
+  padding-right: 3px;
 }

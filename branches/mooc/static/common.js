@@ -142,7 +142,7 @@ BlocklyApps.loadLanguageScripts = function(languageSrc) {
  * Common startup tasks for all apps.
  */
 BlocklyApps.init = function() {
-  // Set the page title with the content of the H1 title.
+  // Set the page title with the content of the translated title.
   document.title = document.getElementById('title').textContent;
 
   // Set the HTML's language and direction.

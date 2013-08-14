@@ -28,6 +28,16 @@
  */
 var Turtle = {};
 
+// Supported languages.
+BlocklyApps.LANGUAGES = {
+  // Format: ['Language name', 'direction', 'XX_compressed.js']
+  en: ['English', 'ltr', 'en_compressed.js']
+};
+BlocklyApps.LANG = BlocklyApps.getLang();
+
+document.write('<script type="text/javascript" src="generated/' +
+    BlocklyApps.LANG + '.js"></script>\n');
+
 /**
  * Extracts a numeric parameter from the URL.
  * If the parameter is absent or less than min_value, min_value is
@@ -87,10 +97,13 @@ Turtle.init = function() {
   if (Turtle.REINF) {
     return;
   }
+  BlocklyApps.init();
+  // BlocklyApps.init() sets the page title but does not substitute
+  // in the page number.  Do it now.
+  document.title = document.getElementById('title').
+      textContent.replace('%1', Turtle.PAGE);
 
-  // document.dir fails in Mozilla, use document.body.parentNode.dir instead.
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=151407
-  var rtl = document.body.parentNode.dir == 'rtl';
+  var rtl = BlocklyApps.LANGUAGES[BlocklyApps.LANG][1] == 'rtl';
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
       {path: '../',
