@@ -1640,11 +1640,11 @@ Maze.move = function(direction, id) {
   }
   BlocklyApps.log.push([command, id]);
   // Nan's
-  // Maze.checkSuccess();
+  // Maze.checkSuccess(id);
 };
 
 // Nan's
-Maze.checkSuccess = function() {
+Maze.checkSuccess = function(id) {
   console.log('checkSuccess called');
   // if (Maze.pegmanX == Maze.finish_.x && Maze.pegmanY == Maze.finish_.y) {
     // Nan's
@@ -1668,6 +1668,10 @@ Maze.checkSuccess = function() {
         throw true;
     }
   // }
+}
+
+Maze.notFinish = function(id) {
+    return !Maze.checkSuccess(id);
 }
 
 /**
@@ -1735,7 +1739,7 @@ Maze.putDownBall = function(id) {
     var x = Maze.pegmanX;
     var y = Maze.pegmanY;
     Maze.balls_[y][x] = Maze.balls_[y][x] + 1;
-    Maze.checkSuccess();
+    Maze.checkSuccess(id);
 };
 
 /**
@@ -1746,7 +1750,7 @@ Maze.pickUpBall = function(id) {
     var x = Maze.pegmanX;
     var y = Maze.pegmanY;
     Maze.balls_[y][x] = Maze.balls_[y][x] - 1;
-    Maze.checkSuccess();
+    Maze.checkSuccess(id);
 };
 
 /**

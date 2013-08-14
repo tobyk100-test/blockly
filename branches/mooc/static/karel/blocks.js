@@ -175,7 +175,7 @@ Blockly.JavaScript.maze_ifElse = function() {
 Blockly.Language.maze_ifElse.DIRECTIONS =
     Blockly.Language.maze_if.DIRECTIONS;
 
-Blockly.Language.maze_untilBlocked = {
+/* Blockly.Language.maze_untilBlocked = {
   helpUrl: 'http://code.google.com/p/blockly/wiki/Repeat',
   init: function() {
     this.setColour(120);
@@ -186,10 +186,32 @@ Blockly.Language.maze_untilBlocked = {
     this.setNextStatement(true);
     this.setTooltip(BlocklyApps.getMsg('whileTooltip'));
   }
-};
+}; */
 
+Blockly.Language.maze_untilBlocked = {
+  helpUrl: 'http://code.google.com/p/blockly/wiki/Repeat',
+  init: function() {
+    this.setColour(120);
+    this.appendDummyInput()
+        .appendTitle(new Blockly.FieldDropdown(this.DIRECTIONS), 'DIR');
+    this.appendStatementInput('DO').appendTitle(BlocklyApps.getMsg('doCode'));
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(BlocklyApps.getMsg('whileTooltip'));
+  }
+};
 
 Blockly.JavaScript.maze_untilBlocked = function() {
+  var argument = 'Maze.' + this.getTitleValue('DIR')
+      + '(\'block_id_' + this.id + '\')';
   var branch = Blockly.JavaScript.statementToCode(this, 'DO');
-  return 'while (Maze.isPathForward()) {\n' + branch + '}\n';
+  console.log('while (' + argument + ') {\n' + branch + '}\n');
+  return 'while (' + argument + ') {\n' + branch + '}\n';
 };
+
+Blockly.Language.maze_untilBlocked.DIRECTIONS = [
+     [BlocklyApps.getMsg('repeatWhileBallPresents'), 'ballsPresent'],
+     [BlocklyApps.getMsg('repeatUntilBlocked'), 'isPathForward'],
+     [BlocklyApps.getMsg('repeatUntilFinish'), 'notFinish']
+];
+
