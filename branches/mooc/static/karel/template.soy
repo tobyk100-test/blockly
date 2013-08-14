@@ -23,6 +23,9 @@
  * Web page structure.
  */
 {template .start}
+  <div id="start_blocks" style="display:none">
+    {call .startBlocks /}
+  </div>
   <div id="MSG" style="display: none">
     <span id="moveForward">{msg meaning="Maze.moveForward" desc="verb -
       imperative or infinitive for a person moving (walking) in the direction
@@ -640,4 +643,29 @@
       {/if}
     {/if}
   </xml>
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .startBlocks}
+  {switch $ij.level}
+    {case 1}
+      <block type="maze_moveForward" x="70" y="70"></block>
+    {case 2}
+    {case 3}
+    {case 4}
+    {case 5}
+    {case 6}
+    {case 7}
+    {case 8}
+    {case 9}
+    {case 10}
+    {case 11}
+    {case 12}
+    {case 13}
+    {case 14}
+    {case 15}
+    {case 16}
+  {/switch}
 {/template}
