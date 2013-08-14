@@ -1,1 +1,0 @@
-../../zh_tw_compressed.js
