@@ -104,16 +104,22 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
       output += '<block type="maze_moveForward" x="70" y="70"></block>';
       break;
     case 2:
+      output += '<block type="maze_moveForward" x="70" y="70"></block>';
       break;
     case 3:
+      output += '<block type="maze_pickUpBall" x="70" y="70"></block>';
       break;
     case 4:
+      output += '<block type="maze_moveForward" x="70" y="70"></block>';
       break;
     case 5:
+      output += '<block type="maze_moveForward" x="70" y="70"></block>';
       break;
     case 6:
+      output += '<block type="maze_moveForward" x="70" y="70"></block>';
       break;
     case 7:
+      output += '<block type="maze_untilBlocked" x="70" y="70"></block>';
       break;
     case 8:
       break;
