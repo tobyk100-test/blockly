@@ -51,19 +51,19 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
       output += 'Make the miner fill in the row of holes, using as few blocks as possible.';
       break;
     case 5:
-      output += 'Make the miner clear a path, using as few blocks as possible.';
+      output += 'Make the miner dig up the row of piles.';
       break;
     case 6:
-      output += 'Make the miner pick up the mounds of dirt, each one takes 5 shovelfuls of dirt.';
+      output += 'Make the miner dig up 10 shovelfuls of dirt.';
       break;
     case 7:
       output += 'Fill in the row of holes, each hole needs five shovelfuls of dirt.';
       break;
     case 8:
-      output += 'Fill in the square of dirt.';
+      output += 'Dig up the square of mounds.';
       break;
     case 9:
-      output += 'Make the miner fill in the holes.';
+      output += 'Make the miner dig up the mounds.';
       break;
     case 10:
       output += 'Use the function block to make the miner place 5 balls.';
@@ -119,7 +119,7 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
       output += '<block type="maze_moveForward" x="70" y="70"></block>';
       break;
     case 7:
-      output += '<block type="maze_untilBlocked" x="70" y="70"></block>' + mazepage.fillFiveShovelfuls(null, null, opt_ijData);
+      output += '<block type="maze_untilBlocked" x="70" y="70"></block>' + mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
       break;
     case 8:
       output += '<block type="maze_moveForward" x="70" y="70"></block>';
@@ -128,10 +128,13 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
       output += '<block type="maze_untilBlocked" x="70" y="70"></block>';
       break;
     case 10:
+      output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
       break;
     case 11:
+      output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
       break;
     case 12:
+      output += mazepage.fillShovelfuls({shovelfuls: 7}, null, opt_ijData);
       break;
     case 13:
       break;
@@ -146,12 +149,12 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
 };
 
 
-mazepage.fillFiveShovelfuls = function(opt_data, opt_ignored, opt_ijData) {
-  return '<block type="procedures_defnoreturn" x="20" y="200"><title name="NAME">Fill five shovelfuls</title><statement name="STACK">' + mazepage.controlsFor({doStatement: '<block type="maze_putDownBall"></block>'}, null, opt_ijData) + '</statement></block>';
+mazepage.fillShovelfuls = function(opt_data, opt_ignored, opt_ijData) {
+  return '<block type="procedures_defnoreturn" x="20" y="200"><title name="NAME">Fill ' + soy.$$escapeHtml(opt_data.shovelfuls) + ' shovelfuls</title><statement name="STACK">' + mazepage.controlsFor({upperLimit: opt_data.shovelfuls, doStatement: '<block type="maze_putDownBall"></block>'}, null, opt_ijData) + '</statement></block>';
 };
 
 
 mazepage.controlsFor = function(opt_data, opt_ignored, opt_ijData) {
   opt_data = opt_data || {};
-  return '<block type="controls_for"><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">10</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value>' + ((opt_data.doStatement) ? '<statement name="DO">' + opt_data.doStatement + '</statement>' : '') + '</block>';
+  return '<block type="controls_for"><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">' + (opt_data.upperLimit ? opt_data.upperLimit : 10) + '</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value>' + ((opt_data.doStatement) ? '<statement name="DO">' + opt_data.doStatement + '</statement>' : '') + '</block>';
 };
