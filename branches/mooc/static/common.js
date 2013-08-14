@@ -647,5 +647,17 @@ BlocklyApps.displayInterstitialOrCloseModalDialog = function(gotoNext) {
   }
 };
 
+/**
+ * @param {string} videoId A Google Drive video ID.
+ */
+BlocklyApps.addVideoIframeSrc = function(videoId) {
+  var videoIframe = document.getElementById('interstitial')
+      .getElementsByTagName('iframe')[0];
+  if (videoIframe) {
+    var videoUrl = 'https://docs.google.com/file/d/' + videoId + '/preview';
+    videoIframe.src = videoUrl;
+  }
+};
+
 // Add events for touch devices when the window is done loading.
 window.addEventListener('load', BlocklyApps.addTouchEvents, false);

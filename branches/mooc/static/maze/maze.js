@@ -111,6 +111,14 @@ Maze.SKIN_ID = BlocklyApps.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
 Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
 
 /**
+ * Google Drive video id.
+ * 'null' is used since IE8 does not like trailing commas in arrays.
+ */
+Maze.videoId = [undefined, null, '0BybP3F7DhXrUU2FCODdJdXRKVTQ', null,
+    '0BybP3F7DhXrUSFRhMnBGLUVPZTA', null, null, null, null, null,
+    null][BlocklyApps.LEVEL];
+
+/**
  * Milliseconds between each animation frame.
  */
 Maze.stepSpeed;
@@ -715,7 +723,9 @@ Maze.execute = function() {
   */
   var successfulSpeed;
   var level = BlocklyApps.Level;
-  if (level <= 3) {
+  if (level == 1) {
+    successfulSpeed = 150;
+  } else if (level <= 3) {
     successfulSpeed = 100;
   } else if (level <= 5) {
     successfulSpeed = 80;
@@ -1150,4 +1160,14 @@ BlocklyApps.createURLAndOpenNextLevel = function() {
     window.location.host + window.location.pathname +
     '?lang=' + BlocklyApps.LANG + '&level=' + (BlocklyApps.LEVEL + 1) +
     '&skin=' + Maze.SKIN_ID;
+};
+
+/**
+ * Wait until all other resources on the page have finished loading before
+ *     loading the iframe video.
+ */
+window.onload = function() {
+  if (Maze.videoId) {
+    BlocklyApps.addVideoIframeSrc(Maze.videoId);
+  }
 };

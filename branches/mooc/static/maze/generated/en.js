@@ -36,13 +36,13 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
   output += '</span></div><img id="pegman_bubble" height=42 width=55 src="pegman_bubble.png">';
   switch (opt_ijData.level) {
     case 2:
-      output += '<p><img style="margin-left: 110px;" src="repeat_block.png"><br><iframe src="https://docs.google.com/file/d/0BybP3F7DhXrUU2FCODdJdXRKVTQ/preview" width="560" height="315"></iframe>';
+      output += '<p><img style="margin-left: 110px;" src="repeat_block.png"><br><iframe src="" width="560" height="315"></iframe>';
       break;
     case 3:
       output += '<p><img border=2 src="dirs.png" style="margin-right: 10px;"><img src="dirs2.png"><br>';
       break;
     case 4:
-      output += '<p><img style="margin-left: 110px;" src="ifblock.png"><br><iframe src="https://docs.google.com/file/d/0BybP3F7DhXrUSFRhMnBGLUVPZTA/preview" width="560" height="315"></iframe>';
+      output += '<p><img style="margin-left: 110px;" src="ifblock.png"><br><iframe src="" width="560" height="315"></iframe>';
       break;
     case 5:
       output += '<p><img style="margin-top: 10px;" border=2 src="repeat_block2.png"><br>';
