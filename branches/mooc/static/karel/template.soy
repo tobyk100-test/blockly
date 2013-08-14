@@ -464,88 +464,74 @@
             {msg meaning="Maze.instructions3" desc="instructions - 'path'
               refers to a path through a maze, and 'block' refers to a
               child's building block."}Make the miner repeatedly pick up
-              dirt and move forward.{/msg}
+              dirt and move forward, using as few blocks as possible.{/msg}
           {case 4}
             {msg meaning="Maze.instructions4" desc="instructions - the
               word 'steps' refers to instructions in a computer program;
               'path' refers to the path through a maze. See previous
-              description for tense."}Lay down a row of tennis balls using a
-	      while loop.{/msg}
+              description for tense."}Make the miner fill in the row of holes,
+              using as few blocks as possible.
+            {/msg}
           {case 5}
             {msg meaning="Maze.instructions5" desc="instructions - the
               goal is reaching the end point in a maze; 'block' refers
-              to a child's building block."}Pick up the row of tennis balls
-	      using a while loop.{/msg}
+              to a child's building block."}Make the miner clear a path, using
+              as few blocks as possible.{/msg}
           {case 6}
-            {msg meaning="Maze.instructions6" desc="instructions -
+            {msg meaning="Maze.instructions6" desc="instructions
               'turn left' refers to rotating in place a quarter
-              circle counter-clockwise."}There is a stack of 10 tennis balls in
-	      front of karel. Have karel move to the stack, take all of the
-	      tennis balls, and then move one more time. Use a for loop!{/msg}
+              circle counter-clockwise."}Make the miner pick up the mounds of
+              dirt, each one takes 5 shovelfuls of dirt.{/msg}
           {case 7}
             {msg meaning="Maze.instructions7" desc="instructions -
               an example of an 'if' block is: 'if there is a path to
-              the left, turn left'."}Lay down a row of tennis balls using a
-	      while loop. At each position, put down a stack of 5 balls.{/msg}
+              the left, turn left'."}Fill in the row of holes, each hole needs
+              five shovelfuls of dirt.{/msg}
           {case 8}
             {msg meaning="Maze.instructions8" desc="instructions -
-              'blocks' refers to a child's building blocks"}Try to lay down a
-	      square of tennis balls using a for loop.{/msg}
+              'blocks' refers to a child's building blocks"}Fill in the square
+              of dirt.{/msg}
           {case 9}
             {msg meaning="Maze.instructions9" desc="instructions - an
               example of an 'if' block is: 'if there is a path to the
-              left, turn left'."}Let Karel move to the end of the path, and pick
-	      up balls on the road. If there is a ball in the first spot, pick
-	      up the ball, and move once. Otherwise, simply
-	      move once.{/msg}
+              left, turn left'."}Make the miner fill in the holes.{/msg}
           {case 10}
             {msg meaning="Maze.instructions10" desc="instructions - 'block'
-              refers to a child's building block."}You are given a new block
-	      that lets Karel put down 5 balls. It is definition is shown in the
-	      workspace. Don't delete it! Try using the new block to let Karel
-	      put down 5 balls, and move to the destination.{/msg}
+              refers to a child's building block."}Use the function block to
+              make the miner place 5 balls.{/msg}
           {case 11}
             {msg meaning="Maze.instructions11" desc="instructions - an
               example of an 'if-else' block is: 'if there is a path to the
-              left, turn left, else or otherwise turn right'."}Lay down a row of
-	      tennis balls using a while loop. At each position, put down a
-	      stack of 5 balls by calling the new block.{/msg}
-	  {case 12}
+              left, turn left, else or otherwise turn right'."}Use the function
+              block to fill in a row of holes, each needs five shovelfuls of
+              dirt.{/msg}
+          {case 12}
             {msg meaning="Maze.instructions11" desc="instructions - an
               example of an 'if-else' block is: 'if there is a path to the
-              left, turn left, else or otherwise turn right'."}Let's try
-	      defining your own function of putting down 7 balls. Lay down a
-	      sequence of 7 balls in diagonol.{/msg}
-	  {case 13}
+              left, turn left, else or otherwise turn right'."}Define a new
+              function to fill in holes which need 7 shovelfuls, then use it to
+              beat the level.{/msg}
+          {case 13}
             {msg meaning="Maze.instructions11" desc="instructions - an
               example of an 'if-else' block is: 'if there is a path to the
-              left, turn left, else or otherwise turn right'."}Karel needs to
-	      pick up a stack of balls on the 2nd, 4th, and 6th columns.
-	      Each stack of balls should have three balls. Create a new block
-	      called "pick up three balls" to help karel solve this problem.
-	      {/msg}
-	  {case 14}
+              left, turn left, else or otherwise turn right'."}Create a new
+              function to fill in holes that need three shovelfuls of dirt.
+            {/msg}
+          {case 14}
             {msg meaning="Maze.instructions11" desc="instructions - an
               example of an 'if-else' block is: 'if there is a path to the
-              left, turn left, else or otherwise turn right'."}You are given two
-	      new blocks, "pick up the ball tower" and "put down the ball tower"
-	      . Try using them to solve this problem!{/msg}
-	  {case 15}
+              left, turn left, else or otherwise turn right'."}Use the new
+              'dig up row' and 'make row' blocks to complete the level.{/msg}
+          {case 15}
             {msg meaning="Maze.instructions11" desc="instructions - an
               example of an 'if-else' block is: 'if there is a path to the
-              left, turn left, else or otherwise turn right'."}Write a program
-	      to have karel jump over each of the hurdles, pick up the balls in
-	      the dip, and end up up at the other end of the world. You must use
-	      for loops and define the new block "jump hurdle" in this program.
-	      {/msg}
-	  {case 16}
+              left, turn left, else or otherwise turn right'."}Create a new
+              function which jumps the hurdles to get to the next mound.{/msg}
+          {case 16}
             {msg meaning="Maze.instructions11" desc="instructions - an
               example of an 'if-else' block is: 'if there is a path to the
-              left, turn left, else or otherwise turn right'."}Write a program
-	      that has Karel run to the other side of world, jumping over all of
-	      the hurdles, and collecting balls along its ways. However, the
-	      hurdles can be in random locations. Try defining the "jump hurdle"
-	      block to help Karel to solve the problem.{/msg}
+              left, turn left, else or otherwise turn right'."}Use the jump
+              hurdle function to help the Miner dig up the mounds.{/msg}
         {/switch}
       </div>
     </div>
@@ -642,10 +628,7 @@
           {if $ij.level > 8}
             <block type="maze_if"></block>
             {if $ij.level > 9}
-              <block type="maze_putDown5"></block>
               {if $ij.level == 14}
-                <block type="maze_pickupTower"></block>
-                <block type="maze_putdownTower"></block>
               {/if}
               {if $ij.level > 14}
                 <block type="procedures_defnoreturn"></block>

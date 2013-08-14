@@ -1609,6 +1609,9 @@ Maze.turnRight = function(id) {
 Maze.isPathForward = function(id) {
   return Maze.isPath(0, id);
 };
+Maze.noPathForward = function(id) {
+  return !Maze.isPath(0, id);
+};
 
 Maze.isPathRight = function(id) {
   return Maze.isPath(1, id);
@@ -1626,7 +1629,9 @@ Maze.ballsPresent = function(id) {
   var y = Maze.pegmanY;
   return Maze.balls_[y][x];
 }
-
+Maze.noBallsPresent = function(id) {
+  return !Maze.ballsPresent(id);
+}
 // Core functions.
 
 /**

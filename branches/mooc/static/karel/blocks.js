@@ -134,10 +134,10 @@ Blockly.JavaScript.maze_if = function() {
 };
 
 Blockly.Language.maze_if.DIRECTIONS = [
-     [BlocklyApps.getMsg('ballsPresent'), 'Maze.ballsPresent()'],
-     [BlocklyApps.getMsg('noBallsPresent'), '!Maze.ballsPresent()'],
-     [BlocklyApps.getMsg('pathAhead'), 'Maze.isPathForward()'],
-     [BlocklyApps.getMsg('noPathAhead'), '!Maze.isPathForward()']
+     [BlocklyApps.getMsg('ballsPresent'), 'ballsPresent'],
+     [BlocklyApps.getMsg('noBallsPresent'), 'noBallsPresent'],
+     [BlocklyApps.getMsg('pathAhead'), 'isPathForward'],
+     [BlocklyApps.getMsg('noPathAhead'), 'noPathForward']
 ];
 
 
@@ -192,51 +192,4 @@ Blockly.Language.maze_untilBlocked = {
 Blockly.JavaScript.maze_untilBlocked = function() {
   var branch = Blockly.JavaScript.statementToCode(this, 'DO');
   return 'while (Maze.isPathForward()) {\n' + branch + '}\n';
-};
-
-Blockly.Language.maze_putDown5 = {
-  init: function() {
-    this.setColour(210);
-    this.appendDummyInput()
-        .appendTitle(BlocklyApps.getMsg('putDown5'));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-  }
-};
-
-Blockly.JavaScript.maze_putDown5 = function() {
-  return 'for (var i = 0; i < 5; i++) {\n' +
-    Blockly.JavaScript.maze_putDownBall() + '\n}\n';
-};
-
-Blockly.Language.maze_pickupTower = {
-  init: function() {
-    this.setColour(210);
-    this.appendDummyInput()
-        .appendTitle(BlocklyApps.getMsg('pickupTower'));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-  }
-};
-
-Blockly.JavaScript.maze_pickupTower = function() {
-  return 'for (var i = 0; i < 3; i++) {\n' +
-    Blockly.JavaScript.maze_pickUpBall() + ';\n' +
-    Blockly.JavaScript.maze_moveForward() + '\n}\n';
-};
-
-Blockly.Language.maze_putdownTower = {
-  init: function() {
-    this.setColour(210);
-    this.appendDummyInput()
-        .appendTitle(BlocklyApps.getMsg('putdownTower'));
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-  }
-};
-
-Blockly.JavaScript.maze_putdownTower = function() {
-  return 'for (var i = 0; i < 3; i++) {\n' +
-    Blockly.JavaScript.maze_putDownBall() + ';\n' +
-    Blockly.JavaScript.maze_moveForward() + '\n}\n';
 };

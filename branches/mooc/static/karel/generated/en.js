@@ -39,52 +39,52 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
   output += '</span></div><img id="pegman_bubble" height=42 width=55 src="pegman_bubble.png">' + ((opt_ijData.level == 4) ? '<p><img border=2 src="dirs.png">&nbsp;<img src="dirs2.png"><br>' : '') + ((opt_ijData.level == 5) ? '<p><img style="margin-left: 110px;" src="ifblock.png"><br>' : '') + ((opt_ijData.level == 6) ? '<img style="margin-top: 10px;" border=2 src="repeat_block2.png"><br>' : '') + ((opt_ijData.level == 9) ? '<p><img style="margin-left: 60px; height: 150px; width: 260px;" src="if-else2.png"><br><br>' : '') + ((opt_ijData.level == 10) ? '<p><img style="margin-left: 10px; height: 350px; width: 490px;" src="ifelse.png"><br>' : '') + ((opt_ijData.level == 4) ? '<p><input type="radio" name="q4" id="q41" onclick="Maze.showReinfHelp(\'q4w\')"><span style="font-weight: bold"> N</span><br><input type="radio" name="q4" id="q42" onclick="Maze.showReinfHelp(\'q4w\')"><span style="font-weight: bold"> E</span><br><input type="radio" name="q4" id="q43" onclick="Maze.showReinfHelp(\'q4w\')"><span style="font-weight: bold"> S</span><br><input type="radio" name="q4" id="q44" onclick="Maze.showReinfHelp(\'q4r\')"><span style="font-weight: bold"> W</span><br><br></p><div id="shadow"></div><div id="reinfDone"><div style="padding-bottom: 0.7ex;"><div style="text-align: center;" id="reinfFeedbackImage"></div><br><textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none; border: none; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;"></textarea></div><div style="text-align: center; padding-top: 1ex; padding-right: 3ex"><button id="okButton" class="launch" onclick="Maze.hideReinfHelp()&nbsp"><span>OK</span></button></div></div>' : '') + ((opt_ijData.level == 6) ? '<p><img style="margin-left: 30px;" src="repeat_blocka1.png" onclick="Maze.showReinfHelp(\'q5w\')"><img style="margin-left: 20px;" src="repeat_blocka2.png" onclick="Maze.showReinfHelp(\'q5r\')"><img style="margin-left: 20px;" src="repeat_blocka3.png" onclick="Maze.showReinfHelp(\'q5w\')"></p><div id="shadow"></div><div id="reinfDone"><div style="padding-bottom: 0.7ex"><div style="text-align: center;" id="reinfFeedbackImage"></div><br><textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none; border: none; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;"></textarea></div><div style="text-align: center; padding-top: 1ex; padding-right: 3ex;"><button id="okButton" class="launch" onclick="Maze.hideReinfHelp()"><span>OK</span></button></div></div>' : '') + ((opt_ijData.level == 10) ? '<p><input type="radio" name="q8" id="q81" onClick="Maze.showReinfHelp(\'q10r\')"><span style="font-weight: bold"> Yes</span><br><input type="radio" name="q8" id="q82" onClick="Maze.showReinfHelp(\'q10w\')"><span style="font-weight: bold"> No</span><br><br></p><div id="shadow"></div><div id="reinfDone"><div style="padding-bottom: 0.7ex;"><div style="text-align:center;" id="reinfFeedbackImage"></div><br><textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none; border: none; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;"></textarea></div><div style="text-align: center; padding-top: 1ex; padding-right: 3ex;"><button id="okButton" class="launch" onclick="Maze.hideReinfHelp()"><span>OK</span></button></div></div>' : '') + '</div><br><br><div style="text-align: center"><button id="tryLevelAgainButton" class="launch" style="display: none" onclick="Maze.closeDialogButtonClick(false);">Try again</button><button id="nextLevelButton" class="launch" style="display: none" onclick="Maze.closeDialogButtonClick(true);">Continue</button></div></div></div><div id="visualization"><div id="hintBubble"><div id="hint">';
   switch (opt_ijData.level) {
     case 1:
-      output += 'Write a program to have Karel go to the tennis ball and pick it up.';
+      output += 'Move the miner to the mound and make him dig it up.';
       break;
     case 2:
-      output += 'Write a program to have karel create a short stack of tennis balls. Karel should move one spot, put down two tennis balls, and then move again.';
+      output += 'Move the miner to hole and make him put in two shovels full of dirt.';
       break;
     case 3:
-      output += 'Follow the yellow ball road and pick up balls on the road! Simple. While Karel is on top of a ball, Karel should pick up the ball and move once. At the end of the program, Karel will have reached the end of the road and stop.';
+      output += 'Make the miner repeatedly pick up dirt and move forward, using as few blocks as possible.';
       break;
     case 4:
-      output += 'Lay down a row of tennis balls using a while loop.';
+      output += 'Make the miner fill in the row of holes, using as few blocks as possible.';
       break;
     case 5:
-      output += 'Pick up the row of tennis balls using a while loop.';
+      output += 'Make the miner clear a path, using as few blocks as possible.';
       break;
     case 6:
-      output += 'There is a stack of 10 tennis balls in front of karel. Have karel move to the stack, take all of the tennis balls, and then move one more time. Use a for loop!';
+      output += 'Make the miner pick up the mounds of dirt, each one takes 5 shovelfuls of dirt.';
       break;
     case 7:
-      output += 'Lay down a row of tennis balls using a while loop. At each position, put down a stack of 5 balls.';
+      output += 'Fill in the row of holes, each hole needs five shovelfuls of dirt.';
       break;
     case 8:
-      output += 'Try to lay down a square of tennis balls using a for loop.';
+      output += 'Fill in the square of dirt.';
       break;
     case 9:
-      output += 'Let Karel move to the end of the path, and pick up balls on the road. If there is a ball in the first spot, pick up the ball, and move once. Otherwise, simply move once.';
+      output += 'Make the miner fill in the holes.';
       break;
     case 10:
-      output += 'You are given a new block that lets Karel put down 5 balls. It is definition is shown in the workspace. Don\'t delete it! Try using the new block to let Karel put down 5 balls, and move to the destination.';
+      output += 'Use the function block to make the miner place 5 balls.';
       break;
     case 11:
-      output += 'Lay down a row of tennis balls using a while loop. At each position, put down a stack of 5 balls by calling the new block.';
+      output += 'Use the function block to fill in a row of holes, each needs five shovelfuls of dirt.';
       break;
     case 12:
-      output += 'Let\'s try defining your own function of putting down 7 balls. Lay down a sequence of 7 balls in diagonol.';
+      output += 'Define a new function to fill in holes which need 7 shovelfuls, then use it to beat the level.';
       break;
     case 13:
-      output += 'Karel needs to pick up a stack of balls on the 2nd, 4th, and 6th columns. Each stack of balls should have three balls. Create a new block called "pick up three balls" to help karel solve this problem.';
+      output += 'Create a new function to fill in holes that need three shovelfuls of dirt.';
       break;
     case 14:
-      output += 'You are given two new blocks, "pick up the ball tower" and "put down the ball tower" . Try using them to solve this problem!';
+      output += 'Use the new \'dig up row\' and \'make row\' blocks to complete the level.';
       break;
     case 15:
-      output += 'Write a program to have karel jump over each of the hurdles, pick up the balls in the dip, and end up up at the other end of the world. You must use for loops and define the new block "jump hurdle" in this program.';
+      output += 'Create a new function which jumps the hurdles to get to the next mound.';
       break;
     case 16:
-      output += 'Write a program that has Karel run to the other side of world, jumping over all of the hurdles, and collecting balls along its ways. However, the hurdles can be in random locations. Try defining the "jump hurdle" block to help Karel to solve the problem.';
+      output += 'Use the jump hurdle function to help the Miner dig up the mounds.';
       break;
   }
   output += '</div></div><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="450px"><g id="look"><path d="M 0,-15 a 15 15 0 0 1 15 15" /><path d="M 0,-35 a 35 35 0 0 1 35 35" /><path d="M 0,-55 a 55 55 0 0 1 55 55" /></g></svg><div id="capacityBubble"><div id="capacity"></div></div></div><table width="400"><tr><td style="width: 190px; text-align: center; vertical-align: top;"><button title="See generated JavaScript code." onclick="BlocklyApps.showCode();"><img src=\'../media/1x1.gif\' class="code icon21"></button><button id="linkButton" title="Save and link to blocks." onclick="BlocklyStorage.link();"><img src=\'../media/1x1.gif\' class="link icon21"></button></td><td><button id="runButton" class="launch" onclick="Maze.runButtonClick();"><img src="../media/1x1.gif" class="run icon21">  Run Program</button></button><button id="resetButton" class="launch" onclick="Maze.resetButtonClick();" style="display: none"><img src="../media/1x1.gif" class="stop icon21"> Reset</button></td></tr></table><script type="text/javascript" src="../blockly_compressed.js"><\/script><script type="text/javascript" src="../javascript_compressed.js"><\/script><script type="text/javascript" src="../' + soy.$$escapeHtml(opt_ijData.langSrc) + '"><\/script><script type="text/javascript" src="blocks.js"><\/script>' + mazepage.toolbox(null, null, opt_ijData) + '<div id="blockly"></div><div id="pegmanMenu"></div><div id="shadow"></div>';
@@ -93,5 +93,5 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
 
 
 mazepage.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<xml id="toolbox" style="display: none;"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block>' + ((opt_ijData.level > 1) ? '<block type="maze_putDownBall"></block>' + ((opt_ijData.level > 2) ? '<block type="maze_untilBlocked"></block>' + ((opt_ijData.level > 5) ? '<block type="controls_for"><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">10</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value></block>' + ((opt_ijData.level > 8) ? '<block type="maze_if"></block>' + ((opt_ijData.level > 9) ? '<block type="maze_putDown5"></block>' + ((opt_ijData.level == 14) ? '<block type="maze_pickupTower"></block><block type="maze_putdownTower"></block>' : '') + ((opt_ijData.level > 14) ? '<block type="procedures_defnoreturn"></block><block type="procedures_callnoreturn"></block>' : '') : '') : '') : '') : '') : '') + '</xml>';
+  return '<xml id="toolbox" style="display: none;"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block>' + ((opt_ijData.level > 1) ? '<block type="maze_putDownBall"></block>' + ((opt_ijData.level > 2) ? '<block type="maze_untilBlocked"></block>' + ((opt_ijData.level > 5) ? '<block type="controls_for"><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">10</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value></block>' + ((opt_ijData.level > 8) ? '<block type="maze_if"></block>' + ((opt_ijData.level > 9) ? ((opt_ijData.level == 14) ? '' : '') + ((opt_ijData.level > 14) ? '<block type="procedures_defnoreturn"></block><block type="procedures_callnoreturn"></block>' : '') : '') : '') : '') : '') : '') + '</xml>';
 };
