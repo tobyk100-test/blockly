@@ -144,8 +144,8 @@ def _process_file(target_lang, key_dict):
 
     Raises:
         IOError: An I/O error occurred with an input or output file.
-        ValueError: Input JSON could not be parsed.
-        InputError: Input JSON lacked required fields.
+        InputError: Input JSON could not be parsed.
+        KeyError: Key found in input file but not in key file.
     """
     filename = target_lang + '.json'
     in_file = open(filename)
@@ -158,7 +158,12 @@ def _process_file(target_lang, key_dict):
     out_file = _create_xlf(target_lang)
     for key in j:
         if key != '@metadata':
-            identifier = key_dict[key]
+            try:
+                identifier = key_dict[key]
+            except KeyError, e:
+                print('Key "' + key + '" is in ' + filename + ' but not in ' +
+                      args.key_file)
+                raise e
             target = j.get(key)
             # Only insert line breaks for tooltips.
             if key.lower().find('tooltip') != -1:
@@ -187,7 +192,7 @@ def main():
                         help='minimum line length (not counting last line)')
     parser.add_argument('--max_length', default=50,
                         help='maximum line length (not guaranteed)')
-    parser.add_argument('--path_to_jar', default='_soy',
+    parser.add_argument('--path_to_jar', default='../apps/_soy',
                         help='relative path from working directory to '
                         'SoyToJsSrcCompiler.jar')
     parser.add_argument('files', nargs='+', help='input files')
@@ -228,7 +233,10 @@ def main():
           '--messageFilePathFormat', args.output_dir + '{LOCALE}.xlf',
           '--outputPathFormat', args.output_dir + '{LOCALE}.js',
           '--srcs', args.template])
-      print('Created {' + processed_lang_list + '}.js in ' + args.output_dir)
+      if len(processed_langs) == 1:
+        print('Created ' + processed_lang_list + '.js in ' + args.output_dir)
+      else:
+        print('Created {' + processed_lang_list + '}.js in ' + args.output_dir)
       command = ['rm']
       command.extend(map(lambda s: args.output_dir + s + '.xlf',
                          processed_langs))

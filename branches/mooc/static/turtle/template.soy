@@ -11,13 +11,64 @@
  * java -jar ../_soy/SoyMsgExtractor.jar --outputFile extracted_msgs.xlf template.soy
  *
  * # Create en.json, qqq.json.
- * ../../i18n/xliff_to_json.py extracted_msgs.xlf
+ * ../../i18n/xliff_to_json.py --xlf extracted_msgs.xlf
  *
  * Once translations have been made into <LANG>.json:
  *
  * # Create *.js for each *.json file.  By default, qqq.json and keys.json are skipped.
  * ../../i18n/json_to_js.py --path_to_jar=../_soy *.json
  */
+
+/**
+ * Common code for creating procedures drawing different regular polygons.
+ * @param title Title of procedure.
+ * @param modifiers String containing any optional keys and values for the initial
+ *        <block> tag, such as 'x="20" y="20" editable="false"'.
+ * @param sides Number of sides.
+ * @param length 0 if a length parameter should be used, a positive number otherwise
+ */
+{template .polygon autoescape="false"}
+  <block type="procedures_defnoreturn" {$modifiers}>
+    <mutation>
+      {if $length == 0}
+        <arg name="length"></arg>
+      {/if}
+    </mutation>
+    <title name="NAME">{$title}</title>
+    <statement name="STACK">
+      <block type="controls_repeat_ext" {$modifiers}>
+        <value name="TIMES">
+          <block type="math_number" {$modifiers}>
+            <title name="NUM">{$sides}</title>
+          </block>
+        </value>
+        <statement name="DO">
+          <block type="draw_move" {$modifiers}>
+            <value name="VALUE">
+              {if $length == 0}
+                <block type="variables_get_length"></block>
+              {else}
+                <block type="math_number" {$modifiers}>
+                  <title name="NUM">{$length}</title>
+                </block>
+              {/if}
+            </value>
+            <next>
+              <block type="draw_turn" {$modifiers}>
+                <value name="VALUE">
+                  <block type="math_number" {$modifiers}>
+                    <title name="NUM">{360 / $sides}</title>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+  </block>
+{/template}
+
 
 /**
  * Web page structure.
@@ -31,12 +82,15 @@
     <span id="moveBackward">{msg meaning="Turtle.moveBackward" desc="TODO"}move backward by{/msg}</span>
     <span id="moveForward">{msg meaning="Turtle.moveForward" desc="TODO"}move forward by{/msg}</span>
     <span id="moveForwardTooltip">{msg meaning="Turtle.moveForwardTooltip" desc="TODO"}Moves the turtle forward.{/msg}</span>
+    <span id="jumpBackward">{msg meaning="Turtle.jumpBackward" desc="TODO"}jump backward by{/msg}</span>
+    <span id="jumpForward">{msg meaning="Turtle.jumpForward" desc="TODO"}jump forward by{/msg}</span>
+    <span id="jumpForwardTooltip">{msg meaning="Turtle.jumpForwardTooltip" desc="TODO"}Moves the turtle forward without leaving any marks.{/msg}</span>
     <span id="moveTooltip">{msg meaning="Turtle.moveTooltip" desc="TODO"}Moves the turtle forward or backward by the specified amount.{/msg}</span>
     <span id="nextLevel">{msg meaning="Turtle.nextLevel" desc="TODO"}Congratulations!  Would you like to proceed to the next level?{/msg}</span>
     <span id="penDown">{msg meaning="Turtle.penDown" desc="TODO"}pen down{/msg}</span>
     <span id="penTooltip">{msg meaning="Turtle.penTooltip" desc="TODO"}Lifts or lowers the pen, to start or stop drawing.{/msg}</span>
     <span id="penUp">{msg meaning="Turtle.penUp" desc="TODO"}pen up{/msg}</span>
-    <span id="pixels">{msg meaning="Turtle.pixels" desc="TODO"}pixels{/msg}</span>
+    <span id="dots">{msg meaning="Turtle.dots" desc="TODO"}dots{/msg}</span>
     <span id="setColour">{msg meaning="Turtle.setColour" desc="TODO"}set color{/msg}</span>
     <span id="setWidth">{msg meaning="Turtle.setWidth" desc="TODO"}set width{/msg}</span>
     <span id="showTurtle">{msg meaning="Turtle.showTurtle" desc="TODO"}show turtle{/msg}</span>
@@ -51,8 +105,8 @@
     // Used in blocks.js for tutorial-only blocks.
     <span id="drawASquare">{msg meaning="Turtle.drawASquare" desc="TODO"}draw a square{/msg}</span>
     <span id="lengthParameter">{msg meaning="Turtle.lengthParameter" desc="TODO"}length{/msg}</span>
-    <span id="drawASnowball">{msg meaning="Turtle.drawASnowball" desc="TODO"}draw a snowball{/msg}</span>
-    <span id="diameterParameter">{msg meaning="Turtle.diameterParameter" desc="TODO"}diameter{/msg}</span>
+    <span id="drawASnowman">{msg meaning="Turtle.drawASnowman" desc="TODO"}draw a snowman{/msg}</span>
+    <span id="heightParameter">{msg meaning="Turtle.heightParameter" desc="TODO"}height{/msg}</span>
 
     // Used in turtle.js
     <span id="title">{msg meaning="Turtle.title" desc="TODO"}Turtle Graphics %1{/msg}</span>
@@ -72,7 +126,7 @@
     {if $ij.page == 1}
       {switch $ij.level}
         {case 1, 2}
-          <block type="draw_move_forward_inline" x="20" y="20"></block>
+          <block type="draw_move_inline" x="20" y="20"></block>
         {case 3, 4, 5, 6, 7}
           <block type="controls_repeat" x="20" y="20">
             <title name="TIMES">{if $ij.level == 3 or $ij.level == 6 or $ij.level == 7}4{else}3{/if}</title>
@@ -145,7 +199,7 @@
         <block type="controls_repeat_ext" editable="false" deleteable="false" movable="false">
           <value name="TIMES">
             <block type="math_number" readOnly="false" deleteable="true" movable="false">
-              <title name="NUM">3</title>
+              <title name="NUM">???</title>
             </block>
           </value>
           <statement name="DO">
@@ -157,14 +211,14 @@
                 <block type="draw_a_square" inline="true" editable="false" deleteable="false" movable="false">
                   <value name="VALUE">
                     <block type="math_number" editable="false" deleteable="false" movable="false">
-                      <title name="NUM">100</title>
+                      <title name="NUM">???</title>
                     </block>
                   </value>
                   <next>
                     <block type="draw_turn" editable="false" deleteable="false" movable="false">
                       <value name="VALUE">
                         <block type="math_number" editable="false" deleteable="false" movable="false">
-                          <title name="NUM">120</title>
+                          <title name="NUM">???</title>
                         </block>
                       </value>
                     </block>
@@ -174,7 +228,7 @@
             </block>
           </statement>
         </block>
-      {elseif $ij.level == 6 or $ij.level == 7}
+      {elseif $ij.level == 6}
         <block type="controls_for_counter" inline="true" x="20" y="20">
           <title name="VAR">{msg meaning="Turtle.loopVariable" desc="IBID"}counter{/msg}</title>
           <value name="FROM">
@@ -194,17 +248,15 @@
           </value>
           <statement name="DO">
             <block type="draw_a_square" inline="true">
-              {if $ij.level == 6}
-                <value name="VALUE">
-                  <block type="math_number">
-                    <title name="NUM">10</title>
-                  </block>
-                </value>
-              {/if}
+              <value name="VALUE">
+                <block type="math_number">
+                  <title name="NUM">10</title>
+                </block>
+              </value>
             </block>
           </statement>
         </block>
-      {elseif $ij.level == 8}
+      {elseif $ij.level == 7}
         {for $i in range(25, 61, 5)}
           <block type="draw_move" {if $i == 25}x="300" y="100"{/if} inline="false" editable="false" disabled="true">
             <title name="DIR">moveForward</title>
@@ -229,7 +281,15 @@
             </block>
           </next>
         {/for}
-      {elseif $ij.level == 11}
+      {elseif $ij.level == 8 or $ij.level == 9}
+        <block type="draw_a_snowman" x="20" y="20">
+          <value name="VALUE">
+            <block type="math_number">
+              <title name="NUM">150</title>
+            </block>
+          </value>
+        </block>
+      {elseif $ij.level == 10}
         <block type="draw_width" inline="false" x="158" y="67">
           <value name="WIDTH">
             <block type="math_number">
@@ -272,209 +332,104 @@
                   </next>
                 </block>
               </statement>
-              <next>
-                <block type="turtle_visibility">
-                  <title name="VISIBILITY">hideTurtle</title>
-                </block>
-              </next>
             </block>
           </next>
         </block>
       {/if}
     {else}  // page == 3
-      {if $ij.level != 7}
-        /*  Define "draw a square".  */
-        <block type="procedures_defnoreturn" x="20" y="20" editable="false" deletable="false" movable="false">
+      /*  Define "draw a square".  */
+      {call .polygon}
+        {param title}draw a square{/param}
+        {param modifiers}x="20" y="20" editable="false" deletable="false" movable="false"{/param}
+        {param sides: 4 /}
+        {param length}{if $ij.level >= 6}0{else}100{/if}{/param}
+      {/call}
+      {if $ij.level == 1}
+        /*  Define "draw a circle".  */
+        {call .polygon}
+          {param title}draw a circle{/param}
+          {param modifiers}x="300" y="20" editable="false" deletable="false" movable="false"{/param}
+          {param sides: 360 /}
+          {param length}1{/param}
+        {/call}
+      {/if}
+      {if $ij.level == 2}
+        <block type="procedures_defnoreturn" x="20" y="175">
+          <title name="NAME">draw a triangle</title>
+        </block>
+      {elseif $ij.level >= 3}
+        /*  Define "draw a triangle".  */
+        {call .polygon}
+          {param title}draw a triangle{/param}
+          {param modifiers}{if $ij.level == 6}x="20" y="190"{else}x="340" y="20"{/if}{/param}
+          {param sides: 3 /}
+          {param length}{if $ij.level >= 7}0{else}100{/if}{/param}
+        {/call}
+      {/if}
+      {if $ij.level == 7}
+        /*  Define "draw a house".  */
+        <block type="procedures_defnoreturn" x="20" y="200">
           <mutation>
-          {if $ij.level >= 4}
-            <arg name="length"></arg>
-          {/if}
+            {if $ij.level == 11}<arg name="length"></arg>{/if}
           </mutation>
-          <title name="NAME">draw a square</title>
+          <title name="NAME">draw a house</title>
           <statement name="STACK">
-            <block type="controls_repeat_ext" editable="false" deleteable="false" movable="false">
-              <value name="TIMES">
-                <block type="math_number" editable="false" deleteable="false" movable="false">
-                  <title name="NUM">4</title>
-                </block>
+            <block type="procedures_callnoreturn" inline="false">
+              <mutation name="draw a square">
+                <arg name="length">
+              </mutation>
+              <value name="ARG0">
+                {if $ij.level == 7}
+                  <block type="math_number">
+                    <title name="NUM">100</title>
+                  </block>
+                {else}
+                  <block type="variables_get_length"></block>
+                {/if}
               </value>
-              <statement name="DO">
-                <block type="draw_move" editable="false" deleteable="false" movable="false">
+              <next>
+                <block type="draw_move" inline="false">
+                  <title name="DIR">moveForward</title>
                   <value name="VALUE">
-                    {if $ij.page == 2 or ($ij.page == 3 and $ij.level >= 4)}
-`                     <block type="variables_get_length"></block>
-                    {else}
-                      <block type="math_number" editable="false" deleteable="false" movable="false">
+                    {if $ij.level == 7}
+                      <block type="math_number">
                         <title name="NUM">100</title>
                       </block>
+                    {else}
+                      <block type="variables_get_length"></block>
                     {/if}
                   </value>
                   <next>
-                    <block type="draw_turn" editable="false" deleteable="false" movable="false">
+                    <block type="draw_turn" inline="false">
+                      <title name="DIR">turnRight</title>
                       <value name="VALUE">
-                        <block type="math_number" editable="false" deleteable="false" movable="false">
-                          <title name="NUM">90</title>
-                        </block>
-                      </value>
-                    </block>
-                  </next>
-                </block>
-              </statement>
-            </block>
-          </statement>
-        </block>
-        {if $ij.level == 1}
-          <block type="procedures_defnoreturn" x="20" y="175">
-            <title name="NAME">draw ??</title>
-          </block>
-        {elseif $ij.level >= 2}
-          /*  Define "draw a triangle".  */
-          <block type="procedures_defnoreturn" x="20" y="175">
-            <mutation>
-              {if $ij.level >= 5}
-                <arg name="length"></arg>
-              {/if}
-            </mutation>
-            <title name="NAME">draw a triangle</title>
-            {if $ij.level >= 2}
-              <statement name="STACK">
-                <block type="controls_repeat_ext">
-                  <value name="TIMES">
-                    <block type="math_number">
-                      <title name="NUM">3</title>
-                    </block>
-                  </value>
-                  <statement name="DO">
-                    <block type="draw_move" inline="false">
-                      <title name="DIR">moveForward</title>
-                      <value name="VALUE">
-                      {if $ij.level >= 5}
-  `                     <block type="variables_get_length"></block>
-                      {else}
                         <block type="math_number">
-                          <title name="NUM">100</title>
+                          <title name="NUM">30</title>
                         </block>
-                      {/if}
                       </value>
                       <next>
-                        <block type="draw_turn" inline="false">
-                          <title name="DIR">turnRight</title>
-                          <value name="VALUE">
-                            <block type="math_number">
-                              <title name="NUM">120</title>
-                            </block>
+                        <block type="procedures_callnoreturn" inline="false">
+                          <mutation name="draw a triangle">
+                            <arg name="length"></arg>
+                          </mutation>
+                          <value name="ARG0">
+                            {if $ij.level == 7}
+                              <block type="math_number">
+                                <title name="NUM">100</title>
+                              </block>
+                            {else}
+                              <block type="variables_get_length"></block>
+                            {/if}
                           </value>
                         </block>
                       </next>
                     </block>
-                  </statement>
+                  </next>
                 </block>
-              </statement>
-            {/if}
-          {/if}
+              </next>
+            </block>
+          </statement>
         </block>
-        {if $ij.level == 4}
-          <block type="controls_for_counter" inline="true" x="20" y="170">
-            <value name="FROM">
-              <block type="math_number">
-                <title name="NUM">10</title>
-              </block>
-            </value>
-            <value name="TO">
-              <block type="math_number">
-                <title name="NUM">100</title>
-              </block>
-            </value>
-            <value name="BY">
-              <block type="math_number">
-                <title name="NUM">10</title>
-              </block>
-            </value>
-            <statement name="DO">
-              <block type="draw_colour">
-                <value name="COLOUR">
-                  <block type="colour_random"></block>
-                </value>
-                <next>
-                  <block type="procedures_callnoreturn" inline="false">
-                    <mutation name="draw a square">
-                      <arg name="length"></arg>
-                    </mutation>
-                    <value name="ARG0">
-                      <block type="variables_get">
-                        <title name="VAR">{msg meaning="Turtle.loopVariable" desc="IBID"}counter{/msg}</title>
-                      </block>
-                    </value>
-                  </block>
-                </next>
-              </block>
-            </statement>
-          </block>
-        {elseif $ij.level == 5}
-          /*  Define "draw a house".  */
-          <block type="procedures_defnoreturn" x="20" y="350">
-            <mutation>
-              {if $ij.level == 11}<arg name="length"></arg>{/if}
-            </mutation>
-            <title name="NAME">draw a house</title>
-            <statement name="STACK">
-              <block type="procedures_callnoreturn" inline="false">
-                <mutation name="draw a square">
-                  <arg name="length">
-                </mutation>
-                <value name="ARG0">
-                  {if $ij.level == 5}
-                    <block type="math_number">
-                      <title name="NUM">100</title>
-                    </block>
-                  {else}
-                    <block type="variables_get_length"></block>
-                  {/if}
-                </value>
-                <next>
-                  <block type="draw_move" inline="false">
-                    <title name="DIR">moveForward</title>
-                    <value name="VALUE">
-                      {if $ij.level == 5}
-                        <block type="math_number">
-                          <title name="NUM">100</title>
-                        </block>
-                      {else}
-                        <block type="variables_get_length"></block>
-                      {/if}
-                    </value>
-                    <next>
-                      <block type="draw_turn" inline="false">
-                        <title name="DIR">turnRight</title>
-                        <value name="VALUE">
-                          <block type="math_number">
-                            <title name="NUM">30</title>
-                          </block>
-                        </value>
-                        <next>
-                          <block type="procedures_callnoreturn" inline="false">
-                            <mutation name="draw a triangle">
-                              <arg name="length"></arg>
-                            </mutation>
-                            <value name="ARG0">
-                              {if $ij.level == 5}
-                                <block type="math_number">
-                                  <title name="NUM">100</title>
-                                </block>
-                              {else}
-                                <block type="variables_get_length"></block>
-                              {/if}
-                            </value>
-                          </block>
-                        </next>
-                      </block>
-                    </next>
-                  </block>
-                </next>
-              </block>
-            </statement>
-          </block>
-        {/if}
       {/if}  /* End of region in which "draw a square" is defined.  */
     {/if}
   </div>
@@ -482,7 +437,7 @@
   <table width="100%" height="100%">
     <tr>
       <td width="{if $ij.reinf and $ij.reinf != 0}100%{else}410{/if}" valign="top">
-        <h1><a href="../">MOOC</a> &gt;{sp} Turtle</h1>
+        <h1><a href="../">MOOC</a> &gt;{sp} Turtle {$ij.page} </h1>
 
         /* INTERSTITIALS.
          *
@@ -582,8 +537,8 @@
                     {case 2}{msg meaning="Turtle.instructions1_2" desc="TODO"}Draw a square, making each side a different color.{/msg}
                     {case 3}{msg meaning="Turtle.instructions1_3" desc="TODO"}Make a square in only 3 blocks.  (Color blocks don't count.){/msg}
                     {case 4}{msg meaning="Turtle.instructions1_4" desc="TODO"}Draw a triangle whose sides are all 100 pixels and are in random colors.  You'll have to figure out how far to turn.{/msg}
-                    {case 5}{msg meaning="Turtle.instructions1_5" desc="TODO"}Draw a triangle and then a square.{/msg}
-                    {case 6}{msg meaning="Turtle.instructions1_6" desc="TODO"}Can you figure out how use a square and triangle to draw a red envelope?{/msg}
+                    {case 5}{msg meaning="Turtle.instructions1_5" desc="TODO"}Draw a triangle and then a square to draw an envelope.{/msg}
+                    {case 6}{msg meaning="Turtle.instructions1_6" desc="TODO"}Can you figure out how draw this triangle and square?{/msg}
                     {case 7}{msg meaning="Turtle.instructions1_7" desc="TODO"}See if you can draw these glasses in your favorite color.{/msg}
                     {case 8}{msg meaning="Turtle.instructions1_8" desc="TODO"}After trying out these blocks, see what happens if you make them repeat 8 times.  It should look a little different every time you run it.{/msg}
                     {case 9}{msg meaning="Turtle.instructions1_9" desc="TODO"}Figure out what number to replace the question marks with to draw a circle.{/msg}
@@ -592,26 +547,28 @@
                 {case 2}
                   {switch $ij.level}
                     {case 1}{msg meaning="Turtle.instructions2_1" desc="TODO"}Find the familiar blocks in the new categories to draw a square in your favorite color.{/msg}
-                    {case 2}{msg meaning="Turtle.instructions2_2" desc="TODO"}Use the new "draw a square" box, found in the "Functions" category, to draw a small green square.{/msg}
-                    {case 3}{msg meaning="Turtle.instructions2_3" desc="TODO"}Use the new block to draw 3 squares, 120 degrees apart, in random colors.{/msg}
+                    {case 2}{msg meaning="Turtle.instructions2_2" desc="TODO"}Use the new "draw a square" block, found in the "Functions" category, to draw a small green square.{/msg}
+                    {case 3}{msg meaning="Turtle.instructions2_3" desc="TODO"}Use the new block to draw 3 squares of size 100, each 120 degrees apart, in random colors.{/msg}
                     {case 4}{msg meaning="Turtle.instructions2_4" desc="TODO"}Now change the code to draw 36 squares, each 10 degrees apart.{/msg}
                     {case 5}{msg meaning="Turtle.instructions2_5" desc="TODO"}Draw squares with sides of 50, 60, 70, 80, and 90 pixels.  You'll need lots of blocks.{/msg}
                     {case 6}{msg meaning="Turtle.instructions2_6" desc="TODO"}Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.{/msg}
-                    {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}How about setting a random color before drawing each square and moving forward 10 pixels after each one?{/msg}
-                    {case 8}{msg meaning="Turtle.instructions2_8" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.{/msg}
-                    {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Draw a snowman by using the new "draw a snowball" function with inputs of 70, 50, and 30.{/msg}
+                    {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.{/msg}
+                    {case 8}{msg meaning="Turtle.instructions2_8" desc="TODO"}Draw three snowmen 150 dots tall in different colours, 100 dots apart.  Use the new "draw a snowman" function and "jump forward" block.{/msg}
+                    {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Draw a family of snowmen with heights of 110, 100, 90, 80, and 70, each 60 dots apart.{/msg}
                     {case 10}{msg meaning="Turtle.instructions2_10" desc="TODO"}Draw whatever you want.  One idea is experimenting with different types of spirals.  What happens if you change the turn amount, rather than the move amount?  TODO: Add starting blocks.{/msg}
                   {/switch}
                 {case 3}
                   {switch $ij.level}
-                    {case 1}{msg meaning="Turtle.instructions3_1" desc="TODO"}Using the "draw a square" function as an example, create a "draw a triangle" function and use it.{/msg}
-                    {case 2}{msg meaning="Turtle.instructions3_2" desc="TODO"}See if you can figure out how to use "draw a square" and "draw a triangle" (and some other blocks) to draw a house.{/msg}
-                    {case 3}{msg meaning="Turtle.instructions3_3" desc="TODO"}Create (and use) a new function to draw a house.{/msg}
-                    {case 4}{msg meaning="Turtle.instructions3_4" desc="TODO"}Using "draw a square" as an example, add an input named "length" to "draw a triangle".  Then, draw triangles in different colors with side lengths of 50 and 100.{/msg}
-                    {case 5}{msg meaning="Turtle.instructions3_5" desc="TODO"}Add a "length" input to "draw a house" and build a tiny house for my snail friend.{/msg}
-                    {case 6}{msg meaning="Turtle.instructions3_6" desc="TODO"}Create a new block "draw a hexagon", similar to "draw a square", and use it to draw hexagons in different colors with sides of length 50 and 75.{/msg}
-                    {case 7}{msg meaning="Turtle.instructions3_7" desc="TODO"}Rename "draw a hexagon" to "draw a polygon" and add an input named "sides".  You'll have to make some other changes, including the amount to turn.  Test your new block by drawing a red octagon (8-sided polygon) with sides of length 80.{/msg}
-                    {case 8}{msg meaning="Turtle.instructions3_8" desc="TODO"}You're now free to do whatever you want.  One idea is to try running this program with different turn amounts (higher or lower than 90).  Other ideas are to draw a star, circle, heart, or animal.{/msg}
+                    {case 1}{msg meaning="Turtle.instructions3_1" desc="TODO"}You can now see how the "draw a square" and "draw a circle" functions are defined.  Defining a function doesn't run its blocks.  You have to pull out the "draw a square" block to actually draw a square.{/msg}
+                    {case 2}{msg meaning="Turtle.instructions3_2" desc="TODO"}Using the "draw a square" function as an example, create a "draw a triangle" function and use it.{/msg}
+                    {case 3}{msg meaning="Turtle.instructions3_3" desc="TODO"}Draw triangular fences around the cats and a square fence around the cow.{/msg}
+                    {case 4}{msg meaning="Turtle.instructions3_4" desc="TODO"}See if you can figure out how to use "draw a square" and "draw a triangle" (and some other blocks) to draw a house around the lion.{/msg}
+                    {case 5}{msg meaning="Turtle.instructions3_5" desc="TODO"}Now create and use a "draw a house" function to house two cats.{/msg}
+                    {case 6}{msg meaning="Turtle.instructions3_6" desc="TODO"}Using "draw a square" as an example, add an input named "length" to "draw a triangle".  Then, draw triangles in different colors around the animals.{/msg}
+                    {case 7}{msg meaning="Turtle.instructions3_7" desc="TODO"}Add a "length" input to "draw a house" and build a big house for the elephant.{/msg}
+                    {case 8}{msg meaning="Turtle.instructions3_8" desc="TODO"}Here are all of the blocks from the previous level.  Modify "draw a house" so the turtle ends up at the bottom right corner of the new house.  Use this modified function to house all the animals.{/msg}
+                    {case 9}{msg meaning="Turtle.instructions3_9" desc="TODO"}Use a "count with" block and your code from the previous level to draw houses of size 50, 100, and 150.{/msg}
+                    {case 10}{msg meaning="Turtle.instructions3_10" desc="TODO"}You're now free to do whatever you want.  One idea is to try running this program with different turn amounts (higher or lower than 90).  Other ideas are to draw a star, circle, heart, or animal.{/msg}
                 {/switch}
               {/switch}
             </div>
@@ -622,6 +579,7 @@
           <div>
             <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
             <canvas id="answer" width="400" height="400" style="display: none"></canvas>
+            <canvas id="images" width="400" height="400" style="display: none"></canvas>
             <canvas id="display" width="400" height="400"></canvas>
           </div>
           <table style="padding-top: 1em;">
@@ -691,10 +649,9 @@
  *
  * PAGE 1
  * ======
- * Within this page, blocks are only added, never taken away (although some are
- * replaced by more general versions).  Some levels don't add any blocks.
+ * Within this page, blocks are only added, never taken away.
  *
- * Level 1 [el]: Adds move_forward_inline and turn_right_inline.
+ * Level 1 [el]: Adds move_inline and turn_right_inline.
  * Level 2 [coloured square]: Adds draw_colour with colour_picker.
  * level 3 [square in three blocks]: Adds controls_repeat.
  * level 4 [triangle] Adds draw_colour with colour_random.
@@ -703,7 +660,7 @@
  * Level 7 [glasses]
  * Level 8 [spikes]
  * Level 9 [circle]
- * Level 10 [free play]
+ * Level 10 [free play]: draw_width
  *
  * PAGE 2
  * ======
@@ -711,52 +668,67 @@
  * - Actions
  *   - draw_move with math_number
  *   - draw_turn with math_number
- *   - turtle_visibility (show/hide turtle)
  * - Color
  *   - draw_colour (set colour) with colour_picker
  *   - draw_colour (set colour) with colour_random
+ * - Functions (added at level 2)
+ *   - [call] draw a square
+ *   - [call] draw a snowball (added at level 9)
  * - Loops
  *   - controls_repeat_ext
  *   - controls_for (added at level 6)
  * - Math
  *   - math_number
- * - Functions (added at level 2)
- *   - [call] draw a square
- *   - [call] draw a snowball (added at level 9)
  * - Variables (added at level 6)
  *   - get counter
  * Level 1 [square]
- * Level 2 [square by function call]
+ * Level 2 [square by function call]: add "draw a square"
  * Level 3 [3 squares]
  * Level 4 [36 squares]
  * Level 5 [nested squares without controls_for]
  * Level 6 [nested squares with controls_for]
- * Level 7 [telescoping squares]
- * Level 8 [mini-spiral]
- * Level 9 [snowman]
+ * Level 7 [mini-spiral]
+ * Level 8 [3 snowmen]: add "draw a snowman"
+ * Level 9 [snowman family]
  * Level 10 [free play]
  *
  * PAGE 3
  * ======
- * All levels have: draw_move, draw_turn, draw_colour with colour_picker,
- *                  draw_colour with colour_random, controls_repeat_ext,
- *                  turtle_visibility.
+ * Categories are used, with contents of:
+ * - Actions
+ *   - draw_move with math_number
+ *   - draw_turn with math_number
+ * - Color
+ *   - draw_colour (set colour) with colour_picker
+ *   - draw_colour (set colour) with colour_random
+ * - Functions (Replaced with custom category at level 2)
+ *   - [call] draw a circle
+ *   - [call] draw a square
+ * - Loops
+ *   - controls_for
+ *   - controls_repeat_ext
+ * - Math
+ *   - math_number
+ * - Variables (added at level 6)
+ *   - get counter
  * Variables and functions are manually added until Levels 7 and 8,
  * when the custom categories are used
- * Level 1 [create "draw a triangle"]
- * Level 2 [draw a house]
- * Level 3 [create "draw a house"]
- * Level 4 [add parameter to "draw a triangle"]
- * Level 5 [add parameter to "draw a house"]
- * Level 6 [creat "draw a hexagon"]
- * Level 7 [create "draw a polygon"]
- * Level 8 [play]: Add a whole bunch
+ * Level 1 [call "draw a square"]
+ * Level 2 [create and call "draw a triangle"]
+ * Level 3 [use "draw a square" and "draw a triangle" to fence animals]
+ * Level 4 [draw a house]
+ * Level 5 [create and call "draw a house"]
+ * Level 6 [add parameter to "draw a triangle"]
+ * Level 7 [add parameter to "draw a house"]
+ * Level 8 [modify end location of "create a house"]
+ * Level 9 [call "draw a house" with for loop]
+ * Level 10 [free play]
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none">
     {if $ij.page == 1}
-      <block type="draw_move{if $ij.level <= 5}_forward{/if}_inline"></block>">
-      <block type="draw_turn{if $ij.level < 5}_right{/if}_inline{if $ij.level <= 8}_restricted{/if}">
+      <block type="draw_move_inline"></block>">
+      <block type="draw_turn_inline{if $ij.level <= 8}_restricted{/if}">
         <title name="VALUE">90</title>
       </block>
       {if $ij.level >= 2}
@@ -778,10 +750,17 @@
           <title name="TIMES">4</title>
         </block>
       {/if}
-      {if $ij.level >= 7}
-        <block type="turtle_visibility"></block>
+      {if $ij.level == 10}
+        <block type="draw_width" inline="false" x="158" y="67">
+          <value name="WIDTH">
+            <block type="math_number">
+              <title name="NUM">1</title>
+            </block>
+          </value>
+        </block>
       {/if}
     {elseif $ij.page == 2 or $ij.page == 3}
+      // Actions: draw_move, draw_turn.
       <category name="{msg meaning="Turtle.catTurtle" desc="TODO"}Actions{/msg}">
         <block type="draw_move">
           <value name="VALUE">
@@ -790,7 +769,15 @@
             </block>
           </value>
         </block>
-        </block>
+        {if $ij.page == 2 and $ij.level >= 8}
+          <block type="jump">
+            <value name="VALUE">
+              <block type="math_number">
+                <title name="NUM">50</title>
+              </block>
+            </value>
+          </block>
+        {/if}
         <block type="draw_turn">
           <value name="VALUE">
             <block type="math_number">
@@ -798,8 +785,8 @@
             </block>
           </value>
         </block>
-        <block type="turtle_visibility"></block>
       </category>
+      // Colour: draw_colour with colour_picker and colour_random.
       <category name="{msg meaning="Turtle.catColour" desc="TODO"}Color{/msg}">
         <block type="draw_colour">
           <value name="COLOUR">
@@ -812,9 +799,9 @@
           </value>
         </block>
       </category>
-      {if ($ij.page == 2 and $ij.level >= 2) or $ij.page == 3}
+      // Functions differ depending on page and level.
+      {if $ij.page == 2 and $ij.level >= 2}
         <category name="{msg meaning="Turtle.catProcedures" desc="TODO"}Functions{/msg}">
-        {if $ij.page == 2}
           <block type="draw_a_square" inline="true">
             <value name="VALUE">
               <block type="math_number">
@@ -822,60 +809,34 @@
               </block>
             </value>
           </block>
-          {if $ij.level >= 9}
-          <block type="draw_a_snowball" inline="true">
-            <value name="VALUE">
-              <block type="math_number">
-                <title name="NUM">100</title>
-              </block>
-            </value>
-          </block>
-          {/if}
-        {else} // page == 3
-          {if $ij.level != 7}
-            <block type="procedures_defnoreturn"></block>
-            <block type="procedures_callnoreturn">
-              <mutation name="draw a square">
-                {if $ij.level >= 4}
-                  <arg name="length"></arg>
-                {/if}
-              </mutation>
-            </block>
-            <block type="procedures_callnoreturn">
-              <mutation name="draw a triangle">
-                {if $ij.level >= 4}
-                  <arg name="length"></arg>
-                {/if}
-              </mutation>
+          {if $ij.level >= 8}
+            <block type="draw_a_snowman" inline="true">
+              <value name="VALUE">
+                <block type="math_number">
+                  <title name="NUM">100</title>
+                </block>
+              </value>
             </block>
           {/if}
-          {if $ij.level == 3 or $ij.level == 5}
-            <block type="procedures_callnoreturn">
-              <mutation name="draw a house">
-                {if $ij.level == 5}
-                  <arg name="length"></arg>
-                {/if}
-              </mutation>
-            </block>
-          {elseif $ij.level == 6 or $ij.level == 8}
-            <block type="procedures_callnoreturn">
-              <mutation name="draw a hexagon">
-                <arg name="length"></arg>
-              </mutation>
-            </block>
-          {/if}
-        {/if}
         </category>
-      {/if}
-      <category name="{msg meaning="Turtle.catControl" desc="TODO"}Loops{/msg}">
-        <block type="controls_repeat_ext">
-          <value name="TIMES">
-            <block type="math_number">
-              <title name="NUM">4</title>
+      {elseif $ij.page == 3}
+        {if $ij.level == 1}
+          // Don't use custom category yet, since it allows function definition.
+          <category name="{msg meaning="Turtle.catProcedures" desc="TODO"}Functions{/msg}">
+            <block type="procedures_callnoreturn">
+              <mutation name="draw a circle"></mutation>
             </block>
-          </value>
-        </block>
-        {if $ij.level >= 5}
+            <block type="procedures_callnoreturn">
+              <mutation name="draw a square"></mutation>
+            </block>
+          </category>
+        {else}
+          <category name="{msg meaning="Turtle.catProcedures" desc="TODO"}Functions{/msg}" custom="PROCEDURE"></category>
+        {/if}
+      {/if}
+      // Control: controls_for_counter (from page 2, level 5) and repeat.
+      <category name="{msg meaning="Turtle.catControl" desc="TODO"}Loops{/msg}">
+        {if ($ij.page == 2 and $ij.level >= 5) or ($ij.page == 3 and $ij.level >= 9)}
           <block type="controls_for_counter">
             <value name="FROM">
               <block type="math_number">
@@ -894,47 +855,44 @@
             </value>
           </block>
         {/if}
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="math_number">
+              <title name="NUM">4</title>
+            </block>
+          </value>
+        </block>
       </category>
+      // Math: Just number blocks until final level.
       <category name="{msg meaning="Turtle.catMath" desc="TODO"}Math{/msg}">
         <block type="math_number"></block>
-        {if $ij.page == 3}
-          <block type="math_arithmetic" inline="true">
-            <title name="OP">DIVIDE</title>
-          </block>
-          {if $ij.level == 8}
-            <block type="math_single"></block>
-            <block type="math_trig"></block>
-            <block type="math_constant"></block>
-            <block type="math_round"></block>
-            <block type="math_modulo"></block>
-            <block type="math_random_int">
-              <value name="FROM">
-                <block type="math_number">
-                  <title name="NUM">1</title>
-                </block>
-              </value>
-              <value name="TO">
-                <block type="math_number">
-                  <title name="NUM">100</title>
-                </block>
+        {if $ij.level == 10}
+          <block type="math_arithmetic" inline="true"></block>
+          <block type="math_random_int">
+            <value name="FROM">
+              <block type="math_number">
+                <title name="NUM">1</title>
+              </block>
             </value>
-          </block>
-          <block type="math_random_float"></block>
-        {/if}
+            <value name="TO">
+              <block type="math_number">
+                <title name="NUM">100</title>
+              </block>
+          </value>
+        </block>
+        <block type="math_random_float"></block>
       {/if}
       </category>
-      {if ($ij.page == 3 and $ij.level >= 7)}
-        <category name="{msg meaning="Turtle.catVariables" desc="TODO"}Variables{/msg}" custom="VARIABLE"></category>
-        <category name="{msg meaning="Turtle.catProcedures" desc="TODO"}Functions{/msg}" custom="PROCEDURE"></category>
-      {elseif ($ij.page == 2 and $ij.level >= 5)}
-        // Don't use custom="VARIABLES" because we want to hide "length".
+      // Variables depends on page and level, although we never use the custom category
+      // because we want to offer simplified getters and no setters.
+      {if $ij.page == 2 and $ij.level >= 5}
         <category name="{msg meaning="Turtle.catVariables" desc="TODO"}Variables{/msg}">
           <block type="variables_get_counter"></block>
         </category>
-      {elseif $ij.page == 3 and $ij.level >= 4}
+      {elseif $ij.page == 3 and $ij.level >= 6}
         <category name="{msg meaning="Turtle.catVariables" desc="TODO"}Variables{/msg}">
-          {if $ij.level == 7}
-            <block type="variables_get_sides"></block>
+          {if $ij.level >= 9}
+            <block type="variables_get_counter"></block>
           {/if}
           <block type="variables_get_length"></block>
         </category>

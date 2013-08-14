@@ -30,6 +30,11 @@ BlocklyApps.IDEAL_TEST_FAIL = 2;
 BlocklyApps.ALL_TESTS_PASS = 3;
 
 /**
+ * Counter of the number of times the user has tried to solve the level.
+ */
+BlocklyApps.attempts = 0;
+
+/**
  * Pseudo-random identifier used for tracking user progress within a level.
  */
 BlocklyApps.LEVEL_ID = Math.random();
@@ -367,13 +372,22 @@ BlocklyApps.getMissingRequiredBlocks = function(requiredBlocks) {
   if (requiredBlocks) {
     for (var b in requiredBlocks) {
       var blockType = requiredBlocks[b];
-      var regex = new RegExp('\\b' + blockType + '\\b', 'g');
+      var regex = new RegExp(blockType, 'g');
       if (!code.match(regex)) {
         notEnoughBlocks.push(blockType);
       }
     }
   }
   return notEnoughBlocks;
+};
+
+/**
+ * Provide feedback based on number of times user has attempted a level.
+ * @return {number} The type of feedback to provide. Returns a value of 1 if
+ *     BlocklyApps.attempts == 1, otherwise returns 2.
+ */
+BlocklyApps.convertAttemptsToFeedbackType = function() {
+  return (BlocklyApps.attempts == 1) ? 1 : 2;
 };
 
 /**
@@ -394,24 +408,27 @@ BlocklyApps.hasIdealNumberOfBlocks = function() {
  *   IDEAL_TEST_FAIL if more than the ideal number of blocks are used.
  *   ALL_TESTS_PASS if all tests pass.
  */
-BlocklyApps.setErrorFeedbackBasedOnTestResults = function() {
+BlocklyApps.runTestsAndSetErrorFeedback = function() {
+  var versionOfFeedback = BlocklyApps.convertAttemptsToFeedbackType();
   /**
    * Level 1 tests, user will need to try again after improving their code.
    */
   // If there are empty blocks, display the empty block error.
+  var emptyBlocksE = document.getElementById('emptyBlocksError');
   if (BlocklyApps.hasEmptyTopLevelBlocks()) {
-    document.getElementById('emptyBlocksError').style.display = 'list-item';
+    emptyBlocksE.style.display = 'list-item';
     document.getElementById('star1').style.display = 'block';
     return BlocklyApps.BLOCK_TEST_FAIL;
   } else {
-    document.getElementById('emptyBlocksError').style.display = 'none';
+    emptyBlocksE.style.display = 'none';
   }
   // For each error type in the array, display the corresponding error.
   var requiredBlockErrors = BlocklyApps.getMissingRequiredBlocks(
       BlocklyApps.requiredBlocks);
   if (requiredBlockErrors.length) {
     for (var e = 0, bError; bError = requiredBlockErrors[e]; e++) {
-      var blockErrorElement = document.getElementById(bError + 'Error');
+      var blockErrorElement = document.getElementById(bError + 'Error' +
+                                                      versionOfFeedback);
       if (blockErrorElement) {
         blockErrorElement.style.display = 'list-item';
       }
@@ -421,16 +438,25 @@ BlocklyApps.setErrorFeedbackBasedOnTestResults = function() {
   }
   /**
    * Level 2 tests, user can try again and improve their code or continue to the
-   * next level/interstitial.
+   *     next level/interstitial.
    */
   if (BlocklyApps.hasIdealNumberOfBlocks()) {
-    document.getElementById('tooManyBlocksError').style.display = 'none';
-    document.getElementById('star3').style.display = 'block';
-    return BlocklyApps.ALL_TESTS_PASS;
+    if (BlocklyApps.levelComplete) {
+      document.getElementById('star3').style.display = 'block';
+      return BlocklyApps.ALL_TESTS_PASS;
+    } else {
+      document.getElementById('tooFewBlocksError').style.display = 'list-item';
+      document.getElementById('star1').style.display = 'block';
+      return BlocklyApps.BLOCK_TEST_FAIL;
+    }
   } else {
     document.getElementById('tooManyBlocksError').style.display = 'list-item';
     document.getElementById('star2').style.display = 'block';
-    return BlocklyApps.IDEAL_TEST_FAIL;
+    if (BlocklyApps.levelComplete) {
+      return BlocklyApps.IDEAL_TEST_FAIL;
+    } else {
+      return BlocklyApps.BLOCK_TEST_FAIL;
+    }
   }
 };
 
@@ -563,7 +589,7 @@ BlocklyApps.hideFeedback = function() {
 };
 
 /**
- * Hide the end of level modal dialog.
+ * Hide the modal dialog.
  */
 BlocklyApps.hideDialog = function() {
   document.getElementById('shadow').style.display = 'none';
@@ -588,7 +614,7 @@ BlocklyApps.showReinfHelp = function(reinfLevel) {
   } else if (responseType == 'r') {
     textColor = 'green';
     responseType = 'right';
-    document.getElementById('continueButton').style.display = 'inline';
+    document.getElementById('continueButton').removeAttribute('disabled');
   } else {
     throw 'Response not w or r.';
   }
@@ -608,7 +634,10 @@ BlocklyApps.displayInterstitialOrCloseModalDialog = function(gotoNext) {
     if (reinfMSG && interstitial == 'none') {
       BlocklyApps.hideFeedback();
       if (document.querySelector('.quiz')) {
-        document.getElementById('continueButton').style.display = 'none';
+        document.getElementById('continueButton').setAttribute('disabled',
+                                                               'disabled');
+      } else {
+        document.getElementById('reinfDone').style.display = 'none';
       }
       document.getElementById('interstitial').style.display = 'block';
       document.getElementById('tryAgainButton').style.display = 'none';
