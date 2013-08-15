@@ -53,6 +53,11 @@
     <block type="maze_if"></block>
     {call mazepage.controlsFor /}
   </category>
+  <category name="{msg meaning="Maze.catProcedures" desc="TODO"}Functions{/msg}">
+    <block type="procedures_callnoreturn">
+      <mutation name="add 5"></mutation>
+    </block>
+  </category>
   {if $ij.level > 2}
     <category name="{msg meaning="Maze.catProcedures" desc="TODO"}Functions{/msg}" custom="PROCEDURE"></category>
   {/if}

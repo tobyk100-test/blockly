@@ -1,3 +1,89 @@
+// This file was automatically generated from templateLevel2.soy.
+// Please don't edit this file by hand.
+
+if (typeof page2 == 'undefined') { var page2 = {}; }
+
+
+page2.hints = function(opt_data, opt_ignored, opt_ijData) {
+  var output = '';
+  switch (opt_ijData.level) {
+    case 1:
+      output += 'Use the function block to fill in a row of holes, each needs five shovelfuls of dirt.';
+      break;
+    case 2:
+      output += 'Define a new function to fill in holes which need 7 shovelfuls, then use it to beat the level.';
+      break;
+    case 3:
+      output += 'Create a new function to fill in holes that need three shovelfuls of dirt.';
+      break;
+    case 4:
+      output += 'Use the new \'dig up row\' and \'make row\' blocks to complete the level.';
+      break;
+    case 5:
+      output += 'Create a new function which jumps the hurdles to get to the next mound.';
+      break;
+    case 6:
+      output += 'Use the jump hurdle function to help the Miner dig up the mounds.';
+      break;
+  }
+  return output;
+};
+
+
+page2.toolbox = function(opt_data, opt_ignored, opt_ijData) {
+  return '<category name="Actions"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block><block type="maze_putDownBall"></block><block type="maze_untilBlocked"></block><block type="maze_if"></block>' + mazepage.controlsFor(null, null, opt_ijData) + '</category><category name="Functions"><block type="procedures_callnoreturn"><mutation name="add 5"></mutation></block></category>' + ((opt_ijData.level > 2) ? '<category name="Functions" custom="PROCEDURE"></category>' : '');
+};
+
+;
+// This file was automatically generated from templateLevel1.soy.
+// Please don't edit this file by hand.
+
+if (typeof page1 == 'undefined') { var page1 = {}; }
+
+
+page1.hints = function(opt_data, opt_ignored, opt_ijData) {
+  var output = '';
+  switch (opt_ijData.level) {
+    case 1:
+      output += 'Move the miner to the mound and make him dig it up.';
+      break;
+    case 2:
+      output += 'Move the miner to hole and make him put in two shovels full of dirt.';
+      break;
+    case 3:
+      output += 'Make the miner repeatedly pick up dirt and move forward, using as few blocks as possible.';
+      break;
+    case 4:
+      output += 'Make the miner fill in the row of holes, using as few blocks as possible.';
+      break;
+    case 5:
+      output += 'Make the miner dig up the row of piles.';
+      break;
+    case 6:
+      output += 'Make the miner dig up 10 shovelfuls of dirt.';
+      break;
+    case 7:
+      output += 'Fill in the row of holes, each hole needs five shovelfuls of dirt.';
+      break;
+    case 8:
+      output += 'Dig up the square of mounds.';
+      break;
+    case 9:
+      output += 'Make the miner dig up the mounds.';
+      break;
+    case 10:
+      output += 'Use the function block to make the miner place 5 balls.';
+      break;
+  }
+  return output;
+};
+
+
+page1.toolbox = function(opt_data, opt_ignored, opt_ijData) {
+  return '<block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block>' + ((opt_ijData.level > 1) ? '<block type="maze_putDownBall"></block>' + ((opt_ijData.level > 2) ? '<block type="maze_untilBlocked"></block>' + ((opt_ijData.level > 5) ? mazepage.controlsFor(null, null, opt_ijData) + ((opt_ijData.level > 8) ? '<block type="maze_if"></block>' : '') : '') : '') : '');
+};
+
+;
 // This file was automatically generated from template.soy.
 // Please don't edit this file by hand.
 
@@ -6,9 +92,9 @@ if (typeof mazepage == 'undefined') { var mazepage = {}; }
 
 mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="start_blocks" style="display:none">' + mazepage.startBlocks(null, null, opt_ijData) + '</div><div id="MSG" style="display: none"><span id="moveForward">move forward</span><span id="putDownBall">add 1</span><span id="putDown5">put down 5</span><span id="pickUpBall">remove 1</span><span id="while">while</span><span id="ballsPresent">if number is greater than 0</span><span id="noBallsPresent">number is less than 0</span><span id="turnLeft">turn left</span><span id="turnRight">turn right</span><span id="doCode">do</span><span id="elseCode">else</span><span id="pathAhead">path ahead</span><span id="pathLeft">path to the left</span><span id="pathRight">path to the right</span><span id="noPathAhead">path is blocked</span><span id="noPathLeft">no path to the left</span><span id="noPathRight">no path to the right</span><span id="repeatUntilBlocked">repeat until path is blocked</span><span id="repeatUntilFinish">repeat until finish</span><span id="repeatWhileBallPresents">repeat while current number is not zero</span><span id="moveForwardTooltip">Move me forward one space.</span><span id="q4wrong">No - Try tracking my direction while following the program.</span><span id="q4right">That\'s right! Good job.</span><span id="q5wrong">No - Try tracking my direction while following the program.</span><span id="q5right">You got it right!</span><span id="q10wrong">No - Try tracking my direction while following the program.</span><span id="q10right">That\'s right!</span><span id="turnTooltip">Turns me left or right by 90 degrees.</span><span id="ifTooltip">If there is a path in the specified direction, then do some actions.</span><span id="ifelseTooltip">If there is a path in the specified direction, then do the first block of actions. Otherwise, do the second block of actions.</span><span id="whileTooltip">Repeat the enclosed actions until finish point is reached.</span><span id="capacity0">You have<span id=\'capacityNumber\'>0</span> blocks left.</span><span id="capacity1">You have <span id=\'capacityNumber\'>1</span> block left.</span><span id="capacity2">You have <span id=\'capacityNumber\'>%1</span> blocks left.</span><span id="nextLevel">Congratulations! You have completed this level.</span><span id="finalLevel">Congratulations! You have solved the final level.</span><span id="oneTopBlock">On this level, you need to stack together all of the blocks in the white workspace.</span><span id="putdownTower">put down tower</span><span id="pickupTower">pickup tower</span></div><div id="COMMON_MSG" style="display: none"><span id="httpRequestError">There was a problem with the request.</span><span id="linkAlert">Share your blocks with this link:\\n\\n%1</span><span id="hashError">Sorry, \'%1\' doesn\'t correspond with any saved Blockly file.</span><span id="xmlError">Could not load your saved file.  Perhaps it was created with a different version of Blockly?</span></div><table width="100%"><tr><td><h1><span id="title"><a href="../index.html">Blockly</a> : Maze</span> &nbsp; ';
-  var iLimit177 = opt_ijData.maxLevel + 1;
-  for (var i177 = 1; i177 < iLimit177; i177++) {
-    output += ' ' + ((i177 == opt_ijData.level) ? (i177 > 9) ? '<span class="selected doubleDigit tab">' + soy.$$escapeHtml(i177) + '</span>' : '<span class="selected singleDigit tab">' + soy.$$escapeHtml(i177) + '</span>' : (i177 < opt_ijData.level) ? '<a class="tab previous" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i177) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i177) + '</a>' : '<a class="tab" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i177) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i177) + '</a>');
+  var iLimit261 = opt_ijData.maxLevel + 1;
+  for (var i261 = 1; i261 < iLimit261; i261++) {
+    output += ' ' + ((i261 == opt_ijData.level) ? (i261 > 9) ? '<span class="selected doubleDigit tab">' + soy.$$escapeHtml(i261) + '</span>' : '<span class="selected singleDigit tab">' + soy.$$escapeHtml(i261) + '</span>' : (i261 < opt_ijData.level) ? '<a class="tab previous" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i261) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i261) + '</a>' : '<a class="tab" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i261) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i261) + '</a>');
   }
   output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select> &nbsp; <button id="pegmanButton" onmousedown="Maze.showPegmanMenu();"><img src="../media/1x1.gif"><span>&#x25BE;</span></button></td></tr></table><div id="levelFeedback"><div style="padding-bottom: 0.7ex;"><br><textarea id="levelFeedbackText" rows=2 cols=40 style="resize: none; border: 0; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;">';
   switch (opt_ijData.level) {

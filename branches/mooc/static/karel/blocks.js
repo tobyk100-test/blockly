@@ -215,3 +215,5 @@ Blockly.Language.maze_untilBlocked.DIRECTIONS = [
      [BlocklyApps.getMsg('repeatUntilFinish'), 'notFinish']
 ];
 
+delete Blockly.Language.procedures_defreturn;
+delete Blockly.Language.procedures_ifreturn;
