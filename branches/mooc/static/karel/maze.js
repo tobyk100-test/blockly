@@ -1301,7 +1301,7 @@ Maze.closeDialogButtonClick = function(gotoNextLevel) {
   if (gotoNextLevel) {
     window.location = window.location.protocol + '//' +
         window.location.host + window.location.pathname +
-        '?lang=' + BlocklyApps.LANG + '&level=' + (Maze.LEVEL + 1) +
+        '?lang=' + BlocklyApps.LANG + '&page=' + Maze.PAGE + '&level=' + (Maze.LEVEL + 1) +
         '&skin=' + Maze.SKIN_ID;
   } else {
     Maze.resetButtonClick();

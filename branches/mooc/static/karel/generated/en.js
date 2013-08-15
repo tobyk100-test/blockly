@@ -197,7 +197,7 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
 
 
 mazepage.fillShovelfuls = function(opt_data, opt_ignored, opt_ijData) {
-  return '<block type="procedures_defnoreturn" x="20" y="200"><title name="NAME">Fill ' + soy.$$escapeHtml(opt_data.shovelfuls) + ' shovelfuls</title><statement name="STACK">' + mazepage.controlsFor({upperLimit: opt_data.shovelfuls, doStatement: '<block type="maze_putDownBall"></block>'}, null, opt_ijData) + '</statement></block>';
+  return '<block type="procedures_defnoreturn" x="20" y="200"><title name="NAME">fill ' + soy.$$escapeHtml(opt_data.shovelfuls) + ' shovelfuls</title><statement name="STACK">' + mazepage.controlsFor({upperLimit: opt_data.shovelfuls, doStatement: '<block type="maze_putDownBall"></block>'}, null, opt_ijData) + '</statement></block>';
 };
 
 
