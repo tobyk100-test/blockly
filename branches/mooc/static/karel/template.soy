@@ -32,19 +32,19 @@
       he/she is facing."}move forward{/msg}</span>
     // Nan's
     <span id="putDownBall">{msg meaning="Maze.putDownBall" desc="verb -
-      imperative or infinitive for a person putting down a ball."}fill in earth{/msg}</span>    
+      imperative or infinitive for a person putting down a ball."}add 1{/msg}</span>    
     <span id="putDown5">{msg meaning="Maze.putDown5" desc="place 5 balls on the square."}
       put down 5{/msg}</span>
     <span id="pickUpBall">{msg meaning="Maze.pickUpBall" desc="verb -
-      imperative or infinitive for a person picking up a ball."}dig up earth{/msg}</span>    
+      imperative or infinitive for a person picking up a ball."}remove 1{/msg}</span>    
     <span id="while">{msg meaning="Maze.while" desc="condensed form of 'while
       something is true'"}while{/msg}</span>
     <span id="ballsPresent">{msg meaning="Maze.ballsPresent" desc="Indicates
       the presence of at least one ball, as in 'he brought a ball, there
-      are now balls present'"}dirt mound is present{/msg}</span>
+      are now balls present'"}if number is greater than 0{/msg}</span>
     <span id="noBallsPresent">{msg meaning="Maze.noBallsPresent" desc="Indicates
       the lack of any balls, as in 'she took the last ball, there
-      are now no balls present'"}hole is present{/msg}</span>
+      are now no balls present'"}number is less than 0{/msg}</span>
     <span id="turnLeft">{msg meaning="Maze.turnLeft" desc="verb - imperative
       or infinitive for a person turning his head and body one quarter rotation
       counter-clockwise.  Prefer a translation that has text in common with the
@@ -82,7 +82,7 @@
       followed by the symbol denoting the end of the maze."}repeat until finish{/msg}</span>
     <span id="repeatWhileBallPresents">{msg meaning="Maze.repeatUntil" desc="verb -
       imperative or infinitive to repeat the following commands.  The phrase is
-      followed by the symbol denoting the end of the maze."}repeat while dirt mound is present{/msg}</span>
+      followed by the symbol denoting the end of the maze."}repeat while current number is not zero{/msg}</span>
     <span id="moveForwardTooltip">{msg meaning="Maze.moveForwardTooltip"
       desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.
       See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).
