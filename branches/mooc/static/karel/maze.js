@@ -58,9 +58,9 @@ BlocklyApps.LANG = BlocklyApps.getLang();
 document.write('<script type="text/javascript" src="generated/' +
                BlocklyApps.LANG + '.js"></script>\n');
 
-Maze.MAX_LEVEL = 16;
 Maze.MAX_REINF = 0;
-
+Maze.PAGE = BlocklyApps.getNumberParamFromUrl('page', 1, 2);
+Maze.MAX_LEVEL = [undefined, 10, 10][Maze.PAGE];
 Maze.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1, Maze.MAX_LEVEL);
 Maze.REINF = BlocklyApps.getNumberParamFromUrl('reinf', 1, Maze.MAX_REINF);
 // Nan's

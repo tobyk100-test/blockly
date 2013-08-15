@@ -181,7 +181,7 @@
             {/msg}
           </span>
           {sp}&nbsp;{sp}
-          {for $i in range(1, 17)}
+          {for $i in range(1, $ij.maxLevel + 1)}
             {sp}
             {if $i == $ij.level}
               {if $i > 9}
@@ -191,9 +191,9 @@
               {/if}
             {else}
               {if $i < $ij.level}
-                <a class="tab previous" href="?lang={$ij.lang}&level={$i}&skin={$ij.skin}">{$i}</a>
+                <a class="tab previous" href="?page={$ij.page}&lang={$ij.lang}&level={$i}&skin={$ij.skin}">{$i}</a>
               {else}
-                <a class="tab" href="?lang={$ij.lang}&level={$i}&skin={$ij.skin}">{$i}</a>
+                <a class="tab" href="?page={$ij.page}&lang={$ij.lang}&level={$i}&skin={$ij.skin}">{$i}</a>
               {/if}
             {/if}
           {/for}
@@ -608,33 +608,40 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none;">
-    <block type="maze_moveForward"></block>
-    <block type="maze_turn"><title name="DIR">turnLeft</title></block>
-    <block type="maze_turn"><title name="DIR">turnRight</title></block>
-    <block type="maze_pickUpBall"></block>
-    {if $ij.level > 1}
-      <block type="maze_putDownBall"></block>
-      {if $ij.level > 2}
-        <block type="maze_untilBlocked"></block>
-        {if $ij.level > 5}
-          {call .controlsFor /}
-          {if $ij.level > 8}
-            <block type="maze_if"></block>
-            {if $ij.level > 9}
-              {if $ij.level == 14}
-              {/if}
-              {if $ij.level > 14}
-                <block type="procedures_defnoreturn"></block>
-                <block type="procedures_callnoreturn"></block>
-              {/if}
-            {/if}
-          {/if}
-        {/if}
-      {/if}
+    {if $ij.page == 1}
+      {call .toolboxPage1 data="all" /}
+    {else}
+      {call .toolboxPage2 data="all" /}
     {/if}
   </xml>
 {/template}
+/**
+ * Toolbox for Karel 1
+ */
+{template .toolboxPage1}
+  <block type="maze_moveForward"></block>
+  <block type="maze_turn"><title name="DIR">turnLeft</title></block>
+  <block type="maze_turn"><title name="DIR">turnRight</title></block>
+  <block type="maze_pickUpBall"></block>
+  {if $ij.level > 1}
+    <block type="maze_putDownBall"></block>
+    {if $ij.level > 2}
+      <block type="maze_untilBlocked"></block>
+      {if $ij.level > 5}
+        {call .controlsFor /}
+        {if $ij.level > 8}
+          <block type="maze_if"></block>
+        {/if}
+      {/if}
+    {/if}
+  {/if}
+{/template}
+/**
+ * Toolbox for Karel 2
+ */
+{template .toolboxPage2}
 
+{/template}
 /**
  * Web page structure.
  */
@@ -665,13 +672,14 @@
       {call .fillShovelfuls}
         {param shovelfuls: 5 /}
       {/call}
+
     {case 11}
       {call .fillShovelfuls}
         {param shovelfuls: 5 /}
       {/call}
     {case 12}
       {call .fillShovelfuls}
-        {param shovelfuls: 7 /}
+        {param shovelfuls: 5 /}
       {/call}
     {case 13}
     {case 14}
