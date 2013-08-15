@@ -39,7 +39,7 @@ page2.toolbox = function(opt_data, opt_ignored, opt_ijData) {
 
 
 page2.addProcedures = function(opt_data, opt_ignored, opt_ijData) {
-  return ((opt_ijData.level > 2) ? '<category name="Functions" custom="PROCEDURE"></category>' : '<category name="Functions"><block type="procedures_callnoreturn"><mutation name="Fill 5 shovelfuls"></mutation></block></category>') + ((opt_ijData.level < 7) ? '<category name="Conditionals"><block type="maze_if"></block></category>' : '<category name="Conditionals"><block type="maze_if"></block><block type="maze_ifElse"></block></category>');
+  return ((opt_ijData.level > 2) ? '<category name="Functions" custom="PROCEDURE"></category>' : '<category name="Functions"><block type="procedures_callnoreturn"><mutation name="add 5"></mutation></block></category>') + ((opt_ijData.level < 7) ? '<category name="Conditionals"><block type="maze_if"></block></category>' : '<category name="Conditionals"><block type="maze_if"></block><block type="maze_ifElse"></block></category>');
 };
 
 ;
