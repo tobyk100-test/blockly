@@ -34,7 +34,7 @@ page2.hints = function(opt_data, opt_ignored, opt_ijData) {
 
 
 page2.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<category name="Actions"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block><block type="maze_putDownBall"></block></category><category name="Control"><block type="maze_untilBlocked"></block><block type="maze_if"></block>' + mazepage.controlsFor(null, null, opt_ijData) + '</category>' + page2.addProcedures(null, null, opt_ijData);
+  return '<category name="Actions"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block><block type="maze_putDownBall"></block></category><category name="Loops"><block type="maze_untilBlocked"></block>' + mazepage.controlsFor(null, null, opt_ijData) + '</category><category name="Conditionals"><block type="maze_if"></block></category>' + page2.addProcedures(null, null, opt_ijData);
 };
 
 
@@ -78,9 +78,6 @@ page1.hints = function(opt_data, opt_ignored, opt_ijData) {
       break;
     case 9:
       output += 'Make the miner dig up the mounds.';
-      break;
-    case 10:
-      output += 'Use the function block to make the miner place 5 balls.';
       break;
   }
   return output;

@@ -54,10 +54,12 @@
     <block type="maze_pickUpBall"></block>
     <block type="maze_putDownBall"></block>
   </category>
-  <category name="{msg meaning="Maze.catControl" desc="TODO"}Control{/msg}">
+  <category name="{msg meaning="Maze.catControl" desc="TODO"}Loops{/msg}">
     <block type="maze_untilBlocked"></block>
-    <block type="maze_if"></block>
     {call mazepage.controlsFor /}
+  </category>
+  <category name="{msg meaning="Maze.catCondition" desc="TODO"}Conditionals{/msg}">
+    <block type="maze_if"></block>
   </category>
   {call .addProcedures /}
 {/template}
