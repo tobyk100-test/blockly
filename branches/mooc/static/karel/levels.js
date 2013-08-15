@@ -3,6 +3,18 @@ Maze.levels = [];
 Maze.initialBalls = [];
 Maze.finalBalls = [];
 
+Maze.pageOneIdeal = [
+  undefined, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity,
+  Infinity, Infinity, Infinity
+];
+
+Maze.pageTwoIdeal = [
+  undefined, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity,
+  Infinity
+];
+
+Maze.idealBlocks = [undefined, Maze.pageOneIdeal, Maze.pageTwoIdeal];
+
 Maze.pageOneLevels = [
 // Level 0.
  undefined,

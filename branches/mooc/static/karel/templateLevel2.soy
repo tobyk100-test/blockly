@@ -5,34 +5,38 @@
 {template .hints}
   {switch $ij.level}
     {case 1}
+      {msg meaning="Maze.instructions10" desc="instructions - 'block'
+        refers to a child's building block."}Use the function block to
+        make the miner place 5 balls.{/msg}
+    {case 2}
       {msg meaning="Maze.instructions11" desc="instructions - an
         example of an 'if-else' block is: 'if there is a path to the
         left, turn left, else or otherwise turn right'."}Use the function
         block to fill in a row of holes, each needs five shovelfuls of
         dirt.{/msg}
-    {case 2}
+    {case 3}
       {msg meaning="Maze.instructions11" desc="instructions - an
         example of an 'if-else' block is: 'if there is a path to the
         left, turn left, else or otherwise turn right'."}Define a new
         function to fill in holes which need 7 shovelfuls, then use it to
         beat the level.{/msg}
-    {case 3}
+    {case 4}
       {msg meaning="Maze.instructions11" desc="instructions - an
         example of an 'if-else' block is: 'if there is a path to the
         left, turn left, else or otherwise turn right'."}Create a new
         function to dig up three shovelfuls of dirt.
       {/msg}
-    {case 4}
+    {case 5}
       {msg meaning="Maze.instructions11" desc="instructions - an
         example of an 'if-else' block is: 'if there is a path to the
         left, turn left, else or otherwise turn right'."}Use the new
         'dig up row' and 'make row' blocks to complete the level.{/msg}
-    {case 5}
+    {case 6}
       {msg meaning="Maze.instructions11" desc="instructions - an
         example of an 'if-else' block is: 'if there is a path to the
         left, turn left, else or otherwise turn right'."}Create a new
         function which jumps the hurdles to get to the next mound.{/msg}
-    {case 6}
+    {case 7}
       {msg meaning="Maze.instructions11" desc="instructions - an
         example of an 'if-else' block is: 'if there is a path to the
         left, turn left, else or otherwise turn right'."}Use the jump
@@ -50,10 +54,12 @@
     <block type="maze_pickUpBall"></block>
     <block type="maze_putDownBall"></block>
   </category>
-  <category name="{msg meaning="Maze.catControl" desc="TODO"}Control{/msg}">
+  <category name="{msg meaning="Maze.catControl" desc="TODO"}Loops{/msg}">
     <block type="maze_untilBlocked"></block>
-    <block type="maze_if"></block>
     {call mazepage.controlsFor /}
+  </category>
+  <category name="{msg meaning="Maze.catCondition" desc="TODO"}Conditionals{/msg}">
+    <block type="maze_if"></block>
   </category>
   {call .addProcedures /}
 {/template}
