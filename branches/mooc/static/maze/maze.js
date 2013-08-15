@@ -58,19 +58,18 @@ BlocklyApps.LANG = BlocklyApps.getLang();
 document.write('<script type="text/javascript" src="generated/' +
     BlocklyApps.LANG + '.js"></script>\n');
 
-BlocklyApps.MAX_LEVEL = 10;
+Maze.MAX_LEVEL = 10;
 
-BlocklyApps.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1,
-    BlocklyApps.MAX_LEVEL);
-BlocklyApps.idealBlockNum = [undefined, //  0.
-  2, 5, 2, 5, 4, 4, 4, 6, 6, 4][BlocklyApps.LEVEL];
+Maze.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1, Maze.MAX_LEVEL);
+Maze.IDEAL_BLOCK_NUM = [undefined, //  0.
+  2, 5, 2, 5, 4, 4, 4, 6, 6, 4][Maze.LEVEL];
 
 // Blocks that are expected to be used on each level.
-BlocklyApps.requiredBlocks = [undefined, // 0.
+Maze.REQUIRED_BLOCKS = [undefined, // 0.
   ['moveForward'], ['moveForward', 'turn'], ['moveForward', 'while'],
   ['while', 'turn'], ['if', 'turn', 'while'], ['if', 'turn', 'while'],
   ['if', 'turn', 'while'], ['if', 'turn', 'while'], ['if', 'turn', 'while'],
-  ['else', 'while']][BlocklyApps.LEVEL];
+  ['else', 'while']][Maze.LEVEL];
 
 Maze.SKINS = [
   // sprite: A 1029x51 set of 21 avatar images.
@@ -111,13 +110,18 @@ Maze.SKIN_ID = BlocklyApps.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
 Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
 
 /**
+ * Counter of the number of times the user has tried to solve the level.
+ */
+Maze.attempts = 0;
+
+/**
  * Google Drive video ID.
  * 'null' is used because IE8 does not like trailing commas in arrays, and it is
  *     used throughout the array for consistency.
  */
 Maze.VIDEO_ID = [undefined, null, '0BybP3F7DhXrUU2FCODdJdXRKVTQ', null,
     '0BybP3F7DhXrUSFRhMnBGLUVPZTA', null, null, null, null, null,
-    null][BlocklyApps.LEVEL];
+    null][Maze.LEVEL];
 
 /**
  * Milliseconds between each animation frame.
@@ -237,7 +241,7 @@ Maze.map = [
   [0, 0, 2, 1, 1, 1, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]]
-][BlocklyApps.LEVEL];
+][Maze.LEVEL];
 // Add blank row at top for hint bubble.
 Maze.map.unshift([0, 0, 0, 0, 0, 0, 0, 0]);
 
@@ -490,11 +494,11 @@ Maze.init = function() {
        trashcan: true});
   Blockly.loadAudio_(['maze/win.mp3', 'maze/win.ogg'], 'win');
   Blockly.loadAudio_(['maze/whack.mp3', 'maze/whack.ogg'], 'whack');
-  if (BlocklyApps.LEVEL == 1) {
+  if (Maze.LEVEL == 1) {
     Blockly.SNAP_RADIUS *= 2;
   }
 
-  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  BlocklyApps.checkTimeout(%1);\n';
+  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  Maze.checkTimeout(%1);\n';
   Maze.drawMap();
 
   var blocklyDiv = document.getElementById('blockly');
@@ -539,6 +543,17 @@ Maze.init = function() {
 window.addEventListener('load', Maze.init);
 
 /**
+ * If the user has executed too many actions, we're probably in an infinite
+ * loop.
+ * @param {!Array} log Log of user commands.
+ * @param {?string} opt_id ID of loop block to highlight.
+ * @throws {Infinity} Throws an error to terminate the user's program.
+ */
+Maze.checkTimeout = function(opt_id) {
+  BlocklyApps.checkTimeout(Maze.log, Maze.ticks, opt_id);
+}
+
+/**
  * Reload with a different Pegman skin.
  * @param {number} skin ID of new skin.
  */
@@ -546,7 +561,7 @@ Maze.changePegman = function(newSkin) {
   Maze.saveToStorage();
   window.location = window.location.protocol + '//' +
       window.location.host + window.location.pathname +
-      '?lang=' + BlocklyApps.LANG + '&level=' + BlocklyApps.LEVEL +
+      '?lang=' + BlocklyApps.LANG + '&level=' + Maze.LEVEL +
       '&skin=' + newSkin;
 };
 
@@ -641,7 +656,7 @@ Maze.reset = function(first) {
  */
 Maze.runButtonClick = function() {
   // Only allow a single top block on levels 1 and 2.
-  if (BlocklyApps.LEVEL <= 2 && Blockly.mainWorkspace.getTopBlocks()
+  if (Maze.LEVEL <= 2 && Blockly.mainWorkspace.getTopBlocks()
         .length > 1) {
     window.alert(BlocklyApps.getMsg('oneTopBlock'));
     return;
@@ -684,10 +699,10 @@ Maze.ResultType = {
  * Execute the user's code.  Heaven help us...
  */
 Maze.execute = function() {
-  BlocklyApps.log = [];
-  BlocklyApps.ticks = 1000;
+  Maze.log = [];
+  Maze.ticks = 1000;
   var code = Blockly.Generator.workspaceToCode('JavaScript');
-  BlocklyApps.result = Maze.ResultType.UNSET;
+  Maze.result = Maze.ResultType.UNSET;
 
   // Try running the user's code.  There are four possible outcomes:
   // 1. If pegman reaches the finish [SUCCESS], true is thrown.
@@ -698,32 +713,32 @@ Maze.execute = function() {
   //    no error or exception is thrown.
   try {
     eval(code);
-    BlocklyApps.result = Maze.ResultType.FAILURE;
+    Maze.result = Maze.ResultType.FAILURE;
   } catch (e) {
     // A boolean is thrown for normal termination.
     // Abnormal termination is a user error.
     if (e === Infinity) {
-      BlocklyApps.result = Maze.ResultType.TIMEOUT;
+      Maze.result = Maze.ResultType.TIMEOUT;
     } else if (e === true) {
-      BlocklyApps.result = Maze.ResultType.SUCCESS;
+      Maze.result = Maze.ResultType.SUCCESS;
     } else if (e === false) {
-      BlocklyApps.result = Maze.ResultType.ERROR;
+      Maze.result = Maze.ResultType.ERROR;
     } else {
       // Syntax error, can't happen.
-      BlocklyApps.result = Maze.ResultType.ERROR;
+      Maze.result = Maze.ResultType.ERROR;
       alert(e);
     }
   }
 
   // Report result to server.
-  BlocklyApps.report('maze', BlocklyApps.LEVEL_ID, BlocklyApps.LEVEL,
-                     BlocklyApps.result, BlocklyApps.stripCode(code));
+  BlocklyApps.report('maze', Maze.LEVEL_ID, Maze.LEVEL,
+                     Maze.result, BlocklyApps.stripCode(code));
 
   /**
   * Fast animation if execution is successful.  Slow otherwise.
   */
   var successfulSpeed;
-  var level = BlocklyApps.Level;
+  var level = Maze.Level;
   if (level == 1) {
     successfulSpeed = 150;
   } else if (level <= 3) {
@@ -733,10 +748,10 @@ Maze.execute = function() {
   } else {
     successfulSpeed = 60;
   }
-  Maze.stepSpeed = (BlocklyApps.result == Maze.ResultType.SUCCESS) ?
+  Maze.stepSpeed = (Maze.result == Maze.ResultType.SUCCESS) ?
       successfulSpeed : 150;
 
-  // BlocklyApps.log now contains a transcript of all the user's actions.
+  // Maze.log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
   Maze.reset(false);
   Maze.pidList.push(window.setTimeout(Maze.animate, 100));
@@ -749,11 +764,11 @@ Maze.animate = function() {
   // All tasks should be complete now.  Clean up the PID list.
   Maze.pidList = [];
 
-  var action = BlocklyApps.log.shift();
+  var action = Maze.log.shift();
   if (!action) {
     BlocklyApps.highlight(null);
-    BlocklyApps.levelComplete = (BlocklyApps.result == Maze.ResultType.SUCCESS);
-    BlocklyApps.attempts++;
+    Maze.levelComplete = (Maze.result == Maze.ResultType.SUCCESS);
+    Maze.attempts++;
     window.setTimeout(Maze.displayFeedback, 1000);
     return;
   }
@@ -820,8 +835,10 @@ Maze.animate = function() {
  * Display feedback based on test results.
  */
 Maze.displayFeedback = function() {
-  var feedbackType = BlocklyApps.runTestsAndSetErrorFeedback();
-  BlocklyApps.showDialogAndFeedback(feedbackType);
+  var feedbackType = BlocklyApps.runTestsAndSetErrorFeedback(
+      Maze.IDEAL_BLOCK_NUM, Maze.REQUIRED_BLOCKS, Maze.levelComplete,
+      Maze.attempts);
+  BlocklyApps.showDialogAndFeedback(feedbackType, Maze.LEVEL, Maze.MAX_LEVEL);
 };
 
 /**
@@ -1065,7 +1082,7 @@ Maze.isPathLeft = function(id) {
  */
 Maze.move = function(direction, id) {
   if (!Maze.isPath(direction, null)) {
-    BlocklyApps.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
+    Maze.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
     throw false;
   }
   // If moving backward, flip the effective direction.
@@ -1089,10 +1106,10 @@ Maze.move = function(direction, id) {
       command = 'west';
       break;
   }
-  BlocklyApps.log.push([command, id]);
+  Maze.log.push([command, id]);
   if (Maze.pegmanX == Maze.finish_.x && Maze.pegmanY == Maze.finish_.y) {
     // Finished.  Terminate the user's program.
-    BlocklyApps.log.push(['finish', null]);
+    Maze.log.push(['finish', null]);
     throw true;
   }
 };
@@ -1106,11 +1123,11 @@ Maze.turn = function(direction, id) {
   if (direction) {
     // Right turn (clockwise).
     Maze.pegmanD++;
-    BlocklyApps.log.push(['right', id]);
+    Maze.log.push(['right', id]);
   } else {
     // Left turn (counterclockwise).
     Maze.pegmanD--;
-    BlocklyApps.log.push(['left', id]);
+    Maze.log.push(['left', id]);
   }
   Maze.pegmanD = Maze.constrainDirection4(Maze.pegmanD);
 };
@@ -1148,19 +1165,9 @@ Maze.isPath = function(direction, id) {
       break;
   }
   if (id) {
-    BlocklyApps.log.push([command, id]);
+    Maze.log.push([command, id]);
   }
   return square !== Maze.SquareType.WALL && square !== undefined;
-};
-
-/**
- * Construct the url and go to the next Maze level.
- */
-BlocklyApps.createURLAndOpenNextLevel = function() {
-  window.location = window.location.protocol + '//' +
-    window.location.host + window.location.pathname +
-    '?lang=' + BlocklyApps.LANG + '&level=' + (BlocklyApps.LEVEL + 1) +
-    '&skin=' + Maze.SKIN_ID;
 };
 
 /**

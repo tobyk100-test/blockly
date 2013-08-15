@@ -434,7 +434,7 @@
             stays on the current level"}Try again{/msg}
         </button>
         <button id="continueButton" class="launch" style="display: none"
-          onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(true);">
+          onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(true, {$ij.level}, {$ij.skin});">
             {msg meaning="Maze.continue" desc="button - Closes the dialog and
               continues to the next level"}Continue{/msg}
         </button>
