@@ -67,7 +67,7 @@ Maze.REINF = BlocklyApps.getNumberParamFromUrl('reinf', 1, Maze.MAX_REINF);
 // Maze.idealBlockNum = [undefined, //  0.
 //   2, 5, 2, 5, 5, 4, 4, 4, 6, 6, 4][Maze.LEVEL];
 Maze.idealBlockNum = [undefined, //  0.
-   5, 3, 3, 3, 3, 3, 4, 4, 4, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity][Maze.LEVEL];
+   5, 3, 3, 3, 3, 6, 7, 7, 4, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity][Maze.LEVEL];
 
 Maze.SKINS = [
   // sprite: A 1029x51 set of 21 avatar images.
@@ -1282,6 +1282,7 @@ Maze.animate = function() {
  */
 Maze.giveFeedback = function() {
   var numBlocks = Blockly.mainWorkspace.getAllBlocks().length;
+  console.log('giveFeedback ' + numBlocks + ',' + Maze.idealBlockNum);
   Maze.showDialog(Maze.LEVEL, numBlocks <= Maze.idealBlockNum);
 };
 
