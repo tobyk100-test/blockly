@@ -1159,6 +1159,11 @@ Maze.checkSuccess = function(id) {
         throw true;
     }
   // }
+
+    // Nan's testing code for showing the corresponding xml
+    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    var text = Blockly.Xml.domToText(xml);
+    console.log(text);
 }
 
 Maze.notFinish = function(id) {

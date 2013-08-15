@@ -14,7 +14,7 @@ page2.hints = function(opt_data, opt_ignored, opt_ijData) {
       output += 'Define a new function to fill in holes which need 7 shovelfuls, then use it to beat the level.';
       break;
     case 3:
-      output += 'Create a new function to fill in holes that need three shovelfuls of dirt.';
+      output += 'Create a new function to dig up three shovelfuls of dirt.';
       break;
     case 4:
       output += 'Use the new \'dig up row\' and \'make row\' blocks to complete the level.';
@@ -179,11 +179,12 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
         output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
         break;
       case 3:
-        output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
+        output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData) + '<block type="procedures_defnoreturn" x="400" y="200"><mutation></mutation><title name="NAME">fill 7 shovefuls</title></block>';
         break;
       case 4:
         break;
       case 5:
+        output += '<block type="procedures_defnoreturn" x="20" y="200"><mutation></mutation><title name="NAME">dig up tower</title><statement name="STACK"><block type="maze_turn"><title name="DIR">turnLeft</title><next><block type="controls_for" inline="true"><title name="VAR">i</title><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">3</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value><statement name="DO"><block type="maze_pickUpBall"><next><block type="maze_moveForward"></block></next></block></statement><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="controls_for" inline="true"><title name="VAR">j</title><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">3</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value><statement name="DO"><block type="maze_moveForward"></block></statement><next><block type="maze_turn"><title name="DIR">turnLeft</title></block></next></block></next></block></next></block></next></block></next></block></statement></block></statement></block><block type="procedures_defnoreturn" x="400" y="200"><mutation></mutation><title name="NAME">fill in tower</title><statement name="STACK"><block type="maze_turn"><title name="DIR">turnLeft</title><next><block type="controls_for" inline="true"><title name="VAR">i</title><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">3</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value><statement name="DO"><block type="maze_putDownBall"><next><block type="maze_moveForward"></block></next></block></statement><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="controls_for" inline="true"><title name="VAR">j</title><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">3</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value><statement name="DO"><block type="maze_moveForward"></block></statement><next><block type="maze_turn"><title name="DIR">turnLeft</title></block></next></block></next></block></next></block></next></block></next></block></statement></block></statement></block>';
         break;
       case 6:
         break;
