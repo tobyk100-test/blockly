@@ -20,10 +20,10 @@
  */
 
 /**
- * Web page structure.
+ * Translated messages for use in JavaScript.
  */
-{template .start}
-  <div id="MSG" style="display: none">
+{template .messages}
+  <div style="display: none">
     <span id="moveForward">{msg meaning="Maze.moveForward" desc="verb -
       imperative or infinitive for a person moving (walking) in the direction
       he/she is facing."}move forward{/msg}</span>
@@ -130,13 +130,19 @@
   // - keeping track of which languages have translated common messages.
   // Messages in the other apps' template.soy files reference these to
   // minimize extra work for translators.
-  <div id="COMMON_MSG" style="display: none">
+  <div style="display: none">
     <span id="httpRequestError">{msg meaning="Apps.httpRequestError" desc="alert - The URL is invalid or a server error occurred.  This message will be followed by technical information useful to engineers trying to understand the problem."}There was a problem with the request.{/msg}</span>
     <span id="linkAlert">{msg meaning="Apps.linkAlert" desc="alert - After the user has pressed a button to save his/her program, this provides the URL (%1) to retrieve the program.  The characters '\n\n' indicate that a blank line will be displayed before the URL (in English).  Leave those in unless you move %1 to the beginning or middle of the text, in which case you should use your judgment about where blank lines would be most useful."}Share your blocks with this link:\n\n%1{/msg}</span>
     <span id="hashError">{{msg meaning="Apps.hashError" desc="alert - A request to retrieve a stored program does not have a valid URL. %1 is the invalid portion of the URL. 'Blockly' is the name of the system.  It should be left untranslated or it should be transliterated.  See [[Translating:Blockly#Special_terms]]."}}Sorry, '%1' doesn't correspond with any saved Blockly file.{{/msg}}</span>
     <span id="xmlError">{msg meaning="Apps.xmlError" desc="alert - There was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  This message will be folllowed by technical information useful to engineers trying to understand the problem."}Could not load your saved file.  Perhaps it was created with a different version of Blockly?{/msg}</span>
   </div>
+{/template}
 
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
   <table width="100%">
     <tr>
       <td>
@@ -307,7 +313,7 @@
                   block is used to repeat blocks over and over. "}Repeat blocks
                   allow me to do an action multiple times without additional
                   blocks. 'if' blocks allow me to do an action based on my
-                  surroundings.{/msg}              
+                  surroundings.{/msg}
               {case 8}
                 {msg meaning="Maze.reinfMsg8" desc="instructions - An example of
                   an 'if-else' block is if there is a path ahead move forward,
@@ -459,7 +465,7 @@
             {msg meaning="Maze.instructions3" desc="instructions - 'path'
               refers to a path through a maze, and 'block' refers to a
               child's building block."}Computers have limited memory.
-              Reach the end of this path using only two blocks.{/msg}            
+              Reach the end of this path using only two blocks.{/msg}
           {case 4}
             {msg meaning="Maze.instructions4" desc="instructions - the
               goal is reaching the end point in a maze; 'block' refers
@@ -508,17 +514,18 @@
       <div id="capacity"></div>
     </div>
   </div>
+
   <table width="400">
     <tr>
       <td style="width: 190px; text-align: center; vertical-align: top;">
-        <button title="{msg meaning="Maze.codeTooltip" desc="tooltip
+        <button class="notext" title="{msg meaning="Maze.codeTooltip" desc="tooltip
           (pop-up help) for button; pressing the button causes a program
           in the JavaScript computer language to be displayed, based on the
           program created by the user."}See generated JavaScript code.{/msg}"
           onclick="BlocklyApps.showCode();">
           <img src='../media/1x1.gif' alt="code" class="code icon21">
         </button>
-        <button id="linkButton" title="{msg meaning="Maze.linkTooltip"
+        <button id="linkButton" class="notext" title="{msg meaning="Maze.linkTooltip"
           desc="tooltip (pop-up help) for button; pressing the button
           causes the user's program to be saved and for a URL to be
           provided for retrieving it.  The word 'blocks' is as in

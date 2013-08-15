@@ -191,7 +191,7 @@ button:hover, .buttonHover {
 button>img {
   opacity: 0.6;
 }
-button:disabled, button[disabled=disabled] {
+button.disabled, button[disabled=disabled] {
   border: 1px solid #C7C7C7;
   background-color: #C7C7C7;
   box-shadow: none;
@@ -203,6 +203,9 @@ input[type="radio"] {
 #languageMenu {
   vertical-align: top;
   margin-top: 12px;
+}
+.notext {
+  font-size: 10%;
 }
 
 /* Sprited icons. */
