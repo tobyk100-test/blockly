@@ -49,51 +49,56 @@ mazepage.toolbox = function(opt_data, opt_ignored, opt_ijData) {
 
 mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
-  switch (opt_ijData.level) {
-    case 1:
-      output += '<block type="maze_moveForward" x="70" y="70"></block>';
-      break;
-    case 2:
-      output += '<block type="maze_moveForward" x="70" y="70"></block>';
-      break;
-    case 3:
-      output += '<block type="maze_pickUpBall" x="70" y="70"></block>';
-      break;
-    case 4:
-      output += '<block type="maze_moveForward" x="70" y="70"></block>';
-      break;
-    case 5:
-      output += '<block type="maze_moveForward" x="70" y="70"></block>';
-      break;
-    case 6:
-      output += '<block type="maze_moveForward" x="70" y="70"></block>';
-      break;
-    case 7:
-      output += '<block type="maze_untilBlocked" x="70" y="70"></block>';
-      break;
-    case 8:
-      output += '<block type="maze_moveForward" x="70" y="70"></block>';
-      break;
-    case 9:
-      output += '<block type="maze_untilBlocked" x="70" y="70"></block>';
-      break;
-    case 10:
-      output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
-      break;
-    case 11:
-      output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
-      break;
-    case 12:
-      output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
-      break;
-    case 13:
-      break;
-    case 14:
-      break;
-    case 15:
-      break;
-    case 16:
-      break;
+  if (opt_ijData.page == 1) {
+    switch (opt_ijData.level) {
+      case 1:
+        output += '<block type="maze_moveForward" x="70" y="70"></block>';
+        break;
+      case 2:
+        output += '<block type="maze_moveForward" x="70" y="70"></block>';
+        break;
+      case 3:
+        output += '<block type="maze_pickUpBall" x="70" y="70"></block>';
+        break;
+      case 4:
+        output += '<block type="maze_moveForward" x="70" y="70"></block>';
+        break;
+      case 5:
+        output += '<block type="maze_moveForward" x="70" y="70"></block>';
+        break;
+      case 6:
+        output += '<block type="maze_moveForward" x="70" y="70"></block>';
+        break;
+      case 7:
+        output += '<block type="maze_untilBlocked" x="70" y="70"></block>';
+        break;
+      case 8:
+        output += '<block type="maze_moveForward" x="70" y="70"></block>';
+        break;
+      case 9:
+        output += '<block type="maze_untilBlocked" x="70" y="70"></block>';
+        break;
+    }
+  } else {
+    switch (opt_ijData.level) {
+      case 1:
+        output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
+        break;
+      case 2:
+        output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
+        break;
+      case 3:
+        output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
+        break;
+      case 4:
+        break;
+      case 5:
+        break;
+      case 6:
+        break;
+      case 7:
+        break;
+    }
   }
   return output;
 };
