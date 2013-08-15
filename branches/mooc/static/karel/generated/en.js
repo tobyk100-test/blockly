@@ -130,7 +130,7 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
       output += '<block type="maze_moveForward" x="70" y="70"></block>';
       break;
     case 7:
-      output += '<block type="maze_untilBlocked" x="70" y="70"></block>' + mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
+      output += '<block type="maze_untilBlocked" x="70" y="70"></block>';
       break;
     case 8:
       output += '<block type="maze_moveForward" x="70" y="70"></block>';
