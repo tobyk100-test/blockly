@@ -604,11 +604,6 @@ Maze.reset = function(first) {
  * Click the run button.  Start the program.
  */
 Maze.runButtonClick = function() {
-  // Only allow a single top block on levels 1 and 2.
-  if (Maze.LEVEL <= 2 && Blockly.mainWorkspace.getTopBlocks().length > 1) {
-    window.alert(BlocklyApps.getMsg('oneTopBlock'));
-    return;
-  }
   var runButton = document.getElementById('runButton');
   var resetButton = document.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.

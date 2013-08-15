@@ -49,17 +49,26 @@
     <block type="maze_turn"><title name="DIR">turnRight</title></block>
     <block type="maze_pickUpBall"></block>
     <block type="maze_putDownBall"></block>
+  </category>
+  <category name="{msg meaning="Maze.catControl" desc="TODO"}Control{/msg}">
     <block type="maze_untilBlocked"></block>
     <block type="maze_if"></block>
     {call mazepage.controlsFor /}
   </category>
-  <category name="{msg meaning="Maze.catProcedures" desc="TODO"}Functions{/msg}">
-    <block type="procedures_callnoreturn">
-      <mutation name="add 5"></mutation>
-    </block>
-  </category>
+  {call .addProcedures /}
+{/template}
+/**
+ * Add the procedures category to the toolbox.
+ */
+{template .addProcedures}
   {if $ij.level > 2}
     <category name="{msg meaning="Maze.catProcedures" desc="TODO"}Functions{/msg}" custom="PROCEDURE"></category>
+  {else}
+    <category name="{msg meaning="Maze.catProcedures" desc="TODO"}Functions{/msg}">
+      <block type="procedures_callnoreturn">
+        <mutation name="Fill 5 shovelfuls"></mutation>
+      </block>
+    </category>
   {/if}
 {/template}
 {/namespace}
