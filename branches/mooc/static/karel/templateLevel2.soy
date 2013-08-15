@@ -43,21 +43,18 @@
  * Toolbox for Karel 2
  */
 {template .toolbox}
-  <block type="maze_moveForward"></block>
-  <block type="maze_turn"><title name="DIR">turnLeft</title></block>
-  <block type="maze_turn"><title name="DIR">turnRight</title></block>
-  <block type="maze_pickUpBall"></block>
-  {if $ij.level > 1}
+  <category name="{msg meaning="Maze.catKarel" desc="TODO"}Actions{/msg}">
+    <block type="maze_moveForward"></block>
+    <block type="maze_turn"><title name="DIR">turnLeft</title></block>
+    <block type="maze_turn"><title name="DIR">turnRight</title></block>
+    <block type="maze_pickUpBall"></block>
     <block type="maze_putDownBall"></block>
-    {if $ij.level > 2}
-      <block type="maze_untilBlocked"></block>
-      {if $ij.level > 5}
-        {call mazepage.controlsFor /}
-        {if $ij.level > 8}
-          <block type="maze_if"></block>
-        {/if}
-      {/if}
-    {/if}
+    <block type="maze_untilBlocked"></block>
+    <block type="maze_if"></block>
+    {call mazepage.controlsFor /}
+  </category>
+  {if $ij.level > 2}
+    <category name="{msg meaning="Maze.catProcedures" desc="TODO"}Functions{/msg}" custom="PROCEDURE"></category>
   {/if}
 {/template}
 {/namespace}
