@@ -111,10 +111,11 @@ Maze.SKIN_ID = BlocklyApps.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
 Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
 
 /**
- * Google Drive video id.
- * 'null' is used since IE8 does not like trailing commas in arrays.
+ * Google Drive video ID.
+ * 'null' is used because IE8 does not like trailing commas in arrays, and it is
+ *     used throughout the array for consistency.
  */
-Maze.videoId = [undefined, null, '0BybP3F7DhXrUU2FCODdJdXRKVTQ', null,
+Maze.VIDEO_ID = [undefined, null, '0BybP3F7DhXrUU2FCODdJdXRKVTQ', null,
     '0BybP3F7DhXrUSFRhMnBGLUVPZTA', null, null, null, null, null,
     null][BlocklyApps.LEVEL];
 
@@ -1167,7 +1168,7 @@ BlocklyApps.createURLAndOpenNextLevel = function() {
  *     loading the iframe video.
  */
 window.onload = function() {
-  if (Maze.videoId) {
-    BlocklyApps.addVideoIframeSrc(Maze.videoId);
+  if (Maze.VIDEO_ID) {
+    BlocklyApps.addVideoIframeSrc(Maze.VIDEO_ID);
   }
 };

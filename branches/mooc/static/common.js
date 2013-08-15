@@ -648,6 +648,8 @@ BlocklyApps.displayInterstitialOrCloseModalDialog = function(gotoNext) {
 };
 
 /**
+ * If there is an interstitial iframe, create a URL for the video stored in 
+ *     Google Drive and add it as the iframe source.
  * @param {string} videoId A Google Drive video ID.
  */
 BlocklyApps.addVideoIframeSrc = function(videoId) {
