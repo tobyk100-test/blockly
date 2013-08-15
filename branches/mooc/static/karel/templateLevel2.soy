@@ -58,9 +58,6 @@
     <block type="maze_untilBlocked"></block>
     {call mazepage.controlsFor /}
   </category>
-  <category name="{msg meaning="Maze.catCondition" desc="TODO"}Conditionals{/msg}">
-    <block type="maze_if"></block>
-  </category>
   {call .addProcedures /}
 {/template}
 /**
@@ -74,6 +71,16 @@
       <block type="procedures_callnoreturn">
         <mutation name="Fill 5 shovelfuls"></mutation>
       </block>
+    </category>
+  {/if}
+  {if $ij.level < 7}
+    <category name="{msg meaning="Maze.catCondition" desc="TODO"}Conditionals{/msg}">
+      <block type="maze_if"></block>
+    </category>
+  {else}
+    <category name="{msg meaning="Maze.catCondition" desc="TODO"}Conditionals{/msg}">
+      <block type="maze_if"></block>
+      <block type="maze_ifElse"></block>
     </category>
   {/if}
 {/template}

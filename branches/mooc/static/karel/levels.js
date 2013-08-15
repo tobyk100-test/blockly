@@ -8,7 +8,7 @@ Maze.pageOneIdeal = [
 ];
 
 Maze.pageTwoIdeal = [
-  undefined, 8, 9, 18, 13, 15, 15
+  undefined, 8, 9, 18, 13, 36, 15, 15
 ];
 
 Maze.idealBlocks = [undefined, Maze.pageOneIdeal, Maze.pageTwoIdeal];
