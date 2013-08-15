@@ -8,25 +8,25 @@ page2.hints = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
   switch (opt_ijData.level) {
     case 1:
-      output += 'Use the function block to make the miner place 5 balls.';
+      output += 'Use the function block to make pegman change the number to zero.';
       break;
     case 2:
-      output += 'Use the function block to fill in a row of holes, each needs five shovelfuls of dirt.';
+      output += 'Use the function block to make pegman change the row of numbers to zero.';
       break;
     case 3:
-      output += 'Define a new function to fill in holes which need 7 shovelfuls, then use it to beat the level.';
+      output += 'Define a new function to make pegman change the numbers to zero.';
       break;
     case 4:
-      output += 'Create a new function to dig up three shovelfuls of dirt.';
+      output += 'Create a new function to make pegman change the numbers to zero.';
       break;
     case 5:
-      output += 'Use the new \'dig up row\' and \'make row\' blocks to complete the level.';
+      output += 'Use the new blocks to complete the level.';
       break;
     case 6:
-      output += 'Create a new function which jumps the hurdles to get to the next mound.';
+      output += 'Create a new function which jumps the hurdles to get to the next number.';
       break;
     case 7:
-      output += 'Use the jump hurdle function to help the Miner dig up the mounds.';
+      output += 'Use the jump hurdle function to help pegman change the numbers to zero.';
       break;
   }
   return output;
@@ -53,31 +53,31 @@ page1.hints = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
   switch (opt_ijData.level) {
     case 1:
-      output += 'Move the miner to the mound and make him dig it up.';
+      output += 'Move pegman to the number and change it to zero.';
       break;
     case 2:
-      output += 'Move the miner to hole and make him put in two shovels full of dirt.';
+      output += 'Move pegman to the number and change it to zero.';
       break;
     case 3:
-      output += 'Make the miner repeatedly pick up dirt and move forward, using as few blocks as possible.';
+      output += 'Make pegman repeatedly set the numbers to zero and move forward, using as few blocks as possible.';
       break;
     case 4:
-      output += 'Make the miner fill in the row of holes, using as few blocks as possible.';
+      output += 'Make pegman set the row to zero, using as few blocks as possible.';
       break;
     case 5:
-      output += 'Make the miner dig up the row of piles.';
+      output += 'Make pegman set the row to zero, using as few blocks as possible.';
       break;
     case 6:
-      output += 'Make the miner dig up 10 shovelfuls of dirt.';
+      output += 'Make pegman set the number to zero by subtracting 1, ten times.';
       break;
     case 7:
-      output += 'Fill in the row of holes, each hole needs five shovelfuls of dirt.';
+      output += 'Set all the numbers in the row to zero, each number needs to be increased 5 times.';
       break;
     case 8:
-      output += 'Dig up the square of mounds.';
+      output += 'Set all the numbers in the square to zero.';
       break;
     case 9:
-      output += 'Make the miner dig up the mounds.';
+      output += 'Set all the numbers in the row to zero.';
       break;
   }
   return output;
