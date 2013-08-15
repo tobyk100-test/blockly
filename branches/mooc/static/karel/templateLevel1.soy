@@ -1,0 +1,82 @@
+{namespace page1}
+/**
+ * Hints for page 1.
+ */
+{template .hints}
+  {switch $ij.level}
+    {case 1}
+      {msg meaning="Maze.instructions1" desc="instructions - the word
+        'program' refers to a computer program, and the words for
+        'stack' and 'blocks' should be the same as for stacking
+        children's blocks. Use the imperative verb form appropriate
+        for speaking to a child, gender unspecified.  If no
+        gender-neutral singular/familiar form exists but a gender-neutral
+        plural/formal form exists, use that instead."}Move the miner to the
+        mound and make him dig it up.{/msg}
+    {case 2}
+      {msg meaning="Maze.instructions2" desc="instructions - 'path'
+      refers to a path through a maze"}Move the miner to hole
+      and make him put in two shovels full of dirt.{/msg}
+    {case 3}
+      {msg meaning="Maze.instructions3" desc="instructions - 'path'
+        refers to a path through a maze, and 'block' refers to a
+        child's building block."}Make the miner repeatedly pick up
+        dirt and move forward, using as few blocks as possible.{/msg}
+    {case 4}
+      {msg meaning="Maze.instructions4" desc="instructions - the
+        word 'steps' refers to instructions in a computer program;
+        'path' refers to the path through a maze. See previous
+        description for tense."}Make the miner fill in the row of holes,
+        using as few blocks as possible.
+      {/msg}
+    {case 5}
+      {msg meaning="Maze.instructions5" desc="instructions - the
+        goal is reaching the end point in a maze; 'block' refers
+        to a child's building block."}Make the miner dig up the row of 
+        piles.{/msg}
+    {case 6}
+      {msg meaning="Maze.instructions6" desc="instructions
+        'turn left' refers to rotating in place a quarter
+        circle counter-clockwise."}Make the miner dig up 10 shovelfuls
+        of dirt.{/msg}
+    {case 7}
+      {msg meaning="Maze.instructions7" desc="instructions -
+        an example of an 'if' block is: 'if there is a path to
+        the left, turn left'."}Fill in the row of holes, each hole needs
+        five shovelfuls of dirt.{/msg}
+    {case 8}
+      {msg meaning="Maze.instructions8" desc="instructions -
+        'blocks' refers to a child's building blocks"}Dig up the square of
+        mounds.{/msg}
+    {case 9}
+      {msg meaning="Maze.instructions9" desc="instructions - an
+        example of an 'if' block is: 'if there is a path to the
+        left, turn left'."}Make the miner dig up the mounds.{/msg}
+    {case 10}
+      {msg meaning="Maze.instructions10" desc="instructions - 'block'
+        refers to a child's building block."}Use the function block to
+        make the miner place 5 balls.{/msg}
+  {/switch}
+{/template}
+/**
+ * Toolbox for Karel 1
+ */
+{template .toolbox}
+  <block type="maze_moveForward"></block>
+  <block type="maze_turn"><title name="DIR">turnLeft</title></block>
+  <block type="maze_turn"><title name="DIR">turnRight</title></block>
+  <block type="maze_pickUpBall"></block>
+  {if $ij.level > 1}
+    <block type="maze_putDownBall"></block>
+    {if $ij.level > 2}
+      <block type="maze_untilBlocked"></block>
+      {if $ij.level > 5}
+        {call mazepage.controlsFor /}
+        {if $ij.level > 8}
+          <block type="maze_if"></block>
+        {/if}
+      {/if}
+    {/if}
+  {/if}
+{/template}
+{/namespace}
