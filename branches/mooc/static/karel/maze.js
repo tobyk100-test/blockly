@@ -63,11 +63,8 @@ Maze.PAGE = BlocklyApps.getNumberParamFromUrl('page', 1, 2);
 Maze.MAX_LEVEL = [undefined, 9, 7][Maze.PAGE];
 Maze.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1, Maze.MAX_LEVEL);
 Maze.REINF = BlocklyApps.getNumberParamFromUrl('reinf', 1, Maze.MAX_REINF);
-// Nan's
-// Maze.idealBlockNum = [undefined, //  0.
-//   2, 5, 2, 5, 5, 4, 4, 4, 6, 6, 4][Maze.LEVEL];
-Maze.idealBlockNum = [undefined, //  0.
-   5, 3, 3, 3, 3, 6, 7, 7, 4, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity][Maze.LEVEL];
+
+Maze.idealBlockNum = Maze.idealBlocks[Maze.PAGE][Maze.LEVEL];
 
 Maze.SKINS = [
   // sprite: A 1029x51 set of 21 avatar images.
