@@ -582,13 +582,13 @@
         {/call}
         <block type="procedures_defnoreturn" x="400" y="200">
           <mutation></mutation>
-          <title name="NAME">fill 7 shovefuls</title>
+          <title name="NAME">add 7</title>
         </block>
       {case 4}
       {case 5}
         <block type="procedures_defnoreturn" x="20" y="200">
           <mutation></mutation>
-          <title name="NAME">dig up tower</title>
+          <title name="NAME">remove tower</title>
           <statement name="STACK">
             <block type="maze_turn">
               <title name="DIR">turnLeft</title>
@@ -664,7 +664,7 @@
         </block>
                 <block type="procedures_defnoreturn" x="400" y="200">
           <mutation></mutation>
-          <title name="NAME">fill in tower</title>
+          <title name="NAME">add tower</title>
           <statement name="STACK">
             <block type="maze_turn">
               <title name="DIR">turnLeft</title>
@@ -749,7 +749,7 @@
  */
 {template .fillShovelfuls}
   <block type="procedures_defnoreturn" x="20" y="200">
-    <title name="NAME">fill {$shovelfuls} shovelfuls</title>
+    <title name="NAME">add {$shovelfuls}</title>
     <statement name="STACK">
       {call .controlsFor}
         {param upperLimit: $shovelfuls /}
