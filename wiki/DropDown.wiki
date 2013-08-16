@@ -26,7 +26,7 @@ If all the menu options of a `FieldDropdown` object share common prefix and/or s
     input.appendTitle(dropdown, 'MODE');
 }}}
 
-One advantage of this approach is that the block is easier for to translate into other languages.  The earlier code has the strings `'hello'`, `'world'`, and `'computer'`, whereas the revised code has the strings `'hello world'` and `'hello computer'`.  Translators have a much easier time translating phrases that words in isolation.
+One advantage of this approach is that the block is easier for to translate into other languages.  The earlier code has the strings `'hello'`, `'world'`, and `'computer'`, whereas the revised code has the strings `'hello world'` and `'hello computer'`.  Translators have a much easier time translating phrases than words in isolation.
 
 Another advantage of this approach is that word order often changes between languages.  Imagine a language that used `'world hello'` and `'computer hello'`.  The suffix matching algorithm will detect the common `'hello'` and display it after the drop-down.
 
