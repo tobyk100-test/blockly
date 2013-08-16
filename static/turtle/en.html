@@ -1,0 +1,90 @@
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MOOC: Turtle Graphics</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="text/javascript" src="../common.js"></script>
+  <script type="text/javascript" src="/storage.js"></script>
+  <script type="text/javascript" src="../_soy/soyutils.js"></script>
+  <script type="text/javascript" src="generated/en.js"></script>
+  <script>
+      // Reinforcement/interstitial text.
+      var reinf_data = [
+        // There is no page 0.
+        [],
+        // Page 1.
+        [undefined, // There is no level 0.
+         undefined,
+         // Before coloured square (2).
+         ['I carry lots of different colors of ink.  You can choose them with the new "set color" block so you can draw pictures in whatever color you want.', 'picture', 'set-colour.png'],
+         // Before repeat (3).
+         ['Tired of dragging and dropping?  Let the "repeat" block do the work for you.', 'animations', ['repeat-intro.gif']],
+         // Before triangle (4).
+         ['Like surprises?  Use the "random color" block to let me pick the pen color.', 'picture', 'random-colour.png'],
+         // Before overlapping square and triangle (5).
+         ['Did you know you can copy and paste a block (and the blocks it contains)?  TODO: Add further instructions based on computer type?'],
+         // Before envelope (turned square and triangle) (6).
+         ['I can move backward.  TODO: Add animation'],
+         // Before glasses (7).
+         ['No interstitial.'],
+         // Before spikes (8).
+         ['Do you ever get tired of waiting for me?  You can make me move faster (or slower) with the speed slider.', 'picture', 'slider.gif'],
+         // Before circle (9).
+         ['No  interstitial.'],
+         // Before playground (10).
+         ['Here\'s a new block that changes how wide of lines I draw.  We\'ve been using a default width of 5.', 'picture', 'set-width.png']
+        ],
+        // Page 2
+        [undefined,  // There is no level 0.
+         // Before drawing a square (11).  (It's new to have something before the first level.)
+         ['To make room for new blocks, we\'ve put the blocks into categories.  You may have to look around for your old favorite blocks, but they\'re all there.  TODO: Replace with video.'],
+         // Before use of "draw a square" (2).
+         ['TODO: Say something about the new "Functions" category.'],
+         // Before drawing of 3 squares (3).
+         ['Wondering why it\'s better to use \'repeat\' than copying and pasting the blocks three times?  See why on the next level.  TODO: Create picture showing both ways of solving previous level.'],
+         // Before drawing of 36 squares (4).
+         ['Here\'s how I solved the previous level.  Make sure you understand it before proceeding.  TODO: make into an animated gif.', 'picture', 'three-squares.png'],
+         // Before manually making nested squares (5).
+         ['Let\'s explore what we can do with squares of different sizes...'],
+         // Before using "count with" block (6).
+         ['Wouldn\'t it be nice if you could tell me to count by tens from 50 to 100, drawing a square each time?  Well you can -- with the new "count with" block.  The programs on the left and right do the same thing.  TODO: Replace with video.', 'picture', 'count-loop-square.png'],
+         // Before boxy spiral (7).
+         ['This code draws a boxy spiral.  Fill in the blanks on the "count with" block to rewrite it.  TODO: Create live form.', 'picture', 'spiral-quiz.png'],
+         // Before same-height snowmen (8).
+         ['TODO: Introduce "jump forward" and "draw a snowman".  This would ideally be done with a video.'],
+         // Before family of snowmen (9).
+         ['TODO: Explain that counters can go down, not just up.  This could be done with video or animation.'],
+         // Before playground (10).
+         ['TODO: Perhaps introduce some new block or show them examples of cool programs other people have created.  A possible new block is random integers.  Possibly have video congratulating them on getting this far and showing what\'s possible with the blocks they know.']
+       ],
+       // Page 3
+       [undefined,  // There is no level 0.
+        // Before calling "draw a square" (1).
+        ['You\'ll now learn how to create new blocks.  TODO: Phrase better and/or replace with video.'],
+        // Before creating "draw a triangle" (2).
+        ['Here\'s how the "draw a square" block was created.  On the next level, you\'ll create your own "draw a triangle" block.  TODO: Replace with a video.', 'animations', ['define-draw-a-square.gif']],
+        // Before drawing squares and triangles to fence animals (3).
+        ['Congratulations on adding a new block!  That\'s a huge step for a programmer.  Dividing big tasks into bite-sized pieces is what makes large programs possible.'],
+        // Before drawing a house using square and triangle procedures (4).
+        ['no interstitial'],
+        // Before creating a "draw a house" function (5).
+        ['The new blocks that you define can be used just like the built-in blocks, including being used within another block definition...'],
+        // Before adding length parameter to "draw a triangle" (6).
+        ['Let me show you how the input was added to "draw a square".  You\'ll need to know this for the next level, where you\'ll add an input to "draw a triangle".  TODO: Replace with video.', 'animations', ['draw-a-square-add-input.gif']],
+        // Before adding length parameter to "draw a house" (7).
+        ['no interstitial'],
+        // Before modifying end location of "create a house" (8).
+        ['TODO: Explain why it\'s useful to end up in a predictable location, possibly in a video.'],
+        // Before calling "draw a house" within a for-loop (9).
+        ['TODO: Review for-loops, which they haven\'t seen since Turtle 1.'],
+        // Before final play level (10).
+        ['You now know how to blah blah blah.  Congratulations on becoming a programmer!  TODO: Definitely replace with video.']
+       ]
+    ];
+    var languageSrc = ['en_compressed.js'];
+  </script>
+</head>
+<body>
+  <script type="text/javascript" src="turtle.js"></script>
+</body>
+</html>
