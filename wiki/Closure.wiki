@@ -1,0 +1,26 @@
+#summary Setting up Closure.
+#labels Phase-Deploy
+
+= Introduction =
+
+Did you just get this error message?
+
+http://blockly.googlecode.com/svn/wiki/closure_alert.png
+
+If so, then you are probably attempting to run the uncompiled version of Blockly and you are missing the dependency on [https://developers.google.com/closure/library/ Closure Library].
+
+== Getting Closure ==
+
+Getting Closure is quick and easy.  Use Subversion to checkout a copy from [http://code.google.com/p/closure-library/source/checkout Closure's repository]:
+
+{{{
+svn checkout http://closure-library.googlecode.com/svn/trunk/ closure-library-read-only
+}}}
+
+Alternatively, you can [http://code.google.com/p/closure-library/downloads/list download an archive] from Closure and unzip it.
+
+Either way, once you have the Closure files, place them next to Blocky's root directory and ensure that the directory is named `closure-library-read-only`.  This is the directory structure you want:
+
+http://blockly.googlecode.com/svn/wiki/closure_directory.png
+
+That's it.  Blockly should now work in uncompiled mode.

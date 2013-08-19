@@ -1,5 +1,5 @@
 /**
- * Visual Blocks Editor
+ * Visual Blocks Language
  *
  * Copyright 2012 Google Inc.
  * http://blockly.googlecode.com/

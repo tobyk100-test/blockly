@@ -1,0 +1,23 @@
+#labels Control
+=The *Repeat* Block=
+
+To access the *Repeat* Block, click *Control*.
+
+|| *Option* || *Description* ||
+|| *repeat while* || Keeps doing something as long as the condition exists.||
+|| *repeat until* || Keeps doing something until the condition no longer exists.||
+|| *do* || Tells the program what to do next, after it finishes repeating. ||
+
+
+*Tip*: To make useful sentences, combine the *If Then* block with these other blocks:
+
+ * [http://code.google.com/p/google-blockly/wiki/Wall Wall] 
+ * [http://code.google.com/p/google-blockly/wiki/True_False True_False] 
+ * [http://code.google.com/p/google-blockly/wiki/Move Move]
+ * [http://code.google.com/p/google-blockly/wiki/Turn Turn]
+
+You can write statements like:
+
+ * Repeat until *wall ahead?*
+ * Do *move backward*
+

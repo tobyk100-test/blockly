@@ -49,6 +49,10 @@ Blockly.Field = function(text) {
        'height': 16}, this.group_);
   this.textElement_ = Blockly.createSvgElement('text',
       {'class': 'blocklyText'}, this.group_);
+  if (this.CURSOR) {
+    // Different field types show different cursor hints.
+    this.group_.style.cursor = this.CURSOR;
+  }
   this.size_ = {height: 25, width: 0};
   this.setText(text);
 };
@@ -72,14 +76,10 @@ Blockly.Field.prototype.init = function(block) {
     throw 'Field has already been initialized once.';
   }
   this.sourceBlock_ = block;
-  this.group_.setAttribute('class', this.sourceBlock_.editable ?
-                           'blocklyEditableText' : 'blocklyNonEditableText');
-  if (this.CURSOR && this.sourceBlock_.editable) {
-    // Different field types show different cursor hints.
-    this.group_.style.cursor = this.CURSOR;
-  }
+  this.group_.setAttribute('class',
+      block.editable ? 'blocklyEditableText' : 'blocklyNonEditableText');
   block.getSvgRoot().appendChild(this.group_);
-  if (this.sourceBlock_.editable) {
+  if (block.editable) {
     this.mouseUpWrapper_ =
         Blockly.bindEvent_(this.group_, 'mouseup', this, this.onMouseUp_);
   }
@@ -120,12 +120,29 @@ Blockly.Field.prototype.getRootElement = function() {
 };
 
 /**
+ * Cache of text lengths.
+ * Blockly has a lot of repeating strings (if, then, do, etc).  Only measure
+ * their lengths once.  Subsequent instances can be looked up in this cache.
+ */
+Blockly.Field.textLengthCache = {};
+
+/**
  * Draws the border with the correct width.
  * Saves the computed width in a property.
  * @private
  */
 Blockly.Field.prototype.render_ = function() {
-  var width = this.textElement_.getComputedTextLength();
+  // This function is called a lot.  Optimizations help.
+  if (Blockly.Field.textLengthCache.hasOwnProperty(this.text_)) {
+    // Length found in cache.
+    var width = Blockly.Field.textLengthCache[this.text_];
+  } else {
+    var width = this.textElement_.getComputedTextLength();
+    // If a valid width was obtained, cache the current width.
+    if (width) {
+      Blockly.Field.textLengthCache[this.text_] = width;
+    }
+  }
   if (this.borderRect_) {
     this.borderRect_.setAttribute('width',
         width + Blockly.BlockSvg.SEP_SPACE_X);
@@ -157,7 +174,7 @@ Blockly.Field.prototype.getText = function() {
  * @param {?string} text New text.
  */
 Blockly.Field.prototype.setText = function(text) {
-  if (text === null || text === this.text_) {
+  if (text === null) {
     // No change if null.
     return;
   }

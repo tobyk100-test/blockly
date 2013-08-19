@@ -1,0 +1,66 @@
+#summary Installing and Customizing Blockly.
+#labels Phase-Deploy,Featured
+
+= Introduction =
+
+Blockly is designed to easily install into your web application.  Users drag blocks around, Blockly generates code, your application does something with that code.  From your application's point of view Blockly is just a textarea in which the user types syntactically perfect !JavaScript, Python, or other language.
+
+Blockly is 100% client-side, requiring no support from the server (unless one wants to use the cloud-storage feature).  There are no 3rd party dependencies (unless one wants to recompile the core).  Everything is open source.
+
+== Get the Code ==
+
+First, download the source code.  Use Subversion to pull a copy of Blockly off of Google Code.  There are plenty of Subversion tutorials on the web.
+
+Once you have the code, point your browser at `apps/maze/index.html` and test out the maze app.  Verify that clicking "Run Program" will make the man move forward.  Note that [http://code.google.com/p/chromium/issues/detail?id=47416 issue 47416] in the Chrome web browser prevents the use of Blockly when run directly off the local file system with the `file://` protocol.  Therefore we recommend either using an alternative browser (Firefox, Safari, Opera) or else using a web server (`http://localhost/` will do fine).
+
+== Injecting Blockly ==
+
+With your installation of Blockly verified as working, inject Blockly into a web page using either a fixed-size `div` or a resizable `iframe`.
+
+→ More info on [InjectingFixedSize injecting fixed-sized Blockly]...
+
+→ More info on [InjectingResizable injecting resizable Blockly]...
+
+== Configuration ==
+
+The `Blockly.inject` line contains as its second argument a dictionary of name-value pairs.  These are used for configuration.  The following options are supported:
+|| `maxBlocks:` || number || Maximum number of blocks that may be created.  Useful for student exercises. Defaults to `Infinity`. ||
+|| `path:` || string || Path from page (or frame) to the Blockly root directory. Defaults to `"./"`. ||
+|| `readOnly:` || boolean || If `true`, prevent the user from editing.  Supresses the toolbox and trashcan.  Defaults to `false`. ||
+|| `rtl:` || boolean || If `true`, mirror the editor for Arabic or Hebrew locales.  See [http://blockly-demo.appspot.com/static/demos/rtl/index.html RTL demo].  Defaults to `false`. ||
+|| `toolbox:` || XML nodes or string || Tree structure of categories and blocks available to the user.  See [Toolbox Defining the Toolbox] for more information. ||
+|| `trashcan:` || boolean || Displays or hides the trashcan.  Defaults to `true` if the toolbox has categories, `false` otherwise. ||
+
+Blockly's library of blocks is highly configurable.  The blocks shown to the user can be customized so that users only see blocks that are relevant to the task.  Browse the `language/` directory for block categories that you want to include.  The categeries and blocks shown in the toolbox (the side menu) is specified using an [Toolbox XML tree].
+
+Additionally, custom blocks need to be built to call your web application's API.  An example is the [http://blockly-demo.appspot.com/static/apps/maze/index.html Maze application] which has custom blocks for movement.  More info on [CustomBlocks Creating custom blocks]...
+
+== Language Generators ==
+
+Blockly is not a programming language, one cannot 'run' a Blockly program.  Instead, Blockly can translate the user's program into !JavaScript, Python, or some other language.
+
+→ More info on [LanguageGenerators Language Generators]...
+
+== Importing and Exporting Blocks ==
+
+If your application needs to save and store the user's blocks and restore them at a later visit, use this call for export to XML:
+
+{{{
+  var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+  var xml_text = Blockly.Xml.domToText(xml);
+}}}
+
+This will produce a minimal (but ugly) string containing the XML for the user's blocks.  If one wishes to obtain a more readable (but larger) string, use `Blockly.Xml.domToPrettyText` instead.
+
+Restoring from an XML string to blocks is just as simple:
+
+{{{
+  var xml = Blockly.Xml.textToDom(xml_text);
+  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
+}}}
+
+== Cloud Storage ==
+
+Blockly comes with an optional cloud-storage feature.  It enables users to save, load, share, and publish their programs.  If your project is hosted on App Engine you can take advantage of this service.
+
+→ More info on [CloudStorage Cloud Storage]...

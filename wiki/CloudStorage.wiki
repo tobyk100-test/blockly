@@ -1,0 +1,77 @@
+#summary Cloud Storage with App Engine.
+#labels Phase-Deploy
+
+*[Installation Installation]: Cloud Storage*
+
+= Introduction =
+
+If your application is hosted on App Engine, a cloud storage service is available that allows users to save, load, share, and publish their programs.
+
+== Setting up App Engine ==
+
+The first step is to get your own copy of Blockly running on App Engine.
+
+ # Download and install the [https://developers.google.com/appengine/downloads Python SDK].
+ # Log into [https://appengine.google.com/ Google App Engine] and create an application.
+ # Edit `appengine/app.yaml` and change the application ID from `blockly-demo` to the application name you created in the previous step.
+ # Copy the following files and directories into `appengine/static/`:
+   * `demos/`
+   * `generators/`
+   * `language/`
+   * `media/`
+   * `blockly_compressed.js`
+ # Run the GoogleAppEngineLauncher from the SDK, add your `appengine` directory as an existing application, and press the "Deploy" button.
+
+Once Blockly is uploaded you can point a browser to the URL you created in step 2.  You should see a list of demos, including the cloud storage demo.
+
+== Talking to the Cloud ==
+
+Examine the source of `demos/storage/index.html` and note the following features.  First, there is a script include that loads the cloud storage API:
+
+{{{
+  <script type="text/javascript" src="/storage.js"></script>
+}}}
+
+Next, a set of four strings need to be defined.  Just copy and paste the following (translating them into a different language if needed).
+
+{{{
+  BlocklyStorage.HTTPREQUEST_ERROR = 'There was a problem with the request.\n';
+  BlocklyStorage.LINK_ALERT = 'Share your blocks with this link:\n\n';
+  BlocklyStorage.HASH_ERROR = 'Sorry, "%1" doesn\'t correspond with any saved Blockly file.';
+  BlocklyStorage.XML_ERROR = 'Could not load your saved file.\n'+
+      'Perhaps it was created with a different version of Blockly?\nXML: ';
+}}}
+
+Saving the current blocks is a single call to `BlocklyStorage.link()`:
+
+{{{
+  <button onclick="BlocklyStorage.link()">Save Blocks</button>
+}}}
+
+To restore saved blocks on page load, just call `BlocklyStorage.retrieveXml` with the URL's hash after Blockly has been injected:
+
+{{{
+  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
+    BlocklyStorage.retrieveXml(window.location.hash.substring(1));
+  }
+}}}
+
+== Local Storage ==
+
+The `storage.js` API also offers the ability to save a single set of blocks in the browser's local storage.  This may be implemented instead of cloud storage, or in addition with cloud storage (though in the latter case one has to be careful of both types of storage attempting to restore at once).
+
+To restore blocks from local storage, call `BlocklyStorage.restoreBlocks` in a timeout right after Blockly has been injected.
+
+{{{
+  window.setTimeout(BlocklyStorage.restoreBlocks, 0);
+}}}
+
+To automatically backup the blocks into local storage when the user leaves the page, call `BlocklyStorage.backupOnUnload` and it will register an event listener on the page's unload event.
+
+{{{
+  BlocklyStorage.backupOnUnload();
+}}}
+
+== Example ==
+
+Here is [http://blockly-demo.appspot.com/static/demos/storage/index.html a live demo] of cloud storage.

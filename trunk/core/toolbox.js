@@ -26,7 +26,6 @@
 goog.provide('Blockly.Toolbox');
 
 goog.require('Blockly.Flyout');
-goog.require('goog.events.BrowserFeature');
 goog.require('goog.style');
 goog.require('goog.ui.tree.TreeControl');
 goog.require('goog.ui.tree.TreeNode');
@@ -137,12 +136,10 @@ Blockly.Toolbox.position_ = function() {
   } else {
     treeDiv.style.marginLeft = svgBox.left;
   }
-  treeDiv.style.height = (svgSize.height + 1) + 'px';
+  var y = svgSize.top + parseInt(svgBox.top, 10);
+  treeDiv.style.top = y + 'px';
+  treeDiv.style.height = svgSize.height + 'px';
   Blockly.Toolbox.width = treeDiv.offsetWidth;
-  if (!Blockly.RTL) {
-    // For some reason the LTR toolbox now reports as 1px too wide.
-    Blockly.Toolbox.width -= 1;
-  }
 };
 
 /**
@@ -208,37 +205,6 @@ Blockly.Toolbox.TreeControl = function(html, opt_config, opt_domHelper) {
   goog.ui.tree.TreeControl.call(this, html, opt_config, opt_domHelper);
 };
 goog.inherits(Blockly.Toolbox.TreeControl, goog.ui.tree.TreeControl);
-
-/**
- * Adds touch handling to TreeControl.
- * @override
- */
-Blockly.Toolbox.TreeControl.prototype.enterDocument = function() {
-  Blockly.Toolbox.TreeControl.superClass_.enterDocument.call(this);
-
-  // Add touch handler.
-  if (goog.events.BrowserFeature.TOUCH_ENABLED) {
-    var el = this.getElement();
-    Blockly.bindEvent_(el, goog.events.EventType.TOUCHSTART, this,
-        this.handleTouchEvent_);
-  }
-};
-/**
- * Handles touch events.
- * @param {!goog.events.BrowserEvent} e The browser event.
- * @private
- */
-Blockly.Toolbox.TreeControl.prototype.handleTouchEvent_ = function(e) {
-  e.preventDefault();
-  var node = this.getNodeFromEvent_(e);
-  if (node && e.type === goog.events.EventType.TOUCHSTART) {
-    // Fire asynchronously since onMouseDown takes long enough that the browser
-    // would fire the default mouse event before this method returns.
-    window.setTimeout(function() {
-      node.onMouseDown(e);  // Same behavior for click and touch.
-    }, 1);
-  }
-};
 
 /**
  * Creates a new tree node using a custom tree node.
@@ -333,7 +299,6 @@ Blockly.Toolbox.TreeNode.prototype.onMouseDown = function(e) {
  * Supress the inherited double-click behaviour.
  * @param {!goog.events.BrowserEvent} e The browser event.
  * @override
- * @private
  */
 Blockly.Toolbox.TreeNode.prototype.onDoubleClick_ = function(e) {
   // NOP.

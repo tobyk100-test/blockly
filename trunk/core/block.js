@@ -28,10 +28,10 @@ goog.provide('Blockly.Block');
 goog.require('Blockly.BlockSvg');
 goog.require('Blockly.Comment');
 goog.require('Blockly.Connection');
-goog.require('Blockly.ContextMenu');
 goog.require('Blockly.Input');
 goog.require('Blockly.Language');
 goog.require('Blockly.Mutator');
+goog.require('Blockly.ContextMenu');
 goog.require('Blockly.Warning');
 goog.require('Blockly.Workspace');
 goog.require('Blockly.Xml');
@@ -61,17 +61,16 @@ Blockly.Block = function(workspace, prototypeName) {
   this.rendered = false;
   this.collapsed = false;
   this.disabled = false;
-  this.deletable = !Blockly.readOnly;
-  this.movable = !Blockly.readOnly;
-  this.editable = !Blockly.readOnly;
+  this.editable = workspace.editable;
+  this.deletable = workspace.editable;
   this.tooltip = '';
   this.contextMenu = true;
 
   this.parentBlock_ = null;
   this.childBlocks_ = [];
 
+  this.isInFlyout = false;
   this.workspace = workspace;
-  this.isInFlyout = workspace.isFlyout;
 
   workspace.addTopBlock(this);
 
@@ -89,7 +88,7 @@ Blockly.Block = function(workspace, prototypeName) {
     this.init();
   }
   // Bind an onchange function, if it exists.
-  if (goog.isFunction(this.onchange)) {
+  if (this.editable && goog.isFunction(this.onchange)) {
     Blockly.bindEvent_(workspace.getCanvas(), 'blocklyWorkspaceChange', this,
                        this.onchange);
   }
@@ -126,10 +125,8 @@ Blockly.Block.prototype.warning = null;
 Blockly.Block.prototype.initSvg = function() {
   this.svg_ = new Blockly.BlockSvg(this);
   this.svg_.init();
-  if (!Blockly.readOnly) {
-    Blockly.bindEvent_(this.svg_.getRootElement(), 'mousedown', this,
-                       this.onMouseDown_);
-  }
+  Blockly.bindEvent_(this.svg_.getRootElement(), 'mousedown', this,
+                     this.onMouseDown_);
   this.workspace.getCanvas().appendChild(this.svg_.getRootElement());
 };
 
@@ -206,7 +203,7 @@ Blockly.Block.terminateDrag_ = function() {
  */
 Blockly.Block.prototype.select = function() {
   if (!this.svg_) {
-    throw 'Block is not rendered.';
+    throw 'Block is not rendered.'
   }
   if (Blockly.selected) {
     // Unselect any previously selected block.
@@ -222,7 +219,7 @@ Blockly.Block.prototype.select = function() {
  */
 Blockly.Block.prototype.unselect = function() {
   if (!this.svg_) {
-    throw 'Block is not rendered.';
+    throw 'Block is not rendered.'
   }
   Blockly.selected = null;
   this.svg_.removeSelect();
@@ -237,8 +234,6 @@ Blockly.Block.prototype.unselect = function() {
  * @param {boolean} animate If true, show a disposal animation and sound.
  */
 Blockly.Block.prototype.dispose = function(healStack, animate) {
-  // Switch off rerendering.
-  this.rendered = false;
   this.unplug(healStack);
 
   if (animate && this.svg_) {
@@ -253,6 +248,9 @@ Blockly.Block.prototype.dispose = function(healStack, animate) {
   // Just deleting this block from the DOM would result in a memory leak as
   // well as corruption of the connection database.  Therefore we must
   // methodically step through the blocks and carefully disassemble them.
+
+  // Switch off rerendering.
+  this.rendered = false;
 
   if (Blockly.selected == this) {
     Blockly.selected = null;
@@ -352,7 +350,7 @@ Blockly.Block.prototype.getRelativeToSurfaceXY = function() {
       var xy = Blockly.getRelativeXY_(element);
       x += xy.x;
       y += xy.y;
-      element = element.parentNode;
+      element = element.parentElement;
     } while (element && element != this.workspace.getCanvas());
   }
   return {x: x, y: y};
@@ -389,8 +387,8 @@ Blockly.Block.prototype.onMouseDown_ = function(e) {
     if (Blockly.ContextMenu) {
       this.showContextMenu_(e.clientX, e.clientY);
     }
-  } else if (!this.movable) {
-    // Allow unmovable blocks to be selected and context menued, but not
+  } else if (!this.editable) {
+    // Allow uneditable blocks to be selected and context menued, but not
     // dragged.  Let this event bubble up to document, so the workspace may be
     // dragged instead.
     return;
@@ -518,7 +516,7 @@ Blockly.Block.prototype.duplicate_ = function() {
  * @private
  */
 Blockly.Block.prototype.showContextMenu_ = function(x, y) {
-  if (Blockly.readOnly || !this.contextMenu) {
+  if (!this.contextMenu) {
     return;
   }
   // Save the current block in a variable for use in closures.
@@ -573,23 +571,21 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
       }
     }
 
-    if (Blockly.collapse) {
-      // Option to collapse/expand block.
-      if (this.collapsed) {
-        var expandOption = {enabled: true};
-        expandOption.text = Blockly.MSG_EXPAND_BLOCK;
-        expandOption.callback = function() {
-          block.setCollapsed(false);
-        };
-        options.push(expandOption);
-      } else {
-        var collapseOption = {enabled: true};
-        collapseOption.text = Blockly.MSG_COLLAPSE_BLOCK;
-        collapseOption.callback = function() {
-          block.setCollapsed(true);
-        };
-        options.push(collapseOption);
-      }
+    // Option to collapse/expand block.
+    if (this.collapsed) {
+      var expandOption = {enabled: true};
+      expandOption.text = Blockly.MSG_EXPAND_BLOCK;
+      expandOption.callback = function() {
+        block.setCollapsed(false);
+      };
+      options.push(expandOption);
+    } else {
+      var collapseOption = {enabled: true};
+      collapseOption.text = Blockly.MSG_COLLAPSE_BLOCK;
+      collapseOption.callback = function() {
+        block.setCollapsed(true);
+      };
+      options.push(collapseOption);
     }
 
     // Option to disable/enable block.
@@ -725,12 +721,13 @@ Blockly.Block.prototype.setDragging_ = function(adding) {
  * @private
  */
 Blockly.Block.prototype.onMouseMove_ = function(e) {
-  if (e.type == 'mousemove' && e.x <= 1 && e.y == 0 && e.button == 0) {
+  if (e.type == 'mousemove' && e.x == 1 && e.y == 0 && e.button == 0) {
     /* HACK:
-     Safari Mobile 6.0 and Chrome for Android 18.0 fire rogue mousemove events
-     on certain touch actions. Ignore events with these signatures.
-     This may result in a one-pixel blind spot in other browsers,
-     but this shouldn't be noticable. */
+     The current versions of Chrome for Android (18.0) has a bug where finger-
+     swipes trigger a rogue 'mousemove' event with invalid x/y coordinates.
+     Ignore events with this signature.  This may result in a one-pixel blind
+     spot in other browsers, but this shouldn't be noticable.
+    */
     e.stopPropagation();
     return;
   }
@@ -806,10 +803,6 @@ Blockly.Block.prototype.onMouseMove_ = function(e) {
  * @private
  */
 Blockly.Block.prototype.bumpNeighbours_ = function() {
-  if (Blockly.Block.dragMode_ != 0) {
-    // Don't bump blocks during a drag.
-    return;
-  }
   var rootBlock = this.getRootBlock();
   // Loop though every connection on this block.
   var myConnections = this.getConnections_(false);
@@ -993,7 +986,7 @@ Blockly.Block.prototype.setColour = function(colourHue) {
   if (this.rendered) {
     // Bump every dropdown to change its colour.
     for (var x = 0, input; input = this.inputList[x]; x++) {
-      for (var y = 0, title; title = input.titleRow[y]; y++) {
+      for (var y = 0, title; title = this.titleRow[y]; y++) {
         title.setText(null);
       }
     }
@@ -1057,8 +1050,8 @@ Blockly.Block.prototype.setTooltip = function(newTip) {
 /**
  * Set whether this block can chain onto the bottom of another block.
  * @param {boolean} newBoolean True if there can be a previous statement.
- * @param {string|Array.<string>|null} opt_check Statement type or list of
- *     statement types.  Null or undefined if any type could be connected.
+ * @param {Object} opt_check Statement type or list of statement types.
+ *     Null or undefined if any type could be connected.
  */
 Blockly.Block.prototype.setPreviousStatement = function(newBoolean, opt_check) {
   if (this.previousConnection) {
@@ -1088,8 +1081,8 @@ Blockly.Block.prototype.setPreviousStatement = function(newBoolean, opt_check) {
 /**
  * Set whether another block can chain onto the bottom of this block.
  * @param {boolean} newBoolean True if there can be a next statement.
- * @param {string|Array.<string>|null} opt_check Statement type or list of
- *     statement types.  Null or undefined if any type could be connected.
+ * @param {Object} opt_check Statement type or list of statement types.
+ *     Null or undefined if any type could be connected.
  */
 Blockly.Block.prototype.setNextStatement = function(newBoolean, opt_check) {
   if (this.nextConnection) {
@@ -1116,9 +1109,8 @@ Blockly.Block.prototype.setNextStatement = function(newBoolean, opt_check) {
 /**
  * Set whether this block returns a value.
  * @param {boolean} newBoolean True if there is an output.
- * @param {string|Array.<string>|null} opt_check Returned type or list of
- *     returned types.  Null or undefined if any type could be returned
- *     (e.g. variable get).
+ * @param {Object} opt_check Returned type or list of returned types.
+ *     Null or undefined if any type could be returned (e.g. variable get).
  */
 Blockly.Block.prototype.setOutput = function(newBoolean, opt_check) {
   if (this.outputConnection) {
@@ -1224,16 +1216,14 @@ Blockly.Block.prototype.setCollapsed = function(collapsed) {
     }
   }
 
-  if (collapsed) {
-    if (this.mutator) {
-      this.mutator.setVisible(false);
-    }
-    if (this.comment) {
-      this.comment.setVisible(false);
-    }
-    if (this.warning) {
-      this.warning.setVisible(false);
-    }
+  if (collapsed && this.mutator) {
+    this.mutator.setVisible(false);
+  }
+  if (collapsed && this.comment) {
+    this.comment.setVisible(false);
+  }
+  if (collapsed && this.warning) {
+    this.warning.setVisible(false);
   }
 
   if (renderList.length == 0) {
@@ -1466,9 +1456,6 @@ Blockly.Block.prototype.setWarningText = function(text) {
   if (!Blockly.Warning) {
     throw 'Warnings not supported.';
   }
-  if (this.isInFlyout) {
-    text = null;
-  }
   var changedState = false;
   if (goog.isString(text)) {
     if (!this.warning) {
@@ -1482,10 +1469,12 @@ Blockly.Block.prototype.setWarningText = function(text) {
       changedState = true;
     }
   }
-  if (changedState && this.rendered) {
+  if (this.rendered) {
     this.render();
-    // Adding or removing a warning icon will cause the block to change shape.
-    this.bumpNeighbours_();
+    if (changedState) {
+      // Adding or removing a warning icon will cause the block to change shape.
+      this.bumpNeighbours_();
+    }
   }
 };
 
@@ -1494,8 +1483,5 @@ Blockly.Block.prototype.setWarningText = function(text) {
  * Lays out and reflows a block based on its contents and settings.
  */
 Blockly.Block.prototype.render = function() {
-  if (!this.svg_) {
-    throw 'Uninitialized block cannot be rendered.  Call block.initSvg()';
-  }
   this.svg_.render();
 };

@@ -38,8 +38,7 @@ Blockly.Flyout = function() {
    * @type {!Blockly.Workspace}
    * @private
    */
-  this.workspace_ = new Blockly.Workspace();
-  this.workspace_.isFlyout = true;
+  this.workspace_ = new Blockly.Workspace(false);
 
   /**
    * Opaque data that can be passed to removeChangeListener.
@@ -261,11 +260,6 @@ Blockly.Flyout.prototype.position_ = function() {
 
   // Record the height for Blockly.Flyout.getMetrics.
   this.height_ = metrics.viewHeight;
-
-  // Update the scrollbar (if one exists).
-  if (this.scrollbar_) {
-    this.scrollbar_.resize();
-  }
 };
 
 /**
@@ -287,9 +281,7 @@ Blockly.Flyout.prototype.hide = function() {
   // Delete all the blocks.
   var blocks = this.workspace_.getTopBlocks(false);
   for (var x = 0, block; block = blocks[x]; x++) {
-    if (block.workspace == this.workspace_) {
-      block.dispose(false, false);
-    }
+    block.dispose(false, false);
   }
   // Delete all the background buttons.
   for (var x = 0, rect; rect = this.buttons_[x]; x++) {
@@ -337,9 +329,8 @@ Blockly.Flyout.prototype.show = function(xmlList) {
   for (var i = 0, block; block = blocks[i]; i++) {
     var allBlocks = block.getDescendants();
     for (var j = 0, child; child = allBlocks[j]; j++) {
-      // Mark blocks as being inside a flyout.  This is used to detect and
-      // prevent the closure of the flyout if the user right-clicks on such a
-      // block.
+      // Mark blocks as being inside a flyout.  This is used to detect and prevent
+      // the closure of the flyout if the user right-clicks on such a block.
       child.isInFlyout = true;
       // There is no good way to handle comment bubbles inside the flyout.
       // Blocks shouldn't come with predefined comments, but someone will
@@ -389,21 +380,6 @@ Blockly.Flyout.prototype.show = function(xmlList) {
 };
 
 /**
- * Filter the blocks on the flyout to disable the ones that are above the
- * capacity limit.
- * @private
- */
-Blockly.Flyout.prototype.filterForCapacity_ = function() {
-  var remainingCapacity = this.targetWorkspace_.remainingCapacity();
-  var blocks = this.workspace_.getTopBlocks(false);
-  for (var i = 0, block; block = blocks[i]; i++) {
-    var allBlocks = block.getDescendants();
-    var disabled = allBlocks.length > remainingCapacity;
-    block.setDisabled(disabled);
-  }
-};
-
-/**
  * Create a copy of this block on the workspace.
  * @param {!Blockly.Flyout} flyout Instance of the flyout.
  * @param {!Blockly.Block} originBlock The flyout block to copy.
@@ -424,17 +400,14 @@ Blockly.Flyout.createBlockFunc_ = function(flyout, originBlock) {
     var xml = Blockly.Xml.blockToDom_(originBlock);
     var block = Blockly.Xml.domToBlock_(flyout.targetWorkspace_, xml);
     // Place it in the same spot as the flyout copy.
-    var svgRootOld = originBlock.getSvgRoot();
-    if (!svgRootOld) {
+    var svgRoot = originBlock.getSvgRoot();
+    if (!svgRoot) {
       throw 'originBlock is not rendered.';
     }
-    var xyOld = Blockly.getSvgXY_(svgRootOld);
-    var svgRootNew = block.getSvgRoot();
-    if (!svgRootNew) {
-      throw 'block is not rendered.';
-    }
-    var xyNew = Blockly.getSvgXY_(svgRootNew);
+    var xyOld = Blockly.getAbsoluteXY_(svgRoot);
+    var xyNew = Blockly.getAbsoluteXY_(flyout.targetWorkspace_.getCanvas());
     block.moveBy(xyOld.x - xyNew.x, xyOld.y - xyNew.y);
+    block.render();
     if (flyout.autoClose) {
       flyout.hide();
     } else {
@@ -443,4 +416,18 @@ Blockly.Flyout.createBlockFunc_ = function(flyout, originBlock) {
     // Start a dragging operation on the new block.
     block.onMouseDown_(e);
   };
+};
+
+/**
+ * Filter the blocks on the flyout to disable the ones that are above the
+ * capacity limit.
+ */
+Blockly.Flyout.prototype.filterForCapacity_ = function() {
+  var remainingCapacity = this.targetWorkspace_.remainingCapacity();
+  var blocks = this.workspace_.getTopBlocks(false);
+  for (var i = 0, block; block = blocks[i]; i++) {
+    var allBlocks = block.getDescendants();
+    var disabled = allBlocks.length > remainingCapacity;
+    block.setDisabled(disabled);
+  }
 };

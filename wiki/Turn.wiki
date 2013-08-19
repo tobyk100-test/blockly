@@ -1,0 +1,10 @@
+#labels Maze
+=The *Turn* Block=
+
+To access the *Turn* block, click *Maze*.
+
+|| *Option* || *Description* ||
+||turn *right* ||Turns Pegman to face right but doesn't move him any squares in the new direction.||
+||turn *left* ||Turns Pegman to face left but doesn't move him any squares in the new direction.||
+
+*Tip*: To move Pegman in the new direction, use the [http://code.google.com/p/google-blockly/wiki/Move Move] block.

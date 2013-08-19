@@ -56,10 +56,10 @@ Blockly.removeClass_ = function(element, className) {
   var classes = element.getAttribute('class');
   if ((' ' + classes + ' ').indexOf(' ' + className + ' ') != -1) {
     var classList = classes.split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
-      if (!classList[i] || classList[i] == className) {
-        classList.splice(i, 1);
-        i--;
+    for (var x = 0; x < classList.length; x++) {
+      if (!classList[x] || classList[x] == className) {
+        classList.splice(x, 1);
+        x--;
       }
     }
     if (classList.length) {
@@ -196,12 +196,9 @@ Blockly.getRelativeXY_ = function(element) {
   }
   // Second, check for transform="translate(...)" attribute.
   var transform = element.getAttribute('transform');
-  // Note that Firefox and IE (9,10) return 'translate(12)' instead of
-  // 'translate(12, 0)'.
-  // Note that IE (9,10) returns 'translate(16 8)' instead of
-  // 'translate(16, 8)'.
+  // Note that Firefox returns 'translate(12)' instead of 'translate(12, 0)'.
   var r = transform &&
-          transform.match(/translate\(\s*([-\d.]+)([ ,]\s*([-\d.]+)\s*\))?/);
+          transform.match(/translate\(\s*([-\d.]+)(,\s*([-\d.]+)\s*\))?/);
   if (r) {
     xy.x += parseInt(r[1], 10);
     if (r[3]) {
@@ -213,12 +210,11 @@ Blockly.getRelativeXY_ = function(element) {
 
 /**
  * Return the absolute coordinates of the top-left corner of this element.
- * The origin (0,0) is the top-left corner of the Blockly svg.
  * @param {!Element} element Element to find the coordinates of.
  * @return {!Object} Object with .x and .y properties.
  * @private
  */
-Blockly.getSvgXY_ = function(element) {
+Blockly.getAbsoluteXY_ = function(element) {
   var x = 0;
   var y = 0;
   do {
@@ -227,20 +223,8 @@ Blockly.getSvgXY_ = function(element) {
     x += xy.x;
     y += xy.y;
     element = element.parentNode;
-  } while (element && element != Blockly.svg);
+  } while (element && element != document);
   return {x: x, y: y};
-};
-
-/**
- * Return the absolute coordinates of the top-left corner of this element.
- * The origin (0,0) is the top-left corner of the page body.
- * @param {!Element} element Element to find the coordinates of.
- * @return {!Object} Object with .x and .y properties.
- * @private
- */
-Blockly.getAbsoluteXY_ = function(element) {
-  var xy = Blockly.getSvgXY_(element);
-  return Blockly.convertCoordinates(xy.x, xy.y, false);
 };
 
 /**
@@ -255,12 +239,6 @@ Blockly.createSvgElement = function(name, attrs, opt_parent) {
       document.createElementNS(Blockly.SVG_NS, name));
   for (var key in attrs) {
     e.setAttribute(key, attrs[key]);
-  }
-  // IE defines a unique attribute "runtimeStyle", it is NOT applied to
-  // elements created with createElementNS. However, Closure checks for IE
-  // and assumes the presence of the attribute and crashes.
-  if (document.body.runtimeStyle) {  // Indicates presence of IE-only attr.
-    e.runtimeStyle = e.currentStyle = e.style;
   }
   if (opt_parent) {
     opt_parent.appendChild(e);
@@ -295,99 +273,4 @@ Blockly.convertCoordinates = function(x, y, toSvg) {
     matrix = matrix.inverse();
   }
   return svgPoint.matrixTransform(matrix);
-};
-
-/**
- * Given an array of strings, return the length of the shortest one.
- * @param {!Array<string>} array Array of strings.
- * @return {number} Length of shortest string.
- */
-Blockly.shortestStringLength = function(array) {
-  if (!array.length) {
-    return 0;
-  }
-  var len = array[0].length;
-  for (var i = 1; i < array.length; i++) {
-    len = Math.min(len, array[i].length);
-  }
-  return len;
-};
-
-/**
- * Given an array of strings, return the length of the common prefix.
- * Words may not be split.  Any space after a word is included in the length.
- * @param {!Array<string>} array Array of strings.
- * @param {?number} opt_shortest Length of shortest string.
- * @return {number} Length of common prefix.
- */
-Blockly.commonWordPrefix = function(array, opt_shortest) {
-  if (!array.length) {
-    return 0;
-  } else if (array.length == 1) {
-    return array[0].length;
-  }
-  var wordPrefix = 0;
-  var max = opt_shortest || Blockly.shortestStringLength(array);
-  for (var len = 0; len < max; len++) {
-    var letter = array[0][len];
-    for (var i = 1; i < array.length; i++) {
-      if (letter != array[i][len]) {
-        return wordPrefix;
-      }
-    }
-    if (letter == ' ') {
-      wordPrefix = len + 1;
-    }
-  }
-  for (var i = 1; i < array.length; i++) {
-    var letter = array[i][len];
-    if (letter && letter != ' ') {
-      return wordPrefix;
-    }
-  }
-  return max;
-};
-
-/**
- * Given an array of strings, return the length of the common suffix.
- * Words may not be split.  Any space after a word is included in the length.
- * @param {!Array<string>} array Array of strings.
- * @param {?number} opt_shortest Length of shortest string.
- * @return {number} Length of common suffix.
- */
-Blockly.commonWordSuffix = function(array, opt_shortest) {
-  if (!array.length) {
-    return 0;
-  } else if (array.length == 1) {
-    return array[0].length;
-  }
-  var wordPrefix = 0;
-  var max = opt_shortest || Blockly.shortestStringLength(array);
-  for (var len = 0; len < max; len++) {
-    var letter = array[0].substr(-len - 1, 1);
-    for (var i = 1; i < array.length; i++) {
-      if (letter != array[i].substr(-len - 1, 1)) {
-        return wordPrefix;
-      }
-    }
-    if (letter == ' ') {
-      wordPrefix = len + 1;
-    }
-  }
-  for (var i = 1; i < array.length; i++) {
-    var letter = array[i].charAt(array[i].length - len - 1);
-    if (letter && letter != ' ') {
-      return wordPrefix;
-    }
-  }
-  return max;
-};
-
-/**
- * Is the given string a number (includes negative and decimals).
- * @param {string} str Input string.
- * @return {boolean} True if number, false otherwise.
- */
-Blockly.isNumber = function(str) {
-  return !!str.match(/^\s*-?\d+(\.\d+)?\s*$/);
 };

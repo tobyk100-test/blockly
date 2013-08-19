@@ -1,0 +1,38 @@
+#summary Plans for the future.
+#labels Featured
+
+= Introduction =
+
+Blockly is still in active development with changes landing every day.  We are aware of many deficiencies and are working hard to address them.
+
+= Near-term goals =
+
+ * Multi-block selection.
+ * Trash can contents bubble.
+ * More blocks (e.g. 2D grids).
+
+= Medium-term goals =
+
+ * Improved variable rename dialog.
+ * Better tablet support.
+ * IE support (definitely 10, maybe earlier?).
+ * Automated testing.
+ * 40 (human) languages.
+ * Dynamic addition/deletion from toolbox.
+ * Frequently used category.
+ * Multi-line strings.
+ * Date/Time selection.
+ * Icons for context menu.
+ * Per-block documentation.
+ * Improved shadow on blocks.
+
+= Long-term goals =
+
+ * Zoom.
+ * Multiple workspaces.
+ * Local variables.
+ * Cursor control for accessibility.
+ * Debugging hooks.
+ * Search.
+
+Let us know what your priorities are.  Also, Blockly is open source so if there is a feature you need then you are free to work on it.

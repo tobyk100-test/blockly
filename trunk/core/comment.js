@@ -89,10 +89,8 @@ Blockly.Comment.prototype.createIcon_ = function() {
     <text class="blocklyIconMark" x="8" y="13">?</text>
   </g>
   */
-  this.iconGroup_ = Blockly.createSvgElement('g', {}, null);
-  if (!this.block_.isInFlyout) {
-    this.iconGroup_.setAttribute('class', 'blocklyIconGroup');
-  }
+  this.iconGroup_ = Blockly.createSvgElement('g',
+      {'class': 'blocklyIconGroup'}, null);
   var iconShield = Blockly.createSvgElement('circle',
       {'class': 'blocklyIconShield',
        'r': Blockly.Comment.ICON_RADIUS,
@@ -104,9 +102,7 @@ Blockly.Comment.prototype.createIcon_ = function() {
        'y': 2 * Blockly.Comment.ICON_RADIUS - 3}, this.iconGroup_);
   this.iconMark_.appendChild(document.createTextNode('?'));
   this.block_.getSvgRoot().appendChild(this.iconGroup_);
-  if (this.block_.editable && !this.block_.isInFlyout) {
-    Blockly.bindEvent_(this.iconGroup_, 'mouseup', this, this.iconClick_);
-  }
+  Blockly.bindEvent_(this.iconGroup_, 'mouseup', this, this.iconClick_);
 };
 
 /**

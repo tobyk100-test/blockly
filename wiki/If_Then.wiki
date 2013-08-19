@@ -1,0 +1,30 @@
+#labels Control
+=The *If Then* Block=
+
+To access the *If Then* Block, click *Control*.
+
+|| *Option* || *Description* ||
+|| *if* || Finds out if something is true. If it is, the program will do whatever you tell it to do next.||
+|| *then* ||Useful with a block like *move forward*, that tells the program what to do next.||
+|| *else if* || Useful for combining more than one *If Then* sentences.||
+|| *else* ||Useful for the last sentence in the block, to tell the program what to do even if there's a case you haven't thought of.||
+
+*Tip*: To make useful sentences, combine the *If Then* block with these other blocks:
+
+ * [http://code.google.com/p/google-blockly/wiki/Wall Wall]
+ * [http://code.google.com/p/google-blockly/wiki/Move Move]
+ * [http://code.google.com/p/google-blockly/wiki/Turn Turn]
+
+You can write statements like:
+
+ * If *wall ahead? * then *move backward*.
+ * Else if *wall to the right?* then *turn left*. (Hint: In real life, this sentence might not work the way you think.)
+ * Else *move forward*.
+
+Your *If Then* block should always follow the format:
+
+ * If *this thing * then *do this*.
+ * Else if *this other thing* then *do something else*.
+ * Else *do that*.
+
+*Note*: You should always include the last *Else* to make sure the program does something even if there is a case you haven't thought of. 
