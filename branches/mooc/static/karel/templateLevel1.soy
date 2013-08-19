@@ -1,0 +1,66 @@
+{namespace page1}
+/**
+ * Hints for page 1.
+ */
+{template .hints}
+  {switch $ij.level}
+    {case 1}
+      {msg meaning="Maze.instructions1" desc="TODO"}
+        Move pegman to the number and change it to zero.
+      {/msg}
+    {case 2}
+      {msg meaning="Maze.instructions2" desc="TODO"}
+        Move pegman to the number and change it to zero.
+      {/msg}
+    {case 3}
+      {msg meaning="Maze.instructions3" desc="TODO"}
+        Make pegman repeatedly set the numbers to zero and move forward, using as few blocks as possible.
+      {/msg}
+    {case 4}
+      {msg meaning="Maze.instructions4" desc="TODO"}
+        Make pegman set the row to zero, using as few blocks as possible.
+      {/msg}
+    {case 5}
+      {msg meaning="Maze.instructions5" desc="TODO"}
+        Make pegman set the row to zero, using as few blocks as possible.
+      {/msg}
+    {case 6}
+      {msg meaning="Maze.instructions6" desc="TODO"}
+        Make pegman set the number to zero by subtracting 1, ten times.
+      {/msg}
+    {case 7}
+      {msg meaning="Maze.instructions7" desc="TODO"}
+        Set all the numbers in the row to zero, each number needs to be increased 5 times.
+      {/msg}
+    {case 8}
+      {msg meaning="Maze.instructions8" desc="TODO"}
+        Set all the numbers in the square to zero.
+      {/msg}
+    {case 9}
+      {msg meaning="Maze.instructions9" desc="TODO"}
+        Set all the numbers in the row to zero.
+      {/msg}
+  {/switch}
+{/template}
+/**
+ * Toolbox for Karel 1
+ */
+{template .toolbox}
+  <block type="maze_moveForward"></block>
+  <block type="maze_turn"><title name="DIR">turnLeft</title></block>
+  <block type="maze_turn"><title name="DIR">turnRight</title></block>
+  <block type="maze_pickUpBall"></block>
+  {if $ij.level > 1}
+    <block type="maze_putDownBall"></block>
+    {if $ij.level > 2}
+      <block type="maze_untilBlocked"></block>
+      {if $ij.level > 5}
+        {call mazepage.controlsFor /}
+        {if $ij.level > 8}
+          <block type="maze_if"></block>
+        {/if}
+      {/if}
+    {/if}
+  {/if}
+{/template}
+{/namespace}
