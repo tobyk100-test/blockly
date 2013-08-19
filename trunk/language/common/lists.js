@@ -455,9 +455,27 @@ Blockly.Language.lists_getSublist = {
   }
 };
 
+/**
 Blockly.Language.lists_getSublist.WHERE1 = Blockly.Language.lists_getIndex.WHERE
     .filter(function(tuple) {return tuple[1] == 'FROM_START' ||
             tuple[1] == 'FROM_END' || tuple[1] == 'FIRST';});
 Blockly.Language.lists_getSublist.WHERE2 = Blockly.Language.lists_getIndex.WHERE
     .filter(function(tuple) {return tuple[1] == 'FROM_START' ||
             tuple[1] == 'FROM_END' || tuple[1] == 'LAST';});
+*/
+Blockly.Language.lists_getSublist.WHERE1 = goog.array.filter(
+    Blockly.Language.lists_getIndex.WHERE,
+    function(tuple) {
+        return tuple[1] == 'FROM_START' ||
+        tuple[1] == 'FROM_END' ||
+        tuple[1] == 'FIRST';
+    }
+);
+Blockly.Language.lists_getSublist.WHERE2 = goog.array.filter(
+    Blockly.Language.lists_getIndex.WHERE,
+    function(tuple) {
+        return tuple[1] == 'FROM_START' ||
+        tuple[1] == 'FROM_END' ||
+        tuple[1] == 'LAST';
+    }
+);

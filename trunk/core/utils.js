@@ -82,13 +82,14 @@ Blockly.removeClass_ = function(element, className) {
 Blockly.bindEvent_ = function(element, name, thisObject, func) {
   var bindData = [];
   var wrapFunc;
-  if (!element.addEventListener) {
-    throw 'Element is not a DOM node with addEventListener.';
-  }
   wrapFunc = function(e) {
     func.apply(thisObject, arguments);
   };
-  element.addEventListener(name, wrapFunc, false);
+  if (element.addEventListener) {
+    element.addEventListener(name, wrapFunc, false);
+  } else {
+    element.attachEvent('on' + name, wrapFunc);
+  }
   bindData.push([element, name, wrapFunc]);
   // Add equivalent touch event.
   if (name in Blockly.bindEvent_.TOUCH_MAP) {
@@ -253,14 +254,18 @@ Blockly.getAbsoluteXY_ = function(element) {
 Blockly.createSvgElement = function(name, attrs, opt_parent) {
   var e = /** @type {!SVGElement} */ (
       document.createElementNS(Blockly.SVG_NS, name));
+  if (!e) {
+    return;
+  }
   for (var key in attrs) {
     e.setAttribute(key, attrs[key]);
   }
   // IE defines a unique attribute "runtimeStyle", it is NOT applied to
   // elements created with createElementNS. However, Closure checks for IE
   // and assumes the presence of the attribute and crashes.
-  if (document.body.runtimeStyle) {  // Indicates presence of IE-only attr.
-    e.runtimeStyle = e.currentStyle = e.style;
+  if (e.runtimeStyle) {  // Indicates presence of IE-only attr.
+    e.setAttribute("runtimeStyle", e.style);
+    e.setAttribute("currentStyle", e.style);
   }
   if (opt_parent) {
     opt_parent.appendChild(e);
@@ -390,4 +395,8 @@ Blockly.commonWordSuffix = function(array, opt_shortest) {
  */
 Blockly.isNumber = function(str) {
   return !!str.match(/^\s*-?\d+(\.\d+)?\s*$/);
+};
+
+Blockly.getEventTarget = function(e) {
+  return e.target || e.srcElement;
 };

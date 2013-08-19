@@ -68,7 +68,8 @@ Blockly.parseOptions_ = function(options) {
         // browser. The HTML will be contained in the element, but it will
         // not have the proper DOM structure since the browser doesn't support
         // XSLTProcessor (XML -> HTML). This is the case in IE 9+.
-        tree = tree.outerHTML;
+        //tree = tree.outerHTML;
+        tree = tree.outerHTML.substring(tree.outerHTML.indexOf('<xml'));
       }
       if (typeof tree == 'string') {
         tree = Blockly.Xml.textToDom(tree);

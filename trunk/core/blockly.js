@@ -489,7 +489,8 @@ Blockly.removeAllRanges = function() {
  * @private
  */
 Blockly.isTargetInput_ = function(e) {
-  return e.target.type == 'textarea' || e.target.type == 'text';
+  var target = Blockly.getEventTarget(e);
+  return target.type == 'textarea' || target.type == 'text';
 };
 
 /**

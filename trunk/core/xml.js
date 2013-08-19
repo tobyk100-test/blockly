@@ -25,6 +25,8 @@
 
 goog.provide('Blockly.Xml');
 
+goog.require('goog.dom.xml');
+
 // TODO(scr): Fix circular dependencies
 // goog.require('Blockly.Block');
 
@@ -191,6 +193,7 @@ Blockly.Xml.domToPrettyText = function(dom) {
  * @return {!Element} A tree of XML elements.
  */
 Blockly.Xml.textToDom = function(text) {
+  /*
   var oParser = new DOMParser();
   var dom = oParser.parseFromString(text, 'text/xml');
   // The DOM should have one and only one top-level node, an XML tag.
@@ -200,7 +203,9 @@ Blockly.Xml.textToDom = function(text) {
     // Whatever we got back from the parser is not XML.
     throw 'Blockly.Xml.textToDom did not obtain a valid XML tree.';
   }
-  return dom.firstChild;
+  */
+  var dom = goog.dom.xml.loadXml(text);
+  return dom;
 };
 
 /**
