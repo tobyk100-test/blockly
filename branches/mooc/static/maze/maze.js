@@ -29,6 +29,7 @@
 var Maze = {};
 
 // Supported languages.
+BlocklyApps.LANGUAGES = {
   en: ['English', 'ltr', 'en_compressed.js']
 };
 BlocklyApps.LANG = BlocklyApps.getLang();
