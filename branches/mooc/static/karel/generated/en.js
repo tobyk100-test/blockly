@@ -8,25 +8,25 @@ page2.hints = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
   switch (opt_ijData.level) {
     case 1:
-      output += 'Use the function block to make pegman change the number to zero.';
+      output += 'Use the function block to make the farmer fill in the hole, it will take 5 shovelfuls.';
       break;
     case 2:
-      output += 'Use the function block to make pegman change the row of numbers to zero.';
+      output += 'Use the function block to make the farmer fill in all the holes.';
       break;
     case 3:
-      output += 'Define a new function to make pegman change the numbers to zero.';
+      output += 'Define a new function to make the farmer fill in all the holes, each hole needs 7 shovelfuls.';
       break;
     case 4:
-      output += 'Create a new function to make pegman change the numbers to zero.';
+      output += 'Create a new function and use it to help the farmer level out all the mounds.';
       break;
     case 5:
-      output += 'Use the new blocks to complete the level.';
+      output += 'Use the new blocks to level out the mounds and fill in the holes.';
       break;
     case 6:
-      output += 'Create a new function which jumps the hurdles to get to the next number.';
+      output += 'Create a new function that helps the farmer jump the hurdles and get to the next mound.';
       break;
     case 7:
-      output += 'Use the jump hurdle function to help pegman change the numbers to zero.';
+      output += 'Use the jump hurdle function to make the farmer level out the mounds.';
       break;
   }
   return output;
@@ -53,34 +53,34 @@ page1.hints = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
   switch (opt_ijData.level) {
     case 1:
-      output += 'Move pegman to the number and change it to zero.';
+      output += 'Move the farmer to the mound and level it out.';
       break;
     case 2:
-      output += 'Move pegman to the number and change it to zero.';
+      output += 'Move the farmer to the mound and level it out.';
       break;
     case 3:
-      output += 'Make pegman repeatedly set the numbers to zero and move forward, using as few blocks as possible.';
+      output += 'Make the farmer level out all the mounds, using as few blocks as possible.';
       break;
     case 4:
-      output += '.';
+      output += 'Make the farmer fill in the hole, it will take 6 shovelfuls.';
       break;
     case 5:
-      output += 'Make pegman set the row to zero, using as few blocks as possible.';
+      output += 'Make the farmer level out all the mounds, using as few blocks as possible.';
       break;
     case 6:
-      output += 'Make pegman set the row to zero, using as few blocks as possible.';
+      output += 'Make the farmer level out all the mounds, using as few blocks as possible.';
       break;
     case 7:
-      output += 'Make pegman set the number to zero by subtracting 1, ten times.';
+      output += 'Make the farmer level out all the mounds.';
       break;
     case 8:
-      output += 'Set all the numbers in the row to zero, each number needs to be increased 5 times.';
+      output += 'Level out all the mounds each mound needs 5 shovelfuls.';
       break;
     case 9:
-      output += 'Set all the numbers in the square to zero.';
+      output += 'Level out all the mounds.';
       break;
     case 10:
-      output += 'Set all the numbers in the row to zero.';
+      output += 'Fill in the holes and level out the mounds.';
       break;
   }
   return output;
