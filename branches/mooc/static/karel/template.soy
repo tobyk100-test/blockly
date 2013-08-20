@@ -224,15 +224,33 @@
               {msg meaning="Maze.hint1" desc="hint - 'block' refers to a
                 child's stackable toys."}Use only the blocks you need to get
                 to complete the level.{/msg}
-            {case 3, 4, 5}
+            {case 3, 5}
               {msg meaning="Maze.hint3" desc="hint - A 'repeat' block is used
                 to repeat blocks over and over. The red marker is the goal to
-                be reached in the maze."}Try using the repeat block so you can
+                be reached in the maze."}Try using the while block so you can
                 complete the level with only 3 blocks.{/msg}
-            {case 6, 7, 8, 9}
+            {case 4}
+              {msg meaning="Maze.hint3" desc="hint - A 'repeat' block is used
+                to repeat blocks over and over. The red marker is the goal to
+                be reached in the maze."}Try using the while block so you can
+                complete the level with only 4 blocks.{/msg}
+            {case 6}
+              {msg meaning="Maze.hint3" desc="hint - A 'repeat' block is used
+                to repeat blocks over and over. The red marker is the goal to
+                be reached in the maze."}Try using two while blocks so you can
+                complete the level.{/msg}
+            {case 7, 9}
               {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
-                to repeat blocks over and over."}Try using the repeat block or
-                the count with block.{/msg}
+                to repeat blocks over and over."}Try using the repeat block.
+              {/msg}
+            {case 8}
+              {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
+                to repeat blocks over and over."}Try using the repeat block
+                inside the while block.{/msg}
+            {case 10}
+              {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
+                to repeat blocks over and over."}Try using two if blocks to
+                decide whether to add or remove.{/msg}
           {/switch}
         {elseif $ij.page == 2}
           {switch $ij.level}

@@ -112,15 +112,24 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
         output += 'Use only the blocks you need to get to complete the level.';
         break;
       case 3:
-      case 4:
       case 5:
-        output += 'Try using the repeat block so you can complete the level with only 3 blocks.';
+        output += 'Try using the while block so you can complete the level with only 3 blocks.';
+        break;
+      case 4:
+        output += 'Try using the while block so you can complete the level with only 4 blocks.';
         break;
       case 6:
+        output += 'Try using two while blocks so you can complete the level.';
+        break;
       case 7:
-      case 8:
       case 9:
-        output += 'Try using the repeat block or the count with block.';
+        output += 'Try using the repeat block.';
+        break;
+      case 8:
+        output += 'Try using the repeat block inside the while block.';
+        break;
+      case 10:
+        output += 'Try using two if blocks to decide whether to add or remove.';
         break;
     }
   } else if (opt_ijData.page == 2) {

@@ -4,7 +4,7 @@ Maze.initialBalls = [];
 Maze.finalBalls = [];
 
 Maze.pageOneIdeal = [
-  undefined, 5, 3, 3, 4, 3, 7, 6, 4, 4, 6
+  undefined, 5, 3, 3, 4, 3, 8, 6, 5, 4, 6
 ];
 
 Maze.pageTwoIdeal = [
