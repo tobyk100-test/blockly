@@ -495,7 +495,7 @@ BlocklyApps.getMsgOrNull = function(key) {
 
 BlocklyApps.USER = BlocklyApps.getStringParamFromUrl('user', '0');
 
-BlocklyApps.REPORT_URL = BlocklyApps.getStringParamFromUrl('callback',
+BlocklyApps.REPORT_URL = BlocklyApps.getStringParamFromUrl('callback_url',
     '/report');
 
 /**
