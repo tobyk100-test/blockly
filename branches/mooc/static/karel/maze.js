@@ -40,7 +40,7 @@ document.write('<script type="text/javascript" src="generated/' +
 
 Maze.MAX_REINF = 0;
 Maze.PAGE = BlocklyApps.getNumberParamFromUrl('page', 1, 2);
-Maze.MAX_LEVEL = [undefined, 9, 7][Maze.PAGE];
+Maze.MAX_LEVEL = [undefined, 10, 7][Maze.PAGE];
 Maze.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1, Maze.MAX_LEVEL);
 Maze.REINF = BlocklyApps.getNumberParamFromUrl('reinf', 1, Maze.MAX_REINF);
 
@@ -54,10 +54,10 @@ Maze.SKINS = [
   // graph: Colour of optional grid lines, or false.
   // look: Colour of sonar-like look icon.
   {
-    sprite: 'pegman.png',
-    tiles: 'tiles_pegman.png',
+    sprite: 'construction_worker.png',
+    tiles: 'tile.png',
     marker: 'marker.png',
-    background: false,
+    background: 'bg.png',
     graph: false,
     look: '#000',
     ball: 'check.png'
@@ -534,8 +534,8 @@ Maze.reset = function(first) {
             ballIcon.setAttributeNS(
               'http://www.w3.org/1999/xlink', 'xlink:href',
               Maze.balls_[y][x] + Maze.SKIN.ball);
-            ballIcon.setAttribute('height', 34);
-            ballIcon.setAttribute('width', 20);
+            ballIcon.setAttribute('height', 50);
+            ballIcon.setAttribute('width', 42);
             svg.appendChild(ballIcon);
           }
           ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
@@ -888,8 +888,8 @@ Maze.schedulePutDownBall = function() {
     var svg = document.getElementById('svgMaze');
     ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
     ballIcon.setAttribute('id', 'ball' + ballId);
-    ballIcon.setAttribute('height', 34);
-    ballIcon.setAttribute('width', 20);
+    ballIcon.setAttribute('height', 50);
+    ballIcon.setAttribute('width', 42);
     svg.appendChild(ballIcon);
 
     ++Maze.balls_[y][x];
@@ -926,8 +926,8 @@ Maze.schedulePickUpBall = function() {
     var svg = document.getElementById('svgMaze');
     ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
     ballIcon.setAttribute('id', 'ball' + ballId);
-    ballIcon.setAttribute('height', 34);
-    ballIcon.setAttribute('width', 20);
+    ballIcon.setAttribute('height', 50);
+    ballIcon.setAttribute('width', 42);
     svg.appendChild(ballIcon);
 
     ballIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
@@ -1066,10 +1066,26 @@ Maze.isPathLeft = function(id) {
 Maze.ballsPresent = function(id) {
   var x = Maze.pegmanX;
   var y = Maze.pegmanY;
-  return Maze.balls_[y][x];
+  if (Maze.balls_[y][x] > 0)
+    return true;
+  else
+    return false;
 }
-Maze.noBallsPresent = function(id) {
-  return !Maze.ballsPresent(id);
+Maze.holesPresent = function(id) {
+  var x = Maze.pegmanX;
+  var y = Maze.pegmanY;
+  if (Maze.balls_[y][x] < 0)
+    return true;
+  else
+    return false;
+}
+Maze.currentPositionNotClear = function(id) {
+  var x = Maze.pegmanX;
+  var y = Maze.pegmanY;
+  if (Maze.balls_[y][x] != 0)
+    return true;
+  else
+    return false;
 }
 // Core functions.
 

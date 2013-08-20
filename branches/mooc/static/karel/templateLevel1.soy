@@ -18,7 +18,7 @@
       {/msg}
     {case 4}
       {msg meaning="Maze.instructions4" desc="TODO"}
-        Make pegman set the row to zero, using as few blocks as possible.
+        .
       {/msg}
     {case 5}
       {msg meaning="Maze.instructions5" desc="TODO"}
@@ -26,18 +26,22 @@
       {/msg}
     {case 6}
       {msg meaning="Maze.instructions6" desc="TODO"}
-        Make pegman set the number to zero by subtracting 1, ten times.
+        Make pegman set the row to zero, using as few blocks as possible.
       {/msg}
     {case 7}
       {msg meaning="Maze.instructions7" desc="TODO"}
-        Set all the numbers in the row to zero, each number needs to be increased 5 times.
+        Make pegman set the number to zero by subtracting 1, ten times.
       {/msg}
     {case 8}
       {msg meaning="Maze.instructions8" desc="TODO"}
-        Set all the numbers in the square to zero.
+        Set all the numbers in the row to zero, each number needs to be increased 5 times.
       {/msg}
     {case 9}
       {msg meaning="Maze.instructions9" desc="TODO"}
+        Set all the numbers in the square to zero.
+      {/msg}
+    {case 10}
+      {msg meaning="Maze.instructions10" desc="TODO"}
         Set all the numbers in the row to zero.
       {/msg}
   {/switch}
@@ -52,14 +56,23 @@
   <block type="maze_pickUpBall"></block>
   {if $ij.level > 1}
     <block type="maze_putDownBall"></block>
-    {if $ij.level > 2}
-      <block type="maze_untilBlocked"></block>
-      {if $ij.level > 5}
-        {call mazepage.controlsFor /}
-        {if $ij.level > 8}
+    {if $ij.level > 6}
+      <block type="controls_repeat"></block>
+      {if $ij.level > 8}
+        <block type="maze_untilBlockedOrNotClear"></block>
+        {if $ij.level > 9}
           <block type="maze_if"></block>
         {/if}
       {/if}
+    {/if}
+    {if $ij.level == 3 or $ij.level == 4}
+      <block type="maze_whileNotClear"></block>
+    {/if}
+    {if $ij.level == 7 or $ij.level == 8}
+      <block type="maze_untilBlocked"></block>
+    {/if}
+    {if $ij.level == 5 or $ij.level == 6}
+      <block type="maze_untilBlockedOrNotClear"></block>
     {/if}
   {/if}
 {/template}
