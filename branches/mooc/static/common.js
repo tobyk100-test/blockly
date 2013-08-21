@@ -501,7 +501,6 @@ BlocklyApps.REPORT_URL = BlocklyApps.getStringParamFromUrl('callback_url',
 /**
  * Report back to the server, if available.
  * @param {string} app The name of the application.
- * @param {number} id A unique identifier generated when the page was loaded.
  * @param {number} level The current level of the application.
  * @param {number} result An indicator of the success of the code.
  * @param {string} program The user program, which will get URL-encoded.
@@ -512,10 +511,12 @@ BlocklyApps.report = function(app, id, level, result, program) {
     httpRequest.open('POST', BlocklyApps.REPORT_URL);
     httpRequest.setRequestHeader('Content-Type',
         'application/x-www-form-urlencoded');
-    httpRequest.send('app=' + app +
-        '&id=' + id +
+    httpRequest.send(
+        'app=' + app +
         '&level=' + level +
         '&result=' + result +
+        '&attempt=' + 1 +
+        '&time=' + 1 +
         '&program=' + encodeURIComponent(program));
   };
 };
