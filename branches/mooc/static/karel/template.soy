@@ -41,10 +41,10 @@
       something is true'"}while{/msg}</span>
     <span id="ballsPresent">{msg meaning="Maze.ballsPresent" desc="Indicates
       the presence of at least one ball, as in 'he brought a ball, there
-      are now balls present'"}if number is greater than 0{/msg}</span>
+      are now balls present'"}current spot has a mound{/msg}</span>
     <span id="holesPresent">{msg meaning="Maze.holesPresent" desc="Indicates
       the lack of any balls, as in 'she took the last ball, there
-      are now no balls present'"}number is less than 0{/msg}</span>
+      are now no balls present'"}current spot has a hole{/msg}</span>
     <span id="turnLeft">{msg meaning="Maze.turnLeft" desc="verb - imperative
       or infinitive for a person turning his head and body one quarter rotation
       counter-clockwise.  Prefer a translation that has text in common with the
@@ -82,7 +82,7 @@
       followed by the symbol denoting the end of the maze."}repeat until finish{/msg}</span>
     <span id="repeatWhileCurrentNotClear">{msg meaning="Maze.repeatUntil" desc="verb -
       imperative or infinitive to repeat the following commands.  The phrase is
-      followed by the symbol denoting the end of the maze."}while current number is not zero{/msg}</span>
+      followed by the symbol denoting the end of the maze."}while current spot is uneven{/msg}</span>
     <span id="moveForwardTooltip">{msg meaning="Maze.moveForwardTooltip"
       desc="tooltip (pop-up help) - Pegman is the humanoid icon used in Google Maps.
       See picture at http://goo.gl/9I64i (http://maps.google.com/intl/en/help/maps/streetview/learn/pegman.html).
