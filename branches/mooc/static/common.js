@@ -507,17 +507,15 @@ BlocklyApps.REPORT_URL = BlocklyApps.getStringParamFromUrl('callback_url',
  * @param {string} program The user program, which will get URL-encoded.
  */
 BlocklyApps.report = function(app, id, level, result, program) {
-  if ('BlocklyStorage' in window) {
-    var httpRequest = new XMLHttpRequest();
-    httpRequest.open('POST', BlocklyApps.REPORT_URL);
-    httpRequest.setRequestHeader('Content-Type',
-        'application/x-www-form-urlencoded');
-    httpRequest.send('app=' + app +
-        '&id=' + id +
-        '&level=' + level +
-        '&result=' + result +
-        '&program=' + encodeURIComponent(program));
-  }
+  var httpRequest = new XMLHttpRequest();
+  httpRequest.open('POST', BlocklyApps.REPORT_URL);
+  httpRequest.setRequestHeader('Content-Type',
+      'application/x-www-form-urlencoded');
+  httpRequest.send('app=' + app +
+      '&id=' + id +
+      '&level=' + level +
+      '&result=' + result +
+      '&program=' + encodeURIComponent(program));
 };
 
 /**
