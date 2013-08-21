@@ -521,6 +521,7 @@ Maze.reset = function(first) {
   // Nan's
   // Move the init ball marker icons into position.
   var ballId = 0;
+  var pegmanIcon = document.getElementById('pegman');
   for (var y = 0; y < Maze.ROWS; y++) {
     for (var x = 0; x < Maze.COLS; x++) {
       Maze.balls_[y][x] = Maze.initialBallMap[y][x];
@@ -536,7 +537,7 @@ Maze.reset = function(first) {
               Maze.balls_[y][x] + Maze.SKIN.ball);
             ballIcon.setAttribute('height', 50);
             ballIcon.setAttribute('width', 42);
-            svg.appendChild(ballIcon);
+            svg.insertBefore(ballIcon, pegmanIcon);
           }
           ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
                                 ballIcon.getAttribute('width') / 2);
@@ -873,6 +874,7 @@ Maze.schedulePutDownBall = function() {
   var y = Maze.pegmanY;
   var ballId = x + Maze.COLS * y;
   var ballIcon;
+  var pegmanIcon = document.getElementById('pegman');
   if (Maze.balls_[y][x] < -1 || Maze.balls_[y][x] > 0) {
     // There is already a ball at the position
     ballIcon = document.getElementById('ball' + ballId);
@@ -890,7 +892,7 @@ Maze.schedulePutDownBall = function() {
     ballIcon.setAttribute('id', 'ball' + ballId);
     ballIcon.setAttribute('height', 50);
     ballIcon.setAttribute('width', 42);
-    svg.appendChild(ballIcon);
+    svg.insertBefore(ballIcon, pegmanIcon);
 
     ++Maze.balls_[y][x];
     ballIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
@@ -914,6 +916,7 @@ Maze.schedulePickUpBall = function() {
   var y = Maze.pegmanY;
   var ballId = x + Maze.COLS * y;
   var ballIcon;
+  var pegmanIcon = document.getElementById('pegman');
   if (Maze.balls_[y][x] > 1 || Maze.balls_[y][x] < 0) {
     // The ballIcon should still exist after picking up a ball
     Maze.balls_[y][x] = Maze.balls_[y][x] - 1;
@@ -928,7 +931,7 @@ Maze.schedulePickUpBall = function() {
     ballIcon.setAttribute('id', 'ball' + ballId);
     ballIcon.setAttribute('height', 50);
     ballIcon.setAttribute('width', 42);
-    svg.appendChild(ballIcon);
+    svg.insertBefore(ballIcon, pegmanIcon);
 
     ballIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
                             Maze.balls_[y][x] + Maze.SKIN.ball);
