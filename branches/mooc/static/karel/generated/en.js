@@ -71,10 +71,10 @@ page1.hints = function(opt_data, opt_ignored, opt_ijData) {
       output += 'Make the farmer level out all the mounds, using as few blocks as possible.';
       break;
     case 7:
-      output += 'Make the farmer level out all the mounds.';
+      output += 'It\'s dark outside and the farmer cannot detect how large the pile is. Tell the farmer how many shovelfuls to remove.';
       break;
     case 8:
-      output += 'Level out all the mounds each mound needs 5 shovelfuls.';
+      output += 'It\'s still dark, tell the farmer to level out all the mounds. Each mound needs 5 shovelfuls.';
       break;
     case 9:
       output += 'Level out all the mounds.';
