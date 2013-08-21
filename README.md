@@ -17,7 +17,9 @@ Launch Blockly with a request to the root url and append the app name (maze, tur
 
 | Parameter | Description |
 |--------------|-------------|
-| success | Required. True if the user succeeded, false otherwise. |
+| result | Required. True if the user succeeded, false otherwise. |
+| app | Required. The name of the app. |
+| level | Required. The level attempted. |
 | time | Optional. The time the user spent completing the level. |
 | program | Optional. A string representing the user's solution. |
-| attempt |  |
+| attempt | Optional. The number of times the user has attempted this level so far. |
