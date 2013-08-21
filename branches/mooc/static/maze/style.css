@@ -51,6 +51,7 @@ html[dir="RTL"] .farSide {
 }
 #visualization {
   position: relative;
+  top: 10px;
 }
 #hintBubble {
   position: absolute;
@@ -259,7 +260,7 @@ html[dir="RTL"] #pegmanButton>span {
   margin-right: -15px;
 }
 #svgMaze {
-  border: solid 1px #BEBEBE;
+  border: solid 1px #DBDBDB;
 }
 #pegmanMenu {
   border: 1px solid #ddd;

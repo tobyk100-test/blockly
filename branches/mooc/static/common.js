@@ -390,11 +390,17 @@ BlocklyApps.getMissingRequiredBlocks = function(requiredBlocks) {
  * Compare the number of blocks in the workspace to an ideal number of blocks
  * specified for each level.
  * @param {number} idealNumber The ideal number of blocks.
- * @return {boolean} true if the ideal number of blocks were used.
+ * @return {number} 0 if the ideal number of blocks were used,
+ * otherwise returns -1 if too few blocks are used and 1 if too many blocks.
  */
 BlocklyApps.hasIdealNumberOfBlocks = function(idealNumber) {
   var numBlocks = Blockly.mainWorkspace.getAllBlocks().length;
-  return numBlocks <= idealNumber;
+  if (numBlocks == idealNumber) {
+    // 0 / 0 is NaN so equation below will not work.
+    return 0;
+  } else {
+    return (numBlocks - idealNumber) / Math.abs(numBlocks - idealNumber);
+  }
 };
 
 /**
@@ -402,8 +408,9 @@ BlocklyApps.hasIdealNumberOfBlocks = function(idealNumber) {
  * modal dialog is displayed.
  * @param {number} idealNumber The ideal number of blocks.
  * @param {!Array} requiredBlocks The required block types.
- * @param {boolean} levelComplete True if the level was completed,
+ * @param {boolean} levelComplete true if the level was completed,
  *     false otherwise.
+ * @param {number} attempts The number of times a level was attempted.
  * @param {number} maxFeedbackVersion The number of versions of feedback
  *     for a given block type.
  * @param {number} attempts The number of attempts by the user.
@@ -415,6 +422,7 @@ BlocklyApps.hasIdealNumberOfBlocks = function(idealNumber) {
 BlocklyApps.runTestsAndSetErrorFeedback = function(
   idealNumber, requiredBlocks, levelComplete, attempts, maxFeedbackVersion) {
   var versionOfFeedback = Math.min(attempts, maxFeedbackVersion);
+  var testResult = null;
   /**
    * Level 1 tests, user will need to try again after improving their code.
    */
@@ -422,8 +430,7 @@ BlocklyApps.runTestsAndSetErrorFeedback = function(
   var emptyBlocksE = document.getElementById('emptyBlocksError');
   if (BlocklyApps.hasEmptyTopLevelBlocks()) {
     emptyBlocksE.style.display = 'list-item';
-    document.getElementById('star1').style.display = 'block';
-    return BlocklyApps.BLOCK_TEST_FAIL;
+    testResult = BlocklyApps.BLOCK_TEST_FAIL;
   } else {
     emptyBlocksE.style.display = 'none';
   }
@@ -438,30 +445,42 @@ BlocklyApps.runTestsAndSetErrorFeedback = function(
         blockErrorElement.style.display = 'list-item';
       }
     }
-    document.getElementById('star1').style.display = 'block';
-    return BlocklyApps.BLOCK_TEST_FAIL;
+    testResult = BlocklyApps.BLOCK_TEST_FAIL;
   }
   /**
    * Level 2 tests, user can try again and improve their code or continue to the
    *     next level/interstitial.
    */
-  if (BlocklyApps.hasIdealNumberOfBlocks(idealNumber)) {
+  if (!testResult) {
+    var idealTestResult = BlocklyApps.hasIdealNumberOfBlocks(idealNumber);
     if (levelComplete) {
-      document.getElementById('star3').style.display = 'block';
-      return BlocklyApps.ALL_TESTS_PASS;
-    } else {
+      if (idealTestResult <= 0) {
+        testResult = BlocklyApps.ALL_TESTS_PASS;
+      } else {
+        testResult = BlocklyApps.IDEAL_TEST_FAIL;
+        document.getElementById('tooManyBlocksError')
+            .style.display = 'list-item';
+      }
+    } else if (idealTestResult <= -1) {
       document.getElementById('tooFewBlocksError').style.display = 'list-item';
-      document.getElementById('star1').style.display = 'block';
-      return BlocklyApps.BLOCK_TEST_FAIL;
+      testResult = BlocklyApps.BLOCK_TEST_FAIL;
+    } else if (idealTestResult >= 1) {
+      document.getElementById('tooManyBlocksError').style.display = 'list-item';
+      testResult = BlocklyApps.BLOCK_TEST_FAIL;
     }
-  } else {
-    document.getElementById('tooManyBlocksError').style.display = 'list-item';
-    document.getElementById('star2').style.display = 'block';
-    if (levelComplete) {
-      return BlocklyApps.IDEAL_TEST_FAIL;
-    } else {
-      return BlocklyApps.BLOCK_TEST_FAIL;
-    }
+  }
+  BlocklyApps.displayStars(levelComplete, testResult);
+  return testResult;
+};
+
+/**
+ * Show stars based on the degree of completion and if the level is complete.
+ * @param {number} levelComplete true if the user has completed the level.
+ * @param {number} testResult The number of stars to display.
+ */
+BlocklyApps.displayStars = function(levelComplete, testResult) {
+  if (levelComplete) {
+    document.getElementById('star' + testResult).style.display = 'block';
   }
 };
 
@@ -556,6 +575,7 @@ BlocklyApps.showDialogAndFeedback = function(feedbackType, level, maxLevel) {
   if (feedbackType == BlocklyApps.ALL_TESTS_PASS) {
     feedbackColor = 'green';
     feedbackText.style.textAlign = 'center';
+    document.getElementById('hintTitle').style.display = 'none';
     if (level < maxLevel) {
       document.getElementById('nextLevelMsg').style.display = 'inline';
     } else {
@@ -566,6 +586,7 @@ BlocklyApps.showDialogAndFeedback = function(feedbackType, level, maxLevel) {
   } else {
     feedbackColor = 'red';
     feedbackText.style.textAlign = 'left';
+    document.getElementById('hintTitle').style.display = 'inline';
     if (feedbackType == BlocklyApps.BLOCK_TEST_FAIL) {
       document.getElementById('tryAgainButton').style.display = 'inline';
       document.getElementById('continueButton').style.display = 'none';
@@ -602,12 +623,13 @@ BlocklyApps.hideDialog = function() {
 
 /**
  * Show the help pop-up for reinf levels so we can set text appropriately.
- * @param {string} reinfLevel 'q' + reinforcement level number +
+ * @param {number} reinfLevel Level number the quiz is displayed on.
+ * @param {string} identifier 'q' + reinforcement level number +
  *     'r' or 'w' (right or wrong answer).
  */
-BlocklyApps.showReinfHelp = function(reinfLevel) {
-  var qNum = BlocklyApps.LEVEL;
-  var responseType = reinfLevel.charAt(reinfLevel.length - 1);
+BlocklyApps.showReinfHelp = function(reinfLevel, identifier) {
+  var qNum = reinfLevel;
+  var responseType = identifier.charAt(identifier.length - 1);
   document.getElementById('reinfDone').style.display = 'block';
   var textColor;
   var responseType;
