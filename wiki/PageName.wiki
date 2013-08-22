@@ -63,7 +63,7 @@ http://i289.photobucket.com/albums/ll234/syntax_photos/BlockFactory_MoveTo_Previ
 
 Once complete you can see two sets of generated code in the tables to the right.
 
-*BLockly Language* Code
+==== BLockly Language Code ====
 {{{
 	Blockly.Language.move_to = {
 	  helpUrl: 'http://www.example.com/',
@@ -84,7 +84,7 @@ Once complete you can see two sets of generated code in the tables to the right.
 	}
 }}}
 
-*Blockly JavaScript* stub code
+==== Blockly JavaScript stub code ====
 {{{
 	Blockly.JavaScript.move_to = function() {
 	  var value_xpos = Blockly.JavaScript.valueToCode(this, 'XPOS', Blockly.JavaScript.ORDER_ATOMIC);
@@ -115,41 +115,8 @@ Blockly.JavaScript.draw_move = function() {
 };
 }}}
 
-For clarity separate both code blocks with a blank line. The code will now need a little modification.
-Let's start with the *Blockly.Language.draw_moveto* section, which is complete except for the help references. 
-Make the following changes:
+The code will now need some modification. Change the source code to the following:
 
-1. Add some comments to help document what the blocks function is. Place these lines right after the *Blockly.Language.draw_moveto = {* line. It's good practise to indent them too for code clarity:
-{{{	
-	// move turtle to absolute x,y location
-  	// for reference 0,0 is top/let and 200,200 is centre
-}}}
-2. Remove the text in `helpURL: 'http://www.example.com/'` so that  becomes `helpURL: ''`
-
-3. Modify `this.setTooltip('')` to `this.setTooltip(BlocklyApps.getMsg('Turtle_moveToTooltip'))`
-
-
-<br>
-Now for the *Blockly.JavaScript.draw_moveto* section.
-
-1. Add a comment under the line Blockly.JavaScript.draw_moveto = function() {
-{{{
-	// Generate JavaScript for moving to absolute position
-}}}
-2. Modify the two var lines like so:
-{{{
-	var xpos = Blockly.JavaScript.valueToCode(this, 'XPOS', Blockly.JavaScript.ORDER_NONE) || '0';
-  	var ypos = Blockly.JavaScript.valueToCode(this, 'YPOS', Blockly.JavaScript.ORDER_NONE) || '0';
-}}}
-3. The remaining code in the block is deleted and replaced by:
-{{{
-	return 'Turtle.moveTo(' + xpos + ',' + ypos + ', \'block_id_' + this.id + '\');\n';
-}}}
-The above line is responsible for generating the string of JavaScript. For example, if xpos and ypos values are 150 and 160 then the generated code would be:
-{{{
-	Turtle.moveTo(150,150)
-}}}
-That concludes the changes for the *blocks.js* file. To check everything is correct here are both sections of the code after modifying. Check that your changes correspond to everything here:
 {{{
 	Blockly.Language.draw_moveto = {
 	  // move turtle to absolute x,y location
@@ -251,7 +218,7 @@ Open up a terminal window and navigate into the turtle folder. For example:
 {{{
 > cd <myfolder>/blockly/apps/turtle
 }}}
-Look at the top of the template.soy document. You should find an entry like this:
+Look at the top of the *template.soy* document. You should find an entry like this:
 {{{
 	java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs ../common.soy,template.soy
 }}}
