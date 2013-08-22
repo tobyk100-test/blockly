@@ -96,8 +96,10 @@ Once complete you can see two sets of generated code in the tables to the right.
 }}}
 
 For more details on block design see:
-https://code.google.com/p/blockly/wiki/CustomBlocks/
+https://code.google.com/p/blockly/wiki/DefiningBlocks
 
+For more details on the code generation see:
+https://code.google.com/p/blockly/wiki/GeneratingCode
 
 <br>
 == Step 2 - Editing the blocks.js file ==
