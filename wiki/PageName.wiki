@@ -30,7 +30,7 @@ For Linux its a simple matter of running this in a terminal window:
 	> sudo apt-get install subversion
 }}}
 
-For Windows see [TortoiseSVN]
+For Windows see http://tortoisesvn.net/
 
 
 === Install the Blockly source code ===
