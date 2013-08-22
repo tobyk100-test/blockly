@@ -521,41 +521,33 @@ Maze.reset = function(first) {
   // Nan's
   // Move the init ball marker icons into position.
   var ballId = 0;
+  var svg = document.getElementById('svgMaze');
   var pegmanIcon = document.getElementById('pegman');
   for (var y = 0; y < Maze.ROWS; y++) {
     for (var x = 0; x < Maze.COLS; x++) {
+      // Reset current ball map with initial.
       Maze.balls_[y][x] = Maze.initialBallMap[y][x];
-        if (Maze.balls_[y][x] != 0 ) {
-          var ballIcon = document.getElementById('ball' + ballId);
-          if (ballIcon == null) {
-            // If the original ballIcon has been removed, recreate it.
-            var svg = document.getElementById('svgMaze');
-            ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
-            ballIcon.setAttribute('id', 'ball' + ballId);
-            ballIcon.setAttributeNS(
-              'http://www.w3.org/1999/xlink', 'xlink:href',
-              Maze.balls_[y][x] + Maze.SKIN.ball);
-            ballIcon.setAttribute('height', 50);
-            ballIcon.setAttribute('width', 42);
-            svg.insertBefore(ballIcon, pegmanIcon);
-          }
-          ballIcon.setAttribute('x', Maze.SQUARE_SIZE * (x + 0.5) -
-                                ballIcon.getAttribute('width') / 2);
-          ballIcon.setAttribute('y', Maze.SQUARE_SIZE * (y + 0.6) -
-                                ballIcon.getAttribute('height'));
-        } else if (Maze.balls_[y][x] == 0) {
-          // Remove the ballIcon created during execution
-          var ballIcon = document.getElementById('ball' + ballId);
-          if (ballIcon != null) {
-            var svg = document.getElementById('svgMaze');
-            svg.removeChild(ballIcon);
-          }
-          ballIcon = document.getElementById('finish_ball' + ballId);
-          if (ballIcon != null) {
-            var svg = document.getElementById('svgMaze');
-            svg.removeChild(ballIcon);
-          }
-        }
+      // Remove all balls from svg element, less efficient than checking if we
+      // need to remove, but much easier to code.
+      var ballIcon = document.getElementById('ball' + ballId);
+      if (ballIcon !== null) {
+        svg.removeChild(ballIcon);
+      }
+      // Place ball if one exists in cell.
+      if (Maze.balls_[y][x] !== 0 ) {
+        ballIcon = document.createElementNS(Blockly.SVG_NS, 'image');
+        ballIcon.setAttribute('id', 'ball' + ballId);
+        ballIcon.setAttributeNS(
+            'http://www.w3.org/1999/xlink', 'xlink:href',
+            Maze.balls_[y][x] + Maze.SKIN.ball);
+        ballIcon.setAttribute('height', 50);
+        ballIcon.setAttribute('width', 42);
+        svg.insertBefore(ballIcon, pegmanIcon);
+        ballIcon.setAttribute('x',
+            Maze.SQUARE_SIZE * (x + 0.5) - ballIcon.getAttribute('width') / 2);
+        ballIcon.setAttribute('y',
+            Maze.SQUARE_SIZE * (y + 0.6) - ballIcon.getAttribute('height'));
+      }
       ++ballId;
     }
   }
