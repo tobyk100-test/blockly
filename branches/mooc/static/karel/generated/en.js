@@ -56,10 +56,10 @@ page1.hints = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
   switch (opt_ijData.level) {
     case 1:
-      output += 'Move the farmer to the mound and level it out.';
+      output += 'The goal of this tutorial is to level out the ground so that the farmer can plant later. There is a mound at the last row of the grid. Move the farmer to the mound and remove it.';
       break;
     case 2:
-      output += 'Move the farmer to the mound and level it out.';
+      output += 'In this level, the farmer is facing a hole. Move the farmer to the hole and fill it.';
       break;
     case 3:
       output += 'Make the farmer level out all the mounds, using as few blocks as possible.';
