@@ -392,9 +392,9 @@ BlocklyApps.highlight = function(id) {
  */
 BlocklyApps.checkTimeout = function(opt_id) {
   if (opt_id) {
-    log.push([null, opt_id]);
+    BlocklyApps.log.push([null, opt_id]);
   }
-  if (ticks-- < 0) {
+  if (BlocklyApps.ticks-- < 0) {
     throw Infinity;
   }
 };
