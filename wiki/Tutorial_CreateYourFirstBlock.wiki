@@ -42,9 +42,17 @@ To get the latest verison of Blockly run the following from a terminal window:
 	> svn checkout http://blockly.googlecode.com/svn/trunk/ blockly
 }}}
 Once everything is downloaded you will have a new *Blockly* folder containing the code and examples.
-Since this tutorial modifies the turtle app files you might want to copy the folder and contents for backup purposes.
+Since this tutorial modifies the *turtle* app files you might want to copy the folder and contents for backup purposes.
 The folder in question is called "turtle" and exists in the "blockly/apps/" folder.
-Open this folder prior to continuing.
+
+<br>
+=== Pre-checks ===
+
+Open the *Blockly/apps/turtle* folder. Test the turtle app by double-clicking the *index.html* file.
+Make sure it runs in the browser.
+
+The files which are going to be modified are *turtle.js*, *blocks.js*, and *template.soy* within the folder.
+
 
 <br>
 == Step 1 - Designing the block ==
@@ -155,7 +163,7 @@ Now save the file changes.
 
 Open *turtle.js* via a standard text editor or IDE.
 
-Look for the Turtle API section. It comes under the *// Turle API comment*
+Look for the Turtle API section. It comes under the *// Turle API* comment.
 
 Add the following API block of code after the *Turtle.moveBackward{}* API block.
 {{{
