@@ -1,4 +1,4 @@
-#labels Phase-Design
+#labels Tutorial
 = Tutorial - Create and add your first block - Step-by-step guide =
 
 http://i289.photobucket.com/albums/ll234/syntax_photos/BlockFactory_MoveTo_Preview_zps16065a5d.png
