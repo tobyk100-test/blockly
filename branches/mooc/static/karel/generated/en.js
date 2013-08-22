@@ -8,25 +8,28 @@ page2.hints = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
   switch (opt_ijData.level) {
     case 1:
-      output += 'Use the function block to make the farmer fill in the hole, it will take 5 shovelfuls.';
+      output += 'You are now given a new function block, fill 5, in the Functions category. It will fill 5 shovelfuls to a hole. Use it to make the farmer fill in the hole.';
       break;
     case 2:
       output += 'Use the function block to make the farmer fill in all the holes.';
       break;
     case 3:
-      output += 'Define a new function to make the farmer fill in all the holes, each hole needs 7 shovelfuls.';
+      output += 'Define a new function that fills a hole which needs 7 shovelfuls to make the farmer fill in all the holes.';
       break;
     case 4:
-      output += 'Create a new function and use it to help the farmer level out all the mounds.';
+      output += 'Create a new function, remove 3, that removes 3 shovelfuls from a mound, and use it to help the farmer level out all the mounds.';
       break;
     case 5:
-      output += 'Use the new blocks to level out the mounds and fill in the holes.';
+      output += 'Use the new functions, remove tower and fill tower, to level out the mounds and fill in the holes.';
       break;
     case 6:
-      output += 'Create a new function that helps the farmer jump the hurdles and get to the next mound.';
+      output += 'Create a new function, jump hurdle and remove 1, that helps the farmer jump the hurdle and remove 1 shovelful from a mound, and use it.';
       break;
     case 7:
-      output += 'Use the jump hurdle function to make the farmer level out the mounds.';
+      output += 'Use the function, jump hurdle and remove 1, to help the farmer jump the row of hurdles.';
+      break;
+    case 8:
+      output += 'Use the function, remove 1 and jump hurdle, to make the farmer level out the mounds. Notice the difference between the given function in the current level and the function in the last level.';
       break;
   }
   return output;
@@ -34,12 +37,12 @@ page2.hints = function(opt_data, opt_ignored, opt_ijData) {
 
 
 page2.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<category name="Actions"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block><block type="maze_putDownBall"></block></category><category name="Loops"><block type="maze_untilBlocked"></block>' + mazepage.controlsFor(null, null, opt_ijData) + '</category>' + page2.addProcedures(null, null, opt_ijData);
+  return '<category name="Actions"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block><block type="maze_pickUpBall"></block><block type="maze_putDownBall"></block></category>' + page2.addProcedures(null, null, opt_ijData);
 };
 
 
 page2.addProcedures = function(opt_data, opt_ignored, opt_ijData) {
-  return ((opt_ijData.level > 2) ? '<category name="Functions" custom="PROCEDURE"></category>' : '<category name="Functions"><block type="procedures_callnoreturn"><mutation name="add 5"></mutation></block></category>') + ((opt_ijData.level < 7) ? '<category name="Conditionals"><block type="maze_if"></block></category>' : '<category name="Conditionals"><block type="maze_if"></block><block type="maze_ifElse"></block></category>');
+  return ((opt_ijData.level > 2) ? '<category name="Functions" custom="PROCEDURE"></category>' : '<category name="Functions"><block type="procedures_callnoreturn"><mutation name="fill 5"></mutation></block></category>') + ((opt_ijData.level < 8) ? '<category name="Conditionals"><block type="maze_if"></block></category>' : '<category name="Conditionals"><block type="maze_if"></block><block type="maze_ifElse"></block></category>') + ((opt_ijData.level < 8) ? '<category name="Loops"><block type="maze_untilBlocked"></block><block type="controls_repeat"></block></category>' : '<category name="Loops"><block type="maze_untilBlockedOrNotClear"></block><block type="controls_repeat"></block></category>');
 };
 
 ;
@@ -100,9 +103,9 @@ if (typeof mazepage == 'undefined') { var mazepage = {}; }
 
 mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
   var output = '<div id="start_blocks" style="display:none">' + mazepage.startBlocks(null, null, opt_ijData) + '</div><div id="MSG" style="display: none"><span id="moveForward">move forward</span><span id="putDownBall">fill 1</span><span id="putDown5">put down 5</span><span id="pickUpBall">remove 1</span><span id="while">while</span><span id="ballsPresent">current spot has a mound</span><span id="holesPresent">current spot has a hole</span><span id="turnLeft">turn left</span><span id="turnRight">turn right</span><span id="doCode">do</span><span id="elseCode">else</span><span id="pathAhead">path ahead</span><span id="pathLeft">path to the left</span><span id="pathRight">path to the right</span><span id="noPathAhead">path is blocked</span><span id="noPathLeft">no path to the left</span><span id="noPathRight">no path to the right</span><span id="repeatUntilBlocked">while path is not blocked</span><span id="repeatUntilFinish">repeat until finish</span><span id="repeatWhileCurrentNotClear">while current spot is uneven</span><span id="moveForwardTooltip">Move me forward one space.</span><span id="q4wrong">No - Try tracking my direction while following the program.</span><span id="q4right">That\'s right! Good job.</span><span id="q5wrong">No - Try tracking my direction while following the program.</span><span id="q5right">You got it right!</span><span id="q10wrong">No - Try tracking my direction while following the program.</span><span id="q10right">That\'s right!</span><span id="turnTooltip">Turns me left or right by 90 degrees.</span><span id="ifTooltip">If there is a path in the specified direction, then do some actions.</span><span id="ifelseTooltip">If there is a path in the specified direction, then do the first block of actions. Otherwise, do the second block of actions.</span><span id="whileTooltip">Repeat the enclosed actions until finish point is reached.</span><span id="capacity0">You have<span id=\'capacityNumber\'>0</span> blocks left.</span><span id="capacity1">You have <span id=\'capacityNumber\'>1</span> block left.</span><span id="capacity2">You have <span id=\'capacityNumber\'>%1</span> blocks left.</span><span id="nextLevel">Congratulations! You have completed this level.</span><span id="finalLevel">Congratulations! You have solved the final level.</span><span id="oneTopBlock">On this level, you need to stack together all of the blocks in the white workspace.</span><span id="putdownTower">put down tower</span><span id="pickupTower">pickup tower</span></div><div id="COMMON_MSG" style="display: none"><span id="httpRequestError">There was a problem with the request.</span><span id="linkAlert">Share your blocks with this link:\\n\\n%1</span><span id="hashError">Sorry, \'%1\' doesn\'t correspond with any saved Blockly file.</span><span id="xmlError">Could not load your saved file.  Perhaps it was created with a different version of Blockly?</span></div><table width="100%"><tr><td><h1><span id="title"><a href="../index.html">Blockly</a> : Maze</span> &nbsp; ';
-  var iLimit291 = opt_ijData.maxLevel + 1;
-  for (var i291 = 1; i291 < iLimit291; i291++) {
-    output += ' ' + ((i291 == opt_ijData.level) ? (i291 > 9) ? '<span class="selected doubleDigit tab">' + soy.$$escapeHtml(i291) + '</span>' : '<span class="selected singleDigit tab">' + soy.$$escapeHtml(i291) + '</span>' : (i291 < opt_ijData.level) ? '<a class="tab previous" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i291) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i291) + '</a>' : '<a class="tab" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i291) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i291) + '</a>');
+  var iLimit300 = opt_ijData.maxLevel + 1;
+  for (var i300 = 1; i300 < iLimit300; i300++) {
+    output += ' ' + ((i300 == opt_ijData.level) ? (i300 > 9) ? '<span class="selected doubleDigit tab">' + soy.$$escapeHtml(i300) + '</span>' : '<span class="selected singleDigit tab">' + soy.$$escapeHtml(i300) + '</span>' : (i300 < opt_ijData.level) ? '<a class="tab previous" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i300) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i300) + '</a>' : '<a class="tab" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i300) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i300) + '</a>');
   }
   output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select> &nbsp; <button id="pegmanButton" onmousedown="Maze.showPegmanMenu();"><img src="../media/1x1.gif"><span>&#x25BE;</span></button></td></tr></table><div id="levelFeedback"><div style="padding-bottom: 0.7ex;"><br><textarea id="levelFeedbackText" rows=2 cols=40 style="resize: none; border: 0; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;">';
   if (opt_ijData.page == 1) {
@@ -129,7 +132,7 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
         output += 'Try using the repeat block inside the while block.';
         break;
       case 10:
-        output += 'Try using two if blocks to decide whether to add or remove.';
+        output += 'Try using two if blocks to decide whether to fill or remove.';
         break;
     }
   } else if (opt_ijData.page == 2) {
@@ -137,14 +140,13 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
       case 1:
       case 2:
       case 5:
+      case 7:
+      case 8:
         output += 'Try using the given function(s).';
         break;
       case 3:
       case 4:
-        output += 'Try using the repeat or the count with block. ';
-        break;
       case 6:
-      case 7:
         output += 'Try defining your own function and use it.';
         break;
     }
@@ -206,16 +208,20 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
         output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData);
         break;
       case 3:
-        output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData) + '<block type="procedures_defnoreturn" x="400" y="200"><mutation></mutation><title name="NAME">add 7</title></block>';
+        output += mazepage.fillShovelfuls({shovelfuls: 5}, null, opt_ijData) + '<block type="procedures_defnoreturn" x="300" y="200"><mutation></mutation><title name="NAME">fill 7</title></block>';
         break;
       case 4:
         break;
       case 5:
-        output += '<block type="procedures_defnoreturn" x="20" y="200"><mutation></mutation><title name="NAME">remove tower</title><statement name="STACK"><block type="maze_turn"><title name="DIR">turnLeft</title><next><block type="controls_for" inline="true"><title name="VAR">i</title><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">3</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value><statement name="DO"><block type="maze_pickUpBall"><next><block type="maze_moveForward"></block></next></block></statement><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="controls_for" inline="true"><title name="VAR">j</title><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">3</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value><statement name="DO"><block type="maze_moveForward"></block></statement><next><block type="maze_turn"><title name="DIR">turnLeft</title></block></next></block></next></block></next></block></next></block></next></block></statement></block></statement></block><block type="procedures_defnoreturn" x="400" y="200"><mutation></mutation><title name="NAME">add tower</title><statement name="STACK"><block type="maze_turn"><title name="DIR">turnLeft</title><next><block type="controls_for" inline="true"><title name="VAR">i</title><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">3</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value><statement name="DO"><block type="maze_putDownBall"><next><block type="maze_moveForward"></block></next></block></statement><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="controls_for" inline="true"><title name="VAR">j</title><value name="FROM"><block type="math_number"><title name="NUM">1</title></block></value><value name="TO"><block type="math_number"><title name="NUM">3</title></block></value><value name="BY"><block type="math_number"><title name="NUM">1</title></block></value><statement name="DO"><block type="maze_moveForward"></block></statement><next><block type="maze_turn"><title name="DIR">turnLeft</title></block></next></block></next></block></next></block></next></block></next></block></statement></block></statement></block>';
+        output += '<block type="procedures_defnoreturn" x="20" y="200"><mutation></mutation><title name="NAME">remove tower</title><statement name="STACK"><block type="maze_turn"><title name="DIR">turnLeft</title><next><block type="controls_repeat"><title name="TIMES">3</title><statement name="DO"><block type="maze_pickUpBall"><next><block type="maze_moveForward"></block></next></block></statement><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="controls_repeat"><title name="TIMES">3</title><statement name="DO"><block type="maze_moveForward"></block></statement><next><block type="maze_turn"><title name="DIR">turnLeft</title></block></next></block></next></block></next></block></next></block></next></block></statement></block><block type="procedures_defnoreturn" x="300" y="200"><mutation></mutation><title name="NAME">fill tower</title><statement name="STACK"><block type="maze_turn"><title name="DIR">turnLeft</title><next><block type="controls_repeat"><title name="TIMES">3</title><statement name="DO"><block type="maze_putDownBall"><next><block type="maze_moveForward"></block></next></block></statement><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="controls_repeat"><title name="TIMES">3</title><statement name="DO"><block type="maze_moveForward"></block></statement><next><block type="maze_turn"><title name="DIR">turnLeft</title></block></next></block></next></block></next></block></next></block></next></block></statement></block>';
         break;
       case 6:
         break;
       case 7:
+        output += '<block type="procedures_defnoreturn" x="20" y="200"><mutation></mutation><title name="NAME">jump hurdle and remove 1</title><statement name="STACK"><block type="maze_turn"><title name="DIR">turnLeft</title><next><block type="maze_moveForward"><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_moveForward"><next><block type="maze_moveForward"><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_moveForward"><next><block type="maze_pickUpBall"><next><block type="maze_turn"><title name="DIR">turnLeft</title></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></statement></block>';
+        break;
+      case 8:
+        output += '<block type="procedures_defnoreturn" x="20" y="200"><mutation></mutation><title name="NAME">remove 1 and jump hurdle</title><statement name="STACK"><block type="maze_pickUpBall"><next><block type="maze_turn"><title name="DIR">turnLeft</title><next><block type="maze_moveForward"><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_moveForward"><next><block type="maze_moveForward"><next><block type="maze_turn"><title name="DIR">turnRight</title><next><block type="maze_moveForward"><next><block type="maze_turn"><title name="DIR">turnLeft</title></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></statement></block>';
         break;
     }
   }
@@ -224,7 +230,7 @@ mazepage.startBlocks = function(opt_data, opt_ignored, opt_ijData) {
 
 
 mazepage.fillShovelfuls = function(opt_data, opt_ignored, opt_ijData) {
-  return '<block type="procedures_defnoreturn" x="20" y="200"><title name="NAME">add ' + soy.$$escapeHtml(opt_data.shovelfuls) + '</title><statement name="STACK">' + mazepage.controlsFor({upperLimit: opt_data.shovelfuls, doStatement: '<block type="maze_putDownBall"></block>'}, null, opt_ijData) + '</statement></block>';
+  return '<block type="procedures_defnoreturn" x="20" y="200"><mutation></mutation><title name="NAME">fill ' + soy.$$escapeHtml(opt_data.shovelfuls) + '</title><statement name="STACK"><block type="controls_repeat"><title name="TIMES">' + soy.$$escapeHtml(opt_data.shovelfuls) + '</title><statement name="DO"><block type="maze_putDownBall"></block></statement></block></statement></block>';
 };
 
 

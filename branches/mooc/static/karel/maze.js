@@ -40,7 +40,7 @@ document.write('<script type="text/javascript" src="generated/' +
 
 Maze.MAX_REINF = 0;
 Maze.PAGE = BlocklyApps.getNumberParamFromUrl('page', 1, 2);
-Maze.MAX_LEVEL = [undefined, 10, 7][Maze.PAGE];
+Maze.MAX_LEVEL = [undefined, 10, 8][Maze.PAGE];
 Maze.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1, Maze.MAX_LEVEL);
 Maze.REINF = BlocklyApps.getNumberParamFromUrl('reinf', 1, Maze.MAX_REINF);
 
@@ -1157,9 +1157,9 @@ Maze.checkSuccess = function(id) {
   // }
 
     // Nan's testing code for showing the corresponding xml
-    /* var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
     var text = Blockly.Xml.domToText(xml);
-    console.log(text); */
+    console.log(text);
 }
 
 Maze.notFinish = function(id) {

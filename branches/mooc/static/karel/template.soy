@@ -250,19 +250,14 @@
             {case 10}
               {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
                 to repeat blocks over and over."}Try using two if blocks to
-                decide whether to add or remove.{/msg}
+                decide whether to fill or remove.{/msg}
           {/switch}
         {elseif $ij.page == 2}
           {switch $ij.level}
-            {case 1, 2, 5}
+            {case 1, 2, 5, 7, 8}
               {msg meaning="Maze.hint1" desc="hint - 'block' refers to a
                 child's stackable toys."}Try using the given function(s).{/msg}
-            {case 3, 4}
-              {msg meaning="Maze.hint3" desc="hint - A 'repeat' block is used
-                to repeat blocks over and over. The red marker is the goal to
-                be reached in the maze."}Try using the repeat or the count with
-                block. {/msg}
-            {case 6, 7}
+            {case 3, 4, 6}
               {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
                 to repeat blocks over and over."}Try defining your own function
                 and use it.{/msg}
@@ -602,9 +597,9 @@
         {call .fillShovelfuls}
           {param shovelfuls: 5 /}
         {/call}
-        <block type="procedures_defnoreturn" x="400" y="200">
+        <block type="procedures_defnoreturn" x="300" y="200">
           <mutation></mutation>
-          <title name="NAME">add 7</title>
+          <title name="NAME">fill 7</title>
         </block>
       {case 4}
       {case 5}
@@ -615,23 +610,8 @@
             <block type="maze_turn">
               <title name="DIR">turnLeft</title>
               <next>
-                <block type="controls_for" inline="true">
-                  <title name="VAR">i</title>
-                  <value name="FROM">
-                    <block type="math_number">
-                      <title name="NUM">1</title>
-                    </block>
-                  </value>
-                  <value name="TO">
-                    <block type="math_number">
-                      <title name="NUM">3</title>
-                    </block>
-                  </value>
-                  <value name="BY">
-                    <block type="math_number">
-                      <title name="NUM">1</title>
-                    </block>
-                  </value>
+                <block type="controls_repeat">
+                  <title name="TIMES">3</title>
                   <statement name="DO">
                     <block type="maze_pickUpBall">
                       <next>
@@ -645,32 +625,15 @@
                       <next>
                         <block type="maze_turn">
                           <title name="DIR">turnRight</title>
-                            <next>
-                              <block type="controls_for" inline="true">
-                                <title name="VAR">j</title>
-                                <value name="FROM">
-                                  <block type="math_number">
-                                    <title name="NUM">1</title>
-                                  </block>
-                                </value>
-                                <value name="TO">
-                                  <block type="math_number">
-                                    <title name="NUM">3</title>
-                                  </block>
-                                </value>
-                                <value name="BY">
-                                  <block type="math_number">
-                                    <title name="NUM">1</title>
-                                  </block>
-                                  </value>
-                                  <statement name="DO">
-                                    <block type="maze_moveForward"></block>
-                                  </statement>
-                                  <next>
-                                    <block type="maze_turn">
-                                      <title name="DIR">turnLeft</title>
-                                    </block>
-                                  </next>
+                          <next>
+                            <block type="controls_repeat">
+                              <title name="TIMES">3</title>
+                              <statement name="DO">
+                                <block type="maze_moveForward"></block>
+                              </statement>
+                              <next>
+                                <block type="maze_turn">
+                                  <title name="DIR">turnLeft</title>
                                 </block>
                               </next>
                             </block>
@@ -680,34 +643,19 @@
                     </block>
                   </next>
                 </block>
-              </statement>
+              </next>
             </block>
           </statement>
         </block>
-                <block type="procedures_defnoreturn" x="400" y="200">
+        <block type="procedures_defnoreturn" x="300" y="200">
           <mutation></mutation>
-          <title name="NAME">add tower</title>
+          <title name="NAME">fill tower</title>
           <statement name="STACK">
             <block type="maze_turn">
               <title name="DIR">turnLeft</title>
               <next>
-                <block type="controls_for" inline="true">
-                  <title name="VAR">i</title>
-                  <value name="FROM">
-                    <block type="math_number">
-                      <title name="NUM">1</title>
-                    </block>
-                  </value>
-                  <value name="TO">
-                    <block type="math_number">
-                      <title name="NUM">3</title>
-                    </block>
-                  </value>
-                  <value name="BY">
-                    <block type="math_number">
-                      <title name="NUM">1</title>
-                    </block>
-                  </value>
+                <block type="controls_repeat">
+                  <title name="TIMES">3</title>
                   <statement name="DO">
                     <block type="maze_putDownBall">
                       <next>
@@ -721,30 +669,60 @@
                       <next>
                         <block type="maze_turn">
                           <title name="DIR">turnRight</title>
-                            <next>
-                              <block type="controls_for" inline="true">
-                                <title name="VAR">j</title>
-                                <value name="FROM">
-                                  <block type="math_number">
-                                    <title name="NUM">1</title>
-                                  </block>
-                                </value>
-                                <value name="TO">
-                                  <block type="math_number">
-                                    <title name="NUM">3</title>
-                                  </block>
-                                </value>
-                                <value name="BY">
-                                  <block type="math_number">
-                                    <title name="NUM">1</title>
-                                  </block>
-                                  </value>
-                                  <statement name="DO">
-                                    <block type="maze_moveForward"></block>
-                                  </statement>
+                          <next>
+                            <block type="controls_repeat">
+                              <title name="TIMES">3</title>
+                              <statement name="DO">
+                                <block type="maze_moveForward"></block>
+                              </statement>
+                              <next>
+                                <block type="maze_turn">
+                                  <title name="DIR">turnLeft</title>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </statement>
+        </block>
+      {case 6}
+      {case 7}
+        <block type="procedures_defnoreturn" x="20" y="200">
+          <mutation></mutation>
+          <title name="NAME">jump hurdle and remove 1</title>
+          <statement name="STACK">
+            <block type="maze_turn">
+              <title name="DIR">turnLeft</title>
+              <next>
+                <block type="maze_moveForward">
+                  <next>
+                    <block type="maze_turn">
+                      <title name="DIR">turnRight</title>
+                      <next>
+                        <block type="maze_moveForward">
+                          <next>
+                            <block type="maze_moveForward">
+                              <next>
+                                <block type="maze_turn">
+                                  <title name="DIR">turnRight</title>
                                   <next>
-                                    <block type="maze_turn">
-                                      <title name="DIR">turnLeft</title>
+                                    <block type="maze_moveForward">
+                                      <next>
+                                        <block type="maze_pickUpBall">
+                                          <next>
+                                            <block type="maze_turn">
+                                              <title name="DIR">turnLeft
+                                              </title>
+                                            </block>
+                                          </next>
+                                        </block>
+                                      </next>
                                     </block>
                                   </next>
                                 </block>
@@ -756,12 +734,56 @@
                     </block>
                   </next>
                 </block>
-              </statement>
+              </next>
             </block>
           </statement>
         </block>
-      {case 6}
-      {case 7}
+      {case 8}
+        <block type="procedures_defnoreturn" x="20" y="200">
+          <mutation></mutation>
+          <title name="NAME">remove 1 and jump hurdle</title>
+          <statement name="STACK">
+            <block type="maze_pickUpBall">
+              <next>
+                <block type="maze_turn">
+                  <title name="DIR">turnLeft</title>
+                  <next>
+                    <block type="maze_moveForward">
+                      <next>
+                        <block type="maze_turn">
+                          <title name="DIR">turnRight</title>
+                          <next>
+                            <block type="maze_moveForward">
+                              <next>
+                                <block type="maze_moveForward">
+                                  <next>
+                                    <block type="maze_turn">
+                                      <title name="DIR">turnRight</title>
+                                      <next>
+                                        <block type="maze_moveForward">
+                                          <next>
+                                            <block type="maze_turn">
+                                              <title name="DIR">turnLeft
+                                              </title>
+                                            </block>
+                                          </next>
+                                        </block>
+                                      </next>
+                                    </block>
+                                  </next>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </statement>
+        </block>
     {/switch}
   {/if}
 {/template}
@@ -771,14 +793,15 @@
  */
 {template .fillShovelfuls}
   <block type="procedures_defnoreturn" x="20" y="200">
-    <title name="NAME">add {$shovelfuls}</title>
+    <mutation></mutation>
+    <title name="NAME">fill {$shovelfuls}</title>
     <statement name="STACK">
-      {call .controlsFor}
-        {param upperLimit: $shovelfuls /}
-        {param doStatement}
+      <block type="controls_repeat">
+        <title name="TIMES">{$shovelfuls}</title>
+        <statement name="DO">
           <block type="maze_putDownBall"></block>
-        {/param}
-      {/call}
+        </statement>
+       </block>
     </statement>
   </block>
 {/template}

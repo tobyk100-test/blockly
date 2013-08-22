@@ -6,7 +6,9 @@
   {switch $ij.level}
     {case 1}
       {msg meaning="Maze.instructions10" desc="TODO"}
-        Use the function block to make the farmer fill in the hole, it will take 5 shovelfuls.
+        You are now given a new function block, fill 5, in the Functions
+        category. It will fill 5 shovelfuls to a hole. Use it to make the
+        farmer fill in the hole.
       {/msg}
     {case 2}
       {msg meaning="Maze.instructions11" desc="TODO"}
@@ -14,23 +16,34 @@
       {/msg}
     {case 3}
       {msg meaning="Maze.instructions11" desc="TODO"}
-        Define a new function to make the farmer fill in all the holes, each hole needs 7 shovelfuls.
+        Define a new function that fills a hole which needs 7 shovelfuls to make
+        the farmer fill in all the holes.
       {/msg}
     {case 4}
       {msg meaning="Maze.instructions11" desc="TODO"}
-        Create a new function and use it to help the farmer level out all the mounds.
+        Create a new function, remove 3, that removes 3 shovelfuls from a mound,
+        and use it to help the farmer level out all the mounds.
       {/msg}
     {case 5}
       {msg meaning="Maze.instructions11" desc="TODO"}
-        Use the new blocks to level out the mounds and fill in the holes.
+        Use the new functions, remove tower and fill tower, to level out the
+        mounds and fill in the holes.
       {/msg}
     {case 6}
       {msg meaning="Maze.instructions11" desc="TODO"}
-        Create a new function that helps the farmer jump the hurdles and get to the next mound.
+        Create a new function, jump hurdle and remove 1, that helps the farmer
+        jump the hurdle and remove 1 shovelful from a mound, and use it.
       {/msg}
     {case 7}
       {msg meaning="Maze.instructions11" desc="TODO"}
-        Use the jump hurdle function to make the farmer level out the mounds.
+        Use the function, jump hurdle and remove 1, to help the farmer jump the
+        row of hurdles.
+      {/msg}
+    {case 8}
+      {msg meaning="Maze.instructions11" desc="TODO"}
+        Use the function, remove 1 and jump hurdle, to make the farmer level out
+        the mounds. Notice the difference between the given function in the
+        current level and the function in the last level.
       {/msg}
   {/switch}
 {/template}
@@ -45,10 +58,6 @@
     <block type="maze_pickUpBall"></block>
     <block type="maze_putDownBall"></block>
   </category>
-  <category name="{msg meaning="Maze.catControl" desc="TODO"}Loops{/msg}">
-    <block type="maze_untilBlocked"></block>
-    {call mazepage.controlsFor /}
-  </category>
   {call .addProcedures /}
 {/template}
 /**
@@ -60,11 +69,11 @@
   {else}
     <category name="{msg meaning="Maze.catProcedures" desc="TODO"}Functions{/msg}">
       <block type="procedures_callnoreturn">
-        <mutation name="add 5"></mutation>
+        <mutation name="fill 5"></mutation>
       </block>
     </category>
   {/if}
-  {if $ij.level < 7}
+  {if $ij.level < 8}
     <category name="{msg meaning="Maze.catCondition" desc="TODO"}Conditionals{/msg}">
       <block type="maze_if"></block>
     </category>
@@ -72,6 +81,17 @@
     <category name="{msg meaning="Maze.catCondition" desc="TODO"}Conditionals{/msg}">
       <block type="maze_if"></block>
       <block type="maze_ifElse"></block>
+    </category>
+  {/if}
+  {if $ij.level < 8}
+    <category name="{msg meaning="Maze.catControl" desc="TODO"}Loops{/msg}">
+      <block type="maze_untilBlocked"></block>
+      <block type="controls_repeat"></block>
+    </category>
+  {else}
+    <category name="{msg meaning="Maze.catControl" desc="TODO"}Loops{/msg}">
+      <block type="maze_untilBlockedOrNotClear"></block>
+      <block type="controls_repeat"></block>
     </category>
   {/if}
 {/template}
