@@ -120,9 +120,9 @@ Make the following changes:
 	// move turtle to absolute x,y location
   	// for reference 0,0 is top/let and 200,200 is centre
 }}}
-2. Remove the text in helpURL: 'http://www.example.com/' so that  becomes ''
+2. Remove the text in `helpURL: 'http://www.example.com/'` so that  becomes `helpURL: ''`
 
-3. Modify *this.setTooltip('')* to *this.setTooltip(BlocklyApps.getMsg('Turtle_moveToTooltip'))*
+3. Modify `this.setTooltip('')` to `this.setTooltip(BlocklyApps.getMsg('Turtle_moveToTooltip'))`
 
 
 <br>
@@ -212,12 +212,13 @@ Open the *template.soy* file for editing.
 
 Within the *{template .messages}* block open up some space and paste in the following.
 This is helper/documentation for the move_to block.
-A recommended location is after the <span id="Turtle_moveBackward"> ... ></span> part in the document.
+A recommended location is after the `<span id="Turtle_moveBackward"> ... ></span>` part in the document.
 {{{
     <span id="Turtle_moveToTooltip">{msg meaning="Turtle.moveToTooltip" desc="Moves the turtle to an absolute x and y location via 2 numbers. Top left is 0,0 whilst centre is 200,200 (default)."}Moves turtle to the absolute x/y location without drawing a mark{/msg}</span>
     <span id="Turtle_moveTo">{msg meaning="Turtle.moveTo" desc="block text - Infinitive or imperative of a verb to move the turtle to an absolute x and y location via 2 numbers. Top left is 0,0 whilst centre is 200,200 (default)."}move to{/msg}</span>
 }}}
-In order to make the new block appear in the tool box scroll down to the *{template .toolbox}* section and insert the following. A logical place for the "move to" block to appear in the tool box is after existing the "draw move" block. Therefore, paste this section after the *<pre><block type="draw_move"> ... </block></pre>*
+In order to make the new block appear in the tool box scroll down to the `{template .toolbox}` section and insert the following. A logical place for the "move to" block to appear in the tool box is after existing the "draw move" block. Therefore, paste this section after *<pre><block type="draw_move"> ... </block></pre>*
+
 {{{
 	<block type="draw_moveto">
 		<value name="XPOS">
