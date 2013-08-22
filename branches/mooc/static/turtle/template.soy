@@ -437,7 +437,7 @@
   <table width="100%" height="100%">
     <tr>
       <td width="{if $ij.reinf and $ij.reinf != 0}100%{else}410{/if}" valign="top">
-        <h1><a href="../">MOOC</a> &gt;{sp} Turtle {$ij.page} </h1>
+        <h1 class="nav-menu"><a href="../">MOOC</a> &gt;{sp} Turtle {$ij.page} </h1>
 
         /* INTERSTITIALS.
          *
@@ -518,7 +518,7 @@
           <button id="continueButton" style="display: {if $ij.reinf[1] == 'quiz' or $ij.reinf[1] == 'animations'}none{else}inline{/if}" class="launch" onclick="Turtle.continueButtonClick();">{msg meaning="Turtle.gotoNext" desc="TODO"}Continue{/msg}</button>
         {else}
           // If we get here, this is a real level, not an interstitial.
-          <p class="levelLine">{msg meaning="Turtle.level" desc="TODO"}Level{/msg}: &nbsp;
+          <p class="levelLine nav-menu">{msg meaning="Turtle.level" desc="TODO"}Level{/msg}: &nbsp;
             {for $i in range(1, $ij.maxLevel + 1)}
               {if $i == $ij.level}
                 <span class="tab" id="selected">{$i}</span>

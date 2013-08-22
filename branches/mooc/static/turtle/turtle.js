@@ -88,6 +88,8 @@ Turtle.init = function() {
     return;
   }
 
+  BlocklyApps.checkMenu();
+
   // document.dir fails in Mozilla, use document.body.parentNode.dir instead.
   // https://bugzilla.mozilla.org/show_bug.cgi?id=151407
   var rtl = document.body.parentNode.dir == 'rtl';

@@ -190,6 +190,21 @@ BlocklyApps.init = function() {
     viewport.setAttribute('content',
         'width=725, initial-scale=.35, user-scalable=no');
   }
+
+  BlocklyApps.checkMenu();
+};
+
+/**
+ * Finds all elements with class name 'nav-menu' and hides them if the menu
+ * query parameter is not === 'true'.
+ */
+BlocklyApps.checkMenu = function() {
+  if (BlocklyApps.getStringParamFromUrl('menu', 'true') !== 'true') {
+    var navElems = document.getElementsByClassName('nav-menu');
+    for (var i = 0; i < navElems.length; i++) {
+      Blockly.addClass_(navElems[i], "hide");
+    }
+  }
 };
 
 /**
