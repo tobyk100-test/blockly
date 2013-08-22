@@ -27,33 +27,17 @@
 
 Blockly.JavaScript = Blockly.Generator.get('JavaScript');
 
-// Create a limited colour palette to avoid overwhelming new users
-// and to make colour checking easier.
-var TurtleColours = {
-  BLACK: '#000000',
-  GREY: '#808080',
-  KHAKI: '#c3b091',
-  WHITE: '#ffffff',
-  RED: '#ff0000',
-  PINK: '#ff77ff',
-  ORANGE: '#ffa000',
-  YELLOW: '#ffff00',
-  GREEN: '#228B22',
-  BLUE: '#0000cd',
-  AQUAMARINE: '#7fffd4',
-  PLUM: '#843179',
-};
-
+// Create a smaller palette.
 Blockly.FieldColour.COLOURS = [
   // Row 1.
-  TurtleColours.BLACK, TurtleColours.GREY,
-  TurtleColours.KHAKI, TurtleColours.WHITE,
+  Turtle.Colours.BLACK, Turtle.Colours.GREY,
+  Turtle.Colours.KHAKI, Turtle.Colours.WHITE,
   // Row 2.
-  TurtleColours.RED, TurtleColours.PINK,
-  TurtleColours.ORANGE, TurtleColours.YELLOW,
+  Turtle.Colours.RED, Turtle.Colours.PINK,
+  Turtle.Colours.ORANGE, Turtle.Colours.YELLOW,
   // Row 3.
-  TurtleColours.GREEN, TurtleColours.BLUE,
-  TurtleColours.AQUAMARINE, TurtleColours.PLUM];
+  Turtle.Colours.GREEN, Turtle.Colours.BLUE,
+  Turtle.Colours.AQUAMARINE, Turtle.Colours.PLUM];
 Blockly.FieldColour.COLUMNS = 4;
 
 // Block definitions.
@@ -81,7 +65,7 @@ Blockly.JavaScript.draw_move_inline = function() {
   // pixels.
   var value = window.parseFloat(this.getTitleValue('VALUE'));
   return 'Turtle.' + this.getTitleValue('DIR') +
-      '(' + value + ', \'' + this.id + '\');\n';
+      '(' + value + ', \'block_id_' + this.id + '\');\n';
 };
 
 
@@ -112,7 +96,7 @@ Blockly.JavaScript.draw_turn_inline_restricted = function() {
   // set of angles.
   var value = window.parseFloat(this.getTitleValue('VALUE'));
   return 'Turtle.' + this.getTitleValue('DIR') +
-      '(' + value + ', \'' + this.id + '\');\n';
+      '(' + value + ', \'block_id_' + this.id + '\');\n';
 };
 
 Blockly.Language.draw_turn_inline = {
@@ -138,7 +122,7 @@ Blockly.JavaScript.draw_turn_inline = function() {
   // Generate JavaScript for turning left or right.
   var value = window.parseFloat(this.getTitleValue('VALUE'));
   return 'Turtle.' + this.getTitleValue('DIR') +
-      '(' + value + ', \'' + this.id + '\');\n';
+      '(' + value + ', \'block_id_' + this.id + '\');\n';
 };
 
 Blockly.Language.variables_get_counter = {
@@ -223,10 +207,12 @@ Blockly.JavaScript.draw_a_square = function() {
       this, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
   var loopVar = Blockly.JavaScript.variableDB_.getDistinctName(
       'count', Blockly.Variables.NAME_TYPE);
-  return 'for (var ' + loopVar + ' = 0; ' + loopVar + ' < 4; ' +
-      loopVar + '++) {\n' +
-      '  Turtle.moveForward(' + value_length + ');\n' +
-      '  Turtle.turnRight(90);\n}\n';
+  return ['// draw_a_square',
+          'for (var ' + loopVar + ' = 0; ' + loopVar + ' < 4; ' +
+              loopVar + '++) {',
+          '  Turtle.moveForward(' + value_length + ');',
+          '  Turtle.turnRight(90);',
+          '}\n'].join('\n');
 };
 
 // Create a fake "draw a snowman" function so it can be made available to
@@ -259,23 +245,24 @@ Blockly.JavaScript.draw_a_snowman = function() {
       'degree', Blockly.Variables.NAME_TYPE);
   var distanceVar = Blockly.JavaScript.variableDB_.getDistinctName(
       'distance', Blockly.Variables.NAME_TYPE);
-  return 'Turtle.turnLeft(90);\n' +
-      'var ' + distancesVar + ' = [' + value + ' * .5, ' + value + ' * .3,' +
-          value + ' * .2];\n' +
-      'for (var ' + loopVar + ' = 0; ' + loopVar + ' < 6; ' +
-          loopVar + '++) {\n' +
-      '  var ' + distanceVar + ' = ' + distancesVar + '[' + loopVar +
-          ' < 3 ? ' + loopVar + ': 5 - ' + loopVar + '] / 57.5;\n'  +
-      '  for (var ' + degreeVar + ' = 0; ' + degreeVar + ' < 90; ' +
-          degreeVar + '++) {\n' +
-      '    Turtle.moveForward(' + distanceVar + ');\n' +
-      '    Turtle.turnRight(2);\n' +
-      '  }\n' +
-      '  if (' + loopVar + ' != 2) {\n' +
-      '    Turtle.turnLeft(180);\n' +
-      '  }\n' +
-      '}\n' +
-      'Turtle.turnLeft(90);\n';
+  return [
+    'Turtle.turnLeft(90);',
+    'var ' + distancesVar + ' = [' + value + ' * .5, ' + value + ' * .3,' +
+        value + ' * .2];',
+    'for (var ' + loopVar + ' = 0; ' + loopVar + ' < 6; ' +
+        loopVar + '++) {\n',
+    '  var ' + distanceVar + ' = ' + distancesVar + '[' + loopVar +
+        ' < 3 ? ' + loopVar + ': 5 - ' + loopVar + '] / 57.5;',
+    '  for (var ' + degreeVar + ' = 0; ' + degreeVar + ' < 90; ' +
+        degreeVar + '++) {',
+    '    Turtle.moveForward(' + distanceVar + ');',
+    '    Turtle.turnRight(2);',
+    '  }',
+    '  if (' + loopVar + ' != 2) {',
+    '    Turtle.turnLeft(180);',
+    '  }',
+    '}',
+    'Turtle.turnLeft(90);\n'].join('\n');
 };
 
 // This is a modified copy of Blockly.Language.controls_for with the

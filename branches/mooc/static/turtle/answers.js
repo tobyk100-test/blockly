@@ -83,8 +83,8 @@ Turtle.answer = function() {
     Turtle.moveBackward(length);
   }
 
-  if (Turtle.PAGE == 1) {
-    switch (Turtle.LEVEL) {
+  if (BlocklyApps.PAGE == 1) {
+    switch (BlocklyApps.LEVEL) {
       case 1:
         // El.
         Turtle.moveForward(100);
@@ -139,8 +139,8 @@ Turtle.answer = function() {
         }
         break;
     }
-  } else if (Turtle.PAGE == 2) {
-    switch (Turtle.LEVEL) {
+  } else if (BlocklyApps.PAGE == 2) {
+    switch (BlocklyApps.LEVEL) {
       case 1:
         // Single square in some color.
         setRandomVisibleColour();
@@ -202,8 +202,8 @@ Turtle.answer = function() {
         }
         break;
     }
-  } else if (Turtle.PAGE == 3) {
-    switch (Turtle.LEVEL) {
+  } else if (BlocklyApps.PAGE == 3) {
+    switch (BlocklyApps.LEVEL) {
       case 1:
         // Draw a square.
         drawSquare(100);
@@ -259,5 +259,5 @@ Turtle.answer = function() {
  */
 Turtle.isCorrect = function(pixelErrors) {
   console.log('Pixel errors: ' + pixelErrors);
-  return Turtle.LEVEL < Turtle.MAX_LEVEL && pixelErrors < 100;
+  return BlocklyApps.LEVEL < BlocklyApps.MAX_LEVEL && pixelErrors < 100;
 };
