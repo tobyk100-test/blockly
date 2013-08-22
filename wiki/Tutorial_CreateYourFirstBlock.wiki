@@ -264,6 +264,7 @@ The generated code should look like this:
 == END OF TUTORIAL == 
 
 That's your first block under way. If you want to modify the blocks functionality/appear then its a matter of changing the code and re-compiling (Step 5).
-You can leave the browser open but you will need to refresh the page to see the changes.
+<br>
+Note that you can leave the browser open but you will need to refresh the page to see any changes take place.
 
 <g:plusone></g:plusone>
