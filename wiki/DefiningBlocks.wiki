@@ -3,6 +3,8 @@
 
 *[CustomBlocks Creating Custom Blocks]: Defining Blocks*
 
+Note that much of block creation can be done through the Blockly GUI using [http://blockly-demo.appspot.com/static/apps/blockfactory/index.html Block Factory] instead of manually creating the code given below.
+
 = Defining a Block =
 
 Go to the `language/` directory, and open the subdirectory containing the human language you wish to develop with (`en/` is specifically English, `common/` are blocks common to all languages.).
@@ -16,10 +18,10 @@ Blockly.Language.text_length = {
   helpUrl: 'http://www.w3schools.com/jsref/jsref_length_string.asp',
   init: function() {
     this.setColour(160);
-    this.appendValueInput("VALUE")
-        .setCheck(String)
-        .appendTitle("length");
-    this.setOutput(true, Number);
+    this.appendValueInput('VALUE')
+        .setCheck('String')
+        .appendTitle('length');
+    this.setOutput(true, 'Number');
     this.setTooltip('Returns number of letters in the provided text.');
   }
 };
@@ -62,16 +64,16 @@ To find a good colour, visit this [http://www.rapidtables.com/web/color/color-pi
 === setOutput ===
 
 {{{
-    this.setOutput(true, Number);
+    this.setOutput(true, 'Number');
 }}}
 
 http://blockly.googlecode.com/svn/wiki/setOutput.png
 
 Value blocks (as opposed to statements) need an output tab.  Blocks with an output tab may not also have a previous statement notch.
 
-This function also defines the expected value type that this block will output.  A block that outputs a number will refuse to connect to a block that inputs a string (e.g. `length(123)` does not make sense).  Blockly uses `Boolean`, `Number`, `String`, and `Array` as constants for the built-in types.  If creating a new type, use a short descriptive string, such as `"Date"`.
+This function also defines the expected value type that this block will output.  A block that outputs a number will refuse to connect to a block that inputs a string (e.g. `length(123)` does not make sense).  Use a short descriptive string, such as `"Boolean"`, `"Number"`, `"String"`, or `"Array"`.
 
-In the event that the block could return more than one type of value, use an array of types (e.g. `[Number, "Date"]`).  If the block could return any type of value (such as a variable's getter block), use `null` as the value.
+In the event that the block could return more than one type of value, use an array of types (e.g. `["Number", "Date"]`).  If the block could return any type of value (such as a variable's getter block), use `null` as the value.
 
 === setPreviousStatement ===
 
@@ -105,7 +107,7 @@ Optionally (and not typically), this function can take a second argument to limi
         .appendTitle('item')
         .appendTitle(new Blockly.FieldVariable());
     this.appendValueInput('LIST')
-        .setCheck(Array)
+        .setCheck('Array')
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendTitle('in list');
     this.appendStatementInput('DO')
@@ -176,11 +178,9 @@ Optionally, the `FieldTextInput` constructor can also take a second argument whi
 
 http://blockly.googlecode.com/svn/wiki/appendTitleDropdown.png
 
-Another title element is a dropdown menu.  Just like the text input field, the dropdown menu is created separately, then appended to the title row.  The `FieldDropdown` object is created with a list of menu options.  Each option is made up of two strings.  The first is the human-readable text to display.  The second is a string constant which is used when saving the option to XML.  This separation allows a dropdown menu's setting to be preserved between languages.  For instance an English (`en/`) version of a block may define `[['left', 'LEFT'], ['right', 'RIGHT']]` while a German (`de/`) version of the same block would define `[['links', 'LEFT'], ['rechts', 'RIGHT']]`.
+Another title element is a drop-down menu.  Just like the text input field, the drop-down menu is created separately, then appended to the title row.  The `FieldDropdown` object is created with a list of menu options, or with a generator function.
 
-Instead of providing a static list of options, one can provide a function that returns a list of options when called.  This allows for dynamic menus.  See `variables_get` got an example.
-
-Optionally, the `FieldDropdown` constructor can also take a second argument which becomes the validation function or change handler.  See `text_trim` for an example of where changing a dropdown modifies a title.
+→ More info on [DropDown Drop-down Menus]...
 
 {{{
     var variable = new Blockly.FieldVariable('item');

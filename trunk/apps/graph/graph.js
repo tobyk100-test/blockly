@@ -1,5 +1,5 @@
 /**
- * Visual Blocks Language
+ * Blockly Apps: Graphing Calculator
  *
  * Copyright 2012 Google Inc.
  * http://blockly.googlecode.com/
@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Blocks for graphing calculator app.
+ * @fileoverview JavaScript for Blockly's Graphing Calculator application.
  * @author q.neutron@gmail.com (Quynh Neutron)
  */
 'use strict';
@@ -27,11 +27,22 @@
 if (typeof google == 'object') {
   google.load('visualization', '1', {packages: ['corechart']});
 } else {
-  alert('Unable to load Google\'s chart API.\nAre you connected to the Internet?');
+  alert('Unable to load Google\'s chart API.\n' +
+        'Are you connected to the Internet?');
 }
 
-document.write(graphpage.start({}, null,
-    {MSG: MSG, frameSrc: frameSrc.join('&')}));
+// Supported languages.
+BlocklyApps.LANGUAGES = {
+  // Format: ['Language name', 'direction', 'XX_compressed.js']
+  en: ['English', 'ltr', 'en_compressed.js'],
+  de: ['Deutsch', 'ltr', 'de_compressed.js'],
+  hu: ['Magyar', 'ltr', 'en_compressed.js'],
+  vi: ['Tiếng Việt', 'ltr', 'vi_compressed.js']
+};
+BlocklyApps.LANG = BlocklyApps.getLang();
+
+document.write('<script type="text/javascript" src="generated/' +
+               BlocklyApps.LANG + '.js"></script>\n');
 
 /**
  * Create a namespace for the application.
@@ -40,36 +51,55 @@ var Graph = {};
 
 /**
  * Initialize Blockly and the graph.  Called on page load.
- * @param {!Blockly} blockly Instance of Blockly from iframe.
  */
-Graph.init = function(blockly) {
-  window.Blockly = blockly;
+Graph.init = function() {
+  BlocklyApps.init();
 
-  window.onbeforeunload = function() {
-    if (Blockly.mainWorkspace.getAllBlocks().length > 1 &&
-        window.location.hash.length <= 1) {
-      return MSG.unloadWarning;
-    }
-    return null;
+  var rtl = BlocklyApps.LANGUAGES[BlocklyApps.LANG][1] == 'rtl';
+  var toolbox = document.getElementById('toolbox');
+  Blockly.inject(document.getElementById('blockly'),
+      {path: '../../',
+       rtl: rtl,
+       toolbox: toolbox});
+
+  var blocklyDiv = document.getElementById('blockly');
+  var visualization = document.getElementById('visualization');
+  var onresize = function(e) {
+    var top = visualization.offsetTop;
+    blocklyDiv.style.top = Math.max(10, top - window.scrollY) + 'px';
+    blocklyDiv.style.left = rtl ? '10px' : '420px';
+    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
+  window.addEventListener('scroll', function() {
+      onresize();
+      Blockly.fireUiEvent(window, 'resize');
+    });
+  window.addEventListener('resize', onresize);
+  onresize();
+  Blockly.fireUiEvent(window, 'resize');
 
-  if (!('BlocklyStorage' in window)) {
-    document.getElementById('linkButton').className = 'disabled';
-  }
-  // An href with #key trigers an AJAX call to retrieve saved blocks.
-  if ('BlocklyStorage' in window && window.location.hash.length > 1) {
-    BlocklyStorage.retrieveXml(window.location.hash.substring(1));
-  } else { // Load the editor with a starting block.
-    var xml = Blockly.Xml.textToDom(
-        '<xml>' +
-        '  <block type="graph_set_y" x="85" y="100"></block>' +
-        '</xml>');
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, xml);
-  }
+  var defaultXml =
+      '<xml>' +
+      '  <block type="graph_set_y" deletable="false" x="85" y="100">' +
+      '    <value name="VALUE">' +
+      '      <block type="graph_get_x"></block>' +
+      '    </value>' +
+      '  </block>' +
+      '</xml>';
+  BlocklyApps.loadBlocks(defaultXml);
 
   Blockly.mainWorkspace.getCanvas().addEventListener('blocklyWorkspaceChange',
       window.parent.Graph.drawVisualization, false);
 };
+
+window.addEventListener('load', Graph.init);
+
+/**
+ * Cached copy of the function string.
+ * @type !string
+ * @private
+ */
+Graph.oldFormula_ = null;
 
 /**
  * Visualize the graph of y = f(x) using Google Chart Tools.
@@ -77,8 +107,15 @@ Graph.init = function(blockly) {
  * google-developers.appspot.com/chart/interactive/docs/gallery/linechart
  */
 Graph.drawVisualization = function() {
+  var formula = Graph.getFunction();
+  if (formula === Graph.oldFormula_) {
+    // No change in the formula, don't recompute.
+    return;
+  }
+  Graph.oldFormula_ = formula;
+
   // Create and populate the data table.
-  var data = google.visualization.arrayToDataTable(Graph.plot());
+  var data = google.visualization.arrayToDataTable(Graph.plot(formula));
 
   var options = { //curveType: "function",
                   width: 400, height: 400,
@@ -99,13 +136,11 @@ Graph.drawVisualization = function() {
  * Plot points on the function y = f(x).
  * @return {!Array.<!Array>} 2D Array of points on the graph.
  */
-Graph.plot = function() {
-  // Get JavaScript code for f(x).
-  var formula = Graph.getFunction();
+Graph.plot = function(formula) {
   // Initialize a table with two column headings.
   var table = [];
   var y;
-  // TODO: Improve range and scale of graph
+  // TODO: Improve range and scale of graph.
   for (var x = -10; x <= 10; x = Math.round((x + 0.1) * 10) / 10) {
     try {
       y = eval(formula);
@@ -120,11 +155,11 @@ Graph.plot = function() {
     }
   }
   // Add column heading to table.
-  if (table.length == 0) {
-  // If there is no value row in table, add a [0, 0] row to prevent graph error.
-    table.unshift(['x', 'y'], [0, 0]);
-  } else {
+  if (table.length) {
     table.unshift(['x', 'y']);
+  } else {
+    // If the table is empty, add a [0, 0] row to prevent graph error.
+    table.unshift(['x', 'y'], [0, 0]);
   }
   return table;
 };

@@ -15,7 +15,7 @@ Here is a minimal example, using a tree of nodes:
 {{{
   <xml id="toolbox" style="display: none">
     <block type="controls_if"></block>
-    <block type="controls_repeat"></block>
+    <block type="controls_whileUntil"></block>
   </xml>
   <script type="text/javascript">
     Blockly.inject(document.getElementById('blocklyDiv'),
@@ -29,7 +29,7 @@ Here is the same example, using a string representation:
   <script type="text/javascript">
     var toolbox = '<xml>';
     toolbox += '  <block type="controls_if"></block>';
-    toolbox += '  <block type="controls_repeat"></block>';
+    toolbox += '  <block type="controls_whileUntil"></block>';
     toolbox += '</xml>';
     Blockly.inject(document.getElementById('blocklyDiv'),
         {path: './', toolbox: toolbox});
@@ -52,7 +52,6 @@ categories ('Control' and 'Logic'), each of which contain three blocks:
   <xml id="toolbox" style="display: none">
     <category name="Control">
       <block type="controls_if"></block>
-      <block type="controls_repeat"></block>
       <block type="controls_whileUntil"></block>
     </category>
     <category name="Logic">
@@ -70,7 +69,7 @@ automatically with the appropriate blocks.
 
 {{{
   <category name="Variables" custom="VARIABLE"></category>
-  <category name="Procedures" custom="PROCEDURE"></category>
+  <category name="Functions" custom="PROCEDURE"></category>
 }}}
 
 == Tree of Categories ==
@@ -84,7 +83,6 @@ each of which contain blocks:
     <category name="Core">
       <category name="Control">
         <block type="controls_if"></block>
-        <block type="controls_repeat"></block>
         <block type="controls_whileUntil"></block>
       </category>
       <category name="Logic">

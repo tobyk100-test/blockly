@@ -1,5 +1,5 @@
 /**
- * Visual Blocks Language
+ * Blockly Apps: Block Factory
  *
  * Copyright 2012 Google Inc.
  * http://blockly.googlecode.com/
@@ -18,7 +18,7 @@
  */
 
 /**
- * @fileoverview Factory for building blocks.
+ * @fileoverview JavaScript for Blockly's Block Factory application.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
@@ -68,7 +68,7 @@ function initEditor(blockly) {
                                       'factory_base');
   rootBlock.initSvg();
   rootBlock.render();
-  rootBlock.editable = false;
+  rootBlock.movable = false;
   rootBlock.deletable = false;
 
   EditorBlockly.addChangeListener(onchange);
@@ -79,7 +79,7 @@ function initEditor(blockly) {
  */
 function onchange() {
   var name = rootBlock.getTitleValue('NAME');
-  blockType = name.replace(/\W/g, '_').replace(/^(d)/, '_\\1').toLowerCase();
+  blockType = name.replace(/\W/g, '_').replace(/^(\d)/, '_\\1').toLowerCase();
   updateLanguage();
   updateGenerator();
   updatePreview();
@@ -155,8 +155,7 @@ function updateLanguage() {
   code.push('  }');
   code.push('};');
 
-  var ta = document.getElementById('languageTextarea');
-  ta.value = code.join('\n');
+  injectCode(code, 'languagePre');
 }
 
 /**
@@ -303,7 +302,7 @@ function getTypesFrom_(block, name) {
       hash['X_' + types[n]] = true;
     }
   } else {
-    types = [typeBlock.valueType];
+    types = [escapeString(typeBlock.valueType)];
   }
   return types;
 }
@@ -374,8 +373,7 @@ function updateGenerator() {
   }
   code.push('};');
 
-  var ta = document.getElementById('generatorTextarea');
-  ta.value = code.join('\n');
+  injectCode(code, 'generatorPre');
 }
 
 /**
@@ -390,12 +388,48 @@ function updatePreview() {
     previewBlock.dispose();
   }
   var type = blockType;
-  var code = document.getElementById('languageTextarea').value;
+  var code = document.getElementById('languagePre').textContent;
   eval(code);
   // Create the preview block.
   previewBlock = new Blockly.Block(Blockly.mainWorkspace, type);
   previewBlock.initSvg();
   previewBlock.render();
-  previewBlock.editable = false;
+  previewBlock.movable = false;
   previewBlock.deletable = false;
 }
+
+/**
+ * Inject code into a pre tag, with syntax highlighting.
+ * Safe from HTML/script injection.
+ * @param {!Array.<string>} code Array of lines of code.
+ * @param {string} id ID of <pre> element to inject into.
+ */
+function injectCode(code, id) {
+  var pre = document.getElementById(id);
+  pre.innerHTML = '';
+  // Inject the code as a textNode, then extract with innerHTML, thus escaping.
+  pre.appendChild(document.createTextNode(code.join('\n')));
+  code = pre.innerHTML;
+  code = prettyPrintOne(code, 'js');
+  pre.innerHTML = code;
+}
+
+/**
+ * Initialize layout.  Called on page load.
+ */
+function init() {
+  var expandList = [
+    document.getElementById('previewFrame'),
+    document.getElementById('languagePre'),
+    document.getElementById('generatorPre')
+  ];
+  var onresize = function(e) {
+    for (var i = 0, expand; expand = expandList[i]; i++) {
+      expand.style.width = (expand.parentNode.offsetWidth - 2) + 'px';
+      expand.style.height = (expand.parentNode.offsetHeight - 2) + 'px';
+    }
+  };
+  onresize();
+  window.addEventListener('resize', onresize);
+}
+window.addEventListener('load', init);

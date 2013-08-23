@@ -1,59 +1,39 @@
-body {
-  background-color: white;
-  font-family: sans-serif;
-}
-h1 {
-  font-weight: normal;
-  font-size: 140%;
+#containerCode {
+  direction: ltr;
+  font-size: large;
+  overflow: auto;
+  max-height: 400px;
 }
 
-/* Buttons */
-button {
-  margin: 5px;
-  margin-right: 12px;
-  margin-left: 0;
-  padding: 10px;
-  font-size: large;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  background-color: #eee;
-  color: black;
+button.primary {
+  /* Can't use "text-align: start" due to IE. */
+  text-align: left;
 }
-button.launch {
-  border: 1px solid #d43;
-  background-color: #d43;
-  color: white;
+html[dir="RTL"] button.primary {
+  text-align: right;
 }
-button:active {
-  border: 1px solid blue !important;
-}
-button:hover {
-  box-shadow: 2px 2px 5px #888;
-}
-button>img {
-  opacity: 0.6;
-}
-button:hover>img {
-  opacity: 1;
-}
-button.disabled:hover>img {
-  opacity: 0.6;
-}
-button.disabled {
-  display: none;
-}
+
 #toolbarDiv {
   text-align: center;
+  width: 400px;
   padding-top: 1em;
 }
-iframe {
-  height: 100%;
-  width: 100%;
-  border: 1px solid #ccc;
+#blockly {
+  position: fixed;
+  bottom: 10px;
 }
 #display {
   border: 1px solid #ccc;
 }
+#downloadImageLink {
+  display: none;
+}
+#languageMenu {
+  vertical-align: top;
+  margin-top: 12px;
+}
+
+/* Slider. */
 .sliderTrack {
   stroke: #aaa;
   stroke-width: 6px;
@@ -70,15 +50,23 @@ iframe {
 }
 
 /* Sprited icons. */
-.code {
+.icon21 {
   height: 21px;
   width: 21px;
   background-image: url(icons.png);
-  background-position: -42px 0px;
+}
+.code {
+  background-position: -21px 0px;
 }
 .link {
-  height: 21px;
-  width: 21px;
-  background-image: url(icons.png);
-  background-position: -21px 0px;
+  background-position: 0px 0px;
+}
+.img {
+  background-position: -42px 0px;
+}
+.run {
+  background-position: -63px -21px;
+}
+.stop {
+  background-position: -63px 0px;
 }

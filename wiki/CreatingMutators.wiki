@@ -45,9 +45,7 @@ Mutation dialogs allow a user to explode a block into smaller sub-blocks and rec
 
 http://blockly.googlecode.com/svn/wiki/controls_if.png
 
-The `setMutator` function takes one argument, a new Mutator.  The Mutator constructor takes one argument, a list of sub-blocks to show in the mutator's toolbox.  These blocks should not have `category` properties defined on them, or else they will show up in the main toolbox.
-
-Creating a mutator for a sub-block is not advised at this time.
+The `setMutator` function takes one argument, a new Mutator.  The Mutator constructor takes one argument, a list of sub-blocks to show in the mutator's toolbox.  Creating a mutator for a sub-block is not advised at this time.
 
 When a mutator dialog is opened, the block's `decompose` function is called to populate the mutator's workspace.
 {{{

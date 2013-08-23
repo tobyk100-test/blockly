@@ -27,6 +27,7 @@ goog.provide('Blockly.BlockSvg');
 
 goog.require('goog.userAgent');
 
+
 /**
  * Class for a block's SVG representation.
  * @param {!Blockly.Block} block The underlying block object.
@@ -45,10 +46,7 @@ Blockly.BlockSvg = function(block) {
       {'class': 'blocklyPathLight'}, this.svgGroup_);
   this.svgPath_.tooltip = this.block_;
   Blockly.Tooltip && Blockly.Tooltip.bindMouseEvents(this.svgPath_);
-  if (block.editable) {
-    Blockly.addClass_(/** @type {!Element} */ (this.svgGroup_),
-                      'blocklyDraggable');
-  }
+  this.updateMovable();
 };
 
 /**
@@ -74,6 +72,19 @@ Blockly.BlockSvg.prototype.init = function() {
 };
 
 /**
+ * Add or remove the UI indicating if this block is movable or not.
+ */
+Blockly.BlockSvg.prototype.updateMovable = function() {
+  if (this.block_.isMovable()) {
+    Blockly.addClass_(/** @type {!Element} */ (this.svgGroup_),
+                      'blocklyDraggable');
+  } else {
+    Blockly.removeClass_(/** @type {!Element} */ (this.svgGroup_),
+                         'blocklyDraggable');
+  }
+};
+
+/**
  * Get the root SVG element.
  * @return {!Element} The root SVG element.
  */
@@ -91,7 +102,12 @@ Blockly.BlockSvg.SEP_SPACE_X = 10;
  * Vertical space between elements.
  * @const
  */
-Blockly.BlockSvg.SEP_SPACE_Y = 5;
+Blockly.BlockSvg.SEP_SPACE_Y = 10;
+/**
+ * Vertical padding around inline elements.
+ * @const
+ */
+Blockly.BlockSvg.INLINE_PADDING_Y = 5;
 /**
  * Minimum height of a block.
  * @const
@@ -285,7 +301,7 @@ Blockly.BlockSvg.prototype.dispose = function() {
 Blockly.BlockSvg.prototype.disposeUiEffect = function() {
   Blockly.playAudio('delete');
 
-  var xy = Blockly.getAbsoluteXY_(/** @type {!Element} */ (this.svgGroup_));
+  var xy = Blockly.getSvgXY_(/** @type {!Element} */ (this.svgGroup_));
   // Deeply clone the current block.
   var clone = this.svgGroup_.cloneNode(true);
   clone.translateX_ = xy.x;
@@ -331,7 +347,7 @@ Blockly.BlockSvg.prototype.connectionUiEffect = function() {
   Blockly.playAudio('click');
 
   // Determine the absolute coordinates of the inferior block.
-  var xy = Blockly.getAbsoluteXY_(/** @type {!Element} */ (this.svgGroup_));
+  var xy = Blockly.getSvgXY_(/** @type {!Element} */ (this.svgGroup_));
   // Offset the coordinates based on the two connection types.
   if (this.block_.outputConnection) {
     xy.x += Blockly.RTL ? 3 : -3;
@@ -448,14 +464,9 @@ Blockly.BlockSvg.prototype.render = function() {
     cursorX = -cursorX;
   }
   // Move the icons into position.
-  if (this.block_.mutator) {
-    cursorX = this.block_.mutator.renderIcon(cursorX);
-  }
-  if (this.block_.comment) {
-    cursorX = this.block_.comment.renderIcon(cursorX);
-  }
-  if (this.block_.warning) {
-    cursorX = this.block_.warning.renderIcon(cursorX);
+  var icons = this.block_.getIcons();
+  for (var x = 0; x < icons.length; x++) {
+    cursorX = icons[x].renderIcon(cursorX);
   }
   cursorX += Blockly.RTL ?
       Blockly.BlockSvg.SEP_SPACE_X : -Blockly.BlockSvg.SEP_SPACE_X;
@@ -569,21 +580,24 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
     }
     // Expand input size if there is a connection.
     if (input.connection && input.connection.targetConnection) {
-      var linkedBlock = input.connection.targetBlock().getSvgRoot();
+      var linkedBlock = input.connection.targetBlock();
       try {
-        var bBox = linkedBlock.getBBox();
+        var bBox = linkedBlock.getSvgRoot().getBBox();
       } catch (e) {
         // Firefox has trouble with hidden elements (Bug 528969).
         var bBox = {height: 0, width: 0};
       }
-      if (goog.userAgent.WEBKIT) {
+      if (Blockly.BROKEN_CONTROL_POINTS) {
         /* HACK:
-         The current versions of Chrome (16.0) and Safari (5.1) with a common
-         root of WebKit 535 has a size reporting bug where the height of a
-         block is 3 pixels too large.  If WebKit browsers start under-sizing
-         connections to other blocks, then delete this entire hack.
+         WebKit bug 67298 causes control points to be included in the reported
+         bounding box.  The render functions (below) add two 5px spacer control
+         points that we need to subtract.
         */
-        bBox.height -= 3;
+        bBox.height -= 10;
+        if (linkedBlock.nextConnection) {
+          // Bottom control point partially masked by lower tab.
+          bBox.height += 4;
+        }
       }
       // Subtract one from the height due to the shadow.
       input.renderHeight = Math.max(input.renderHeight, bBox.height - 1);
@@ -627,7 +641,7 @@ Blockly.BlockSvg.prototype.renderCompute_ = function(iconWidth) {
     if (this.block_.inputsInline && row.type == Blockly.BlockSvg.INLINE) {
       for (var z = 0, input; input = row[z]; z++) {
         if (input.type == Blockly.INPUT_VALUE) {
-          row.height += 2 * Blockly.BlockSvg.SEP_SPACE_Y;
+          row.height += 2 * Blockly.BlockSvg.INLINE_PADDING_Y;
           row.thicker = true;
           break;
         }
@@ -751,6 +765,13 @@ Blockly.BlockSvg.prototype.renderDrawTop_ =
     steps.push(Blockly.BlockSvg.TOP_LEFT_CORNER);
     highlightSteps.push(Blockly.BlockSvg.TOP_LEFT_CORNER_HIGHLIGHT);
   }
+  if (Blockly.BROKEN_CONTROL_POINTS) {
+    /* HACK:
+     WebKit bug 67298 causes control points to be included in the reported
+     bounding box.  Add 5px control point to the top of the path.
+    */
+    steps.push('c 0,5 0,-5 0,0');
+  }
 
   // Top edge.
   if (this.block_.previousConnection) {
@@ -800,7 +821,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
         var titleY = cursorY + Blockly.BlockSvg.TITLE_HEIGHT;
         if (row.thicker) {
           // Lower the title slightly.
-          titleY += Blockly.BlockSvg.SEP_SPACE_Y;
+          titleY += Blockly.BlockSvg.INLINE_PADDING_Y;
         }
         // TODO: Align inline title rows (left/right/centre).
         cursorX = this.renderTitles_(input.titleRow, titleX, titleY);
@@ -809,7 +830,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
         }
         if (input.type == Blockly.INPUT_VALUE) {
           inlineSteps.push('M', (cursorX - Blockly.BlockSvg.SEP_SPACE_X) +
-                           ',' + (cursorY + Blockly.BlockSvg.SEP_SPACE_Y));
+                           ',' + (cursorY + Blockly.BlockSvg.INLINE_PADDING_Y));
           inlineSteps.push('h', Blockly.BlockSvg.TAB_WIDTH - input.renderWidth);
           inlineSteps.push(Blockly.BlockSvg.TAB_PATH_DOWN);
           inlineSteps.push('v', input.renderHeight -
@@ -821,7 +842,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
             highlightInlineSteps.push('M',
                 (cursorX - Blockly.BlockSvg.SEP_SPACE_X +
                  Blockly.BlockSvg.TAB_WIDTH - input.renderWidth - 1) + ',' +
-                (cursorY + Blockly.BlockSvg.SEP_SPACE_Y + 1));
+                (cursorY + Blockly.BlockSvg.INLINE_PADDING_Y + 1));
             highlightInlineSteps.push(
                 Blockly.BlockSvg.TAB_PATH_DOWN_HIGHLIGHT_RTL);
             highlightInlineSteps.push('v',
@@ -832,13 +853,13 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
             // Highlight right edge, bottom, and glint at bottom of tab.
             highlightInlineSteps.push('M',
                 (cursorX - Blockly.BlockSvg.SEP_SPACE_X + 1) + ',' +
-                (cursorY + Blockly.BlockSvg.SEP_SPACE_Y + 1));
+                (cursorY + Blockly.BlockSvg.INLINE_PADDING_Y + 1));
             highlightInlineSteps.push('v', input.renderHeight);
             highlightInlineSteps.push('h', Blockly.BlockSvg.TAB_WIDTH -
                                            input.renderWidth);
             highlightInlineSteps.push('M',
                 (cursorX - input.renderWidth - Blockly.BlockSvg.SEP_SPACE_X +
-                 3.8) + ',' + (cursorY + Blockly.BlockSvg.SEP_SPACE_Y +
+                 3.8) + ',' + (cursorY + Blockly.BlockSvg.INLINE_PADDING_Y +
                  Blockly.BlockSvg.TAB_HEIGHT - 0.4));
             highlightInlineSteps.push('l',
                 (Blockly.BlockSvg.TAB_WIDTH * 0.42) + ',-1.8');
@@ -854,7 +875,7 @@ Blockly.BlockSvg.prototype.renderDrawRight_ = function(steps, highlightSteps,
                 input.renderWidth + 1;
           }
           connectionY = connectionsXY.y + cursorY +
-              Blockly.BlockSvg.SEP_SPACE_Y;
+              Blockly.BlockSvg.INLINE_PADDING_Y;
           input.connection.moveTo(connectionX, connectionY);
           if (input.connection.targetConnection) {
             input.connection.tighten_();
@@ -1042,6 +1063,13 @@ Blockly.BlockSvg.prototype.renderDrawBottom_ = function(steps, highlightSteps,
     }
   }
 
+  if (Blockly.BROKEN_CONTROL_POINTS) {
+    /* HACK:
+     WebKit bug 67298 causes control points to be included in the reported
+     bounding box.  Add 5px control point to the bottom of the path.
+    */
+    steps.push('c 0,5 0,-5 0,0');
+  }
   // Should the bottom-left corner be rounded or square?
   if (this.squareBottomLeftCorner_) {
     steps.push('H 0');

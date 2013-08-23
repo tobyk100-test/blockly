@@ -10,22 +10,13 @@ Python, or some other language.  This action is performed on the client-side by 
 
 == Generating Code ==
 
-The first step is to include the generator for the language in question.  Here is the !JavaScript generator:
+The first step is to include the generator for the language in question.
+Right after `blockly_compressed.js` is loaded, load the generator(s) needed.
+Here is the !JavaScript generator:
 
 {{{
-  <script type="text/javascript" src="blockly/generators/javascript.js"></script>
+  <script type="text/javascript" src="blockly/javascript_compressed.js"></script>
 }}}
-
-Then include the generators for each of the block categories that Blockly has already loaded:
-
-{{{
-  <script type="text/javascript" src="generators/javascript/control.js"></script>
-  <script type="text/javascript" src="generators/javascript/logic.js"></script>
-  <script type="text/javascript" src="generators/javascript/math.js"></script>
-  <script type="text/javascript" src="generators/javascript/text.js"></script>
-}}}
-
-All of the above includes should be done in the same file that `blockly_compressed.js` is loaded.
 
 The user's blocks may be exported to code at any time from your application with this call:
 

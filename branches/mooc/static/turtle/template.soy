@@ -71,9 +71,9 @@
 
 
 /**
- * Web page structure.
+ * Messages for translation.
  */
-{template .start}
+{template .messages}
   <div id="MSG" style="display: none">
     // Used in blocks.js for general turtle graphics blocks
     <span id="colourTooltip">{msg meaning="Turtle.colourTooltip" desc="TODO"}Changes the color of the pen.{/msg}</span>
@@ -108,19 +108,98 @@
     <span id="drawASnowman">{msg meaning="Turtle.drawASnowman" desc="TODO"}draw a snowman{/msg}</span>
     <span id="heightParameter">{msg meaning="Turtle.heightParameter" desc="TODO"}height{/msg}</span>
 
-    // Used in turtle.js
-    <span id="title">{msg meaning="Turtle.title" desc="TODO"}Turtle Graphics %1{/msg}</span>
+    // Used in common.js.
+    <span id="title">{msg meaning="Turtle.title" desc="TODO"}CS First: Turtle Graphics %1{/msg}</span>
   </div>
-  // Firefox doesn't like scripts inside tables.
-  <script type="text/javascript" src="../slider.js"></script>
-  <script type="text/javascript" src="../blockly_compressed.js"></script>
-  <script type="text/javascript" src="../javascript_compressed.js"></script>
-  <script type="text/javascript">
-    BlocklyApps.loadLanguageScripts(languageSrc);
-  </script>
-  <script type="text/javascript" src="blocks.js"></script>
-  <script type="text/javascript" src="answers.js"></script>
+{/template}
 
+/**
+ * Show interstitial messages.  These will be replaced by modal dialogs.
+ */
+{template .showInterstitials}
+  /* INTERSTITIALS.
+   *
+   * Show interstitial message if one is specified.
+   * A specification consists of an array of 1 or more elements:
+   *   0: A string to be displayed.
+   *   1: One of the following strings (unless nothing more should be
+   *      done):
+   *      - 'picture', in which case the specified picture is displayed.
+   *      - 'picture-table', in which case the specified pictures are
+   *        displayed in a table, one per column.
+   *      - 'quiz', in which case a question picture and set of answers
+   *        are displayed; the user selects an answer; and the answer is
+   *        checked.  The user is not allowed to continue until the
+   *        correct answer has been chosen.
+   *      - 'animations', in which the specified images are hidden until
+   *        the user presses a "Show me" button.
+   *      - 'special', in which case special-purpose code based on the
+   *        page and level can be hardcoded below.
+   *   2: Presence and contents depend on previous cell value:
+   *      - 'animations': an array of URLs of animated gifs to display.
+   *      - 'picture': the URL of the picture to display.
+   *      - 'picture-table': an array of URLs of pictures to display.
+   *      - 'quiz': an array of two number, the first being the number of
+   *         quiz answer and the second the index of the correct answer,
+   *         both 1-based.  (Image file names are built up automatically
+   *         based on the page number, level number, and choice number.
+   *         For example, if there is a quiz on page 1, level 2, the
+   *         question would be in the image 'p1-l2-q.png', and the third
+   *         displayed possible answer would be 'p1-l2-a3.png'.)
+   *      - 'special': unspecified.
+   */
+  {if $ij.reinf[0]}
+    <div id="bubble">
+      <div id="hint"><b>{$ij.reinf[0]}</b></div>
+    </div>
+    <img id="turtle" height=45 width=130 src="turtle.png">
+  {/if}
+  {switch $ij.reinf[1]}
+    {case 'picture'}
+      <table>
+        <tr><br></tr>
+        <tr><td><img src="{$ij.reinf[2]}"></td></tr>
+        <tr height=40><br><br></tr>
+      </table>
+    {case 'picture-table'}
+      <table>
+        {foreach $tuple in $ij.reinf[2]}
+          <tr height="100" valign="middle">
+            <td><img src="{$tuple[1]}"></td><td>{$tuple[0]}</td>
+          </tr>
+        {/foreach}
+      </table>
+    {case 'quiz'}
+      <table>
+        <tr><td colspan={$ij.reinf[2][0]}><img src="p{$ij.page}-l{$ij.level}-q.png"></td></tr>
+        <tr>
+          {for $i in range(1, $ij.reinf[2][0] + 1)}
+            <td><img src="p{$ij.page}-l{$ij.level}-a{$i}.png" class="answer" onclick="alert({if $i == $ij.reinf[2][1]}'{msg meaning="Turtle.rightAnswer" desc="TODO"}You got it!{/msg}'); document.getElementById('continueButton').style.display = 'inline';{else}'{msg meaning="Turtle.wrongAnswer" desc="TODO"}Wrong!  Try again.{/msg}');{/if}"></td>
+          {/for}
+        </tr>
+      </table>
+    {case 'animations'}
+      <p><button id="showButton" style="display: inline" class="launch" onclick="this.style.display = 'none'; document.getElementById('animation').style.display='inline'; document.getElementById('continueButton').style.display='inline';">{msg meaning="Turtle.showMe" desc="TODO"}Show me{/msg}</button></p>
+      <div id="animation" style="display: none">
+        <table>
+          <tr>
+            {foreach $file in $ij.reinf[2]}
+              <td><img src="{$file}"></td>
+            {/foreach}
+          </tr>
+        </table>
+      </div>
+    {case 'special'}
+      // Special cases can be implemented here.
+  {/switch}
+  <button id="continueButton" style="display: {if $ij.reinf[1] == 'quiz' or $ij.reinf[1] == 'animations'}none{else}inline{/if}" class="launch" onclick="Turtle.continueButtonClick();">{msg meaning="Turtle.gotoNext" desc="TODO"}Continue{/msg}</button>
+{/template}
+
+/**
+ * Define the starting blocks for each page and level.
+ * These are referenced from turtle.js.
+ */
+{template .startBlocks}
   // Show the starting blocks for the given page and level.
   <div id="start_blocks" style="display: none">
     {if $ij.page == 1}
@@ -430,152 +509,134 @@
             </block>
           </statement>
         </block>
-      {/if}  /* End of region in which "draw a square" is defined.  */
+      {/if}  // End of region in which "draw a square" is defined.
     {/if}
-  </div>
+  </div>  // End of "start_blocks".
+{/template}
 
-  <table width="100%" height="100%">
-    <tr>
-      <td width="{if $ij.reinf and $ij.reinf != 0}100%{else}410{/if}" valign="top">
-        <h1 class="nav-menu"><a href="../">MOOC</a> &gt;{sp} Turtle {$ij.page} </h1>
+/**
+ * Show instructions.
+ */
+{template .showInstructions}
+  {switch $ij.page}
+    {case 1}
+      {switch $ij.level}
+        {case 1}{msg meaning="Turtle.instructions1_1" desc="TODO"}I'm a turtle with a pen on my belly. Stack up blocks and press "Run Program" to make me draw the shown picture.{/msg}
+        {case 2}{msg meaning="Turtle.instructions1_2" desc="TODO"}Draw a square, making each side a different color.{/msg}
+        {case 3}{msg meaning="Turtle.instructions1_3" desc="TODO"}Make a square in only 3 blocks.  (Color blocks don't count.){/msg}
+        {case 4}{msg meaning="Turtle.instructions1_4" desc="TODO"}Draw a triangle whose sides are all 100 pixels and are in random colors.  You'll have to figure out how far to turn.{/msg}
+        {case 5}{msg meaning="Turtle.instructions1_5" desc="TODO"}Draw a triangle and then a square to draw an envelope.{/msg}
+        {case 6}{msg meaning="Turtle.instructions1_6" desc="TODO"}Can you figure out how draw this triangle and square?{/msg}
+        {case 7}{msg meaning="Turtle.instructions1_7" desc="TODO"}See if you can draw these glasses in your favorite color.{/msg}
+        {case 8}{msg meaning="Turtle.instructions1_8" desc="TODO"}After trying out these blocks, see what happens if you make them repeat 8 times.  It should look a little different every time you run it.{/msg}
+        {case 9}{msg meaning="Turtle.instructions1_9" desc="TODO"}Figure out what number to replace the question marks with to draw a circle.{/msg}
+        {case 10}{msg meaning="Turtle.instructions1_10" desc="TODO"}Draw anything you want. Some ideas are a stick figure, snowflake, or spiral. Have fun{/msg}
+      {/switch}
+    {case 2}
+      {switch $ij.level}
+        {case 1}{msg meaning="Turtle.instructions2_1" desc="TODO"}Find the familiar blocks in the new categories to draw a square in your favorite color.{/msg}
+        {case 2}{msg meaning="Turtle.instructions2_2" desc="TODO"}Use the new "draw a square" block, found in the "Functions" category, to draw a small green square.{/msg}
+        {case 3}{msg meaning="Turtle.instructions2_3" desc="TODO"}Use the new block to draw 3 squares of size 100, each 120 degrees apart, in random colors.{/msg}
+        {case 4}{msg meaning="Turtle.instructions2_4" desc="TODO"}Now change the code to draw 36 squares, each 10 degrees apart.{/msg}
+        {case 5}{msg meaning="Turtle.instructions2_5" desc="TODO"}Draw squares with sides of 50, 60, 70, 80, and 90 pixels.  You'll need lots of blocks.{/msg}
+        {case 6}{msg meaning="Turtle.instructions2_6" desc="TODO"}Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.{/msg}
+        {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.{/msg}
+        {case 8}{msg meaning="Turtle.instructions2_8" desc="TODO"}Draw three snowmen 150 dots tall in different colours, 100 dots apart.  Use the new "draw a snowman" function and "jump forward" block.{/msg}
+        {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Draw a family of snowmen with heights of 110, 100, 90, 80, and 70, each 60 dots apart.{/msg}
+        {case 10}{msg meaning="Turtle.instructions2_10" desc="TODO"}Draw whatever you want.  One idea is experimenting with different types of spirals.  What happens if you change the turn amount, rather than the move amount?  TODO: Add starting blocks.{/msg}
+      {/switch}
+    {case 3}
+      {switch $ij.level}
+        {case 1}{msg meaning="Turtle.instructions3_1" desc="TODO"}You can now see how the "draw a square" and "draw a circle" functions are defined.  Defining a function doesn't run its blocks.  You have to pull out the "draw a square" block to actually draw a square.{/msg}
+        {case 2}{msg meaning="Turtle.instructions3_2" desc="TODO"}Using the "draw a square" function as an example, create a "draw a triangle" function and use it.{/msg}
+        {case 3}{msg meaning="Turtle.instructions3_3" desc="TODO"}Draw triangular fences around the cats and a square fence around the cow.{/msg}
+        {case 4}{msg meaning="Turtle.instructions3_4" desc="TODO"}See if you can figure out how to use "draw a square" and "draw a triangle" (and some other blocks) to draw a house around the lion.{/msg}
+        {case 5}{msg meaning="Turtle.instructions3_5" desc="TODO"}Now create and use a "draw a house" function to house two cats.{/msg}
+        {case 6}{msg meaning="Turtle.instructions3_6" desc="TODO"}Using "draw a square" as an example, add an input named "length" to "draw a triangle".  Then, draw triangles in different colors around the animals.{/msg}
+        {case 7}{msg meaning="Turtle.instructions3_7" desc="TODO"}Add a "length" input to "draw a house" and build a big house for the elephant.{/msg}
+        {case 8}{msg meaning="Turtle.instructions3_8" desc="TODO"}Here are all of the blocks from the previous level.  Modify "draw a house" so the turtle ends up at the bottom right corner of the new house.  Use this modified function to house all the animals.{/msg}
+        {case 9}{msg meaning="Turtle.instructions3_9" desc="TODO"}Use a "count with" block and your code from the previous level to draw houses of size 50, 100, and 150.{/msg}
+        {case 10}{msg meaning="Turtle.instructions3_10" desc="TODO"}You're now free to do whatever you want.  One idea is to try running this program with different turn amounts (higher or lower than 90).  Other ideas are to draw a star, circle, heart, or animal.{/msg}
+    {/switch}
+  {/switch}
+{/template}
 
-        /* INTERSTITIALS.
-         *
-         * Show interstitial message if one is specified.
-         * A specification consists of an array of 1 or more elements:
-         *   0: A string to be displayed.
-         *   1: One of the following strings (unless nothing more should be
-         *      done):
-         *      - 'picture', in which case the specified picture is displayed.
-         *      - 'picture-table', in which case the specified pictures are
-         *        displayed in a table, one per column.
-         *      - 'quiz', in which case a question picture and set of answers
-         *        are displayed; the user selects an answer; and the answer is
-         *        checked.  The user is not allowed to continue until the
-         *        correct answer has been chosen.
-         *      - 'animations', in which the specified images are hidden until
-         *        the user presses a "Show me" button.
-         *      - 'special', in which case special-purpose code based on the
-         *        page and level can be hardcoded below.
-         *   2: Presence and contents depend on previous cell value:
-         *      - 'animations': an array of URLs of animated gifs to display.
-         *      - 'picture': the URL of the picture to display.
-         *      - 'picture-table': an array of URLs of pictures to display.
-         *      - 'quiz': an array of two number, the first being the number of
-         *         quiz answer and the second the index of the correct answer,
-         *         both 1-based.  (Image file names are built up automatically
-         *         based on the page number, level number, and choice number.
-         *         For example, if there is a quiz on page 1, level 2, the
-         *         question would be in the image 'p1-l2-q.png', and the third
-         *         displayed possible answer would be 'p1-l2-a3.png'.)
-         *      - 'special': unspecified.
-         */
-        {if $ij.reinf}
-          {if $ij.reinf[0]}
-            <div id="bubble">
-              <div id="hint"><b>{$ij.reinf[0]}</b></div>
-            </div>
-            <img id="turtle" height=45 width=130 src="turtle.png">
-          {/if}
-          {switch $ij.reinf[1]}
-            {case 'picture'}
-              <table>
-                <tr><br></tr>
-                <tr><td><img src="{$ij.reinf[2]}"></td></tr>
-                <tr height=40><br><br></tr>
-              </table>
-            {case 'picture-table'}
-              <table>
-                {foreach $tuple in $ij.reinf[2]}
-                  <tr height="100" valign="middle">
-                    <td><img src="{$tuple[1]}"></td><td>{$tuple[0]}</td>
-                  </tr>
-                {/foreach}
-              </table>
-            {case 'quiz'}
-              <table>
-                <tr><td colspan={$ij.reinf[2][0]}><img src="p{$ij.page}-l{$ij.level}-q.png"></td></tr>
-                <tr>
-                  {for $i in range(1, $ij.reinf[2][0] + 1)}
-                    <td><img src="p{$ij.page}-l{$ij.level}-a{$i}.png" class="answer" onclick="alert({if $i == $ij.reinf[2][1]}'{msg meaning="Turtle.rightAnswer" desc="TODO"}You got it!{/msg}'); document.getElementById('continueButton').style.display = 'inline';{else}'{msg meaning="Turtle.wrongAnswer" desc="TODO"}Wrong!  Try again.{/msg}');{/if}"></td>
-                  {/for}
-                </tr>
-              </table>
-            {case 'animations'}
-              <p><button id="showButton" style="display: inline" class="launch" onclick="this.style.display = 'none'; document.getElementById('animation').style.display='inline'; document.getElementById('continueButton').style.display='inline';">{msg meaning="Turtle.showMe" desc="TODO"}Show me{/msg}</button></p>
-              <div id="animation" style="display: none">
-                <table>
-                  <tr>
-                    {foreach $file in $ij.reinf[2]}
-                      <td><img src="{$file}"></td>
-                    {/foreach}
-                  </tr>
-                </table>
-              </div>
-            {case 'special'}
-              // Special cases can be implemented here.
-          {/switch}
-          <button id="continueButton" style="display: {if $ij.reinf[1] == 'quiz' or $ij.reinf[1] == 'animations'}none{else}inline{/if}" class="launch" onclick="Turtle.continueButtonClick();">{msg meaning="Turtle.gotoNext" desc="TODO"}Continue{/msg}</button>
-        {else}
-          // If we get here, this is a real level, not an interstitial.
-          <p class="levelLine nav-menu">{msg meaning="Turtle.level" desc="TODO"}Level{/msg}: &nbsp;
-            {for $i in range(1, $ij.maxLevel + 1)}
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  {call .startBlocks /}
+
+  <script type="text/javascript" src="../blockly_compressed.js"></script>
+  <script type="text/javascript" src="blocks.js"></script>
+
+  {if $ij.reinf}
+    {call .showInterstitials /}
+  {else}
+    // If we get here, this is a real level, not an interstitial.
+    <script type="text/javascript" src="../slider.js"></script>
+    <script type="text/javascript" src="../javascript_compressed.js"></script>
+    <script type="text/javascript">
+      BlocklyApps.loadLanguageScripts(languageSrc);
+    </script>
+    <script type="text/javascript" src="answers.js"></script>
+
+    // Show level bar and language dropdown.
+    <table class="nav-menu" width="100%" style="padding-top: 1em;">
+      <tr>
+        <td>
+          <h1>
+            <span id="title">
+              <a href="https://sites.google.com/site/computersciencefirst/">
+                {msg meaning="Apps.projectMessage" desc="The project name. 'CS'
+                is an abbreviation for Computer Science. 'First' refers to the
+                project's goal of introducing students to programming as
+                early as possible in their life."}CS First{/msg}</a>
+              {sp}:{sp}
+                {switch $ij.page}
+                  {case 1}
+                    {msg meaning="Maze.turtle1" desc="brief title - Specifies that this is Blockly's '''Turtle 1''' tutorial."}Turtle 1{/msg}
+                  {case 2}
+                    {msg meaning="Maze.turtle2" desc="brief title - Specifies that this is Blockly's '''Turtle 2''' tutorial."}Turtle 2{/msg}
+                  {case 3}
+                    {msg meaning="Maze.turtle3" desc="brief title - Specifies that this is Blockly's '''Turtle 3''' tutorial."}Turtle 3{/msg}
+                {/switch}
+            </span>
+            {sp}&nbsp;{sp}
+            {for $i in range(1, 11)}
+              {sp}
               {if $i == $ij.level}
-                <span class="tab" id="selected">{$i}</span>
+                {if $i > 9}
+                  <span class="selected doubleDigit tab">{$i}</span>
+                {else}
+                  <span class="selected tab">{$i}</span>
+                {/if}
               {else}
-                <a class="tab" href="?page={$ij.page}&level={$i}">{$i}</a>
+                {if $i < $ij.level}
+                  <a class="tab previous" href="?lang={$ij.lang}&level={$i}&skin={$ij.skin}">{$i}</a>
+                {else}
+                  <a class="tab" href="?lang={$ij.lang}&level={$i}&skin={$ij.skin}">{$i}</a>
+                {/if}
               {/if}
             {/for}
-          </p>
-
+          </h1>
+        </td>
+        <td class="farSide">
+          <select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select>
+        </td>
+      </tr>
+    </table>
+    <table>
+      <tr>
+        // First column has prompt, capacity, canvas, slider, and buttons.
+        <td width=405>
           <div id="bubble">
             <div id="prompt">
-              {switch $ij.page}
-                {case 1}
-                  {switch $ij.level}
-                    {case 1}{msg meaning="Turtle.instructions1_1" desc="TODO"}I'm a turtle with a pen on my belly. Stack up blocks and press "Run Program" to make me draw the shown picture.{/msg}
-                    {case 2}{msg meaning="Turtle.instructions1_2" desc="TODO"}Draw a square, making each side a different color.{/msg}
-                    {case 3}{msg meaning="Turtle.instructions1_3" desc="TODO"}Make a square in only 3 blocks.  (Color blocks don't count.){/msg}
-                    {case 4}{msg meaning="Turtle.instructions1_4" desc="TODO"}Draw a triangle whose sides are all 100 pixels and are in random colors.  You'll have to figure out how far to turn.{/msg}
-                    {case 5}{msg meaning="Turtle.instructions1_5" desc="TODO"}Draw a triangle and then a square to draw an envelope.{/msg}
-                    {case 6}{msg meaning="Turtle.instructions1_6" desc="TODO"}Can you figure out how draw this triangle and square?{/msg}
-                    {case 7}{msg meaning="Turtle.instructions1_7" desc="TODO"}See if you can draw these glasses in your favorite color.{/msg}
-                    {case 8}{msg meaning="Turtle.instructions1_8" desc="TODO"}After trying out these blocks, see what happens if you make them repeat 8 times.  It should look a little different every time you run it.{/msg}
-                    {case 9}{msg meaning="Turtle.instructions1_9" desc="TODO"}Figure out what number to replace the question marks with to draw a circle.{/msg}
-                    {case 10}{msg meaning="Turtle.instructions1_10" desc="TODO"}Draw anything you want. Some ideas are a stick figure, snowflake, or spiral. Have fun{/msg}
-                  {/switch}
-                {case 2}
-                  {switch $ij.level}
-                    {case 1}{msg meaning="Turtle.instructions2_1" desc="TODO"}Find the familiar blocks in the new categories to draw a square in your favorite color.{/msg}
-                    {case 2}{msg meaning="Turtle.instructions2_2" desc="TODO"}Use the new "draw a square" block, found in the "Functions" category, to draw a small green square.{/msg}
-                    {case 3}{msg meaning="Turtle.instructions2_3" desc="TODO"}Use the new block to draw 3 squares of size 100, each 120 degrees apart, in random colors.{/msg}
-                    {case 4}{msg meaning="Turtle.instructions2_4" desc="TODO"}Now change the code to draw 36 squares, each 10 degrees apart.{/msg}
-                    {case 5}{msg meaning="Turtle.instructions2_5" desc="TODO"}Draw squares with sides of 50, 60, 70, 80, and 90 pixels.  You'll need lots of blocks.{/msg}
-                    {case 6}{msg meaning="Turtle.instructions2_6" desc="TODO"}Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.{/msg}
-                    {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.{/msg}
-                    {case 8}{msg meaning="Turtle.instructions2_8" desc="TODO"}Draw three snowmen 150 dots tall in different colours, 100 dots apart.  Use the new "draw a snowman" function and "jump forward" block.{/msg}
-                    {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Draw a family of snowmen with heights of 110, 100, 90, 80, and 70, each 60 dots apart.{/msg}
-                    {case 10}{msg meaning="Turtle.instructions2_10" desc="TODO"}Draw whatever you want.  One idea is experimenting with different types of spirals.  What happens if you change the turn amount, rather than the move amount?  TODO: Add starting blocks.{/msg}
-                  {/switch}
-                {case 3}
-                  {switch $ij.level}
-                    {case 1}{msg meaning="Turtle.instructions3_1" desc="TODO"}You can now see how the "draw a square" and "draw a circle" functions are defined.  Defining a function doesn't run its blocks.  You have to pull out the "draw a square" block to actually draw a square.{/msg}
-                    {case 2}{msg meaning="Turtle.instructions3_2" desc="TODO"}Using the "draw a square" function as an example, create a "draw a triangle" function and use it.{/msg}
-                    {case 3}{msg meaning="Turtle.instructions3_3" desc="TODO"}Draw triangular fences around the cats and a square fence around the cow.{/msg}
-                    {case 4}{msg meaning="Turtle.instructions3_4" desc="TODO"}See if you can figure out how to use "draw a square" and "draw a triangle" (and some other blocks) to draw a house around the lion.{/msg}
-                    {case 5}{msg meaning="Turtle.instructions3_5" desc="TODO"}Now create and use a "draw a house" function to house two cats.{/msg}
-                    {case 6}{msg meaning="Turtle.instructions3_6" desc="TODO"}Using "draw a square" as an example, add an input named "length" to "draw a triangle".  Then, draw triangles in different colors around the animals.{/msg}
-                    {case 7}{msg meaning="Turtle.instructions3_7" desc="TODO"}Add a "length" input to "draw a house" and build a big house for the elephant.{/msg}
-                    {case 8}{msg meaning="Turtle.instructions3_8" desc="TODO"}Here are all of the blocks from the previous level.  Modify "draw a house" so the turtle ends up at the bottom right corner of the new house.  Use this modified function to house all the animals.{/msg}
-                    {case 9}{msg meaning="Turtle.instructions3_9" desc="TODO"}Use a "count with" block and your code from the previous level to draw houses of size 50, 100, and 150.{/msg}
-                    {case 10}{msg meaning="Turtle.instructions3_10" desc="TODO"}You're now free to do whatever you want.  One idea is to try running this program with different turn amounts (higher or lower than 90).  Other ideas are to draw a star, circle, heart, or animal.{/msg}
-                {/switch}
-              {/switch}
+              {call .showInstructions /}
             </div>
           </div>
           <div id="capacity"></div>
-          <img id="turtle" height=45 width=130 src="turtle.png">
-
           <div>
             <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
             <canvas id="answer" width="400" height="400" style="display: none"></canvas>
@@ -612,9 +673,11 @@
               </td>
               <td style="width: 190px; text-align: center">
                 <button id="runButton" class="launch" onclick="Turtle.runButtonClick();">
-                  {msg meaning="Turtle.runProgram" desc="TODO"}Run Program{/msg}
+                  <img src="../media/1x1.gif" class="run icon21">
+                  {msg meaning="Turtle.runProgram" desc="TODO"}Run{/msg}
                 </button>
                 <button id="resetButton" class="launch" onclick="Turtle.resetButtonClick();" style="display: none">
+                  <img src="../media/1x1.gif" class="stop icon21">
                   {msg meaning="Turtle.resetProgram" desc="TODO"}Reset{/msg}
                 </button>
               </td>
@@ -622,26 +685,22 @@
           </table>
 
           <div id="toolbarDiv">
-
             <button title="{msg meaning="Turtle.codeTooltip" desc="TODO"}See generated JavaScript code.{/msg}" onclick="BlocklyApps.showCode();">
-              <img src='../media/1x1.gif' class="code">
+              <img src='../media/1x1.gif' class="code icon21">
             </button>
             <button id="linkButton" title="{msg meaning="Turtle.codeTooltip" desc="TODO"}See generated JavaScript code.{/msg}" onclick="BlocklyStorage.link();">
-              <img src='../media/1x1.gif' class="link">
+              <img src='../media/1x1.gif' class="link icon21">
             </button>
           </div>
         </td>
-      {/if}
-
-      // The following code is run whether or not this is an interstitial page.
-      <td valign="top">
-        {if $ij.reinf == 0}
+        // Toolbox.
+        <td valign="top">
           {call .toolbox /}
-        {/if}
-        <div id="blockly"></div>
-      </td>
-    </tr>
-  </table>
+          <div id="blockly"></div>
+        </td>
+      </tr>
+    </table>
+  {/if}
 {/template}
 
 /**
@@ -725,7 +784,7 @@
  * Level 10 [free play]
  */
 {template .toolbox}
-  <xml id="toolbox" style="display: none">
+  <xml id="toolbox" style="display: none;">
     {if $ij.page == 1}
       <block type="draw_move_inline"></block>">
       <block type="draw_turn_inline{if $ij.level <= 8}_restricted{/if}">

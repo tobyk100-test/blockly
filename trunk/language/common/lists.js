@@ -23,16 +23,12 @@
  */
 'use strict';
 
-goog.provide('Blockly.Language.lists');
-
-goog.require('Blockly.Language');
-
 Blockly.Language.lists_create_empty = {
   // Create an empty list.
   helpUrl: Blockly.LANG_LISTS_CREATE_EMPTY_HELPURL,
   init: function() {
-    this.setColour(210);
-    this.setOutput(true, Array);
+    this.setColour(260);
+    this.setOutput(true, 'Array');
     this.appendDummyInput()
         .appendTitle(Blockly.LANG_LISTS_CREATE_EMPTY_TITLE);
     this.setTooltip(Blockly.LANG_LISTS_CREATE_EMPTY_TOOLTIP);
@@ -43,12 +39,12 @@ Blockly.Language.lists_create_with = {
   // Create a list with any number of elements of any type.
   helpUrl: '',
   init: function() {
-    this.setColour(210);
+    this.setColour(260);
     this.appendValueInput('ADD0')
         .appendTitle(Blockly.LANG_LISTS_CREATE_WITH_INPUT_WITH);
     this.appendValueInput('ADD1');
     this.appendValueInput('ADD2');
-    this.setOutput(true, Array);
+    this.setOutput(true, 'Array');
     this.setMutator(new Blockly.Mutator(['lists_create_with_item']));
     this.setTooltip(Blockly.LANG_LISTS_CREATE_WITH_TOOLTIP);
     this.itemCount_ = 3;
@@ -134,7 +130,7 @@ Blockly.Language.lists_create_with = {
 Blockly.Language.lists_create_with_container = {
   // Container.
   init: function() {
-    this.setColour(210);
+    this.setColour(260);
     this.appendDummyInput()
         .appendTitle(Blockly.LANG_LISTS_CREATE_WITH_CONTAINER_TITLE_ADD);
     this.appendStatementInput('STACK');
@@ -146,7 +142,7 @@ Blockly.Language.lists_create_with_container = {
 Blockly.Language.lists_create_with_item = {
   // Add items.
   init: function() {
-    this.setColour(210);
+    this.setColour(260);
     this.appendDummyInput()
         .appendTitle(Blockly.LANG_LISTS_CREATE_WITH_ITEM_TITLE);
     this.setPreviousStatement(true);
@@ -160,12 +156,12 @@ Blockly.Language.lists_repeat = {
   // Create a list with one element repeated.
   helpUrl: Blockly.LANG_LISTS_REPEAT_HELPURL,
   init: function() {
-    this.setColour(210);
-    this.setOutput(true, Array);
+    this.setColour(260);
+    this.setOutput(true, 'Array');
     this.appendValueInput('ITEM')
         .appendTitle(Blockly.LANG_LISTS_REPEAT_INPUT_WITH);
     this.appendValueInput('NUM')
-        .setCheck(Number)
+        .setCheck('Number')
         .appendTitle(Blockly.LANG_LISTS_REPEAT_INPUT_REPEATED);
     this.appendDummyInput()
         .appendTitle(Blockly.LANG_LISTS_REPEAT_INPUT_TIMES);
@@ -178,11 +174,11 @@ Blockly.Language.lists_length = {
   // List length.
   helpUrl: Blockly.LANG_LISTS_LENGTH_HELPURL,
   init: function() {
-    this.setColour(210);
+    this.setColour(260);
     this.appendValueInput('VALUE')
-        .setCheck([Array, String])
+        .setCheck(['Array', 'String'])
         .appendTitle(Blockly.LANG_LISTS_LENGTH_INPUT_LENGTH);
-    this.setOutput(true, Number);
+    this.setOutput(true, 'Number');
     this.setTooltip(Blockly.LANG_LISTS_LENGTH_TOOLTIP);
   }
 };
@@ -191,13 +187,13 @@ Blockly.Language.lists_isEmpty = {
   // Is the list empty?
   helpUrl: Blockly.LANG_LISTS_IS_EMPTY_HELPURL,
   init: function() {
-    this.setColour(210);
+    this.setColour(260);
     this.appendValueInput('VALUE')
-        .setCheck([Array, String]);
+        .setCheck(['Array', 'String']);
     this.appendDummyInput()
         .appendTitle(Blockly.LANG_LISTS_INPUT_IS_EMPTY);
     this.setInputsInline(true);
-    this.setOutput(true, Boolean);
+    this.setOutput(true, 'Boolean');
     this.setTooltip(Blockly.LANG_LISTS_TOOLTIP);
   }
 };
@@ -206,15 +202,13 @@ Blockly.Language.lists_indexOf = {
   // Find an item in the list.
   helpUrl: Blockly.LANG_LISTS_INDEX_OF_HELPURL,
   init: function() {
-    this.setColour(210);
-    this.setOutput(true, Number);
+    this.setColour(260);
+    this.setOutput(true, 'Number');
     this.appendValueInput('VALUE')
-        .setCheck(Array)
+        .setCheck('Array')
         .appendTitle(Blockly.LANG_LISTS_INDEX_OF_INPUT_IN_LIST);
     this.appendValueInput('FIND')
-        .appendTitle(Blockly.LANG_LISTS_INDEX_OF_TITLE_FIND)
-        .appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'END')
-        .appendTitle(Blockly.LANG_LISTS_INDEX_OF_INPUT_OCCURRENCE);
+        .appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'END');
     this.setInputsInline(true);
     this.setTooltip(Blockly.LANG_LISTS_INDEX_OF_TOOLTIP);
   }
@@ -228,20 +222,20 @@ Blockly.Language.lists_getIndex = {
   // Get element at index.
   helpUrl: Blockly.LANG_LISTS_GET_INDEX_HELPURL,
   init: function() {
-    this.setColour(210);
+    this.setColour(260);
     var modeMenu = new Blockly.FieldDropdown(this.MODE, function(value) {
       var isStatement = (value == 'REMOVE');
       this.sourceBlock_.updateStatement(isStatement);
     });
     this.appendValueInput('VALUE')
-        .setCheck(Array)
+        .setCheck('Array')
         .appendTitle(Blockly.LANG_LISTS_GET_INDEX_INPUT_IN_LIST);
     this.appendDummyInput()
         .appendTitle(modeMenu, 'MODE')
         .appendTitle('');
     this.appendDummyInput('AT');
     this.setInputsInline(true);
-    this.setOutput(true, null);
+    this.setOutput(true, 'Number');
     this.updateAt(true);
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
@@ -292,7 +286,7 @@ Blockly.Language.lists_getIndex = {
     this.removeInput('AT');
     // Create either a value 'AT' input or a dummy input.
     if (isAt) {
-      this.appendValueInput('AT').setCheck(Number);
+      this.appendValueInput('AT').setCheck('Number');
     } else {
       this.appendDummyInput('AT');
     }
@@ -328,9 +322,9 @@ Blockly.Language.lists_setIndex = {
   // Set element at index.
   helpUrl: Blockly.LANG_LISTS_SET_INDEX_HELPURL,
   init: function() {
-    this.setColour(210);
+    this.setColour(260);
     this.appendValueInput('LIST')
-        .setCheck(Array)
+        .setCheck('Array')
         .appendTitle(Blockly.LANG_LISTS_SET_INDEX_INPUT_IN_LIST);
     this.appendDummyInput()
         .appendTitle(new Blockly.FieldDropdown(this.MODE), 'MODE')
@@ -371,7 +365,7 @@ Blockly.Language.lists_setIndex = {
     this.removeInput('AT');
     // Create either a value 'AT' input or a dummy input.
     if (isAt) {
-      this.appendValueInput('AT').setCheck(Number);
+      this.appendValueInput('AT').setCheck('Number');
     } else {
       this.appendDummyInput('AT');
     }
@@ -402,14 +396,14 @@ Blockly.Language.lists_getSublist = {
   // Get sublist.
   helpUrl: Blockly.LANG_LISTS_GET_SUBLIST_HELPURL,
   init: function() {
-    this.setColour(210);
+    this.setColour(260);
     this.appendValueInput('LIST')
-        .setCheck(Array)
+        .setCheck('Array')
         .appendTitle(Blockly.LANG_LISTS_GET_SUBLIST_INPUT_IN_LIST);
     this.appendDummyInput('AT1');
     this.appendDummyInput('AT2');
     this.setInputsInline(true);
-    this.setOutput(true, Array);
+    this.setOutput(true, 'Array');
     this.updateAt(1, true);
     this.updateAt(2, true);
     this.setTooltip(Blockly.LANG_LISTS_GET_SUBLIST_TOOLTIP);
@@ -436,7 +430,7 @@ Blockly.Language.lists_getSublist = {
     this.removeInput('AT' + n);
     // Create either a value 'AT' input or a dummy input.
     if (isAt) {
-      this.appendValueInput('AT' + n).setCheck(Number);
+      this.appendValueInput('AT' + n).setCheck('Number');
     } else {
       this.appendDummyInput('AT' + n);
     }

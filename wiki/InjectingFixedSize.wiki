@@ -23,22 +23,13 @@ If neither of the above limitations are a concern, include the core Blockly scri
 Then include the messages for the user's language (in this case English):
 
 {{{
-  <script type="text/javascript" src="language/en/_messages.js"></script>
-}}}
-
-Then include the block categories you want.  There are many to choose from (see the `language/common` directory for a list), here are four to start with:
-
-{{{
-  <script type="text/javascript" src="language/common/control.js"></script>
-  <script type="text/javascript" src="language/common/logic.js"></script>
-  <script type="text/javascript" src="language/common/math.js"></script>
-  <script type="text/javascript" src="language/common/text.js"></script>
+  <script type="text/javascript" src="en_compressed.js"></script>
 }}}
 
 Add an empty div to the page and set its size:
 
 {{{
-  <div id="blocklyDiv" style="height: 480px; width: 600px; border: 1px solid #ccc;"></div>
+  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
 }}}
 
 Add the structure of the toolbox (see [Toolbox Defining the Toolbox] for more information):
@@ -46,7 +37,7 @@ Add the structure of the toolbox (see [Toolbox Defining the Toolbox] for more in
 {{{
   <xml id="toolbox" style="display: none">
     <block type="controls_if"></block>
-    <block type="controls_repeat"></block>
+    <block type="controls_repeat_ext"></block>
     <block type="logic_compare"></block>
     <block type="math_number"></block>
     <block type="math_arithmetic"></block>

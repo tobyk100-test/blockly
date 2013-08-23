@@ -1,16 +1,13 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>Blockly Demo: Fixed Blockly</title>
   <script type="text/javascript" src="../../blockly_compressed.js"></script>
-  <script type="text/javascript" src="../../language/en/_messages.js"></script>
-  <script type="text/javascript" src="../../language/common/control.js"></script>
-  <script type="text/javascript" src="../../language/common/logic.js"></script>
-  <script type="text/javascript" src="../../language/common/math.js"></script>
-  <script type="text/javascript" src="../../language/common/text.js"></script>
+  <script type="text/javascript" src="../../en_compressed.js"></script>
   <style>
     body {
-      background-color: white;
+      background-color: #fff;
       font-family: sans-serif;
     }
     h1 {
@@ -27,11 +24,11 @@
 
   <p>&rarr; More info on <a href="http://code.google.com/p/blockly/wiki/InjectingFixedSize">injecting fixed-sized Blockly</a>...</p>
 
-  <div id="blocklyDiv" style="height: 480px; width: 600px; border: 1px solid #ccc;"></div>
+  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
 
   <xml id="toolbox" style="display: none">
     <block type="controls_if"></block>
-    <block type="controls_repeat"></block>
+    <block type="controls_repeat_ext"></block>
     <block type="logic_compare"></block>
     <block type="math_number"></block>
     <block type="math_arithmetic"></block>

@@ -41,6 +41,8 @@ svn ls https://blockly.googlecode.com/svn/trunk
 
 and type 'p' to accept Server certificate (p)ermanently to access the https resource.
 
+[http://code.google.com/p/blockly/wiki/Closure Install Closure library].
+
 === Update the code ===
 
 {{{
@@ -50,12 +52,27 @@ gclient sync
 
 === Submitting a code review ===
 
-  * Do some work
+  * Do some work.
   * `gcl change`
+  * [UnitTesting Run tests].
   * `gcl upload xxxx`
-  * go to the url on codereview.appspot.com
-  * choose a reviewer
-  * mail the review
-  * get "LGTM" (Looks Good To Me) from reviewer
+  * Go to the url on codereview.appspot.com returned by `gcl upload`.
+  * Click on "Publish+Mail Comments", fill in the reviewer field, and send.
+  * Get "LGTM" (Looks Good To Me) from reviewer.
+  * `gclient sync`
+  * [UnitTesting Run tests].
   * `gcl commit xxxx`
+
+=== Branching ===
+
+To include branches in your client, create it with:
+
+{{{
+gclient config --name blockly https://blockly.googlecode.com/svn
+}}}
+
+To merge in changes from the main branch, run the following from the subdirectory for the branch (e.g., `branches/i18n`):
+
+{{{
+svn merge https://blockly.googlecode.com/svn/trunk
 }}}

@@ -23,10 +23,6 @@
  */
 'use strict';
 
-goog.provide('Blockly.Language.variables');
-
-goog.require('Blockly.Language');
-
 Blockly.Language.variables_get = {
   // Variable getter.
   category: null,  // Variables are handled specially.
@@ -36,8 +32,9 @@ Blockly.Language.variables_get = {
     this.appendDummyInput()
         .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
         .appendTitle(new Blockly.FieldVariable(
-        Blockly.LANG_VARIABLES_GET_ITEM), 'VAR');
-    this.setOutput(true, null);
+        Blockly.LANG_VARIABLES_GET_ITEM), 'VAR')
+        .appendTitle(Blockly.LANG_VARIABLES_GET_TAIL);
+    this.setOutput(true);
     this.setTooltip(Blockly.LANG_VARIABLES_GET_TOOLTIP);
   },
   getVars: function() {
@@ -48,12 +45,17 @@ Blockly.Language.variables_get = {
       this.setTitleValue(newName, 'VAR');
     }
   },
+  contextMenuMsg_: Blockly.LANG_VARIABLES_GET_CREATE_SET,
+  contextMenuType_: 'variables_set',
   customContextMenu: function(options) {
     var option = {enabled: true};
     var name = this.getTitleValue('VAR');
-    option.text = Blockly.LANG_VARIABLES_GET_CREATE_SET.replace('%1', name);
-    option.callback = Blockly.ContextMenu.callbackFactory(this,
-        'variables_set', 'VAR', name);
+    option.text = this.contextMenuMsg_.replace('%1', name);
+    var xmlTitle = goog.dom.createDom('title', null, name);
+    xmlTitle.setAttribute('name', 'VAR');
+    var xmlBlock = goog.dom.createDom('block', null, xmlTitle);
+    xmlBlock.setAttribute('type', this.contextMenuType_);
+    option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
     options.push(option);
   }
 };
@@ -67,7 +69,8 @@ Blockly.Language.variables_set = {
     this.appendValueInput('VALUE')
         .appendTitle(Blockly.LANG_VARIABLES_SET_TITLE)
         .appendTitle(new Blockly.FieldVariable(
-        Blockly.LANG_VARIABLES_SET_ITEM), 'VAR');
+        Blockly.LANG_VARIABLES_SET_ITEM), 'VAR')
+        .appendTitle(Blockly.LANG_VARIABLES_SET_TAIL);
     this.setPreviousStatement(true);
     this.setNextStatement(true);
     this.setTooltip(Blockly.LANG_VARIABLES_SET_TOOLTIP);
@@ -80,12 +83,7 @@ Blockly.Language.variables_set = {
       this.setTitleValue(newName, 'VAR');
     }
   },
-  customContextMenu: function(options) {
-    var option = {enabled: true};
-    var name = this.getTitleValue('VAR');
-    option.text = Blockly.LANG_VARIABLES_SET_CREATE_GET.replace('%1', name);
-    option.callback = Blockly.ContextMenu.callbackFactory(this,
-        'variables_get', 'VAR', name);
-    options.push(option);
-  }
+  contextMenuMsg_: Blockly.LANG_VARIABLES_SET_CREATE_GET,
+  contextMenuType_: 'variables_get',
+  customContextMenu: Blockly.Language.variables_get.customContextMenu
 };

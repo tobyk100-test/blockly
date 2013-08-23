@@ -20,10 +20,10 @@
  */
 
 /**
- * Web page structure.
+ * Translated messages for use in JavaScript.
  */
-{template .start}
-  <div id="MSG" style="display: none">
+{template .messages}
+  <div style="display: none">
     <span id="moveForward">{msg meaning="Maze.moveForward" desc="verb -
       imperative or infinitive for a person moving (walking) in the direction
       he/she is facing."}move forward{/msg}</span>
@@ -130,13 +130,20 @@
   // - keeping track of which languages have translated common messages.
   // Messages in the other apps' template.soy files reference these to
   // minimize extra work for translators.
-  <div id="COMMON_MSG" style="display: none">
+  <div style="display: none">
     <span id="httpRequestError">{msg meaning="Apps.httpRequestError" desc="alert - The URL is invalid or a server error occurred.  This message will be followed by technical information useful to engineers trying to understand the problem."}There was a problem with the request.{/msg}</span>
     <span id="linkAlert">{msg meaning="Apps.linkAlert" desc="alert - After the user has pressed a button to save his/her program, this provides the URL (%1) to retrieve the program.  The characters '\n\n' indicate that a blank line will be displayed before the URL (in English).  Leave those in unless you move %1 to the beginning or middle of the text, in which case you should use your judgment about where blank lines would be most useful."}Share your blocks with this link:\n\n%1{/msg}</span>
     <span id="hashError">{{msg meaning="Apps.hashError" desc="alert - A request to retrieve a stored program does not have a valid URL. %1 is the invalid portion of the URL. 'Blockly' is the name of the system.  It should be left untranslated or it should be transliterated.  See [[Translating:Blockly#Special_terms]]."}}Sorry, '%1' doesn't correspond with any saved Blockly file.{{/msg}}</span>
     <span id="xmlError">{msg meaning="Apps.xmlError" desc="alert - There was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  This message will be folllowed by technical information useful to engineers trying to understand the problem."}Could not load your saved file.  Perhaps it was created with a different version of Blockly?{/msg}</span>
   </div>
-  <table width="100%" class="nav-menu">
+{/template}
+
+/**
+ * Web page structure.
+ */
+{template .start}
+  {call .messages /}
+  <table width="100%" style="border-bottom: 1px solid #DBDBDB;">
     <tr>
       <td>
         <h1>
@@ -190,6 +197,10 @@
       <img class="stars feedback" id="star2" src="star2.png">
       <img class="stars feedback" id="star3" src="star3.png">
       <ul id="levelFeedbackText">
+        <span id="hintTitle" style="display: none; margin-left: -30px">{msg
+          meaning="Maze.hintTitle" desc="title - this indicates to the user that
+          what follows are ways to improve and/or fix their code."}Hint:{/msg}
+        </span>
         <li id="nextLevelMsg" style="display: none; margin-left: -40px;">{msg
           meaning="Maze.nextLevel" desc="alert - This is displayed when
           the user solves the maze, inviting them to precede to the next
@@ -204,71 +215,308 @@
             error message is displayed when the user has added blocks with
             nothing nested inside them (e.g. repeat or if blocks)."}Remove
             unused empty blocks.{/msg}</li>
-        <li id="moveForwardError1" class="feedback" style="display: none">
-          {msg meaning="BlocklyApps.moveForwardError1Msg" desc="alert - This
-            error message is displayed when the user has not used at least one
-            of the move forward blocks that is required for this level."}The
-            move forward block moves one block forward; try using additional
-            blocks.{/msg}</li>
-        <li id="moveForwardError2" class="feedback" style="display: none">
-          {msg meaning="BlocklyApps.moveForwardError2Msg" desc="alert - This
-            error message is displayed when the user has not used at least one
-            of the move forward blocks that is required for this level and they
-            have attempted the level more than once."}Drag and snap a move
-            forward block below the given move forward block.{/msg}</li>
-        <li id="turnError1" class="feedback" style="display: none">
-          {msg meaning="Maze.turnError1Msg" desc="alert - This is displayed when
-            the user has not used a turn left or turn right block when it is
-            required for this level."}Use the turn
-            blocks to change my direction.{/msg}</li>
-        <li id="turnError2" class="feedback" style="display: none">
-          {msg meaning="Maze.turnError2Msg" desc="alert - This is displayed when
-            the user has not used a turn left or turn right block when it is
-            required for this leve and they have attempted the leve more than
-            once."}Drag and snap the turn block under another block to turn me.
-          {/msg}</li>
-        <li id="ifError1" class="feedback" style="display: none">
-          {msg meaning="Maze.ifError1Msg" desc="alert - If blocks only
-            run the statements inside them if the statement is true."}Try using
-            an if block to check if there is a path in a certain direction.
-          {/msg}</li>
-        <li id="ifError2" class="feedback" style="display: none">
-          {msg meaning="Maze.ifError2Msg" desc="alert - This is displayed when
-            the user has not used an if block when it is required for this
-            level."}Try using an if block to check if there is a path in a
-            certain direction.{/msg}</li>
-        <li id="elseError1" class="feedback" style="display: none">
-          {msg meaning="Maze.elseError1Msg" desc="alert - This is displayed when
-            the user has not used an if-else block when it is required for this
-            level."}In the Maze, an if-else block can move me in a particular
-            direction until I cannot continue in that direction."{/msg}</li>
-        <li id="elseError2" class="feedback" style="display: none">
-          {msg meaning="Maze.elseError2Msg" desc="alert - This is displayed when
-            the user has not used an if-else block when it is required for this
-            level and they have attempted the level more than once"}An if-else
-            block will run the else statement when the if statement is not
-            true."{/msg}</li>
-        <li id="whileError1" class="feedback" style="display: none">
-          {msg meaning="Maze.whileError1Msg" desc="alert - This is displayed
-            when the user has not used a repeat block when it is required for
-            this level."}Notice the repetition in the path? Try using the repeat
-            block which repeats the sequence of blocks inside it until, the
-            player reaches the finish.{/msg}</li>
-        <li id="whileError2" class="feedback" style="display: none">
-          {msg meaning="Maze.whileError2Msg" desc="alert - This is displayed
-            when the user has not used a repeat block when it is required for
-            this level and they have attempted the leve more than once"}Drag and
-            snap the repeat block around all of your blocks.{/msg}</li>
         <li id="tooManyBlocksError" class="feedback" style="display: none">
           {msg meaning="Maze.tooManyBlocksMsg" desc="alert - This is displayed
             when the user has used more blocks than is necessary."}This level
-            can be solved with fewer blocks{/msg}</li>
+            can be solved with <span id="idealNumberMessage"></span> blocks.
+          {/msg}</li>
         <li id="tooFewBlocksError" class="feedback" style="display: none">
           {msg meaning="Maze.tooFewBlocksMsg" desc="alert - The user has not
             completed the level, is using all of the necessary types of blocks,
             but needs more of these types of blocks to complete the level."}You
-            are using all of the necessary types of blocks, try using more
+            are using all of the necessary types of blocks, but try using more
             of these types of blocks to complete this level.{/msg}</li>
+        {switch $ij.level}
+          {case 1}
+            <li id="moveForwardError1" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError1Msg" desc="alert - This
+                error message is displayed when the user has not used at least
+                one of the move forward blocks that is required for this
+                level."}The 'move forward' block moves one space forward.
+              {/msg}</li>
+            <li id="moveForwardError2" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError2Msg" desc="alert - This
+                error message is displayed when the user has not used at least
+                one of the move forward blocks that is required for this level
+                and they have attempted the level more than once."}Drag a
+                'move forward' block from the toolbox to the workspace.
+              {/msg}</li>
+          {case 2}
+            <li id="moveForwardError1" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError1Msg" desc="alert - This
+                error message is displayed when the user has not used at least
+                one of the move forward blocks that is required for this
+                level."}The 'move forward' block moves one space forward.
+              {/msg}</li>
+            <li id="moveForwardError2" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError2Msg" desc="alert - This
+                error message is displayed when the user has not used at least
+                one of the move forward blocks that is required for this level
+                and they have attempted the level more than once."}Drag a
+                'move forward' block from the toolbox to the workspace.
+              {/msg}</li>
+            <li id="turnLeftError1" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError1Msg" desc="alert - This is displayed
+                when the user has not used a turn left or turn right block when
+                it is required for this level."}Use the 'turn left' block when I
+                need to turn to the left.{/msg}</li>
+            <li id="turnLeftError2" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError2Msg" desc="alert - This is displayed
+                when the user has not used a turn left or turn right block when
+                it is required for this leve and they have attempted the level
+                more than once."}Drag and snap the 'turn left' block under a
+                'move forward' block when I need to turn to the left.{/msg}</li>
+            <li id="turnRightError1" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError1Msg" desc="alert - This is displayed
+                when the user has not used a turn left or turn right block when
+                it is required for this level."}Use the 'turn right' block when
+                I need to turn to the right.{/msg}</li>
+            <li id="turnRightError2" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError2Msg" desc="alert - This is displayed
+                when the user has not used a turn left or turn right block when
+                it is required for this leve and they have attempted the level
+                more than once."}Drag and snap the 'turn right' block under a
+                'move forward' block when I need to turn to the right.
+              {/msg}</li>
+          {case 3}
+            <li id="moveForwardError1" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError1Msg" desc="alert - This
+                error message is displayed when the user has not used at least
+                one of the move forward blocks that is required for this
+                level."}The 'move forward' block moves one block forward.
+              {/msg}</li>
+            <li id="moveForwardError2" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError2Msg" desc="alert - This
+                error message is displayed when the user has not used at least
+                one of the move forward blocks that is required for this level
+                and they have attempted the level more than once."}Drag a
+                'move forward' block from the toolbox to the workspace.{/msg}</li>
+            <li id="whileError1" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError1Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level."}Notice the repetition in the path? Try using the
+                'repeat' block which repeats the sequence of blocks inside it
+                until, the player reaches the finish.{/msg}</li>
+            <li id="whileError2" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError2Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level and they have attempted the leve more than once"}Drag and
+                snap the 'repeat' block around the 'move forward' block.{/msg}</li>
+          {case 4}
+            <li id="moveForwardError1" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError1Msg" desc="alert - This
+                error message is displayed when the user has not used at least one
+                of the move forward blocks that is required for this level."}The
+                'move forward' block moves one block forward.{/msg}</li>
+            <li id="moveForwardError2" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError2Msg" desc="alert - This
+                error message is displayed when the user has not used at least one
+                of the move forward blocks that is required for this level and they
+                have attempted the level more than once."}Drag and snap a 'move
+                forward' block below a 'turn' block so I can move in the new
+                direction.{/msg}</li>
+            <li id="turnError1" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError1Msg" desc="alert - This is displayed when
+                the user has not used a turn left or turn right block when it is
+                required for this level."}Use both a 'turn left' and a 'turn right'
+                block on this level.{/msg}</li>
+            <li id="turnError2" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError2Msg" desc="alert - This is displayed when
+                the user has not used a turn left or turn right block when it is
+                required for this leve and they have attempted the leve more than
+                once."}Drag and snap a 'turn' block under a 'move forward' block
+                when I need to change directions.{/msg}</li>
+            <li id="whileError1" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError1Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level."}Notice the repetition in the path? Try using the
+                'repeat' block which repeats the sequence of blocks inside it
+                until, the player reaches the finish.{/msg}</li>
+            <li id="whileError2" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError2Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level and they have attempted the leve more than once"}Drag and
+                snap the 'repeat' block around the other blocks.{/msg}</li>
+          {case 5, 6}
+            <li id="moveForwardError1" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError1Msg" desc="alert - This
+                error message is displayed when the user has not used at least one
+                of the move forward blocks that is required for this level."}The
+                'move forward' block moves one block forward.{/msg}</li>
+            <li id="moveForwardError2" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError2Msg" desc="alert - This
+                error message is displayed when the user has not used at least one
+                of the move forward blocks that is required for this level and they
+                have attempted the level more than once."}Drag and snap a 'move
+                forward' block below a 'turn' block so I can move in the new
+                direction.{/msg}</li>
+            <li id="turnLeftError1" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError1Msg" desc="alert - This is displayed when
+                the user has not used a turn left or turn right block when it is
+                required for this level."}Use the 'turn left' block when I need
+                to turn to the left.{/msg}</li>
+            <li id="turnLeftError2" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError2Msg" desc="alert - This is displayed when
+                the user has not used a turn left or turn right block when it is
+                required for this leve and they have attempted the leve more than
+                once."}Drag and snap the 'turn left' block inside an 'if' block.
+              {/msg}</li>
+            <li id="whileError1" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError1Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level."}Notice the repetition in the path? Try using the 'repeat'
+                block which repeats the sequence of blocks inside it until, the
+                player reaches the finish.{/msg}</li>
+            <li id="whileError2" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError2Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level and they have attempted the leve more than once"}Drag and
+                snap the 'repeat' block around the other blocks.{/msg}</li>
+            <li id="isPathLeftError1" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError1Msg" desc="alert - If blocks only
+                run the statements inside them if the statement is true."}Use the if
+                block to turn left if there is a path to the left.{/msg}</li>
+            <li id="isPathLeftError2" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError2Msg" desc="alert - This is displayed when
+                the user has not used an if block when it is required for this
+                level."}Place a turn left block inside the 'if' block to turn
+                left if there is a path to the left.{/msg}</li>
+          {case 7}
+            <li id="moveForwardError1" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError1Msg" desc="alert - This
+                error message is displayed when the user has not used at least one
+                of the move forward blocks that is required for this level."}The
+                'move forward' block moves one block forward.{/msg}</li>
+            <li id="moveForwardError2" class="feedback" style="display: none">
+              {msg meaning="BlocklyApps.moveForwardError2Msg" desc="alert - This
+                error message is displayed when the user has not used at least one
+                of the move forward blocks that is required for this level and they
+                have attempted the level more than once."}Drag and snap a 'move
+                forward' block below a turn block so I can move in the new
+                direction.{/msg}</li>
+            <li id="turnRightError1" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError1Msg" desc="alert - This is displayed when
+                the user has not used a turn left or turn right block when it is
+                required for this level."}Use the 'turn right' block when I need
+                to turn to the right.{/msg}</li>
+            <li id="turnRightError2" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError2Msg" desc="alert - This is displayed when
+                the user has not used a turn left or turn right block when it is
+                required for this leve and they have attempted the leve more than
+                once."}Drag and snap the 'turn right' block inside an 'if'
+                block.{/msg}</li>
+            <li id="whileError1" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError1Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level."}Notice the repetition in the path? Try using the 'repeat'
+                block which repeats the sequence of blocks inside it until, the
+                player reaches the finish.{/msg}</li>
+            <li id="whileError2" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError2Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level and they have attempted the leve more than once"}Drag and
+                snap the 'repeat' block around the other blocks.{/msg}</li>
+          {case 8}
+            <li id="isPathLeftError1" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError1Msg" desc="alert - If blocks only
+                run the statements inside them if the statement is true."}Use
+                the 'if' block to turn left if there is a path to the left.{/msg}</li>
+            <li id="isPathLeftError2" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError2Msg" desc="alert - This is displayed when
+                the user has not used an if block when it is required for this
+                level."}Place a 'turn left' block inside the 'if' block to turn left
+                if there is a path to the left.{/msg}</li>
+            <li id="isPathRightError1" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError1Msg" desc="alert - If blocks only
+                run the statements inside them if the statement is true."}Use
+                the 'if' block to turn right if there is a path to the right.{/msg}</li>
+            <li id="isPathRightError2" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError2Msg" desc="alert - This is displayed when
+                the user has not used an if block when it is required for this
+                level."}Place a 'turn right' block inside the 'if' block to turn
+                right if there is a path to the right.{/msg}</li>
+          {case 9}
+            <li id="turnLeftError1" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError1Msg" desc="alert - This is displayed
+                when the user has not used a turn left or turn right block when
+                it is required for this level."}Use the 'turn left' block when
+                I need to turn to the left.{/msg}</li>
+            <li id="turnLeftError2" class="feedback" style="display: none">
+              {msg meaning="Maze.turnError2Msg" desc="alert - This is displayed
+                when the user has not used a turn left or turn right block when
+                it is required for this leve and they have attempted the level
+                more than once."}Drag and snap the 'turn left' block inside the
+                'if-else' block.{/msg}</li>
+            <li id="elseError1" class="feedback" style="display: none">
+              {msg meaning="Maze.elseError1Msg" desc="alert - This is displayed
+                when the user has not used an if-else block when it is required
+                for this level."}An 'if-else' block will run the else statement
+                when the if statement is not true."{/msg}</li>
+            <li id="elseError2" class="feedback" style="display: none">
+              {msg meaning="Maze.elseError2Msg" desc="alert - This is displayed 
+                when the user has not used an if-else block when it is required
+                for this level and they have attempted the level more than
+                once"}An 'if-else' block will run the else statement when the if
+                statement is not true."{/msg}</li>
+            <li id="isPathForwardError1" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError1Msg" desc="alert - If blocks only
+                run the statements inside them if the statement is true.
+                Straight indicates that they should continue in the direction
+                they were going."}Use an 'if-else' block to go straight if there
+                is a path ahead and turn if there is no path ahead.{/msg}</li>
+            <li id="isPathForwardError2" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError2Msg" desc="alert - If blocks only
+                run the statements inside them if the statement is true.
+                Straight indicates that they should continue in the direction
+                they were going."}Use an 'if-else' block to go straight if there
+                is a path ahead and turn if there is no path ahead.{/msg}</li>
+            <li id="whileError1" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError1Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level."}Notice the repetition in the path? Try using the
+                'repeat' block which repeats the sequence of blocks inside it
+                until, the player reaches the finish.{/msg}</li>
+            <li id="whileError2" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError2Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required
+                for this level and they have attempted the leve more than once"}
+                Drag and snap the 'repeat' block around all of your blocks.{/msg}</li>
+          {case 10}
+            <li id="isPathForwardError1" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError1Msg" desc="alert - If blocks only
+                run the statements inside them if the statement is true.
+                Straight indicates that they should continue in the direction
+                they were going."}Use an 'if-else' block to go straight if there
+                is a path ahead and turn if there is no path ahead.{/msg}</li>
+            <li id="isPathForwardError2" class="feedback" style="display: none">
+              {msg meaning="Maze.ifError2Msg" desc="alert - If blocks only
+                run the statements inside them if the statement is true.
+                Straight indicates that they should continue in the direction
+                they were going."}Use an 'if-else' block to go straight if there
+                is a path ahead and turn if there is no path ahead.{/msg}</li>
+            <li id="elseError1" class="feedback" style="display: none">
+              {msg meaning="Maze.elseError1Msg" desc="alert - This is displayed
+                when the user has not used an if-else block when it is required
+                for this level."}An 'if-else' block will run the else statement
+                when the if statement is not true."{/msg}</li>
+            <li id="elseError2" class="feedback" style="display: none">
+              {msg meaning="Maze.elseError2Msg" desc="alert - This is displayed 
+                when the user has not used an if-else block when it is required
+                for this level and they have attempted the level more than
+                once"}An 'if-else' block will run the else statement when the if
+                statement is not true."{/msg}</li>
+            <li id="whileError1" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError1Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required for
+                this level."}Notice the repetition in the path? Try using the
+                'repeat' block which repeats the sequence of blocks inside it
+                until, the player reaches the finish.{/msg}</li>
+            <li id="whileError2" class="feedback" style="display: none">
+              {msg meaning="Maze.whileError2Msg" desc="alert - This is displayed
+                when the user has not used a repeat block when it is required
+                for this level and they have attempted the leve more than once"}
+                Drag and snap the 'repeat' block around all of your blocks.{/msg}</li>
+        {/switch}
       </ul>
       /**
        * Interstitial levels.
@@ -306,7 +554,7 @@
                   block is used to repeat blocks over and over. "}Repeat blocks
                   allow me to do an action multiple times without additional
                   blocks. 'if' blocks allow me to do an action based on my
-                  surroundings.{/msg}              
+                  surroundings.{/msg}
               {case 8}
                 {msg meaning="Maze.reinfMsg8" desc="instructions - An example of
                   an 'if-else' block is if there is a path ahead move forward,
@@ -330,8 +578,7 @@
           {case 2}
             <p>
               <img style="margin-left: 110px;" src="repeat_block.png"><br>
-              <iframe src="https://docs.google.com/file/d/0BybP3F7DhXrUU2FCODdJdXRKVTQ/preview"
-                width="560" height="315">
+              <iframe src="" width="560" height="315">
               </iframe>
           {case 3}
             <p>
@@ -339,9 +586,7 @@
               <img src="dirs2.png"><br>
           {case 4}
             <p><img style="margin-left: 110px;" src="ifblock.png"><br>
-            <iframe src="https://docs.google.com/file/d/0BybP3F7DhXrUSFRhMnBGLUVPZTA/preview"
-              width="560" height="315">
-            </iframe>
+            <iframe src="" width="560" height="315"></iframe>
           {case 5}
             <p><img style="margin-top: 10px;" border=2 src="repeat_block2.png"><br>
           {case 8}
@@ -360,25 +605,25 @@
           {case 3}
             <p class="quiz">
               <input type="radio" name="q3" id="q31"
-                onclick="BlocklyApps.showReinfHelp('q3w')">
+                onclick="BlocklyApps.showReinfHelp({$ij.level}, 'q3w')">
                 <label for="q31" style="font-weight: bold">
                 {msg meaning="Maze.dirN" desc="An abbreviation of the direction
                   North"}N{/msg}
                 </label><br>
               <input type="radio" name="q3" id="q32"
-                onclick="BlocklyApps.showReinfHelp('q3w')">
+                onclick="BlocklyApps.showReinfHelp({$ij.level}, 'q3w')">
                 <label for="q32" style="font-weight: bold">
                   {msg meaning="Maze.dirE" desc="An abbreviation of the direction
                     East"}E{/msg}
                 </label><br>
               <input type="radio" name="q3" id="q33"
-                onclick="BlocklyApps.showReinfHelp('q3w')">
+                onclick="BlocklyApps.showReinfHelp({$ij.level}, 'q3w')">
                 <label for="q33" style="font-weight: bold">
                   {msg meaning="Maze.dirS" desc="An abbreviation of the direction
                     North"}S{/msg}
                 </label><br>
               <input type="radio" name="q3" id="q34"
-                onclick="BlocklyApps.showReinfHelp('q3r')">
+                onclick="BlocklyApps.showReinfHelp({$ij.level}, 'q3r')">
                 <label for="q34" style="font-weight: bold">
                   {msg meaning="Maze.dirW" desc="An abbreviation of the direction
                     West"}W{/msg}
@@ -387,21 +632,21 @@
           {case 5}
             <p class="quiz">
               <img style="margin-left: 50px;" src="repeat_blocka1.png"
-                onclick="BlocklyApps.showReinfHelp('q5w')">
+                onclick="BlocklyApps.showReinfHelp({$ij.level}, 'q5w')">
               <img style="margin-left: 50px;" src="repeat_blocka2.png"
-                onclick="BlocklyApps.showReinfHelp('q5r')">
+                onclick="BlocklyApps.showReinfHelp({$ij.level}, 'q5r')">
               <img style="margin-left: 50px;" src="repeat_blocka3.png"
-                onclick="BlocklyApps.showReinfHelp('q5w')">
+                onclick="BlocklyApps.showReinfHelp({$ij.level}, 'q5w')">
             </p>
           {case 9}
             <p class="quiz">
               <input type="radio" name="q9" id="q91"
-                onClick="BlocklyApps.showReinfHelp('q9r')">
+                onClick="BlocklyApps.showReinfHelp({$ij.level}, 'q9r')">
               <label for="q91" style="font-weight: bold">{msg meaning="Maze.yes"
                 desc="Yes indicates that this option is correct."}Yes{/msg}
               </label><br>
               <input type="radio" name="q9" id="q92"
-                onClick="BlocklyApps.showReinfHelp('q9w')">
+                onClick="BlocklyApps.showReinfHelp({$ij.level}, 'q9w')">
               <label for="q92" style="font-weight: bold">
                 {msg meaning="Maze.no" desc="No indicates that this option is
                    incorrect."}No{/msg}
@@ -425,12 +670,12 @@
       <br>
       <div style="text-align: center">
         <button id="tryAgainButton" class="launch" style="display: none"
-          onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(false);">
+          onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(false, {$ij.level}, {$ij.skin});">
           {msg meaning="Maze.tryAgain" desc="button - Closes the dialog and
             stays on the current level"}Try again{/msg}
         </button>
         <button id="continueButton" class="launch" style="display: none"
-          onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(true);">
+          onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(true, {$ij.level}, {$ij.skin});">
             {msg meaning="Maze.continue" desc="button - Closes the dialog and
               continues to the next level"}Continue{/msg}
         </button>
@@ -461,7 +706,7 @@
             {msg meaning="Maze.instructions3" desc="instructions - 'path'
               refers to a path through a maze, and 'block' refers to a
               child's building block."}Computers have limited memory.
-              Reach the end of this path using only two blocks.{/msg}            
+              Reach the end of this path using only two blocks.{/msg}
           {case 4}
             {msg meaning="Maze.instructions4" desc="instructions - the
               goal is reaching the end point in a maze; 'block' refers
@@ -470,8 +715,10 @@
           {case 5}
             {msg meaning="Maze.instructions5" desc="instructions -
               'turn left' refers to rotating in place a quarter
-              circle counter-clockwise."}I will have to turn left
-              when I cannot go straight.{/msg}
+              circle counter-clockwise. An example of an 'if' block is: 'if
+              there is a path to the left, turn left'."}I will have to turn left
+              when I cannot go straight. Use an 'if' block to see if their is a
+              path in another direction.{/msg}
           {case 6}
             {msg meaning="Maze.instructions6" desc="instructions -
               an example of an 'if' block is: 'if there is a path to
@@ -489,8 +736,8 @@
               left, turn left'."}You can use more than one 'if' statement.{/msg}
           {case 9}
             {msg meaning="Maze.instructions9" desc="instructions - 'block'
-              refers to a child's building block."}Can you use the blocks
-              you have learned to get me over the mountains?{/msg}
+              refers to a child's building block."}If-else blocks will do one
+              thing or the other.{/msg}
           {case 10}
             {msg meaning="Maze.instructions10" desc="instructions - an
               example of an 'if-else' block is: 'if there is a path to the
@@ -510,17 +757,18 @@
       <div id="capacity"></div>
     </div>
   </div>
-  <table width="400">
+
+  <table width="400" style="padding-top: 10px;">
     <tr>
       <td style="width: 190px; text-align: center; vertical-align: top;">
-        <button title="{msg meaning="Maze.codeTooltip" desc="tooltip
+        <button class="notext" title="{msg meaning="Maze.codeTooltip" desc="tooltip
           (pop-up help) for button; pressing the button causes a program
           in the JavaScript computer language to be displayed, based on the
           program created by the user."}See generated JavaScript code.{/msg}"
           onclick="BlocklyApps.showCode();">
           <img src='../media/1x1.gif' alt="code" class="code icon21">
         </button>
-        <button id="linkButton" title="{msg meaning="Maze.linkTooltip"
+        <button id="linkButton" class="notext" style="display: none;" title="{msg meaning="Maze.linkTooltip"
           desc="tooltip (pop-up help) for button; pressing the button
           causes the user's program to be saved and for a URL to be
           provided for retrieving it.  The word 'blocks' is as in
@@ -570,11 +818,11 @@
       <block type="maze_forever"></block>
       {if $ij.level == 5}
         <block type="maze_if"><title name="DIR">isPathLeft</title></block>
-      {elseif $ij.level > 5}
+      {elseif $ij.level > 5 and $ij.level < 9}
         <block type="maze_if"></block>
-        {if $ij.level > 8}
-          <block type="maze_ifElse"></block>
-        {/if}
+      {/if}
+      {if $ij.level > 8}
+        <block type="maze_ifElse"></block>
       {/if}
     {/if}
   </xml>

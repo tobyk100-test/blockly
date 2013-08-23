@@ -18,14 +18,12 @@
  */
 
 /**
- * @fileoverview Generating Python for variable blocks.
+ * @fileoverview Generating Python for procedure blocks.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
-goog.provide('Blockly.Python.procedures');
-
-goog.require('Blockly.Python');
+Blockly.Python.procedures = {};
 
 Blockly.Python.procedures_defreturn = function() {
   // Define a procedure with a return value.

@@ -27,8 +27,36 @@
 
 Blockly.JavaScript = Blockly.Generator.get('JavaScript');
 
-// Limited blocks for tutorial.
+// Create a limited colour palette to avoid overwhelming new users
+// and to make colour checking easier.
+var TurtleColours = {
+  BLACK: '#000000',
+  GREY: '#808080',
+  KHAKI: '#c3b091',
+  WHITE: '#ffffff',
+  RED: '#ff0000',
+  PINK: '#ff77ff',
+  ORANGE: '#ffa000',
+  YELLOW: '#ffff00',
+  GREEN: '#228B22',
+  BLUE: '#0000cd',
+  AQUAMARINE: '#7fffd4',
+  PLUM: '#843179',
+};
 
+Blockly.FieldColour.COLOURS = [
+  // Row 1.
+  TurtleColours.BLACK, TurtleColours.GREY,
+  TurtleColours.KHAKI, TurtleColours.WHITE,
+  // Row 2.
+  TurtleColours.RED, TurtleColours.PINK,
+  TurtleColours.ORANGE, TurtleColours.YELLOW,
+  // Row 3.
+  TurtleColours.GREEN, TurtleColours.BLUE,
+  TurtleColours.AQUAMARINE, TurtleColours.PLUM];
+Blockly.FieldColour.COLUMNS = 4;
+
+// Block definitions.
 Blockly.Language.draw_move_inline = {
   // Block for moving forward or backward the internal number of pixels.
   helpUrl: 'http://www.example.com/',

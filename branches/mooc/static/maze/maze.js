@@ -41,15 +41,21 @@ BlocklyApps.MAX_LEVEL = 10;
 
 BlocklyApps.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1,
     BlocklyApps.MAX_LEVEL);
-BlocklyApps.idealBlockNum = [undefined, //  0.
-  2, 5, 2, 5, 4, 4, 4, 6, 6, 4][BlocklyApps.LEVEL];
+Maze.IDEAL_BLOCK_NUM = [undefined, //  0.
+  2, 5, 2, 5, 4, 4, 4, 6, 6, 5][Maze.LEVEL];
 
 // Blocks that are expected to be used on each level.
-BlocklyApps.requiredBlocks = [undefined, // 0.
-  ['moveForward'], ['moveForward', 'turn'], ['moveForward', 'while'],
-  ['while', 'turn'], ['if', 'turn', 'while'], ['if', 'turn', 'while'],
-  ['if', 'turn', 'while'], ['if', 'turn', 'while'], ['if', 'turn', 'while'],
-  ['else', 'while']][BlocklyApps.LEVEL];
+Maze.REQUIRED_BLOCKS = [undefined, // 0.
+  ['moveForward'], ['moveForward', 'turnLeft', 'turnRight'],
+  ['moveForward', 'while'], ['moveForward', 'while', 'turn'],
+  ['isPathLeft', 'turnLeft', 'while'], ['isPathLeft', 'turnLeft', 'while'],
+  ['isPathRight', 'turnRight', 'while'],
+  ['isPathLeft', 'isPathRight', 'turn', 'while'],
+  ['isPathForward', 'else', 'while'],
+  ['isPathForward', 'else', 'while']][Maze.LEVEL];
+
+//The number of versions of feedback available for each required block missing.
+Maze.maxFeedbackVersion = 2;
 
 Maze.SKINS = [
   // sprite: A 1029x51 set of 21 avatar images.
@@ -97,6 +103,16 @@ Maze.SKINS = [
 
 Maze.SKIN_ID = BlocklyApps.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
 Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];
+
+
+/**
+ * Google Drive video ID.
+ * 'null' is used because IE8 does not like trailing commas in arrays, and it is
+ *     used throughout the array for consistency.
+ */
+Maze.VIDEO_ID = [undefined, null, '0BybP3F7DhXrUU2FCODdJdXRKVTQ', null,
+    '0BybP3F7DhXrUSFRhMnBGLUVPZTA', null, null, null, null, null,
+    null][Maze.LEVEL];
 
 /**
  * Milliseconds between each animation frame.
@@ -200,21 +216,21 @@ Maze.map = [
   [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 9.
  [[0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 0, 0, 0, 0],
-  [0, 1, 0, 1, 0, 0, 0, 0],
-  [0, 1, 0, 1, 0, 1, 1, 1],
-  [0, 1, 0, 1, 0, 1, 0, 1],
-  [2, 1, 0, 1, 1, 1, 0, 3],
-  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 1, 1, 1, 1, 1, 0, 0],
+  [0, 0, 1, 0, 0, 0, 0, 0],
+  [3, 1, 1, 1, 1, 1, 1, 0],
+  [0, 1, 0, 1, 0, 1, 1, 0],
+  [1, 1, 1, 1, 1, 0, 1, 0],
+  [0, 1, 0, 1, 0, 2, 1, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]],
 // Level 10.
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 1, 1, 3, 1, 0, 0],
-  [0, 0, 1, 1, 1, 1, 0, 0],
-  [0, 0, 1, 1, 1, 1, 0, 0],
-  [0, 0, 2, 1, 1, 1, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 2, 1, 1, 1, 1, 1, 0],
+  [0, 0, 1, 1, 0, 1, 1, 0],
+  [0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 0, 1, 1, 0, 1, 1, 0],
+  [0, 1, 3, 1, 1, 1, 1, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]]
 ][BlocklyApps.LEVEL];
 // Add blank row at top for hint bubble.
@@ -518,6 +534,16 @@ Maze.init = function() {
 window.addEventListener('load', Maze.init);
 
 /**
+ * If the user has executed too many actions, we're probably in an infinite
+ * loop.
+ * @param {?string} opt_id ID of loop block to highlight.
+ * @throws {Infinity} Throws an error to terminate the user's program.
+ */
+Maze.checkTimeout = function(opt_id) {
+  BlocklyApps.checkTimeout(Maze.log, Maze.ticks, opt_id);
+};
+
+/**
  * Reload with a different Pegman skin.
  * @param {number} skin ID of new skin.
  */
@@ -703,8 +729,10 @@ Maze.execute = function() {
   * Fast animation if execution is successful.  Slow otherwise.
   */
   var successfulSpeed;
-  var level = BlocklyApps.Level;
-  if (level <= 3) {
+  var level = Maze.Level;
+  if (level == 1) {
+    successfulSpeed = 150;
+  } else if (level <= 3) {
     successfulSpeed = 100;
   } else if (level <= 5) {
     successfulSpeed = 80;
@@ -798,8 +826,10 @@ Maze.animate = function() {
  * Display feedback based on test results.
  */
 Maze.displayFeedback = function() {
-  var feedbackType = BlocklyApps.runTestsAndSetErrorFeedback();
-  BlocklyApps.showDialogAndFeedback(feedbackType);
+  var feedbackType = BlocklyApps.runTestsAndSetErrorFeedback(
+      Maze.IDEAL_BLOCK_NUM, Maze.REQUIRED_BLOCKS, Maze.levelComplete,
+      Maze.attempts, Maze.maxFeedbackVersion);
+  BlocklyApps.showDialogAndFeedback(feedbackType, Maze.LEVEL, Maze.MAX_LEVEL);
 };
 
 /**
@@ -1132,11 +1162,22 @@ Maze.isPath = function(direction, id) {
 };
 
 /**
- * Construct the url and go to the next Maze level.
+ * Updates the tooManyBlocksError message with the ideal number of blocks so the
+ *     student can better understand how to improve their code.
  */
-BlocklyApps.createURLAndOpenNextLevel = function() {
-  window.location = window.location.protocol + '//' +
-    window.location.host + window.location.pathname +
-    '?lang=' + BlocklyApps.LANG + '&level=' + (BlocklyApps.LEVEL + 1) +
-    '&skin=' + Maze.SKIN_ID;
+Maze.setIdealBlockMessage = function() {
+  var idealNumMsg = document.getElementById('idealNumberMessage');
+  var idealNumText = document.createTextNode(Maze.IDEAL_BLOCK_NUM);
+  idealNumMsg.appendChild(idealNumText);
+};
+
+/**
+ * Wait until all other resources on the page have finished loading before
+ *     loading the iframe video.
+ */
+window.onload = function() {
+  if (Maze.VIDEO_ID) {
+    BlocklyApps.addVideoIframeSrc(Maze.VIDEO_ID);
+  }
+  Maze.setIdealBlockMessage();
 };

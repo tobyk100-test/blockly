@@ -1,69 +1,94 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Blockly Block Factory</title>
+  <meta name="viewport" content="target-densitydpi=device-dpi, height=660, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Blockly : Block Factory</title>
   <script type="text/javascript" src="factory.js"></script>
   <style>
+    html, body {
+      height: 100%;
+    }
     body {
-      background-color: white;
+      background-color: #fff;
       font-family: sans-serif;
+      margin: 0 5px;
+      overflow: hidden
     }
     h1 {
       font-weight: normal;
       font-size: 140%;
     }
     h3 {
-      margin-bottom: 1px;
+      margin-top: 5px;
+      margin-bottom: 0;
     }
-    iframe {
-      border: 1px solid #ccc;
+    a:hover {
+      color: #f00;
+    }
+    table {
+      height: 100%;
+      width: 100%;
     }
     td {
       vertical-align: top;
+      padding: 0;
     }
-    iframe, textarea, table {
+    iframe {
+      border-style: solid;
+      border-color: #ddd;
+      border-width: 0 1px 1px 0;
+    }
+    #blocklyFrame {
       height: 100%;
       width: 100%;
-      resize: none;
+    }
+    #previewFrame {
+      position: absolute;
+    }
+    pre {
+      margin-top: 0;
+      position: absolute;
+      border: #ddd 1px solid;
+      overflow: scroll;
     }
   </style>
+  <link rel="stylesheet" type="text/css" href="../prettify.css">
+  <script type="text/javascript" src="../prettify.js"></script>
 </head>
 <body>
   <table>
     <tr>
-      <td colspan=2>
-        <h1><a href="http://blockly.googlecode.com/">Blockly</a> &gt; <a href="../index.html">Apps</a> &gt; Block Factory</h1>
+      <td width="50%" height="5%">
+        <h1><a href="../index.html">Blockly</a> : Block Factory</h1>
+      </td>
+      <td width="50%" height="5%" style="vertical-align: bottom;">
+        <h3>Preview:</h3>
       </td>
     </tr>
     <tr>
-      <td height="99%">
-        <iframe src="frame.html"></iframe>
+      <td width="50%" height="95%" style="padding: 2px;">
+        <iframe id="blocklyFrame" src="frame.html"></iframe>
       </td>
-      <td>
+      <td width="50%" height="95%">
         <table>
           <tr>
-            <td height="4%">
-              <h3>Preview:</h3>
-            </td>
-          </tr>
-          <tr>
             <td height="30%">
-              <iframe src="preview.html"></iframe>
+              <iframe id="previewFrame" src="preview.html"></iframe>
             </td>
           </tr>
           <tr>
-            <td height="3%">
+            <td height="5%">
               <h3>Language code:</h3>
             </td>
           </tr>
           <tr>
             <td height="30%">
-              <textarea id="languageTextarea" readonly="readonly" wrap="off"
-              onfocus="this.select()"></textarea>
+              <pre id="languagePre"></pre>
             </td>
           </tr>
           <tr>
-            <td height="3%">
+            <td height="5%">
               <h3>Generator stub:
                 <select id="language" onchange="updateGenerator()">
                   <option value="JavaScript">JavaScript</option>
@@ -74,8 +99,7 @@
           </tr>
           <tr>
             <td height="30%">
-              <textarea id="generatorTextarea" readonly="readonly" wrap="off"
-              onfocus="this.select()"></textarea>
+              <pre id="generatorPre"></pre>
             </td>
           </tr>
         </table>

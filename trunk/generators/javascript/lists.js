@@ -23,9 +23,7 @@
  */
 'use strict';
 
-goog.provide('Blockly.JavaScript.lists');
-
-goog.require('Blockly.JavaScript');
+Blockly.JavaScript.lists = {}
 
 Blockly.JavaScript.lists_create_empty = function() {
   // Create an empty list.
@@ -127,9 +125,9 @@ Blockly.JavaScript.lists_getIndex = function() {
     }
   } else if (where == 'FROM_START') {
     // Blockly uses one-based indicies.
-    if (at.match(/^-?\d+$/)) {
+    if (Blockly.isNumber(at)) {
       // If the index is a naked number, decrement it right now.
-      at = parseInt(at, 10) - 1;
+      at = parseFloat(at) - 1;
     } else {
       // If the index is dynamic, decrement it in code.
       at += ' - 1';
@@ -235,9 +233,9 @@ Blockly.JavaScript.lists_setIndex = function() {
     }
   } else if (where == 'FROM_START') {
     // Blockly uses one-based indicies.
-    if (at.match(/^\d+$/)) {
+    if (Blockly.isNumber(at)) {
       // If the index is a naked number, decrement it right now.
-      at = parseInt(at, 10) - 1;
+      at = parseFloat(at) - 1;
     } else {
       // If the index is dynamic, decrement it in code.
       at += ' - 1';
