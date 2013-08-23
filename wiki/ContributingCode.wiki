@@ -53,6 +53,7 @@ gclient sync
 === Submitting a code review ===
 
   * Do some work.
+  * cd trunk
   * `gcl change`
   * [UnitTesting Run tests].
   * `gcl upload xxxx`
