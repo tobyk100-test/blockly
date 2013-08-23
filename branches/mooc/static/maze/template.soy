@@ -121,6 +121,9 @@
       displayed if a user attempts to run a program composed of multiple stacks
       of blocks, letting them know they need to create a single stack."}On this
       level, you need to stack together all of the blocks in the white workspace.{/msg}</span>
+    <span id="numBlocksNeeded">{msg meaning="Maze.numBlocksNeeded"
+      desc="alert - This is displayed when the user has used more blocks than is necessary."}
+      This level can be solved with %1 blocks.{/msg}</span>
   </div>
 
   // Common messages follow.  They are inlined here and in the other
@@ -193,11 +196,11 @@
    */
   <div id="levelFeedback">
     <div style="padding-bottom: 0.7ex;"><br>
-      <img class="stars feedback" id="star1" src="star1.png">
-      <img class="stars feedback" id="star2" src="star2.png">
-      <img class="stars feedback" id="star3" src="star3.png">
+      <img class="stars feedback" id="star1" src="../star1.png">
+      <img class="stars feedback" id="star2" src="../star2.png">
+      <img class="stars feedback" id="star3" src="../star3.png">
       <ul id="levelFeedbackText">
-        <span id="hintTitle" style="display: none; margin-left: -30px">{msg
+        <span id="hintTitle" class="feedback" style="display: none; margin-left: -30px">{msg
           meaning="Maze.hintTitle" desc="title - this indicates to the user that
           what follows are ways to improve and/or fix their code."}Hint:{/msg}
         </span>
@@ -220,6 +223,7 @@
             when the user has used more blocks than is necessary."}This level
             can be solved with <span id="idealNumberMessage"></span> blocks.
           {/msg}</li>
+        <li id="tooManyBlocksError" class="feedback" style="display: none"></li>
         <li id="tooFewBlocksError" class="feedback" style="display: none">
           {msg meaning="Maze.tooFewBlocksMsg" desc="alert - The user has not
             completed the level, is using all of the necessary types of blocks,
@@ -453,7 +457,7 @@
                 for this level."}An 'if-else' block will run the else statement
                 when the if statement is not true."{/msg}</li>
             <li id="elseError2" class="feedback" style="display: none">
-              {msg meaning="Maze.elseError2Msg" desc="alert - This is displayed 
+              {msg meaning="Maze.elseError2Msg" desc="alert - This is displayed
                 when the user has not used an if-else block when it is required
                 for this level and they have attempted the level more than
                 once"}An 'if-else' block will run the else statement when the if
@@ -500,7 +504,7 @@
                 for this level."}An 'if-else' block will run the else statement
                 when the if statement is not true."{/msg}</li>
             <li id="elseError2" class="feedback" style="display: none">
-              {msg meaning="Maze.elseError2Msg" desc="alert - This is displayed 
+              {msg meaning="Maze.elseError2Msg" desc="alert - This is displayed
                 when the user has not used an if-else block when it is required
                 for this level and they have attempted the level more than
                 once"}An 'if-else' block will run the else statement when the if

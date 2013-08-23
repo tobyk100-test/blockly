@@ -28,62 +28,127 @@
  */
 var Turtle = {};
 
-// Supported languages.
-BlocklyApps.LANGUAGES = {
-  // Format: ['Language name', 'direction', 'XX_compressed.js']
-  en: ['English', 'ltr', 'en_compressed.js']
-};
 BlocklyApps.LANG = BlocklyApps.getLang();
 
 document.write('<script type="text/javascript" src="generated/' +
     BlocklyApps.LANG + '.js"></script>\n');
 
-/**
- * Extracts a numeric parameter from the URL.
- * If the parameter is absent or less than min_value, min_value is
- * returned.  If it is greater than max_value, max_value is returned.
- *
- * @param {string} name The name of the parameter.
- * @param {number} min_value The minimum legal value.
- * @param {number} max_value The maximum legal value.
- * @return {number} A number in the range [min_value, max_value].
- */
-Turtle.getNumberFromUrl = function(name, min_value, max_value) {
-  var val = window.location.search.match(new RegExp('[?&]' + name + '=(\\d+)'));
-  val = val ? val[1] : min_value;
-  val = Math.min(Math.max(min_value, val), max_value);
-  return val;
+// Set constants with information extracted from the URL.
+BlocklyApps.MAX_LEVEL = 10;
+BlocklyApps.PAGE = BlocklyApps.getNumberParamFromUrl('page', 1, 3);
+BlocklyApps.LEVEL =
+    BlocklyApps.getNumberParamFromUrl('level', 1, BlocklyApps.MAX_LEVEL);
+Turtle.REINF =
+    BlocklyApps.getNumberParamFromUrl('reinf', 0, BlocklyApps.MAX_LEVEL);
+
+// Create a limited colour palette to avoid overwhelming new users
+// and to make colour checking easier.  These definitions cannot be
+// moved to blocks.js, which is loaded later, since they are used in
+// top-level definitions below.
+Turtle.Colours = {
+  BLACK: '#000000',
+  GREY: '#808080',
+  KHAKI: '#c3b091',
+  WHITE: '#ffffff',
+  RED: '#ff0000',
+  PINK: '#ff77ff',
+  ORANGE: '#ffa000',
+  YELLOW: '#ffff00',
+  GREEN: '#228B22',
+  BLUE: '#0000cd',
+  AQUAMARINE: '#7fffd4',
+  PLUM: '#843179'
 };
 
-Turtle.PAGE = Turtle.getNumberFromUrl('page', 1, 3);
-Turtle.MAX_LEVEL = [undefined, 10, 10, 10][Turtle.PAGE];
-Turtle.LEVEL = Turtle.getNumberFromUrl('level', 1, Turtle.MAX_LEVEL);
-Turtle.REINF = Turtle.getNumberFromUrl(
-    'reinf', 0, reinf_data[Turtle.PAGE].length - 1);
+/**
+ * Colour requirements for this level, if any.  Values and their meanings are:
+ * - 1: There must be at least one non-black colour.
+ * - 2 or higher: There must be the specified number of colours (black okay).
+ * - string: The entire picture must use the named colour.
+ * @type{number|string}
+ */
+Turtle.REQUIRED_COLOURS = null;
 
 /**
- * Pseudo-random identifier used for tracking user progress within a level.
+ * Information about level-specific requirements.  Each entry consists of:
+ * - the ideal number of blocks.
+ * - an array of required blocks.
+ * - required colours.
  */
-BlocklyApps.LEVEL_ID = Math.random();
+Turtle.BLOCK_DATA = [
+  // Page 0.
+  undefined,
+  // Page 1.
+  [undefined,  // Level 0.
+   // Level 1: El.
+   [3, ['moveForward', 'turnRight']],
+   // Level 2: Square (without repeat).
+   [7, ['penColour', 'turn', 'move'], 4],
+   // Level 3: Square (with repeat).
+   [3, ['while', 'turn', 'move']],
+   // Level 4: Triangle.
+   [3, ['while', 'turn', 'move'], 3],
+   // Level 5: Envelope.
+   [6, ['while', 'turn', 'move']],
+   // Level 6: triangle and square.
+   [6, ['while', 'turn', 'move']],
+   // Level 7: glasses.
+   [8, ['penColour', 'var', 'turn', 'move'], Turtle.Colours.GREEN],
+   // Level 8: spikes.
+   [4, ['penColour', 'colour_random', 'move', 'turn'], 8],
+   // Level 9: circle.
+   [3, ['var', 'move', 'turn']]],
+  // Page 2.
+  [undefined,  // Level 0.
+   // Level 1: Square.
+   [5, ['penColour', 'var', 'turn', 'move'], 1],
+   // Level 2: Small green square.
+   [2, ['penColour', 'draw_a_square'], Turtle.Colours.GREEN],
+   // Level 3: Three squares.
+   [5, ['colour_random']],
+   // Level 4: 36 squares.
+   [5, ['while', 'colour_random']],
+   // Level 5: Different size squares.
+   [10, ['draw_a_square']],
+   // Level 6: For-loop squares.
+   [6, ['for', 'counter']],
+   // Level 7: Boxy spiral.
+   [8, ['counter']],
+   // Level 8: Three snowmen.
+   [9, []],
+   // Level 9: Snowman family.
+   [12, []]],
 
-document.write(turtlepage.start({}, null,
-    {page: Turtle.PAGE,
-     level: Turtle.LEVEL,
-     reinf: Turtle.REINF ? reinf_data[Turtle.PAGE][Turtle.LEVEL] : 0,
-     maxLevel: Turtle.MAX_LEVEL}));
+  // Page 3.
+  undefined
+];
 
-var maxBlocks = Infinity;
+if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
+    Turtle.BLOCK_DATA[BlocklyApps.PAGE]) {
+  BlocklyApps.IDEAL_BLOCK_NUM =
+      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][0];
+  BlocklyApps.REQUIRED_BLOCKS =
+      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][1];
+  Turtle.REQUIRED_COLOURS =
+      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][2];
+}
+
+BlocklyApps.MAX_FEEDBACK_VERSIONS = 2;
+BlocklyApps.FREE_BLOCKS = 'colour';
+
 Turtle.HEIGHT = 400;
 Turtle.WIDTH = 400;
-
-// Page 1.
-Turtle.SET_COLOUR_LEVEL = 4;
-Turtle.MULTI_TULIP_LEVEL = 7;
 
 /**
  * PID of animation task currently executing.
  */
 Turtle.pid = 0;
+
+/**
+ * Colours used in current animation, represented as hex strings
+ * (e.g., "#a0b0c0").
+ */
+Turtle.coloursUsed = [];
 
 /**
  * Should the turtle be drawn?
@@ -101,7 +166,7 @@ Turtle.init = function() {
   // BlocklyApps.init() sets the page title but does not substitute
   // in the page number.  Do it now.
   document.title = document.getElementById('title').
-      textContent.replace('%1', Turtle.PAGE);
+      textContent.replace('%1', BlocklyApps.PAGE);
 
   var rtl = BlocklyApps.LANGUAGES[BlocklyApps.LANG][1] == 'rtl';
 
@@ -109,12 +174,10 @@ Turtle.init = function() {
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
       {path: '../',
-       collapse: (Turtle.PAGE == 2 && Turtle.LEVEL >= 10) || Turtle.PAGE == 3,
-       maxBlocks: maxBlocks,
        rtl: rtl,
        toolbox: toolbox,
        trashcan: true});
-  if (Turtle.LEVEL == 1) {
+  if (BlocklyApps.LEVEL == 1) {
     Blockly.SNAP_RADIUS *= 2;
   }
 
@@ -146,7 +209,8 @@ Turtle.init = function() {
   if ('BlocklyStorage' in window && window.location.hash.length > 1) {
     BlocklyStorage.retrieveXml(window.location.hash.substring(1));
   } else {
-    if (Turtle.PAGE == 3 && (Turtle.LEVEL == 8 || Turtle.LEVEL == 9)) {
+    if (BlocklyApps.PAGE == 3 &&
+        (BlocklyApps.LEVEL == 8 || BlocklyApps.LEVEL == 9)) {
       var xml = window.sessionStorage.turtle3Blocks;
       if (xml === undefined) {
         xml = '';
@@ -163,16 +227,40 @@ Turtle.init = function() {
     }
   }
 
+  // Get the canvases and set their initial contents.
   Turtle.ctxDisplay = document.getElementById('display').getContext('2d');
   Turtle.ctxAnswer = document.getElementById('answer').getContext('2d');
-  Turtle.ctxImages= document.getElementById('images').getContext('2d');
+  Turtle.ctxImages = document.getElementById('images').getContext('2d');
   Turtle.ctxScratch = document.getElementById('scratch').getContext('2d');
   Turtle.drawImages();
   Turtle.drawAnswer();
-  Turtle.reset();
+  BlocklyApps.reset();
+
+  // Special case to increase speed on levels that have lots of steps.
+  if ((BlocklyApps.PAGE == 1 || BlocklyApps.PAGE == 2) &&
+      BlocklyApps.LEVEL == 9) {
+    Turtle.speedSlider.setValue(.9);
+  }
+
+  // Add display of blocks used unless on final playground level.
+  if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL) {
+    Blockly.addChangeListener(function() {
+      Turtle.updateBlockCount();
+    });
+  }
 };
 
 window.addEventListener('load', Turtle.init);
+
+/**
+ * Add count of blocks used, not counting colour blocks.
+ */
+Turtle.updateBlockCount = function() {
+  BlocklyApps.setTextForElement(
+      'blockCount',
+      BlocklyApps.getMsg('blocksUsed').
+          replace('%1', BlocklyApps.getNumBlocksUsed()));
+};
 
 /**
  * On startup draw the expected answer and save it to the answer canvas.
@@ -181,7 +269,7 @@ Turtle.drawAnswer = function() {
   BlocklyApps.log = [];
   BlocklyApps.ticks = Infinity;
   Turtle.answer();
-  Turtle.reset();
+  BlocklyApps.reset();
   while (BlocklyApps.log.length) {
     var tuple = BlocklyApps.log.shift();
     Turtle.step(tuple[0], tuple.splice(1));
@@ -194,13 +282,12 @@ Turtle.drawAnswer = function() {
 /**
  * Place an image at the specified coordinates.
  * Code from http://stackoverflow.com/questions/5495952. Thanks, Phrogz.
- *
- * @param {string} fileName Relative path to image.
+ * @param {string} filename Relative path to image.
  * @param {!Array} coordinates List of x-y pairs.
  */
 Turtle.placeImage = function(filename, coordinates) {
   var img = new Image;
-  img.onload = function(){
+  img.onload = function() {
     for (var i = 0; i < coordinates.length; i++) {
       Turtle.ctxImages.drawImage(img, coordinates[i][0], coordinates[i][1]);
     }
@@ -214,8 +301,8 @@ Turtle.placeImage = function(filename, coordinates) {
  * TODO: Consider putting specification in template.soy.
  */
 Turtle.drawImages = function() {
-  if (Turtle.PAGE == 3) {
-    switch (Turtle.LEVEL) {
+  if (BlocklyApps.PAGE == 3) {
+    switch (BlocklyApps.LEVEL) {
       case 3:
         Turtle.placeImage('cat.svg', [[170, 247], [170, 47]]);
         Turtle.placeImage('cow.svg', [[182, 147]]);
@@ -256,8 +343,10 @@ Turtle.drawImages = function() {
 /**
  * Reset the turtle to the start position, clear the display, and kill any
  * pending tasks.
+ * @param {boolean} ignore Required by the API but ignored by this
+ *     implementation.
  */
-Turtle.reset = function() {
+BlocklyApps.reset = function(ignore) {
   // Starting location and heading of the turtle.
   Turtle.x = Turtle.HEIGHT / 2;
   Turtle.y = Turtle.WIDTH / 2;
@@ -267,10 +356,11 @@ Turtle.reset = function() {
 
   // Special cases.
   // TODO: Consider putting specification in template.soy.
-  if (Turtle.PAGE == 2 && (Turtle.LEVEL == 8 || Turtle.LEVEL == 9)) {
+  if (BlocklyApps.PAGE == 2 &&
+      (BlocklyApps.LEVEL == 8 || BlocklyApps.LEVEL == 9)) {
     Turtle.x = 100;
-  } else if (Turtle.PAGE == 3) {
-    switch (Turtle.LEVEL) {
+  } else if (BlocklyApps.PAGE == 3) {
+    switch (BlocklyApps.LEVEL) {
       case 3:
       case 6:
       case 7:
@@ -297,6 +387,7 @@ Turtle.reset = function() {
     window.clearTimeout(Turtle.pid);
   }
   Turtle.pid = 0;
+  Turtle.coloursUsed = [];
 };
 
 /**
@@ -372,18 +463,6 @@ Turtle.runButtonClick = function() {
 };
 
 /**
- * Click the reset button.  Reset the Turtle.
- */
-Turtle.resetButtonClick = function() {
-  document.getElementById('runButton').style.display = 'inline';
-  document.getElementById('resetButton').style.display = 'none';
-  document.getElementById('spinner').style.visibility = 'hidden';
-  Blockly.mainWorkspace.traceOn(false);
-  Turtle.reset();
-};
-
-
-/**
  * Execute the user's code.  Heaven help us...
  */
 Turtle.execute = function() {
@@ -403,7 +482,7 @@ Turtle.execute = function() {
 
   // BlocklyApps.log now contains a transcript of all the user's actions.
   // Reset the graphic and animate the transcript.
-  Turtle.reset();
+  BlocklyApps.reset();
   Turtle.pid = window.setTimeout(Turtle.animate, 100);
 };
 
@@ -418,6 +497,7 @@ Turtle.animate = function() {
   if (!tuple) {
     document.getElementById('spinner').style.visibility = 'hidden';
     Blockly.mainWorkspace.highlightBlock(null);
+    BlocklyApps.attempts++;
     Turtle.checkAnswer();
     return;
   }
@@ -457,6 +537,11 @@ Turtle.step = function(command, values) {
       if (command == 'FD' && Turtle.penDownValue) {
         Turtle.ctxScratch.lineTo(Turtle.x, Turtle.y + bump);
         Turtle.ctxScratch.stroke();
+        if (distance) {
+          if (Turtle.coloursUsed.indexOf(Turtle.ctxScratch.strokeStyle) == -1) {
+            Turtle.coloursUsed.push(Turtle.ctxScratch.strokeStyle);
+          }
+        }
       }
       break;
     case 'RT':  // Right Turn
@@ -499,6 +584,68 @@ Turtle.step = function(command, values) {
 };
 
 /**
+ * The range of outcomes for evaluating the colour used on the current level.
+ * @type {number}
+ */
+Turtle.ColourResults = {
+  OK: 0,
+  NONE: 1,               // No colours were used.
+  FORBIDDEN_DEFAULT: 2,  // Default colour (black) was used but not permitted.
+  TOO_FEW: 3             // Fewer distinct colours were used than required.
+  // There is no value for "wrong colour" because we use
+  // the name of the colour (as a string) instead.
+};
+
+/**
+ * Returns the name of the property key in Turtle.Colours whose value
+ * is the given hex string.
+ * @param {!string} hex The JavaScript representation of a hexadecimal
+ *        value (such as "#0123ab").
+ * @return {string} The name of the colour, or "UNKNOWN".  The latter
+ *        should only be returned if the colour was not from Turtle.Colours.
+ */
+Turtle.hexStringToColourName = function(hex) {
+  for (var name in Turtle.Colours) {
+    if (Turtle.Colours[name].toLowerCase() == hex.toLowerCase()) {
+      return name.toLowerCase();
+    }
+  }
+  return 'UNKNOWN';  //  This should not happen.
+};
+
+/**
+ * Check whether any required colours are present.
+ * This uses Turtle.REQUIRED_COLOURS and Turtle.coloursUsed.
+ * @return {number|string} The appropriate value in Turtle.ColourResults or
+ *     the name of a missing required colour.
+*/
+Turtle.checkRequiredColours = function() {
+  if (!Turtle.REQUIRED_COLOURS) {
+    return Turtle.ColourResults.OK;
+  }
+  if (Turtle.coloursUsed == 0) {
+    return Turtle.ColourResults.NONE;
+  } else if (typeof Turtle.REQUIRED_COLOURS == 'string') {
+    if (Turtle.coloursUsed.length > 1 ||
+        Turtle.coloursUsed[0] != Turtle.REQUIRED_COLOURS) {
+      return Turtle.hexStringToColourName(Turtle.REQUIRED_COLOURS);
+    } else {
+      return Turtle.ColourResults.OK;
+    }
+  } else if (Turtle.REQUIRED_COLOURS == 1) {
+    // Any colour but black is acceptable.
+    if (Turtle.coloursUsed.length == 1 &&
+        Turtle.coloursUsed[0] == Turtle.Colours.BLACK) {
+      return Turtle.ColourResults.FORBIDDEN_DEFAULT;
+    }
+  } else {
+    // Turtle.REQUIRED_COLOURS must be a number greater than 1.
+    return Turtle.coloursUsed.length >= Turtle.REQUIRED_COLOURS ?
+        Turtle.ColourResults.OK : Turtle.ColourResults.TOO_FEW;
+  }
+};
+
+/**
  * Verify if the answer is correct.
  * If so, move on to next level.
  */
@@ -518,19 +665,47 @@ Turtle.checkAnswer = function() {
       delta++;
     }
   }
-  var correct = Turtle.isCorrect(delta);
-  BlocklyApps.report('turtle', BlocklyApps.LEVEL_ID, Turtle.LEVEL, correct,
-      BlocklyApps.stripCode(Turtle.code));
-  if (correct) {
-    if (Turtle.PAGE == 3 && (Turtle.LEVEL == 7 || Turtle.LEVEL == 8)) {
+  BlocklyApps.levelComplete = Turtle.isCorrect(delta);
+  var feedbackType = BlocklyApps.getTestResults();
+  BlocklyApps.setErrorFeedback(feedbackType);
+
+  BlocklyApps.report('turtle', BlocklyApps.LEVEL_ID, BlocklyApps.LEVEL,
+                     BlocklyApps.levelComplete,
+                     BlocklyApps.stripCode(Turtle.code));
+  if (BlocklyApps.levelComplete) {
+    if (BlocklyApps.PAGE == 3 &&
+        (BlocklyApps.LEVEL == 7 || BlocklyApps.LEVEL == 8)) {
       // Store the blocks for the next level.
       var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
       var text = Blockly.Xml.domToText(xml);
       window.sessionStorage.turtle3Blocks = text;
     }
-
-    BlocklyApps.congratulations(Turtle.PAGE, Turtle.LEVEL, Turtle.MAX_LEVEL, 1);
   }
+
+  // Only check and mention colour if there is no more serious problem.
+  if (feedbackType == BlocklyApps.TestResults.TOO_MANY_BLOCKS_FAIL ||
+      feedbackType == BlocklyApps.TestResults.ALL_PASS) {
+    var colourResult = Turtle.checkRequiredColours();
+    if (colourResult != Turtle.ColourResults.OK) {
+      feedbackType = BlocklyApps.OTHER_2_STAR_FAIL;
+      var message;
+      if (colourResult === Turtle.ColourResults.FORBIDDEN_DEFAULT) {
+        message = BlocklyApps.getMsg('notBlackColour');
+      } else if (colourResult === Turtle.ColourResults.TOO_FEW) {
+        message = BlocklyApps.getMsg('tooFewColours').replace(
+            '%1',
+            Turtle.REQUIRED_COLOURS).replace(
+                '%2',
+                Turtle.coloursUsed.length);
+      } else if (typeof colourResult == 'string') {
+        message = BlocklyApps.getMsg('wrongColour').replace('%1', colourResult);
+      }
+      BlocklyApps.setTextForElement('colourFeedback', message).style.display =
+          'list-item';
+    }
+  }
+
+  BlocklyApps.showDialogAndFeedback(feedbackType);
 };
 
 /**
@@ -539,8 +714,8 @@ Turtle.checkAnswer = function() {
 Turtle.continueButtonClick = function() {
   document.getElementById('continueButton').style.display = 'none';
   window.location = window.location.protocol + '//' + window.location.host +
-      window.location.pathname + '?page=' + Turtle.PAGE + '&level=' +
-      Turtle.LEVEL;
+      window.location.pathname + '?page=' + BlocklyApps.PAGE + '&level=' +
+      BlocklyApps.LEVEL;
 };
 
 // Turtle API.

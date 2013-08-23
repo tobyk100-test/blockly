@@ -25,9 +25,108 @@
 
 var BlocklyApps = {};
 
-BlocklyApps.BLOCK_TEST_FAIL = 1;
-BlocklyApps.IDEAL_TEST_FAIL = 2;
-BlocklyApps.ALL_TESTS_PASS = 3;
+// The following properties get their non-default values set by the
+// application.
+
+/**
+ * The page number, or a false value if the app doesn't use pages.
+ * @type {number}
+ */
+BlocklyApps.PAGE = undefined;
+
+/**
+ * The current level.
+ * @type {number}
+ */
+BlocklyApps.LEVEL = undefined;
+
+/**
+ * The maximum level for the current page for the current application.
+ * @type {number}
+ */
+BlocklyApps.MAX_LEVEL = undefined;
+
+/**
+ * The application-dependent skin identifier.
+ * @type {number}
+ */
+BlocklyApps.SKIN_ID = undefined;
+
+/**
+ * Languages supported by the application.  Keys should be in ISO 639 format.
+ * @type {!Array.<!Array.<string>>}
+ */
+BlocklyApps.LANGUAGES = {
+  // Format: ['Language name', 'direction', 'XX_compressed.js']
+  en: ['English', 'ltr', 'en_compressed.js']
+};
+
+/**
+ * User's language, e.g., "en".
+ * @type {string}
+ */
+BlocklyApps.LANG = undefined;
+
+/**
+ * The number of feedback versions for each missing block error message.
+ * While this could vary by page/level, it generally does not.
+ * @type {number}
+ */
+BlocklyApps.MAX_FEEDBACK_VERSIONS = undefined;
+
+/**
+ * The ideal number of blocks to solve this level.  Users only get 2
+ * stars if they use more than this number.
+ * @type {?number}
+ */
+BlocklyApps.IDEAL_BLOCK_NUM = undefined;
+
+/**
+ * An array of strings that must be found in the generated code.
+ * These strings also are used for generating error names.
+ * @type {Array.<string>}
+ */
+BlocklyApps.REQUIRED_BLOCKS = undefined;
+
+/**
+ * String or regular expression matching blocks that should not be counted
+ * toward the block count.  This is used for colour blocks in the turtle
+ * application.  While it could vary by page/level, it generally does not.
+ * @type {string|Object}
+ */
+BlocklyApps.FREE_BLOCKS = undefined;
+
+/**
+ * Counter of the number of times the user has tried to solve the level.
+ * @type {number}
+ */
+BlocklyApps.attempts = 0;
+
+/**
+ * Flag indicating whether the last program run completed the level.
+ * @type {?boolean}
+ */
+BlocklyApps.levelComplete = null;
+
+/**
+ * Transcript of user's actions.  The format is application-dependent.
+ * @type {Array.<Array>}
+ */
+BlocklyApps.log = null;
+
+/**
+ * The number of steps remaining before the currently running program
+ * is deemed to be in an infinite loop and terminated.
+ * @type {?number}
+ */
+BlocklyApps.ticks = null;
+
+/**
+ * Reset the playing field to the start position and kill any pending
+ * animation tasks.  This will benerally be replaced by an application.
+ * @param {boolean} first True if an opening animation is to be played.
+ */
+BlocklyApps.reset = function(first) {};
 
 /**
  * Counter of the number of times the user has tried to solve the level.
@@ -38,6 +137,21 @@ BlocklyApps.attempts = 0;
  * Pseudo-random identifier used for tracking user progress within a level.
  */
 BlocklyApps.LEVEL_ID = Math.random();
+
+/**
+ * Enumeration of test results.
+ * BlocklyApps.getTestResults() runs checks in the below order.
+ */
+BlocklyApps.TestResults = {
+  EMPTY_BLOCK_FAIL: 1,       // 0 stars.
+  MISSING_BLOCK_FAIL: 2,     // 1 star.
+  TOO_FEW_BLOCKS_FAIL: 3,    // 0 stars.
+  LEVEL_INCOMPLETE_FAIL: 4,  // 0 stars.
+  TOO_MANY_BLOCKS_FAIL: 5,   // 2 stars.
+  OTHER_1_STAR_FAIL: 6,      // Application-specific 1-star failure.
+  OTHER_2_STAR_FAIL: 7,      // Application-specific 2-star failure.
+  ALL_PASS: 0                // 3 stars.
+};
 
 /**
  * Extracts a parameter from the URL.
@@ -109,18 +223,6 @@ BlocklyApps.getLang = function() {
   // Sixth choice: Die.
   throw 'No languages available.';
 };
-
-/**
- * User's language.
- * @type {?string}
- */
-BlocklyApps.LANG = undefined;
-
-/**
- * List of languages supported by this app.  Keys should be in ISO 639 format.
- * @type {Object}
- */
-BlocklyApps.LANGUAGES = undefined;
 
 /**
  * Load the specified language file(s).
@@ -266,36 +368,6 @@ BlocklyApps.changeLanguage = function() {
 };
 
 /**
- * Congratulates the user for completing the level and offers to
- * direct them to the next level, if available.
- * @param {?number} page The current page.
- * @param {number} level The current level.
- * @param {number} maxLevel The maxmium available level.
- * @param {?number} reinf Non-null if there is an interstitial to show after
- *     this screen, in which case the value is included in the URL.
- */
-BlocklyApps.congratulations = function(page, level, maxLevel, reinf) {
-  if (level < maxLevel) {
-    var proceed = window.confirm(
-        BlocklyApps.getMsg('nextLevel').replace('%1', level + 1));
-    if (proceed) {
-      var url = window.location.protocol + '//' +
-          window.location.host + window.location.pathname + '?';
-      if (page) {
-        url += 'page=' + page + '&';
-      }
-      url += 'level=' + (level + 1);
-      if (reinf) {
-        url += '&reinf=' + reinf;
-      }
-      window.location = url;
-    }
-  } else {
-    window.alert(MSG.finalLevel);
-  }
-};
-
-/**
  * Updates the document's 'capacity' element's innerHTML with a message
  * indicating how many more blocks are permitted.  The capacity
  * is retrieved from Blockly.mainWorkspace.remainingCapacity().
@@ -335,16 +407,14 @@ BlocklyApps.highlight = function(id) {
 /**
  * If the user has executed too many actions, we're probably in an infinite
  * loop.  Sadly I wasn't able to solve the Halting Problem.
- * @param {!Array} log Log of user commands.
- * @param {number} ticks Number of remaining ticks the program may run.
  * @param {?string} opt_id ID of loop block to highlight.
  * @throws {Infinity} Throws an error to terminate the user's program.
  */
-BlocklyApps.checkTimeout = function(log, ticks, opt_id) {
+BlocklyApps.checkTimeout = function(opt_id) {
   if (opt_id) {
-    log.push([null, opt_id]);
+    BlocklyApps.log.push([null, opt_id]);
   }
-  if (ticks-- < 0) {
+  if (BlocklyApps.ticks-- < 0) {
     throw Infinity;
   }
 };
@@ -372,6 +442,17 @@ BlocklyApps.showCode = function() {
   window.alert(code);
 };
 
+// Methods for determining and displaying feedback.
+
+/**
+ * Display feedback based on test results.
+ */
+BlocklyApps.displayFeedback = function() {
+  var feedbackType = BlocklyApps.getTestResults();
+  BlocklyApps.setErrorFeedback(feedbackType);
+  BlocklyApps.showDialogAndFeedback(feedbackType);
+};
+
 /**
  * Check user's code for empty top-level blocks e.g. 'repeat'.
  * @return {boolean} true if block is empty (no blocks are nested inside).
@@ -383,124 +464,153 @@ BlocklyApps.hasEmptyTopLevelBlocks = function() {
 };
 
 /**
- * Check to see if the user's code contains the required blocks for a level.
- * @param {Array} requiredBlocks array of strings of block names.
- * A special case is 'while' is used instead of 'repeat' because it is based on
- *   the JavaScript generated code).
- * @return {!Array} notEnoughBlocks array of strings where each string is
- *   a block type that is not present in the workspace/user's code.
+ * Check whether the user code has all the blocks required for the level.
+ * @return {boolean} true if all blocks are present, false otherwise.
  */
-BlocklyApps.getMissingRequiredBlocks = function(requiredBlocks) {
-  var code = Blockly.Generator.workspaceToCode('JavaScript');
-  code = BlocklyApps.stripCode(code);
-  var notEnoughBlocks = [];
-  if (requiredBlocks) {
-    for (var b in requiredBlocks) {
-      var blockType = requiredBlocks[b];
+BlocklyApps.hasAllRequiredBlocks = function() {
+  return BlocklyApps.getMissingRequiredBlocks().length == 0;
+};
+
+/**
+ * Check to see if the user's code contains the required blocks for a level.
+ * @return {!Array} array of strings where each string is a block type that is
+ *   not present in the workspace/user's code.
+ */
+BlocklyApps.getMissingRequiredBlocks = function() {
+  var missingBlocks = [];
+  if (BlocklyApps.REQUIRED_BLOCKS) {
+    var code = Blockly.Generator.workspaceToCode('JavaScript');
+    code = BlocklyApps.stripCode(code);
+    for (var i = 0; i < BlocklyApps.REQUIRED_BLOCKS.length; i++) {
+      var blockType = BlocklyApps.REQUIRED_BLOCKS[i];
       var regex = new RegExp(blockType, 'g');
       if (!code.match(regex)) {
-        notEnoughBlocks.push(blockType);
+        missingBlocks.push(blockType);
       }
     }
   }
-  return notEnoughBlocks;
+  return missingBlocks;
 };
 
 /**
- * Compare the number of blocks in the workspace to an ideal number of blocks
- * specified for each level.
- * @param {number} idealNumber The ideal number of blocks.
- * @return {number} 0 if the ideal number of blocks were used,
- * otherwise returns -1 if too few blocks are used and 1 if too many blocks.
+ * Counts the number of blocks used.  Blocks are only counted if they are
+ * not disabled and are not matched by the string or regular expression
+ * BlocklyApps.FREE_BLOCKS.
+ * @return {number} Number of blocks used.
  */
-BlocklyApps.hasIdealNumberOfBlocks = function(idealNumber) {
-  var numBlocks = Blockly.mainWorkspace.getAllBlocks().length;
-  if (numBlocks == idealNumber) {
-    // 0 / 0 is NaN so equation below will not work.
-    return 0;
-  } else {
-    return (numBlocks - idealNumber) / Math.abs(numBlocks - idealNumber);
+BlocklyApps.getNumBlocksUsed = function() {
+  var blocks = Blockly.mainWorkspace.getAllBlocks();
+  if (!BlocklyApps.FREE_BLOCKS) {
+    return blocks.length;
   }
+  var count = 0;
+  for (var i = 0; i < blocks.length; i++) {
+    if (!blocks[i].disabled &&
+        (!BlocklyApps.FREE_BLOCKS ||
+            !blocks[i].type.match(BlocklyApps.FREE_BLOCKS))) {
+          count++;
+    }
+  }
+  return count;
 };
 
 /**
- * Run all of the code tests and set appropriate feedback to display when
- * modal dialog is displayed.
- * @param {number} idealNumber The ideal number of blocks.
- * @param {!Array} requiredBlocks The required block types.
- * @param {boolean} levelComplete true if the level was completed,
- *     false otherwise.
- * @param {number} attempts The number of times a level was attempted.
- * @param {number} maxFeedbackVersion The number of versions of feedback
- *     for a given block type.
- * @param {number} attempts The number of attempts by the user.
- * @return {number}
- *   BLOCK_TEST_FAIL if any block error tests fail.
- *   IDEAL_TEST_FAIL if more than the ideal number of blocks are used.
- *   ALL_TESTS_PASS if all tests pass.
+ * Runs the tests and returns results.
+ * @return {number} The appropriate property of BlocklyApps.TestResults.
  */
-BlocklyApps.runTestsAndSetErrorFeedback = function(
-  idealNumber, requiredBlocks, levelComplete, attempts, maxFeedbackVersion) {
-  var versionOfFeedback = Math.min(attempts, maxFeedbackVersion);
-  var testResult = null;
-  /**
-   * Level 1 tests, user will need to try again after improving their code.
-   */
-  // If there are empty blocks, display the empty block error.
-  var emptyBlocksE = document.getElementById('emptyBlocksError');
+BlocklyApps.getTestResults = function() {
   if (BlocklyApps.hasEmptyTopLevelBlocks()) {
-    emptyBlocksE.style.display = 'list-item';
-    testResult = BlocklyApps.BLOCK_TEST_FAIL;
+    return BlocklyApps.TestResults.EMPTY_BLOCK_FAIL;
+  }
+  if (!BlocklyApps.hasAllRequiredBlocks()) {
+    return BlocklyApps.TestResults.MISSING_BLOCK_FAIL;
+  }
+  var numBlocksUsed = BlocklyApps.getNumBlocksUsed();
+  if (!BlocklyApps.levelComplete) {
+    if (BlocklyApps.IDEAL_BLOCK_NUM &&
+        numBlocksUsed < BlocklyApps.IDEAL_BLOCK_NUM) {
+      return BlocklyApps.TestResults.TOO_FEW_BLOCKS_FAIL;
+    }
+    return BlocklyApps.TestResults.LEVEL_INCOMPLETE_FAIL;
+  }
+  if (BlocklyApps.IDEAL_BLOCK_NUM &&
+      numBlocksUsed > BlocklyApps.IDEAL_BLOCK_NUM) {
+    return BlocklyApps.TestResults.TOO_MANY_BLOCKS_FAIL;
   } else {
-    emptyBlocksE.style.display = 'none';
+    return BlocklyApps.TestResults.ALL_PASS;
   }
-  // For each error type in the array, display the corresponding error.
-  var requiredBlockErrors = BlocklyApps.getMissingRequiredBlocks(
-      requiredBlocks);
-  if (requiredBlockErrors.length) {
-    for (var e = 0, bError; bError = requiredBlockErrors[e]; e++) {
-      var blockErrorElement = document.getElementById(bError + 'Error' +
-                                                      versionOfFeedback);
-      if (blockErrorElement) {
-        blockErrorElement.style.display = 'list-item';
-      }
-    }
-    testResult = BlocklyApps.BLOCK_TEST_FAIL;
-  }
-  /**
-   * Level 2 tests, user can try again and improve their code or continue to the
-   *     next level/interstitial.
-   */
-  if (!testResult) {
-    var idealTestResult = BlocklyApps.hasIdealNumberOfBlocks(idealNumber);
-    if (levelComplete) {
-      if (idealTestResult <= 0) {
-        testResult = BlocklyApps.ALL_TESTS_PASS;
-      } else {
-        testResult = BlocklyApps.IDEAL_TEST_FAIL;
-        document.getElementById('tooManyBlocksError')
-            .style.display = 'list-item';
-      }
-    } else if (idealTestResult <= -1) {
-      document.getElementById('tooFewBlocksError').style.display = 'list-item';
-      testResult = BlocklyApps.BLOCK_TEST_FAIL;
-    } else if (idealTestResult >= 1) {
-      document.getElementById('tooManyBlocksError').style.display = 'list-item';
-      testResult = BlocklyApps.BLOCK_TEST_FAIL;
-    }
-  }
-  BlocklyApps.displayStars(levelComplete, testResult);
-  return testResult;
 };
 
 /**
  * Show stars based on the degree of completion and if the level is complete.
- * @param {number} levelComplete true if the user has completed the level.
  * @param {number} testResult The number of stars to display.
  */
-BlocklyApps.displayStars = function(levelComplete, testResult) {
-  if (levelComplete) {
-    document.getElementById('star' + testResult).style.display = 'block';
+BlocklyApps.displayStars = function(testResult) {
+  document.getElementById('star' + testResult).style.display = 'block';
+};
+
+/**
+ * Sets appropriate feedback for when the modal dialog is displayed.
+ * @param {number} feedbackType A constant property of BlocklyApps.TestResults,
+ *     typically produced by BlocklyApps.getTestResults().
+ */
+BlocklyApps.setErrorFeedback = function(feedbackType) {
+  var versionOfFeedback = Math.min(BlocklyApps.attempts,
+                                   BlocklyApps.MAX_FEEDBACK_VERSIONS);
+  switch (feedbackType) {
+    // Give hint, not stars, for empty block or not finishing level.
+    case BlocklyApps.TestResults.EMPTY_BLOCK_FAIL:
+      document.getElementById('emptyBlocksError').style.display = 'list-item';
+      document.getElementById('hintTitle').style.display = 'inline';
+      break;
+    case BlocklyApps.TestResults.TOO_FEW_BLOCKS_FAIL:
+      document.getElementById('tooFewBlocksError').style.display = 'list-item';
+      document.getElementById('hintTitle').style.display = 'inline';
+      break;
+    case BlocklyApps.TestResults.LEVEL_INCOMPLETE_FAIL:
+      document.getElementById('levelIncompleteError').style.display =
+          'list-item';
+      document.getElementById('hintTitle').style.display = 'inline';
+      break;
+    case BlocklyApps.TestResults.OTHER_1_STAR_FAIL:
+      document.getElementById('star1').style.display = 'block';
+      document.getElementById('hintTitle').style.display = 'inline';
+      break;
+
+    // One star for failing to use required blocks.
+    case BlocklyApps.TestResults.MISSING_BLOCK_FAIL:
+      // For each error type in the array, display the corresponding error.
+      var missingBlocks = BlocklyApps.getMissingRequiredBlocks();
+      if (missingBlocks.length) {
+        for (var e = 0; e < missingBlocks.length; e++) {
+          var bError = missingBlocks[e];
+          var blockErrorElement = document.getElementById(bError + 'Error' +
+              versionOfFeedback);
+          if (blockErrorElement) {
+            blockErrorElement.style.display = 'list-item';
+          }
+        }
+      }
+      BlocklyApps.displayStars(1);
+      break;
+
+    // Two stars for using too many blocks.
+    case BlocklyApps.TestResults.TOO_MANY_BLOCKS_FAIL:
+      BlocklyApps.setTextForElement(
+          'tooManyBlocksError',
+          BlocklyApps.getMsg('numBlocksNeeded').replace(
+              '%1', BlocklyApps.IDEAL_BLOCK_NUM).replace(
+                  '%2', BlocklyApps.getNumBlocksUsed())).style.display =
+                      'list-item';
+      // Fall through...
+    case BlocklyApps.TestResults.OTHER_2_STAR_FAIL:
+      BlocklyApps.displayStars(2);
+      break;
+
+    // Three stars!
+    case BlocklyApps.TestResults.ALL_PASS:
+      BlocklyApps.displayStars(3);
+      break;
   }
 };
 
@@ -587,22 +697,16 @@ BlocklyApps.addTouchEvents = function() {
 
 /**
  * Show dialog at the end of a level and display feedback.
- * @param {number} feedbackType
- *   BLOCK_TEST_FAIL, show feedback and try again button.
- *   IDEAL_TEST_FAIL, show feedback and try again/continue buttons.
- *   ALL_TESTS_PASS, show feedback and continue button (to interstitial
- *       or next level).
- * @param {number} level The current level.
- * @param {number} maxLevel The maximum level.
+ * @param {number} feedbackType A constant property of BlocklyApps.TestResults.
  */
-BlocklyApps.showDialogAndFeedback = function(feedbackType, level, maxLevel) {
+BlocklyApps.showDialogAndFeedback = function(feedbackType) {
   var feedbackColor;
   var feedbackText = document.getElementById('levelFeedbackText');
-  if (feedbackType == BlocklyApps.ALL_TESTS_PASS) {
+
+  if (feedbackType == BlocklyApps.TestResults.ALL_PASS) {
     feedbackColor = 'green';
     feedbackText.style.textAlign = 'center';
-    document.getElementById('hintTitle').style.display = 'none';
-    if (level < maxLevel) {
+    if (BlocklyApps.LEVEL < BlocklyApps.MAX_LEVEL) {
       document.getElementById('nextLevelMsg').style.display = 'inline';
     } else {
       document.getElementById('finalLevelMsg').style.display = 'inline';
@@ -613,11 +717,9 @@ BlocklyApps.showDialogAndFeedback = function(feedbackType, level, maxLevel) {
     feedbackColor = 'red';
     feedbackText.style.textAlign = 'left';
     document.getElementById('hintTitle').style.display = 'inline';
-    if (feedbackType == BlocklyApps.BLOCK_TEST_FAIL) {
-      document.getElementById('tryAgainButton').style.display = 'inline';
-      document.getElementById('continueButton').style.display = 'none';
-    } else if (feedbackType == BlocklyApps.IDEAL_TEST_FAIL) {
-      document.getElementById('tryAgainButton').style.display = 'inline';
+    document.getElementById('tryAgainButton').style.display = 'inline';
+    if (feedbackType == BlocklyApps.TestResults.TOO_MANY_BLOCKS_FAIL ||
+        feedbackType == BlocklyApps.TestResults.OTHER_2_STAR_FAIL) {
       document.getElementById('continueButton').style.display = 'inline';
     }
   }
@@ -636,6 +738,8 @@ BlocklyApps.hideFeedback = function() {
   for (var f = 0, feedback; feedback = feedbackArray[f]; f++) {
     feedback.style.display = 'none';
   }
+  document.getElementById('tryAgainButton').style.display = 'none';
+  document.getElementById('continueButton').style.display = 'none';
 };
 
 /**
@@ -677,28 +781,29 @@ BlocklyApps.showReinfHelp = function(reinfLevel, identifier) {
 /**
  * @param {boolean} gotoNext true to continue to next level/interstitial,
  *     false to try level again.
- * @param {number} level The current level.
- * @param {number} skinId The maximum level.
  */
-BlocklyApps.displayInterstitialOrCloseModalDialog =
-  function(gotoNext, level, skinId) {
+BlocklyApps.displayInterstitialOrCloseModalDialog = function(gotoNext) {
   if (gotoNext) {
-    var reinfMSG = document.getElementById('reinfMsg').innerHTML.match(/\S/);
-    var interstitial = document.getElementById('interstitial').style.display;
-    if (reinfMSG && interstitial == 'none') {
-      BlocklyApps.hideFeedback();
-      if (document.querySelector('.quiz')) {
-        document.getElementById('continueButton').setAttribute('disabled',
+    var element = document.getElementById('reinfMsg');
+    if (element) {
+      var reinfMsg = element.innerHTML.match(/\S/);
+      var interstitial = document.getElementById('interstitial').style.display;
+      if (reinfMsg && interstitial == 'none') {
+        BlocklyApps.hideFeedback();
+        if (document.querySelector('.quiz')) {
+          document.getElementById('continueButton').setAttribute('disabled',
                                                                'disabled');
-      } else {
-        document.getElementById('reinfDone').style.display = 'none';
+        } else {
+          document.getElementById('reinfDone').style.display = 'none';
+          document.getElementById('continueButton').style.display = 'inline';
+        }
+        document.getElementById('interstitial').style.display = 'block';
+        document.getElementById('tryAgainButton').style.display = 'none';
+        return;
       }
-      document.getElementById('interstitial').style.display = 'block';
-      document.getElementById('tryAgainButton').style.display = 'none';
-    } else {
-      BlocklyApps.hideDialog();
-      BlocklyApps.createURLAndOpenNextLevel(level, skinId);
     }
+    BlocklyApps.hideDialog();
+    BlocklyApps.createURLAndOpenNextLevel();
   } else {
     BlocklyApps.hideDialog();
     BlocklyApps.resetButtonClick();
@@ -707,14 +812,13 @@ BlocklyApps.displayInterstitialOrCloseModalDialog =
 
 /**
  * Construct the URL and go to the next level.
- * @param {number} level The current level.
- * @param {number} skinId The skin identifier.
  */
-BlocklyApps.createURLAndOpenNextLevel = function(level, skinId) {
+BlocklyApps.createURLAndOpenNextLevel = function() {
   window.location = window.location.protocol + '//' +
     window.location.host + window.location.pathname +
-    '?lang=' + BlocklyApps.LANG + '&level=' + (level + 1) +
-    '&skin=' + skinId;
+    '?lang=' + BlocklyApps.LANG + '&level=' + (BlocklyApps.LEVEL + 1) +
+    // TODO: Fix hack used to temporary keep turtle interstitials working.
+    (BlocklyApps.SKIN_ID ? '&skin=' + BlocklyApps.SKIN_ID : '&reinf=1');
 };
 
 /**
@@ -724,12 +828,12 @@ BlocklyApps.resetButtonClick = function() {
   document.getElementById('runButton').style.display = 'inline';
   document.getElementById('resetButton').style.display = 'none';
   Blockly.mainWorkspace.traceOn(false);
-  Maze.reset(false);
+  BlocklyApps.reset(false);
 };
 
 /**
  * If there is an interstitial iframe, create a URL for the video stored in
- *     Google Drive and add it as the iframe source.
+ * Google Drive and add it as the iframe source.
  * @param {string} videoId A Google Drive video ID.
  */
 BlocklyApps.addVideoIframeSrc = function(videoId) {
@@ -740,6 +844,23 @@ BlocklyApps.addVideoIframeSrc = function(videoId) {
     videoIframe.src = videoUrl;
   }
 };
+
+/**
+ * Place text in the specified element, if found.  This eliminates
+ * any other children of the element and creates a child text node.
+ * @param {string} id The identifier of the element.
+ * @param {string} text The text to display.
+ * @return {Object} The element.
+ */
+BlocklyApps.setTextForElement = function(id, text) {
+  var element = document.getElementById(id);
+  if (element) {
+    element.innerHTML = '';  // Remove existing children or text.
+    element.appendChild(document.createTextNode(text));
+  }
+  return element;
+};
+
 
 // Add events for touch devices when the window is done loading.
 window.addEventListener('load', BlocklyApps.addTouchEvents, false);

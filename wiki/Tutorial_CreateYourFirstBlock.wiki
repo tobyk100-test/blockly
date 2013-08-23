@@ -1,0 +1,270 @@
+#summary Tutorial for creating,adding, and testing your first block
+#labels Tutorial
+
+= Tutorial - Create and add your first block - Step-by-step guide =
+
+http://i289.photobucket.com/albums/ll234/syntax_photos/BlockFactory_MoveTo_Preview_zps16065a5d.png
+<br>
+== Introduction ==
+
+This tutorial a complete walk though for adding a block to the turtle app.
+By the end of the tutorial you will have a fully functional new block in the turtle tool box.
+This new block, called *move to* will move the turtle directly to a specified x/y location.
+
+
+== Before you begin ==
+
+The basic tools you need for this tutorial are:
+
+  * Subversion
+
+  * A simple text editor (also an IDE for Javascript code editor would be good)
+
+  * The Blockly source code
+
+  * A browser
+
+<br>
+=== Installing Subversion ===
+---------------------------------
+For Linux its a simple matter of running this in a terminal window:
+{{{
+	> sudo apt-get install subversion
+}}}
+
+For Windows see http://tortoisesvn.net/
+
+
+=== Install the Blockly source code ===
+---------------------------------
+To get the latest verison of Blockly run the following from a terminal window:
+{{{
+	> svn checkout http://blockly.googlecode.com/svn/trunk/ blockly
+}}}
+Once everything is downloaded you will have a new *Blockly* folder containing the code and examples.
+Since this tutorial modifies the *turtle* app files you might want to copy the folder and contents for backup purposes.
+The folder in question is called "turtle" and exists in the "blockly/apps/" folder.
+
+<br>
+=== Pre-checks ===
+
+Open the *Blockly/apps/turtle* folder. Test the turtle app by double-clicking the *index.html* file.
+Make sure it runs in the browser.
+
+The files which are going to be modified are *turtle.js*, *blocks.js*, and *template.soy* within the folder.
+
+
+<br>
+== Step 1 - Designing the block ==
+
+Let's start by designing the block itself. Open the online block designer. This designer helps to define how the new block will look and function.
+
+Open this link: http://blockly-demo.appspot.com/static/apps/blockfactory/index.html
+
+Design the block as per this layout:
+
+http://i289.photobucket.com/albums/ll234/syntax_photos/BlockFactory_MoveTo_zps80888682.png
+
+The preview block should look like this:
+
+http://i289.photobucket.com/albums/ll234/syntax_photos/BlockFactory_MoveTo_Preview_zps16065a5d.png
+
+Once complete you can see two sets of generated code in the tables to the right.
+
+==== BLockly Language Code ====
+{{{
+	Blockly.Language.move_to = {
+	  helpUrl: 'http://www.example.com/',
+	  init: function() {
+	    this.setColour(160);
+	    this.appendDummyInput()
+		.appendTitle("move to");
+	    this.appendValueInput("XPOS")
+		.setCheck("Number")
+		.appendTitle("x");
+	    this.appendValueInput("YPOS")
+		.setCheck("Number")
+		.appendTitle("y");
+	    this.setInputsInline(true);
+	    this.setPreviousStatement(true);
+	    this.setNextStatement(true);
+	    this.setTooltip('');
+	}
+}}}
+
+==== Blockly JavaScript stub code ====
+{{{
+	Blockly.JavaScript.move_to = function() {
+	  var value_xpos = Blockly.JavaScript.valueToCode(this, 'XPOS', Blockly.JavaScript.ORDER_ATOMIC);
+	  var value_ypos = Blockly.JavaScript.valueToCode(this, 'YPOS', Blockly.JavaScript.ORDER_ATOMIC);
+	  // TODO: Assemble JavaScript into code variable.
+	  var code = '...'
+	  return code;
+	};
+}}}
+
+For more details on block design see:
+https://code.google.com/p/blockly/wiki/DefiningBlocks
+
+For more details on the code generation see:
+https://code.google.com/p/blockly/wiki/GeneratingCode
+
+<br>
+== Step 2 - Editing the blocks.js file ==
+
+
+Open *blocks.js* via a standard text editor or IDE.
+
+Taking the above two blocks of code, paste both parts in _after_ this section of code.
+
+{{{
+Blockly.JavaScript.draw_move = function() {
+  ...
+};
+}}}
+
+The code will now need some modification. Change the source code to the following:
+
+{{{
+	Blockly.Language.draw_moveto = {
+	  // move turtle to absolute x,y location
+	  // for reference 0,0 is top/let and 200,200 is centre
+	  helpUrl: '',
+	  init: function() {
+	    this.setColour(160);
+	    this.appendDummyInput()
+		.appendTitle("move to ");
+	    this.appendValueInput("XPOS")
+		.setCheck("Number")
+		.appendTitle("x");
+	    this.appendValueInput("YPOS")
+		.setCheck("Number")
+		.appendTitle("y");
+	    this.setInputsInline(true);
+	    this.setPreviousStatement(true);
+	    this.setNextStatement(true);
+	    this.setTooltip(BlocklyApps.getMsg('Turtle_moveToTooltip'));
+	  }
+	};
+
+	Blockly.JavaScript.draw_moveto = function() {
+	  // Generate JavaScript for moving to absolute position
+	  var xpos = Blockly.JavaScript.valueToCode(this, 'XPOS', Blockly.JavaScript.ORDER_NONE) || '0';
+	  var ypos = Blockly.JavaScript.valueToCode(this, 'YPOS', Blockly.JavaScript.ORDER_NONE) || '0';
+	  return 'Turtle.moveTo(' + xpos + ',' + ypos + ', \'block_id_' + this.id + '\');\n';
+	};
+}}}
+
+Now save the file changes.
+
+
+<br>
+== Step 3 - Editing the turtle.js file ===
+
+Open *turtle.js* via a standard text editor or IDE.
+
+Look for the Turtle API section. It comes under the *// Turle API* comment.
+
+Add the following API block of code after the *Turtle.moveBackward{}* API block.
+{{{
+	Turtle.moveTo = function(xpos, ypos, id) {
+	  BlocklyApps.log.push(['MT', xpos, ypos, id]);
+	};
+}}}
+To cater for this API call another piece of code needs adding into the *Turtle.step{}* block.
+Drop this piece of code inside the *switch (command) {...}* block of the *Turtle.step* function.
+A sensible place is between the 'FD' (Forward) and 'RT' (Right Turn) sections:
+{{{
+    case 'MT': // Move To
+		Turtle.x=values[0];
+		Turtle.y=values[1];
+		break;
+}}}
+
+Now save the file changes.
+
+
+<br>
+== Step 4 - Editing the template.soy file ==
+
+Open the *template.soy* file for editing.
+
+Within the *{template .messages}* block open up some space and paste in the following.
+This is helper/documentation for the move_to block.
+A recommended location is after the `<span id="Turtle_moveBackward"> ... ></span>` part in the document.
+{{{
+    <span id="Turtle_moveToTooltip">{msg meaning="Turtle.moveToTooltip" desc="Moves the turtle to an absolute x and y location via 2 numbers. Top left is 0,0 whilst centre is 200,200 (default)."}Moves turtle to the absolute x/y location without drawing a mark{/msg}</span>
+    <span id="Turtle_moveTo">{msg meaning="Turtle.moveTo" desc="block text - Infinitive or imperative of a verb to move the turtle to an absolute x and y location via 2 numbers. Top left is 0,0 whilst centre is 200,200 (default)."}move to{/msg}</span>
+}}}
+In order to make the new block appear in the tool box scroll down to the `{template .toolbox}` section and insert the following. A logical place for the "move to" block to appear in the tool box is after existing the "draw move" block. Therefore, paste this section after *<pre><block type="draw_move"> ... </block></pre>*
+
+{{{
+	<block type="draw_moveto">
+		<value name="XPOS">
+			<block type="math_number">
+				<title name="NUM">200</title>
+			</block>
+		</value>
+		<value name="YPOS">
+			<block type="math_number">
+				<title name="NUM">200</title>
+			</block>
+		</value>
+	</block>
+}}}
+
+Now save the file changes.
+
+
+<br>
+== Step 5 - Compling the code changes ==
+
+Before continuing ensure all changes to the *turtle.js*, *blocks.js*, and *template.soy* files have been saved.
+
+Now that the code has been entered it's time to compile the changes.
+Open up a terminal window and navigate into the turtle folder. For example:
+{{{
+> cd <myfolder>/blockly/apps/turtle
+}}}
+Look at the top of the *template.soy* document. You should find an entry like this:
+{{{
+	java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs ../common.soy,template.soy
+}}}
+Copy this line then paste it into the terminal window. After a few seconds the compiling process should complete. If all went well (no reported errors) you can now test the new block.
+
+
+<br>
+== Step 6 - Testing the new block ==
+
+From the turtles folder double-click *index.html*. This should launch the turtle blockly program in your browser.
+Open the toolbox and check to see if the new ''move to'' block is present.
+Hovering over the new block should reveal the help text popup balloon.
+
+Constuct a simple test block and run the code.
+
+http://i289.photobucket.com/albums/ll234/syntax_photos/Blockly_MoveTo_Test_Construction_zpsc3dea4f8.png
+
+The above should draw a line, move to the new destined location, then draw another line, like so:
+
+http://i289.photobucket.com/albums/ll234/syntax_photos/Blockly_MoveTo_Test_Results_zps33ae483d.png
+
+You can also check that the code is being correctly generated by pressing the code button:
+
+http://i289.photobucket.com/albums/ll234/syntax_photos/Blockly_ShowCode_zpse5531019.png
+
+The generated code should look like this:
+{{{
+	Turtle.moveForward(30);
+	Turtle.moveTo(150,150);
+	Turtle.moveForward(30);
+}}}
+
+<br><br>
+
+== END OF TUTORIAL == 
+
+That's your first block under way. If you want to modify the blocks functionality/appearance then its just a matter of changing the code and re-compiling (as per Step 5).
+<br>
+Note that you can leave the browser open but you will need to refresh the page in order to see new changes take place.
+
+<g:plusone></g:plusone>
