@@ -58,7 +58,7 @@ BlocklyApps.SKIN_ID = undefined;
  */
 BlocklyApps.LANGUAGES = {
   // Format: ['Language name', 'direction', 'XX_compressed.js']
-  en: ['English', 'ltr', 'en_compressed.js']
+  'en_us': ['English', 'ltr', 'en_us_compressed.js']
 };
 
 /**
@@ -207,7 +207,7 @@ BlocklyApps.getLang = function() {
     return lang;
   }
   // Fourth choice: English.
-  lang = 'en';
+  lang = 'en_us';
   if (BlocklyApps.LANGUAGES[lang]) {
     return lang;
   }
@@ -790,7 +790,9 @@ BlocklyApps.displayInterstitialOrCloseModalDialog = function(gotoNext) {
 BlocklyApps.createURLAndOpenNextLevel = function() {
   window.location = window.location.protocol + '//' +
     window.location.host + window.location.pathname +
-    '?lang=' + BlocklyApps.LANG + '&level=' + (BlocklyApps.LEVEL + 1) +
+    '?lang=' + BlocklyApps.LANG +
+    (BlocklyApps.PAGE ? '&page=' + BlocklyApps.PAGE : '') +
+    '&level=' + (BlocklyApps.LEVEL + 1) +
     // TODO: Fix hack used to temporary keep turtle interstitials working.
     (BlocklyApps.SKIN_ID ? '&skin=' + BlocklyApps.SKIN_ID : '&reinf=1');
 };

@@ -4,14 +4,14 @@
  * This is a Closure Template.  Build multilingually:
  *
  * # Create en.js if that's the only language you care about.
- * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs template.soy
+ * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en_us.js --srcs template.soy
  *
  * # To fully internationalize, follow these steps...
  * # Extract messages from template.soy.
  * java -jar ../_soy/SoyMsgExtractor.jar --outputFile extracted_msgs.xlf template.soy
  *
- * # Create en.json, qqq.json.
- * ../../i18n/xliff_to_json.py --xlf extracted_msgs.xlf
+ * # Create en_us.json, keys.json, qqq.json.
+ * ../../i18n/xliff_to_json.py --xlf extracted_msgs.xlf --lang=en_us
  *
  * Once translations have been made into <LANG>.json:
  *
@@ -82,7 +82,6 @@
     <span id="jumpForward">{msg meaning="Turtle.jumpForward" desc="TODO"}jump forward by{/msg}</span>
     <span id="jumpForwardTooltip">{msg meaning="Turtle.jumpForwardTooltip" desc="TODO"}Moves the turtle forward without leaving any marks.{/msg}</span>
     <span id="moveTooltip">{msg meaning="Turtle.moveTooltip" desc="TODO"}Moves the turtle forward or backward by the specified amount.{/msg}</span>
-    <span id="nextLevel">{msg meaning="Turtle.nextLevel" desc="TODO"}Congratulations!  Would you like to proceed to the next level?{/msg}</span>
     <span id="penDown">{msg meaning="Turtle.penDown" desc="TODO"}pen down{/msg}</span>
     <span id="penTooltip">{msg meaning="Turtle.penTooltip" desc="TODO"}Lifts or lowers the pen, to start or stop drawing.{/msg}</span>
     <span id="penUp">{msg meaning="Turtle.penUp" desc="TODO"}pen up{/msg}</span>
@@ -250,19 +249,19 @@
             </next>
           </block>
         {case 9}
-          <block type="controls_repeat" editable="false" deleteable="false" movable="false" x="20" y="20">
+          <block type="controls_repeat" editable="false" deletable="false" movable="false" x="20" y="20">
             <title name="TIMES">??</title>
             <statement name="DO">
-              <block type="draw_move" editable="false" deleteable="false" movable="false">
+              <block type="draw_move" editable="false" deletable="false" movable="false">
                 <value name="VALUE">
-                  <block type="math_number" editable="false" deleteable="false" movable="false">
+                  <block type="math_number" editable="false" deletable="false" movable="false">
                     <title name="NUM">1</title>
                   </block>
                 </value>
                 <next>
-                  <block type="draw_turn" editable="false" deleteable="false" movable="false">
+                  <block type="draw_turn" editable="false" deletable="false" movable="false">
                     <value name="VALUE">
-                      <block type="math_number" editable="false" deleteable="false" movable="false">
+                      <block type="math_number" editable="false" deletable="false" movable="false">
                         <title name="NUM">1</title>
                       </block>
                     </value>
@@ -290,7 +289,7 @@
         </block>
       {elseif $ij.level == 4}
         /*  Three-square code.  */
-        <block type="controls_repeat" editable="false" deleteable="false" movable="false">
+        <block type="controls_repeat" deletable="false" movable="false">
           <title name="TIMES">???</title>
           <statement name="DO">
             <block type="draw_colour">
@@ -298,16 +297,16 @@
                 <block type="colour_random"></block>
               </value>
               <next>
-                <block type="draw_a_square" inline="true" editable="false" deleteable="false" movable="false">
+                <block type="draw_a_square" inline="true" editable="false" deletable="false" movable="false">
                   <value name="VALUE">
-                    <block type="math_number" editable="false" deleteable="false" movable="false">
+                    <block type="math_number" deletable="false" movable="false">
                       <title name="NUM">???</title>
                     </block>
                   </value>
                   <next>
-                    <block type="draw_turn" editable="false" deleteable="false" movable="false">
+                    <block type="draw_turn" editable="false" deletable="false" movable="false">
                       <value name="VALUE">
-                        <block type="math_number" editable="false" deleteable="false" movable="false">
+                        <block type="math_number" deletable="false" movable="false">
                           <title name="NUM">???</title>
                         </block>
                       </value>
@@ -773,15 +772,15 @@
             You can choose which direction.
           {/msg}</li>
         <li id="turnError2" class="feedback" style="display: none">
-          {msg meaning="Turtle.turnError2Msg" desc="IBID"}
+          {msg meaning="Turtle.turnError2Msg" desc="TODO"}
             Use a "turn" block.
           {/msg}</li>
         <li id="varError1" class="feedback" style="display: none">
-          {msg meaning="Turtle.varError1Msg" desc="IBID"}
+          {msg meaning="Turtle.varError1Msg" desc="TODO"}
             The "repeat" block saves you from having to repeat yourself.
           {/msg}</li>
         <li id="varError2" class="feedback" style="display: none">
-          {msg meaning="Turtle.varError2Msg" desc="IBID"}
+          {msg meaning="Turtle.varError2Msg" desc="TODO"}
             You will need to use a "repeat" block.
           {/msg}</li>
 
