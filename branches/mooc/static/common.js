@@ -409,7 +409,7 @@ BlocklyApps.stripCode = function(code) {
   code = code.replace(/(,\s*)?'block_id_\d+'\)/g, ')');
   // Remove timeouts.
   var regex = new RegExp(Blockly.JavaScript.INFINITE_LOOP_TRAP
-      .replace('(%1)', '\\(\\)'), 'g');
+      .replace('(%1)', '\\((\'\\d+\')?\\)'), 'g');
   return code.replace(regex, '');
 };
 
@@ -459,12 +459,13 @@ BlocklyApps.hasAllRequiredBlocks = function() {
 BlocklyApps.getMissingRequiredBlocks = function() {
   var missingBlocks = [];
   if (BlocklyApps.REQUIRED_BLOCKS) {
-    var code = Blockly.Generator.workspaceToCode('JavaScript');
-    code = BlocklyApps.stripCode(code);
+    // TODO: Eliminate disabled blocks and uneditable blocks.
+    var text = Blockly.Xml.domToText(
+        Blockly.Xml.workspaceToDom(Blockly.mainWorkspace));
     for (var i = 0; i < BlocklyApps.REQUIRED_BLOCKS.length; i++) {
       var blockType = BlocklyApps.REQUIRED_BLOCKS[i];
       var regex = new RegExp(blockType, 'g');
-      if (!code.match(regex)) {
+      if (!text.match(regex)) {
         missingBlocks.push(blockType);
       }
     }

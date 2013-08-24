@@ -104,6 +104,7 @@
     <span id="notBlackColour">{msg meaning="Turtle.notBlackColour" desc="TODO"}You need to set a color other than black for this level.{/msg}</span>
     <span id="tooFewColours">{msg meaning="Turtle.tooFewColours" desc="TODO"}You need to use at least %1 different colors on this level.  You used only %2.{/msg}</span>
     <span id="wrongColour">{msg meaning="Turtle.wrongColour" desc="TODO"}Your picture is the wrong color.  For this level, it needs to be %1.{/msg}</span>
+    <span id="extraColours">{msg meaning="Turtle.extraColours" desc="TODO"}You used extra colors.  Nice!{/msg}</span>
 
     // Used in blocks.js for tutorial-only blocks.
     <span id="drawASquare">{msg meaning="Turtle.drawASquare" desc="TODO"}draw a square{/msg}</span>
@@ -249,7 +250,7 @@
             </next>
           </block>
         {case 9}
-          <block type="controls_repeat" editable="false" deletable="false" movable="false" x="20" y="20">
+          <block type="controls_repeat" deletable="false" movable="false" x="20" y="20">
             <title name="TIMES">??</title>
             <statement name="DO">
               <block type="draw_move" editable="false" deletable="false" movable="false">
@@ -552,7 +553,7 @@
         {case 6}{msg meaning="Turtle.instructions2_6" desc="TODO"}Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.{/msg}
         {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.{/msg}
         {case 8}{msg meaning="Turtle.instructions2_8" desc="TODO"}Draw three snowmen 150 dots tall in different colors, 100 dots apart.  Use the new "draw a snowman" function and "jump forward" block.{/msg}
-        {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Use a "count with" loop to draw a family of snowmen with heights of 110, 100, 90, 80, and 70, each 60 dots apart.{/msg}
+        {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Use a "count with" loop to draw a family of snowmen with heights of 110, 100, 90, 80, and 70 dots, each 60 dots apart.{/msg}
         {case 10}{msg meaning="Turtle.instructions2_10" desc="TODO"}Draw whatever you want.  One idea is experimenting with different types of spirals.  What happens if you change the turn amount, rather than the move amount?  TODO: Add starting blocks.{/msg}
       {/switch}
     {case 3}
@@ -769,29 +770,99 @@
         <li id="turnError1" class="feedback" style="display: none">
           {msg meaning="Turtle.turnError1Msg" desc="TODO"}
             I'll need to turn in order to draw this picture.
-            You can choose which direction.
           {/msg}</li>
         <li id="turnError2" class="feedback" style="display: none">
           {msg meaning="Turtle.turnError2Msg" desc="TODO"}
             Use a "turn" block.
           {/msg}</li>
-        <li id="varError1" class="feedback" style="display: none">
-          {msg meaning="Turtle.varError1Msg" desc="TODO"}
+        <li id="repeatError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.repeatError1Msg" desc="TODO"}
             The "repeat" block saves you from having to repeat yourself.
           {/msg}</li>
-        <li id="varError2" class="feedback" style="display: none">
-          {msg meaning="Turtle.varError2Msg" desc="TODO"}
+        <li id="repeatError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.repeatError2Msg" desc="TODO"}
             You will need to use a "repeat" block.
           {/msg}</li>
-
-        <li id="penColourError1" class="feedback" style="display: none">
-          {msg meaning="Turtle.penColourError1Msg" desc="TODO"}
+        <li id="colour_randomError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.colour_randomError1Msg" desc="TODO"}
+            The "set color" and "random color" blocks give you random
+            (unpredictable) colors.
+          {/msg}</li>
+        <li id="repeatError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.repeatError2Msg" desc="TODO"}
+            Pull out the "set color" block that contains a "random color" block,
+            and put it in the appropriate place.
+          {/msg}</li>
+        <li id="draw_colourError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.drawColourError1Msg" desc="TODO"}
             To change the color I draw, use the "set color" block.
           {/msg}</li>
-        <li id="penColourError2" class="feedback" style="display: none">
-          {msg meaning="Turtle.penColourError2Msg" desc="TODO"}
+        <li id="draw_colourError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.drawColourError2Msg" desc="TODO"}
             Each "set color" block sets the color of everything I draw
             after it until the next "set color" block.
+          {/msg}</li>
+        <li id="forError1" class="feedback" style="display: none">
+          {if $ij.page == 2 and $ij.level == 6}
+            {msg meaning="Turtle.forError1Msg-p2-l6" desc="TODO"}
+              Reload this level to get the "count with" block back.
+            {/msg}
+          {elseif $ij.page == 2 and $ij.level == 7}
+            {msg meaning="Turtle.forError1Msg-p2-l7" desc="TODO"}
+              You will need a "count with" block to give the counter
+              values from 25 through 60.
+            {/msg}
+          {/if}
+        </li>
+        <li id="forError2" class="feedback" style="display: none">
+          {if $ij.page == 2 and $ij.level == 6}
+            {msg meaning="Turtle.forError1Msg-p2-l6" desc="IBID"}
+              Reload this level to get the "count with" block back.
+            {/msg}
+          {elseif $ij.page == 2 and $ij.level == 7}
+            {msg meaning="Turtle.forError1Msg-p2-l7" desc="TODO"}
+              Drag out a "count with" block from the Loops category.
+            {/msg}
+          {/if}
+        </li>
+        <li id="get_counterError1" class="feedback" style="display: none">
+          {if $ij.page == 2 and $ij.level == 6}
+            {msg meaning="Turtle.getCounterError1Msg-p2-l6" desc="TODO"}
+              You will need the "counter" block to draw squares of different lengths.
+            {/msg}
+          {elseif $ij.page == 2 and $ij.level == 7}
+            {msg meaning="Turtle.getCounterError2Msg-p2-l7" desc="TODO"}
+              You will need the "counter" block to draw lines of different lengths.
+            {/msg}
+          {/if}
+        </li>
+        <li id="get_counterError2" class="feedback" style="display: none">
+          {if $ij.page == 2 and $ij.level == 6}
+            {msg meaning="Turtle.getCounterError2Msg-p2-l6" desc="TODO"}
+              Get the "counter" block from the "Variables" category, and use
+              it as the "length" input to "draw a square".
+            {/msg}
+          {elseif $ij.page == 2 and $ij.level == 7}
+            Get the "counter" block from the "Variables" category, and use
+            it as the input to the "move forward" block.
+          {/if}
+        </li>
+        <li id="draw_a_snowmanError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.draw_a_snowmanError1Msg" desc="TODO"}
+            You need to use the "draw a snowman" block.
+          {/msg}</li>
+        <li id="draw_a_snowmanError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.draw_a_snowmanError2Msg" desc="TODO"}
+            You can get the "draw a snoman" block from the "Functions" category.
+          {/msg}</li>
+        <li id="jumpError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.jumpError1Msg" desc="TODO"}
+            The "jump forward" block moves the turtle without drawing anything.
+          {/msg}</li>
+        <li id="jumpError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.jumpError2Msg" desc="TODO"}
+            Get the "jump forward" block from the "Actions" category, and use
+            it to move the turtle between each snowman.
           {/msg}</li>
 
         // Errors based on colours used.

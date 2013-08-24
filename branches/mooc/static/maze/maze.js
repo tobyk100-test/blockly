@@ -66,13 +66,16 @@ BlocklyApps.IDEAL_BLOCK_NUM = [undefined, //  0.
   2, 5, 2, 5, 4, 4, 4, 6, 6, 5][BlocklyApps.LEVEL];
 // Blocks that are expected to be used on each level.
 BlocklyApps.REQUIRED_BLOCKS = [undefined, // 0.
-  ['moveForward'], ['moveForward', 'turnLeft', 'turnRight'],
-  ['moveForward', 'while'], ['moveForward', 'while', 'turn'],
-  ['isPathLeft', 'turnLeft', 'while'], ['isPathLeft', 'turnLeft', 'while'],
-  ['isPathRight', 'turnRight', 'while'],
-  ['isPathLeft', 'isPathRight', 'turn', 'while'],
-  ['isPathForward', 'else', 'while'],
-  ['isPathForward', 'else', 'while']][BlocklyApps.LEVEL];
+  ['moveForward'],
+  ['moveForward', 'turnLeft', 'turnRight'],
+  ['moveForward', 'maze_forever'],
+  ['moveForward', 'maze_forever', 'turn'],
+  ['isPathLeft', 'turnLeft', 'maze_forever'],
+  ['isPathLeft', 'turnLeft', 'maze_forever'],
+  ['isPathRight', 'turnRight', 'maze_forever'],
+  ['isPathLeft', 'isPathRight', 'turn', 'maze_forever'],
+  ['isPathForward', 'Else', 'maze_forever'],
+  ['isPathForward', 'Else', 'maze_forever']][BlocklyApps.LEVEL];
 BlocklyApps.MAX_FEEDBACK_VERSIONS = 2;
 
 // The number of versions of feedback available for each required block missing.
