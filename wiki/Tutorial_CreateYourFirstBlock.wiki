@@ -73,34 +73,34 @@ Once complete you can see two sets of generated code in the tables to the right.
 
 ==== BLockly Language Code ====
 {{{
-	Blockly.Language.move_to = {
-	  helpUrl: 'http://www.example.com/',
-	  init: function() {
-	    this.setColour(160);
-	    this.appendDummyInput()
-		.appendTitle("move to");
-	    this.appendValueInput("XPOS")
-		.setCheck("Number")
-		.appendTitle("x");
-	    this.appendValueInput("YPOS")
-		.setCheck("Number")
-		.appendTitle("y");
-	    this.setInputsInline(true);
-	    this.setPreviousStatement(true);
-	    this.setNextStatement(true);
-	    this.setTooltip('');
-	}
+Blockly.Language.move_to = {
+  helpUrl: 'http://www.example.com/',
+  init: function() {
+    this.setColour(160);
+    this.appendDummyInput()
+	.appendTitle("move to");
+    this.appendValueInput("XPOS")
+	.setCheck("Number")
+	.appendTitle("x");
+    this.appendValueInput("YPOS")
+	.setCheck("Number")
+	.appendTitle("y");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('');
+}
 }}}
 
 ==== Blockly JavaScript stub code ====
 {{{
-	Blockly.JavaScript.move_to = function() {
-	  var value_xpos = Blockly.JavaScript.valueToCode(this, 'XPOS', Blockly.JavaScript.ORDER_ATOMIC);
-	  var value_ypos = Blockly.JavaScript.valueToCode(this, 'YPOS', Blockly.JavaScript.ORDER_ATOMIC);
-	  // TODO: Assemble JavaScript into code variable.
-	  var code = '...'
-	  return code;
-	};
+Blockly.JavaScript.move_to = function() {
+  var value_xpos = Blockly.JavaScript.valueToCode(this, 'XPOS', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_ypos = Blockly.JavaScript.valueToCode(this, 'YPOS', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = '...'
+  return code;
+};
 }}}
 
 For more details on block design see:
@@ -123,36 +123,36 @@ Blockly.JavaScript.draw_move = function() {
 };
 }}}
 
-The code will now need some modification. Change the source code to the following:
+The code will now need some modification. Replace the source code above with:
 
 {{{
-	Blockly.Language.draw_moveto = {
-	  // move turtle to absolute x,y location
-	  // for reference 0,0 is top/let and 200,200 is centre
-	  helpUrl: '',
-	  init: function() {
-	    this.setColour(160);
-	    this.appendDummyInput()
-		.appendTitle("move to ");
-	    this.appendValueInput("XPOS")
-		.setCheck("Number")
-		.appendTitle("x");
-	    this.appendValueInput("YPOS")
-		.setCheck("Number")
-		.appendTitle("y");
-	    this.setInputsInline(true);
-	    this.setPreviousStatement(true);
-	    this.setNextStatement(true);
-	    this.setTooltip(BlocklyApps.getMsg('Turtle_moveToTooltip'));
-	  }
-	};
+Blockly.Language.draw_moveto = {
+  // move turtle to absolute x,y location
+  // for reference 0,0 is top/let and 200,200 is centre
+  helpUrl: '',
+  init: function() {
+    this.setColour(160);
+    this.appendDummyInput()
+        .appendTitle(BlocklyApps.getMsg('Turtle_moveTo'));
+    this.appendValueInput("XPOS")
+        .setCheck("Number")
+        .appendTitle("x");
+    this.appendValueInput("YPOS")
+        .setCheck("Number")
+        .appendTitle("y");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(BlocklyApps.getMsg('Turtle_moveToTooltip'));
+  }
+};
 
-	Blockly.JavaScript.draw_moveto = function() {
-	  // Generate JavaScript for moving to absolute position
-	  var xpos = Blockly.JavaScript.valueToCode(this, 'XPOS', Blockly.JavaScript.ORDER_NONE) || '0';
-	  var ypos = Blockly.JavaScript.valueToCode(this, 'YPOS', Blockly.JavaScript.ORDER_NONE) || '0';
-	  return 'Turtle.moveTo(' + xpos + ',' + ypos + ', \'block_id_' + this.id + '\');\n';
-	};
+Blockly.JavaScript.draw_moveto = function() {
+  // Generate JavaScript for moving to absolute position
+  var xpos = Blockly.JavaScript.valueToCode(this, 'XPOS', Blockly.JavaScript.ORDER_NONE) || '0';
+  var ypos = Blockly.JavaScript.valueToCode(this, 'YPOS', Blockly.JavaScript.ORDER_NONE) || '0';
+  return 'Turtle.moveTo(' + xpos + ',' + ypos + ', \'block_id_' + this.id + '\');\n';
+};
 }}}
 
 Now save the file changes.
