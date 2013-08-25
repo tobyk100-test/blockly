@@ -221,7 +221,7 @@ Bird.drawMap = function() {
 };
 
 /**
- * Initialize Blockly and the maze.  Called on page load.
+ * Initialize Blockly and the bird.  Called on page load.
  */
 Bird.init = function() {
   BlocklyApps.init();
@@ -229,15 +229,15 @@ Bird.init = function() {
   var rtl = BlocklyApps.LANGUAGES[BlocklyApps.LANG][1] == 'rtl';
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
-      {path: '../../',
+      {path: '../',
        rtl: rtl,
        toolbox: toolbox,
        trashcan: true});
-  Blockly.loadAudio_(['apps/bird/win.mp3', 'apps/maze/win.ogg'], 'win');
-  Blockly.loadAudio_(['apps/maze/whack.mp3', 'apps/maze/whack.ogg'], 'whack');
+  Blockly.loadAudio_(['apps/bird/win.mp3', 'apps/bird/win.ogg'], 'win');
+  Blockly.loadAudio_(['apps/bird/whack.mp3', 'apps/bird/whack.ogg'], 'whack');
 
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  BlocklyApps.checkTimeout(%1);\n';
-//  Bird.drawMap();
+  Bird.drawMap();
 
   var blocklyDiv = document.getElementById('blockly');
   var visualization = document.getElementById('visualization');
@@ -257,11 +257,11 @@ Bird.init = function() {
 
   var defaultXml =
       '<xml>' +
-      '  <block type="maze_moveForward" x="70" y="70"></block>' +
+      '  <block type="bird_moveForward" x="70" y="70"></block>' +
       '</xml>';
 //  BlocklyApps.loadBlocks(defaultXml);
 
-  Bird.reset(true);
+//  Bird.reset(true);
 
   // Lazy-load the syntax-highlighting.
   window.setTimeout(BlocklyApps.importPrettify, 1);
@@ -274,7 +274,7 @@ if (window.location.pathname.match(/readonly.html$/)) {
 }
 
 /**
- * Reset the maze to the start position and kill any pending animation tasks.
+ * Reset the bird to the start position and kill any pending animation tasks.
  * @param {boolean} first True if an opening animation is to be played.
  */
 Bird.reset = function(first) {
