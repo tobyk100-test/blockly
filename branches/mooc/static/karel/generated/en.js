@@ -59,25 +59,25 @@ page1.hints = function(opt_data, opt_ignored, opt_ijData) {
   var output = '';
   switch (opt_ijData.level) {
     case 1:
-      output += 'The goal of this tutorial is to level out the ground so that the farmer can plant later. There is a mound at the last row of the grid. Move the farmer to the mound and remove it.';
+      output += 'Help the farmer flatten the field so they can plant their crops. Move the farmer to the mound of dirt and remove it.';
       break;
     case 2:
-      output += 'In this level, the farmer is facing a hole. Move the farmer to the hole and fill it.';
+      output += 'Move the farmer to the hole and fill it with two shovelfuls of dirt.';
       break;
     case 3:
-      output += 'Make the farmer level out all the mounds, using as few blocks as possible.';
+      output += 'Make the farmer remove all the mounds, using as few blocks as possible.';
       break;
     case 4:
-      output += 'Make the farmer fill in the hole, it will take 6 shovelfuls.';
+      output += 'Move the farmer to the hole and make them fill it until it is even.';
       break;
     case 5:
-      output += 'Make the farmer level out all the mounds, using as few blocks as possible.';
+      output += 'Make the farmer fill in the hole. Check out the new option in the dropdown menu on the while block.';
       break;
     case 6:
-      output += 'Make the farmer level out all the mounds, using as few blocks as possible.';
+      output += 'Make the farmer remove all the mounds, using as few blocks as possible.';
       break;
     case 7:
-      output += 'It\'s dark outside and the farmer cannot detect how large the pile is. Tell the farmer how many shovelfuls to remove in your program.';
+      output += 'It\'s dark outside and now the farmer can\'t tell how large the mound is. This means one of the options on the while loop has been taken away. Tell the farmer how many shovelfuls of dirt to remove.';
       break;
     case 8:
       output += 'It\'s still dark, tell the farmer to level out all the mounds. Each mound needs 5 shovelfuls.';
@@ -110,28 +110,32 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
   for (var i303 = 1; i303 < iLimit303; i303++) {
     output += ' ' + ((i303 == opt_ijData.level) ? (i303 > 9) ? '<span class="selected doubleDigit tab">' + soy.$$escapeHtml(i303) + '</span>' : '<span class="selected singleDigit tab">' + soy.$$escapeHtml(i303) + '</span>' : (i303 < opt_ijData.level) ? '<a class="tab previous" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i303) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i303) + '</a>' : '<a class="tab" href="?page=' + soy.$$escapeHtml(opt_ijData.page) + '&lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i303) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i303) + '</a>');
   }
-  output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select> &nbsp; <button id="pegmanButton" onmousedown="Maze.showPegmanMenu();"><img src="../media/1x1.gif"><span>&#x25BE;</span></button></td></tr></table><div id="levelFeedback"><div style="padding-bottom: 0.7ex;"><br><textarea id="levelFeedbackText" rows=2 cols=40 style="resize: none; border: 0; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;">';
+  output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select> &nbsp; <button id="pegmanButton" onmousedown="Maze.showPegmanMenu();"><img src="../media/1x1.gif"><span>&#x25BE;</span></button></td></tr></table><div id="levelFeedback"><div style="padding-bottom: 0.7ex;"><br><textarea id="levelFeedbackText" rows=3 cols=40 style="resize: none; border: 0; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;">';
   if (opt_ijData.page == 1) {
     switch (opt_ijData.level) {
       case 1:
       case 2:
-        output += 'Use only the blocks you need to get to complete the level.';
+        output += 'You could solve this level with fewer blocks. Can you find a solution with fewer blocks?';
         break;
       case 3:
-      case 5:
-        output += 'Try using the while block so you can complete the level with only 3 blocks.';
+        output += 'There is a solution using only 3 blocks. Can you find it? Try using the while block.';
         break;
       case 4:
-        output += 'Try using the while block so you can complete the level with only 4 blocks.';
+        output += 'Can you use the while block to complete the level with only 4 blocks?';
+        break;
+      case 5:
+        output += 'There is a solution using only 3 blocks. Can you find it? Did you try the new option on the while block?';
         break;
       case 6:
-        output += 'Try using two while blocks so you can complete the level.';
+        output += 'Could you use two while blocks to complete this level with fewer total blocks.';
         break;
       case 7:
-      case 9:
-        output += 'Try using the repeat block.';
+        output += 'There is a solution using only 3 blocks. Can you find it? Did you using the repeat block?';
         break;
       case 8:
+        output += 'Try using the repeat block inside the while block.';
+        break;
+      case 9:
         output += 'Try using the repeat block inside the while block.';
         break;
       case 10:

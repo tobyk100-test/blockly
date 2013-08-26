@@ -4,11 +4,11 @@ Maze.initialBalls = [];
 Maze.finalBalls = [];
 
 Maze.pageOneIdeal = [
-  undefined, 5, 3, 3, 4, 3, 9, 6, 5, 4, 6
+  undefined, 5, 3, 3, 4, 3, 9, 3, 5, 4, 6
 ];
 
 Maze.pageTwoIdeal = [
-  undefined, Infinity, 5, 7, 12, 8, 24, 12, 15
+  undefined, Infinity, 5, 7, 12, 8, 24, 10, 12, 15
 ];
 
 Maze.idealBlocks = [undefined, Maze.pageOneIdeal, Maze.pageTwoIdeal];
