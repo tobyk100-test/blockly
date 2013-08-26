@@ -475,18 +475,17 @@ BlocklyApps.getMissingRequiredBlocks = function() {
 
 /**
  * Counts the number of blocks used.  Blocks are only counted if they are
- * not disabled and are not matched by the string or regular expression
+ * deletable, not disabled, and not matched by the string or regular expression
  * BlocklyApps.FREE_BLOCKS.
+ * @param {boolean} opt_undeletableFree true if undeletable blocks should not be counted
  * @return {number} Number of blocks used.
  */
-BlocklyApps.getNumBlocksUsed = function() {
+BlocklyApps.getNumBlocksUsed = function(opt_undeletableFree) {
   var blocks = Blockly.mainWorkspace.getAllBlocks();
-  if (!BlocklyApps.FREE_BLOCKS) {
-    return blocks.length;
-  }
   var count = 0;
   for (var i = 0; i < blocks.length; i++) {
     if (!blocks[i].disabled &&
+        (!opt_undeletableFree || blocks[i].isDeletable()) &&
         (!BlocklyApps.FREE_BLOCKS ||
             !blocks[i].type.match(BlocklyApps.FREE_BLOCKS))) {
           count++;
@@ -565,6 +564,8 @@ BlocklyApps.setErrorFeedback = function(feedbackType) {
       if (missingBlocks.length) {
         for (var e = 0; e < missingBlocks.length; e++) {
           var bError = missingBlocks[e];
+          // Remove non-word characters, leaving only [a-zA-Z0-9_].
+          bError = bError.replace(/\W/g, '');
           var blockErrorElement = document.getElementById(bError + 'Error' +
               versionOfFeedback);
           if (blockErrorElement) {
@@ -794,7 +795,7 @@ BlocklyApps.createURLAndOpenNextLevel = function() {
     '?lang=' + BlocklyApps.LANG +
     (BlocklyApps.PAGE ? '&page=' + BlocklyApps.PAGE : '') +
     '&level=' + (BlocklyApps.LEVEL + 1) +
-    // TODO: Fix hack used to temporary keep turtle interstitials working.
+    // TODO: Fix hack used to temporarily keep turtle interstitials working.
     (BlocklyApps.SKIN_ID ? '&skin=' + BlocklyApps.SKIN_ID : '&reinf=1');
 };
 

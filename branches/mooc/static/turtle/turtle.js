@@ -122,6 +122,13 @@ Turtle.BLOCK_DATA = [
 
   // Page 3.
   undefined
+  /*
+  [undefined,  // Level 0.
+   // Level 1: call 'draw a square'.
+   // The semicolon distinguishes the call from the definition.
+   [1, ['procedures_callnoreturn[^e]*e="draw a square"']],
+   undefined]
+*/
 ];
 
 if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
@@ -259,7 +266,10 @@ Turtle.updateBlockCount = function() {
   BlocklyApps.setTextForElement(
       'blockCount',
       BlocklyApps.getMsg('blocksUsed').
-          replace('%1', BlocklyApps.getNumBlocksUsed()));
+          replace('%1',
+                  // On Page 3, don't count undeletable starting
+                  // blocks.
+                  BlocklyApps.getNumBlocksUsed(BlocklyApps.PAGE == 3)));
 };
 
 /**

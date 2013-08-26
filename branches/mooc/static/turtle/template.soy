@@ -788,8 +788,8 @@
             The "set color" and "random color" blocks give you random
             (unpredictable) colors.
           {/msg}</li>
-        <li id="repeatError2" class="feedback" style="display: none">
-          {msg meaning="Turtle.repeatError2Msg" desc="TODO"}
+        <li id="colour_randomError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.colour_randomError2Msg" desc="TODO"}
             Pull out the "set color" block that contains a "random color" block,
             and put it in the appropriate place.
           {/msg}</li>
@@ -803,67 +803,130 @@
             after it until the next "set color" block.
           {/msg}</li>
         <li id="forError1" class="feedback" style="display: none">
-          {if $ij.page == 2 and $ij.level == 6}
-            {msg meaning="Turtle.forError1Msg-p2-l6" desc="TODO"}
-              Reload this level to get the "count with" block back.
-            {/msg}
-          {elseif $ij.page == 2 and $ij.level == 7}
-            {msg meaning="Turtle.forError1Msg-p2-l7" desc="TODO"}
-              You will need a "count with" block to give the counter
-              values from 25 through 60.
-            {/msg}
+          {if $ij.page == 2}
+            {switch $ij.level}
+              {case 6}
+                {msg meaning="Turtle.forError1Msg-p2-l6" desc="TODO"}
+                Reload this level to get the "count with" block back.
+                {/msg}
+              {case 7}
+                {msg meaning="Turtle.forError1Msg-p2-l7" desc="TODO"}
+                You will need a "count with" block to give the counter
+                values from 25 through 60.
+                {/msg}
+              {case 9}
+                {msg meaning="Turtle.forError1Msg-p2-l9" desc="TODO"}
+                You will need a "count with" block to give the counter
+                values from 110 down to 70.
+                {/msg}
+            {/switch}
           {/if}
         </li>
         <li id="forError2" class="feedback" style="display: none">
-          {if $ij.page == 2 and $ij.level == 6}
-            {msg meaning="Turtle.forError1Msg-p2-l6" desc="IBID"}
-              Reload this level to get the "count with" block back.
-            {/msg}
-          {elseif $ij.page == 2 and $ij.level == 7}
-            {msg meaning="Turtle.forError1Msg-p2-l7" desc="TODO"}
-              Drag out a "count with" block from the Loops category.
-            {/msg}
+          {if $ij.page == 2}
+            {switch $ij.level}
+              {case 6}
+                {msg meaning="Turtle.forError1Msg-p2-l6" desc="IBID"}
+                  Reload this level to get the "count with" block back.
+                {/msg}
+              {case 7}
+                {msg meaning="Turtle.forError2Msg-p2-l7" desc="TODO"}
+                Open the Loops category, and drag out a "count with" block.
+                {/msg}
+              {case 9}
+                {msg meaning="Turtle.forError2Msg-p2-l9" desc="TODO"}
+                Open the Loops category, and drag out a "count with" block.
+                Have it count from 110 to 70 by 10.
+                {/msg}
+            {/switch}
           {/if}
         </li>
         <li id="get_counterError1" class="feedback" style="display: none">
-          {if $ij.page == 2 and $ij.level == 6}
-            {msg meaning="Turtle.getCounterError1Msg-p2-l6" desc="TODO"}
-              You will need the "counter" block to draw squares of different lengths.
-            {/msg}
-          {elseif $ij.page == 2 and $ij.level == 7}
-            {msg meaning="Turtle.getCounterError2Msg-p2-l7" desc="TODO"}
-              You will need the "counter" block to draw lines of different lengths.
-            {/msg}
+          {if $ij.page == 2}
+            {switch $ij.level}
+              {case 6}
+                {msg meaning="Turtle.getCounterError1Msg-p2-l6" desc="TODO"}
+                  You will need the "counter" block to draw squares of different lengths.
+                {/msg}
+              {case 7}
+                {msg meaning="Turtle.getCounterError1Msg-p2-l7" desc="TODO"}
+                  You will need the "counter" block to draw lines of different lengths.
+                {/msg}
+              {case 9}
+                {msg meaning="Turtle.getCounterError1Msg-p2-l9" desc="TODO"}
+                  You will need the "counter" block to draw snowmen of different heights.
+                {/msg}
+            {/switch}
           {/if}
         </li>
         <li id="get_counterError2" class="feedback" style="display: none">
-          {if $ij.page == 2 and $ij.level == 6}
-            {msg meaning="Turtle.getCounterError2Msg-p2-l6" desc="TODO"}
-              Get the "counter" block from the "Variables" category, and use
-              it as the "length" input to "draw a square".
-            {/msg}
-          {elseif $ij.page == 2 and $ij.level == 7}
-            Get the "counter" block from the "Variables" category, and use
-            it as the input to the "move forward" block.
+          {if $ij.page == 2}
+            {switch $ij.level}
+              {case 6}
+                {msg meaning="Turtle.getCounterError2Msg-p2-l6" desc="TODO"}
+                  From the "Variables" category, get the "counter" block, and use
+                  it as the "length" input to "draw a square".
+                {/msg}
+              {case 7}
+                {msg meaning="Turtle.getCounterError2Msg-p2-l7" desc="TODO"}
+                  From the "Variables" category, get the "counter" block, and use
+                  it as the input to the "move forward" block.
+                {/msg}
+              {case 9}
+                {msg meaning="Turtle.getCounterError2Msg-p2-l9" desc="TODO"}
+                  From the "Variables" category, get the "counter" block, and use
+                  it as the input to the "draw a snowman" block.
+                {/msg}
+            {/switch}
           {/if}
         </li>
         <li id="draw_a_snowmanError1" class="feedback" style="display: none">
           {msg meaning="Turtle.draw_a_snowmanError1Msg" desc="TODO"}
             You need to use the "draw a snowman" block.
-          {/msg}</li>
+          {/msg}
+        </li>
         <li id="draw_a_snowmanError2" class="feedback" style="display: none">
           {msg meaning="Turtle.draw_a_snowmanError2Msg" desc="TODO"}
-            You can get the "draw a snoman" block from the "Functions" category.
-          {/msg}</li>
+            You can get the "draw a snowman" block from the "Functions" category.
+          {/msg}
+        </li>
         <li id="jumpError1" class="feedback" style="display: none">
           {msg meaning="Turtle.jumpError1Msg" desc="TODO"}
             The "jump forward" block moves the turtle without drawing anything.
-          {/msg}</li>
+          {/msg}
+         </li>
         <li id="jumpError2" class="feedback" style="display: none">
           {msg meaning="Turtle.jumpError2Msg" desc="TODO"}
-            Get the "jump forward" block from the "Actions" category, and use
+            Open the Actions category to Get the "jump forward" block, and use
             it to move the turtle between each snowman.
-          {/msg}</li>
+          {/msg}
+        </li>
+        // These are for the special "draw a square" block on Page 2.
+        <li id="draw_a_squareError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.drawASquareError1Msg-p2" desc="TODO"}
+            In this tutorial, to draw a square, use the new "draw a square" function.
+          {/msg}
+        </li>
+        <li id="draw_a_squareError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.drawASquareError2Msg-p2" desc="TODO"}
+            Open the Functions category and get a "draw a square" block.
+          {/msg}
+        </li>
+        // These are for procedure calls on Page 3.
+        // The regular expression is 'procedures_callnoreturn[^e]*e="draw a square"'.
+        <li id="procedures_callnoreturneedrawasquareError1" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawASquareError1Msg-p3" desc="TODO"}
+            The shown code tells the turtle <em>how</em> to draw a square but not
+            to draw a square.  You need to pull out a "draw a square" block from
+            the Functions category.
+          {/msg}
+        </li>
+        <li id="procedures_callnoreturneedrawasquareError2" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawASquareError2Msg-p3" desc="TODO"}
+            From the current code, the turtle doesn't know that you want to draw a square.
+            Pull out a "draw a square" block from the Functions category.
+          {/msg}
+        </li>
 
         // Errors based on colours used.
         <li id="colourFeedback" class="feedback" style="display: none"></li>
