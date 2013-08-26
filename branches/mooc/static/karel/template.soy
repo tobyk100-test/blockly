@@ -254,10 +254,14 @@
           {/switch}
         {elseif $ij.page == 2}
           {switch $ij.level}
-            {case 1, 2, 5, 7, 8}
+            {case 1}
+              {msg meaning="Maze.hint1" desc="hint - 'block' refers to a
+                child's stackable toys."}Use only the blocks you need to get
+                to complete the level.{/msg}
+            {case 2, 3, 6, 8, 9}
               {msg meaning="Maze.hint1" desc="hint - 'block' refers to a
                 child's stackable toys."}Try using the given function(s).{/msg}
-            {case 3, 4, 6}
+            {case 4, 5, 7}
               {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
                 to repeat blocks over and over."}Try defining your own function
                 and use it.{/msg}
@@ -585,10 +589,6 @@
     {/switch}
   {else}
     {switch $ij.level}
-      {case 1}
-        {call .fillShovelfuls}
-          {param shovelfuls: 5 /}
-        {/call}
       {case 2}
         {call .fillShovelfuls}
           {param shovelfuls: 5 /}
@@ -597,12 +597,16 @@
         {call .fillShovelfuls}
           {param shovelfuls: 5 /}
         {/call}
+      {case 4}
+        {call .fillShovelfuls}
+          {param shovelfuls: 5 /}
+        {/call}
         <block type="procedures_defnoreturn" x="300" y="200">
           <mutation></mutation>
           <title name="NAME">fill 7</title>
         </block>
-      {case 4}
       {case 5}
+      {case 6}
         <block type="procedures_defnoreturn" x="20" y="200">
           <mutation></mutation>
           <title name="NAME">remove tower</title>
@@ -691,8 +695,8 @@
             </block>
           </statement>
         </block>
-      {case 6}
       {case 7}
+      {case 8}
         <block type="procedures_defnoreturn" x="20" y="200">
           <mutation></mutation>
           <title name="NAME">jump hurdle and remove 1</title>
@@ -738,7 +742,7 @@
             </block>
           </statement>
         </block>
-      {case 8}
+      {case 9}
         <block type="procedures_defnoreturn" x="20" y="200">
           <mutation></mutation>
           <title name="NAME">remove 1 and jump hurdle</title>
