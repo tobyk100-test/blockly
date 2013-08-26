@@ -73,12 +73,12 @@ Bird.MAP = [
   },
 // Level 3.
  {startX: 20,
-  startY: 80,
+  startY: 70,
   wormX: 50,
   wormY: 20,
   nestX: 80,
-  nestY: 80,
-  walls: [[50, 40, 50, 100]]
+  nestY: 70,
+  walls: [[50, 50, 50, 100]]
   },
 // Level 4.
  {startX: 20,
@@ -105,7 +105,7 @@ Bird.MAP = [
   wormY: 20,
   nestX: 20,
   nestY: 80,
-  walls: [[0, 50, 60, 50]
+  walls: [[0, 60, 50, 60]
   ]
   },
 // Level 7.
@@ -122,23 +122,23 @@ Bird.MAP = [
   },
 // Level 8.
  {startX: 20,
-  startY: 20,
+  startY: 25,
   wormX: 80,
-  wormY: 20,
+  wormY: 25,
   nestX: 80,
-  nestY: 60,
+  nestY: 75,
   walls: [
-    [50, 0, 50, 60],
+    [50, 0, 50, 50],
     [80, 50, 100, 50]
   ]
   },
 // Level 9.
- {startX: 90,
+ {startX: 80,
   startY: 70,
-  wormX: 10,
-  wormY: 10,
-  nestX: 90,
-  nestY: 10,
+  wormX: 20,
+  wormY: 20,
+  nestX: 80,
+  nestY: 20,
   walls: [
     [0, 70, 30, 100],
     [40, 50, 80, 0],
@@ -147,10 +147,10 @@ Bird.MAP = [
   },
 // Level 10.
  {startX: 20,
-  startY: 50,
+  startY: 20,
   wormX: 80,
   wormY: 50,
-  nestX: 50,
+  nestX: 20,
   nestY: 20,
   walls: [
     [40, 60, 60, 60],
@@ -159,6 +159,12 @@ Bird.MAP = [
   ]
   }
 ][Bird.LEVEL];
+
+// Add four surrounding walls.
+Bird.MAP.walls.push([0, 0, 0, 100]);
+Bird.MAP.walls.push([0, 100, 100, 100]);
+Bird.MAP.walls.push([100, 100, 100, 0]);
+Bird.MAP.walls.push([100, 0, 0, 0]);
 
 /**
  * PIDs of animation tasks currently executing.
@@ -170,15 +176,6 @@ Bird.pidList = [];
  */
 Bird.drawMap = function() {
   var svg = document.getElementById('svgBird');
-
-  // Draw the outer square.
-  var square = document.createElementNS(Blockly.SVG_NS, 'rect');
-  square.setAttribute('width', Bird.MAP_SIZE);
-  square.setAttribute('height', Bird.MAP_SIZE);
-  square.setAttribute('fill', '#F1EEE7');
-  square.setAttribute('stroke-width', 1);
-  square.setAttribute('stroke', '#CCB');
-  svg.appendChild(square);
 
   if (Bird.MAP && Bird.MAP.walls) {
     // Draw the walls.
@@ -268,7 +265,7 @@ Bird.init = function() {
       '<xml>' +
       '  <block type="bird_heading" x="70" y="70"></block>' +
       '</xml>';
-  } else if (Bird.LEVEL <= 5) {
+  } else if (Bird.LEVEL < 5) {
     defaultXml =
       '<xml>' +
       '  <block type="bird_ifElse" x="70" y="70"></block>' +
@@ -308,6 +305,7 @@ Bird.reset = function(first) {
   // Move Bird into position.
   Bird.X = Bird.MAP.startX;
   Bird.Y = Bird.MAP.startY;
+  Bird.isHungry = true;
 
 //  Bird.pegmanD = Bird.startDirection;
   Bird.displayBird();
@@ -437,6 +435,7 @@ Bird.animate = function() {
     var worm = document.getElementById('worm');
     worm.style.visibility = 'hidden';
   } else if (action[0] == 'finish') {
+    Bird.congratulations();
   }
 
   Bird.pidList.push(window.setTimeout(Bird.animate, Bird.stepSpeed * 5));
@@ -526,102 +525,6 @@ Bird.nextLevel = function() {
 };
 
 /**
- * Schedule the animations for a move or turn.
- * @param {!Array.<number>} startPos X, Y and direction starting points.
- * @param {!Array.<number>} endPos X, Y and direction ending points.
- */
-Bird.schedule = function(startPos, endPos) {
-  var deltas = [(endPos[0] - startPos[0]) / 4,
-                (endPos[1] - startPos[1]) / 4,
-                (endPos[2] - startPos[2]) / 4];
-  Bird.displayPegman(startPos[0] + deltas[0],
-                     startPos[1] + deltas[1],
-                     Bird.constrainDirection16(startPos[2] + deltas[2]));
-  Bird.pidList.push(window.setTimeout(function() {
-      Bird.displayPegman(startPos[0] + deltas[0] * 2,
-          startPos[1] + deltas[1] * 2,
-          Bird.constrainDirection16(startPos[2] + deltas[2] * 2));
-    }, Bird.stepSpeed));
-  Bird.pidList.push(window.setTimeout(function() {
-      Bird.displayPegman(startPos[0] + deltas[0] * 3,
-          startPos[1] + deltas[1] * 3,
-          Bird.constrainDirection16(startPos[2] + deltas[2] * 3));
-    }, Bird.stepSpeed * 2));
-  Bird.pidList.push(window.setTimeout(function() {
-      Bird.displayPegman(endPos[0], endPos[1],
-          Bird.constrainDirection16(endPos[2]));
-    }, Bird.stepSpeed * 3));
-};
-
-/**
- * Schedule the animations and sounds for a failed move.
- * @param {boolean} forward True if forward, false if backward.
- */
-Bird.scheduleFail = function(forward) {
-  var deltaX = 0;
-  var deltaY = 0;
-  switch (Bird.pegmanD) {
-    case Bird.DirectionType.NORTH:
-      deltaY = -0.25;
-      break;
-    case Bird.DirectionType.EAST:
-      deltaX = 0.25;
-      break;
-    case Bird.DirectionType.SOUTH:
-      deltaY = 0.25;
-      break;
-    case Bird.DirectionType.WEST:
-      deltaX = -0.25;
-      break;
-  }
-  if (!forward) {
-    deltaX = -deltaX;
-    deltaY = -deltaY;
-  }
-  var direction16 = Bird.constrainDirection16(Bird.pegmanD * 4);
-  Bird.displayPegman(Bird.pegmanX + deltaX,
-                     Bird.pegmanY + deltaY,
-                     direction16);
-  Blockly.playAudio('whack', .5);
-  Bird.pidList.push(window.setTimeout(function() {
-    Bird.displayPegman(Bird.pegmanX,
-                       Bird.pegmanY,
-                       direction16);
-    }, Bird.stepSpeed));
-  Bird.pidList.push(window.setTimeout(function() {
-    Bird.displayPegman(Bird.pegmanX + deltaX,
-                       Bird.pegmanY + deltaY,
-                       direction16);
-    Blockly.playAudio('whack', .5);
-  }, Bird.stepSpeed * 2));
-  Bird.pidList.push(window.setTimeout(function() {
-      Bird.displayPegman(Bird.pegmanX, Bird.pegmanY, direction16);
-    }, Bird.stepSpeed * 3));
-};
-
-/**
- * Schedule the animations and sound for a victory dance.
- * @param {boolean} sound Play the victory sound.
- */
-Bird.scheduleFinish = function(sound) {
-  var direction16 = Bird.constrainDirection16(Bird.pegmanD * 4);
-  Bird.displayPegman(Bird.pegmanX, Bird.pegmanY, 16);
-  if (sound) {
-    Blockly.playAudio('win', .5);
-  }
-  Bird.stepSpeed = 150;  // Slow down victory animation a bit.
-  Bird.pidList.push(window.setTimeout(function() {
-    Bird.displayPegman(Bird.pegmanX, Bird.pegmanY, 18);
-    }, Bird.stepSpeed));
-  Bird.pidList.push(window.setTimeout(function() {
-    Bird.displayPegman(Bird.pegmanX, Bird.pegmanY, 16);
-    }, Bird.stepSpeed * 2));
-  Bird.pidList.push(window.setTimeout(function() {
-      Bird.displayPegman(Bird.pegmanX, Bird.pegmanY, direction16);
-    }, Bird.stepSpeed * 3));
-};
-
-/**
  * Display Bird at the current location, facing the current angle.
  */
 Bird.displayBird = function() {
@@ -679,7 +582,7 @@ Bird.distanceToSegment = function(px, py, x1, y1, x2, y2) {
  * @return {boolean} True if the bird found the nest, false otherwise.
  */
 Bird.intersectNest = function() {
-  var accuracy = 1.0 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
+  var accuracy = 0.5 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
   return Bird.distance(Bird.X, Bird.Y, Bird.MAP.nestX, Bird.MAP.nestY) <
       accuracy;
 };
@@ -689,7 +592,7 @@ Bird.intersectNest = function() {
  * @return {boolean} True if the bird found the worm, false otherwise.
  */
 Bird.intersectWorm = function() {
-  var accuracy = 1.0 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
+  var accuracy = 0.5 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
   return Bird.distance(Bird.X, Bird.Y, Bird.MAP.wormX, Bird.MAP.wormY) <
       accuracy;
 };
@@ -724,13 +627,14 @@ Bird.heading = function(angle, id) {
   Bird.X += Math.cos(angle);
   Bird.Y += Math.sin(angle);
   BlocklyApps.log.push([angle, id]);
-  if (Bird.intersectNest()) {
+  if (!Bird.isHungry && Bird.intersectNest()) {
     // Finished.  Terminate the user's program.
     BlocklyApps.log.push(['finish', null]);
     throw true;
   }
-  if (Bird.intersectWorm()) {
+  if (Bird.isHungry && Bird.intersectWorm()) {
     BlocklyApps.log.push(['worm', null]);
+    Bird.isHungry = false;
   }
   if (Bird.intersectWall()) {
     throw false;
