@@ -46,7 +46,10 @@ Bird.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1, Bird.MAX_LEVEL);
  */
 Bird.stepSpeed;
 
-Bird.map = [
+Bird.ICON_SIZE = 100;
+Bird.MAP_SIZE = 400;
+
+Bird.MAP = [
 // Level 0.
  undefined,
 // Level 1.
@@ -85,25 +88,14 @@ Bird.drawMap = function() {
 
   // Draw the outer square.
   var square = document.createElementNS(Blockly.SVG_NS, 'rect');
-  square.setAttribute('width', Bird.MAZE_WIDTH);
-  square.setAttribute('height', Bird.MAZE_HEIGHT);
+  square.setAttribute('width', Bird.MAP_SIZE);
+  square.setAttribute('height', Bird.MAP_SIZE);
   square.setAttribute('fill', '#F1EEE7');
   square.setAttribute('stroke-width', 1);
   square.setAttribute('stroke', '#CCB');
   svg.appendChild(square);
 
-  if (Bird.SKIN.background) {
-    var tile = document.createElementNS(Blockly.SVG_NS, 'image');
-    tile.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-        Bird.SKIN.background);
-    tile.setAttribute('height', Bird.MAZE_HEIGHT);
-    tile.setAttribute('width', Bird.MAZE_WIDTH);
-    tile.setAttribute('x', 0);
-    tile.setAttribute('y', 0);
-    svg.appendChild(tile);
-  }
-
-  if (Bird.SKIN.graph) {
+  if (Bird.graph) {
     // Draw the grid lines.
     // The grid lines are offset so that the lines pass through the centre of
     // each square.  A half-pixel offset is also added to as standard SVG
@@ -134,8 +126,8 @@ Bird.drawMap = function() {
   image.setAttribute('id', 'nest');
   image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       'nest.png');
-  image.setAttribute('height', 100);
-  image.setAttribute('width', 100);
+  image.setAttribute('height', Bird.ICON_SIZE);
+  image.setAttribute('width', Bird.ICON_SIZE);
   svg.appendChild(image);
 
   // Add worm.
@@ -143,17 +135,17 @@ Bird.drawMap = function() {
   image.setAttribute('id', 'worm');
   image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
       'worm.png');
-  image.setAttribute('height', 100);
-  image.setAttribute('width', 100);
+  image.setAttribute('height', Bird.ICON_SIZE);
+  image.setAttribute('width', Bird.ICON_SIZE);
   svg.appendChild(image);
 
   // Add bird.
   var image = document.createElementNS(Blockly.SVG_NS, 'image');
   image.setAttribute('id', 'bird');
   image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      'bird.jpg');
-  image.setAttribute('height', 100);
-  image.setAttribute('width', 100);
+      'bird.png');
+  image.setAttribute('height', Bird.ICON_SIZE);
+  image.setAttribute('width', Bird.ICON_SIZE);
   svg.appendChild(image);
 };
 
@@ -174,7 +166,7 @@ Bird.init = function() {
   Blockly.loadAudio_(['apps/bird/whack.mp3', 'apps/bird/whack.ogg'], 'whack');
 
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  BlocklyApps.checkTimeout(%1);\n';
-//  Bird.drawMap();
+  Bird.drawMap();
 
   var blocklyDiv = document.getElementById('blockly');
   var visualization = document.getElementById('visualization');
@@ -212,7 +204,7 @@ Bird.init = function() {
 
   BlocklyApps.loadBlocks(defaultXml);
 
-//  Bird.reset(true);
+  Bird.reset(true);
 
   // Lazy-load the syntax-highlighting.
   window.setTimeout(BlocklyApps.importPrettify, 1);
@@ -236,40 +228,30 @@ Bird.reset = function(first) {
   Bird.pidList = [];
 
   // Move Pegman into position.
-  Bird.pegmanX = Bird.start_.x;
-  Bird.pegmanY = Bird.start_.y;
+  Bird.X = Bird.MAP.startX;
+  Bird.Y = Bird.MAP.startY;
 
-  if (first) {
-    Bird.pegmanD = Bird.startDirection + 1;
-    Bird.scheduleFinish(false);
-    Bird.pidList.push(window.setTimeout(function() {
-      Bird.stepSpeed = 100;
-      Bird.schedule([Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4],
-                    [Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4 - 4]);
-      Bird.pegmanD++;
-    }, Bird.stepSpeed * 5));
-  } else {
-    Bird.pegmanD = Bird.startDirection;
-    Bird.displayPegman(Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4);
-  }
+//  Bird.pegmanD = Bird.startDirection;
+//  Bird.displayPegman(Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4);
 
-  // Move the finish icon into position.
-  var finishIcon = document.getElementById('finish');
-  finishIcon.setAttribute('x', Bird.SQUARE_SIZE * (Bird.finish_.x + 0.5) -
-      finishIcon.getAttribute('width') / 2);
-  finishIcon.setAttribute('y', Bird.SQUARE_SIZE * (Bird.finish_.y + 0.6) -
-      finishIcon.getAttribute('height'));
+  // Move the bird into position.
+  var image = document.getElementById('bird');
+  image.setAttribute('x', Bird.MAP.startX * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  image.setAttribute('y', Bird.MAP.startY * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  // Move the worm into position.
+  var image = document.getElementById('worm');
+  image.setAttribute('x', Bird.MAP.wormX * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  image.setAttribute('y', Bird.MAP.wormY * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  // Move the nest into position.
+  var image = document.getElementById('nest');
+  image.setAttribute('x', Bird.MAP.nestX * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  image.setAttribute('y', Bird.MAP.nestY * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
 };
 
 /**
  * Click the run button.  Start the program.
  */
 Bird.runButtonClick = function() {
-  // Only allow a single top block on levels 1 and 2.
-  if (Bird.LEVEL <= 2 && Blockly.mainWorkspace.getTopBlocks().length > 1) {
-    Bird.showOneTopBlock();
-    return;
-  }
   var runButton = document.getElementById('runButton');
   var resetButton = document.getElementById('resetButton');
   // Ensure that Reset button is at least as wide as Run button.

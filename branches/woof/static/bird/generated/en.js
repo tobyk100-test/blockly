@@ -84,7 +84,7 @@ birdpage.start = function(opt_data, opt_ignored, opt_ijData) {
 
 
 birdpage.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<xml id="toolbox" style="display: none;"><block type="bird_heading"></block>' + ((opt_ijData.level >= 2) ? '<block type="bird_hungry"></block>' + ((opt_ijData.level >= 4) ? '<block type="bird_compare"><title name="OP">LT</title><value name="A"><block type="bird_position"><title name="XY">x</title></block></value><value name="B"><block type="math_number"><title name="NUM">50</title></block></value></block>' + ((opt_ijData.level >= 5) ? '<block type="bird_compare"><title name="OP">LT</title><value name="A"><block type="bird_position"><title name="XY">y</title></block></value><value name="B"><block type="math_number"><title name="NUM">50</title></block></value></block>' + ((opt_ijData.level >= 8) ? '<block type="bird_and"></block>' : '') : '') : '') : '') + '</xml>';
+  return '<xml id="toolbox" style="display: none;"><block type="bird_heading"></block>' + ((opt_ijData.level >= 2) ? '<block type="bird_hungry"></block>' + ((opt_ijData.level >= 4) ? '<block type="bird_compare"><title name="OP">LT</title><value name="A"><block type="bird_position"><title name="XY">X</title></block></value><value name="B"><block type="math_number"><title name="NUM">50</title></block></value></block>' + ((opt_ijData.level >= 5) ? '<block type="bird_compare"><title name="OP">LT</title><value name="A"><block type="bird_position"><title name="XY">Y</title></block></value><value name="B"><block type="math_number"><title name="NUM">50</title></block></value></block>' + ((opt_ijData.level >= 8) ? '<block type="bird_and"></block>' : '') : '') : '') : '') + '</xml>';
 };
 
 
