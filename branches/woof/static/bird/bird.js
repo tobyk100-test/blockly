@@ -129,95 +129,32 @@ Bird.drawMap = function() {
     }
   }
 
-  // Draw the tiles making up the maze map.
+  // Add nest.
+  var image = document.createElementNS(Blockly.SVG_NS, 'image');
+  image.setAttribute('id', 'nest');
+  image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+      'nest.png');
+  image.setAttribute('height', 100);
+  image.setAttribute('width', 100);
+  svg.appendChild(image);
 
-  // Return a value of '0' if the specified square is wall or out of bounds,
-  // '1' otherwise (empty, start, finish).
-  var normalize = function(x, y) {
-    if (x < 0 || x >= Bird.COLS || y < 0 || y >= Bird.ROWS) {
-      return '0';
-    }
-    return (Bird.map[y][x] == Bird.SquareType.WALL) ? '0' : '1';
-  };
+  // Add worm.
+  var image = document.createElementNS(Blockly.SVG_NS, 'image');
+  image.setAttribute('id', 'worm');
+  image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+      'worm.png');
+  image.setAttribute('height', 100);
+  image.setAttribute('width', 100);
+  svg.appendChild(image);
 
-  // Compute and draw the tile for each square.
-  var tileId = 0;
-  for (var y = 0; y < Bird.ROWS; y++) {
-    for (var x = 0; x < Bird.COLS; x++) {
-      // Compute the tile index.
-      var tile = normalize(x, y) +
-          normalize(x, y - 1) +  // North.
-          normalize(x + 1, y) +  // West.
-          normalize(x, y + 1) +  // South.
-          normalize(x - 1, y);   // East.
-
-      // Draw the tile.
-      if (!Bird.tile_SHAPES[tile]) {
-        // Empty square.  Use null0 for large areas, with null1-4 for borders.
-        // Add some randomness to avoid large empty spaces.
-        if (tile == '00000' && Math.random() > 0.3) {
-          tile = 'null0';
-        } else {
-          tile = 'null' + Math.floor(1 + Math.random() * 4);
-        }
-      }
-      var left = Bird.tile_SHAPES[tile][0];
-      var top = Bird.tile_SHAPES[tile][1];
-      // Tile's clipPath element.
-      var tileClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
-      tileClip.setAttribute('id', 'tileClipPath' + tileId);
-      var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
-      clipRect.setAttribute('width', Bird.SQUARE_SIZE);
-      clipRect.setAttribute('height', Bird.SQUARE_SIZE);
-
-      clipRect.setAttribute('x', x * Bird.SQUARE_SIZE);
-      clipRect.setAttribute('y', y * Bird.SQUARE_SIZE);
-
-      tileClip.appendChild(clipRect);
-      svg.appendChild(tileClip);
-      // Tile sprite.
-      var tile = document.createElementNS(Blockly.SVG_NS, 'image');
-      tile.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-          Bird.SKIN.tiles);
-      // Position the tile sprite relative to the clipRect.
-      tile.setAttribute('height', Bird.SQUARE_SIZE * 4);
-      tile.setAttribute('width', Bird.SQUARE_SIZE * 5);
-      tile.setAttribute('clip-path', 'url(#tileClipPath' + tileId + ')');
-      tile.setAttribute('x', (x - left) * Bird.SQUARE_SIZE);
-      tile.setAttribute('y', (y - top) * Bird.SQUARE_SIZE);
-      svg.appendChild(tile);
-      tileId++;
-    }
-  }
-
-  // Add finish marker.
-  var finishMarker = document.createElementNS(Blockly.SVG_NS, 'image');
-  finishMarker.setAttribute('id', 'finish');
-  finishMarker.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      Bird.SKIN.marker);
-  finishMarker.setAttribute('height', 34);
-  finishMarker.setAttribute('width', 20);
-  svg.appendChild(finishMarker);
-
-  // Pegman's clipPath element, whose (x, y) is reset by Bird.displayPegman
-  var pegmanClip = document.createElementNS(Blockly.SVG_NS, 'clipPath');
-  pegmanClip.setAttribute('id', 'pegmanClipPath');
-  var clipRect = document.createElementNS(Blockly.SVG_NS, 'rect');
-  clipRect.setAttribute('id', 'clipRect');
-  clipRect.setAttribute('width', Bird.PEGMAN_WIDTH);
-  clipRect.setAttribute('height', Bird.PEGMAN_HEIGHT);
-  pegmanClip.appendChild(clipRect);
-  svg.appendChild(pegmanClip);
-
-  // Add Pegman.
-  var pegmanIcon = document.createElementNS(Blockly.SVG_NS, 'image');
-  pegmanIcon.setAttribute('id', 'pegman');
-  pegmanIcon.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
-      Bird.SKIN.sprite);
-  pegmanIcon.setAttribute('height', Bird.PEGMAN_HEIGHT);
-  pegmanIcon.setAttribute('width', Bird.PEGMAN_WIDTH * 21); // 49 * 21 = 1029
-  pegmanIcon.setAttribute('clip-path', 'url(#pegmanClipPath)');
-  svg.appendChild(pegmanIcon);
+  // Add bird.
+  var image = document.createElementNS(Blockly.SVG_NS, 'image');
+  image.setAttribute('id', 'bird');
+  image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href',
+      'bird.jpg');
+  image.setAttribute('height', 100);
+  image.setAttribute('width', 100);
+  svg.appendChild(image);
 };
 
 /**
@@ -777,4 +714,45 @@ Bird.isPath = function(direction, id) {
     BlocklyApps.log.push([command, id]);
   }
   return square !== Bird.SquareType.WALL && square !== undefined;
+};
+
+/**
+ * Compute distance between two points (Pythagorean theorem).
+ * @param {number} x1 X-coordinate of first point.
+ * @param {number} y1 Y-coordinate of first point.
+ * @param {number} x2 X-coordinate of second point.
+ * @param {number} y2 Y-coordinate of second point.
+ * @return {number} Distance.
+ */
+Bird.distance = function(x1, y1, x2, y2) {
+  var dx = x2 - x1;
+  var dy = y2 - y1;
+  return Math.sqrt(dx * dx + dy * dy);
+};
+
+/**
+ * Compute distance between a point and a line segment.
+ * @param {number} px X-coordinate of point.
+ * @param {number} py Y-coordinate of point.
+ * @param {number} x1 X-coordinate of line start point.
+ * @param {number} y1 Y-coordinate of line start point.
+ * @param {number} x2 X-coordinate of line end point.
+ * @param {number} y2 Y-coordinate of line end point.
+ * @return {number} Distance.
+ */
+Bird.distanceToSegment = function(px, py, x1, y1, x2, y2) {
+  var lineLength = Bird.distance(x1, y1, x2, y2);
+  if (lineLength == 0) {
+    return Bird.distance(px, py, x1, y1);
+  }
+  var t = ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) /
+      (lineLength * lineLength);
+  if (t < 0) {
+    return Bird.distance(px, py, x1, y1);
+  } else if (t > 1) {
+    return Bird.distance(px, py, x2, y2);
+  }
+  var tx = x1 + t * (x2 - x1);
+  var ty = y1 + t * (y2 - y1);
+  return Bird.distance(px, py, tx, ty);
 };
