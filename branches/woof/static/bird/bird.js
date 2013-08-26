@@ -165,7 +165,7 @@ Bird.init = function() {
   Blockly.loadAudio_(['apps/bird/win.mp3', 'apps/bird/win.ogg'], 'win');
   Blockly.loadAudio_(['apps/bird/whack.mp3', 'apps/bird/whack.ogg'], 'whack');
 
-  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  BlocklyApps.checkTimeout(%1);\n';
+  Blockly.JavaScript.INFINITE_LOOP_TRAP = '  BlocklyApps.checkTimeout();\n';
   Bird.drawMap();
 
   var blocklyDiv = document.getElementById('blockly');
@@ -232,20 +232,21 @@ Bird.reset = function(first) {
   Bird.Y = Bird.MAP.startY;
 
 //  Bird.pegmanD = Bird.startDirection;
-//  Bird.displayPegman(Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4);
+  Bird.displayBird();
 
-  // Move the bird into position.
-  var image = document.getElementById('bird');
-  image.setAttribute('x', Bird.MAP.startX * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
-  image.setAttribute('y', Bird.MAP.startY * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
   // Move the worm into position.
   var image = document.getElementById('worm');
-  image.setAttribute('x', Bird.MAP.wormX * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
-  image.setAttribute('y', Bird.MAP.wormY * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  image.setAttribute('x',
+      Bird.MAP.wormX / 100 * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  image.setAttribute('y',
+      (1 - Bird.MAP.wormY / 100) * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  image.style.visibility = 'visible';
   // Move the nest into position.
   var image = document.getElementById('nest');
-  image.setAttribute('x', Bird.MAP.nestX * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
-  image.setAttribute('y', Bird.MAP.nestY * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  image.setAttribute('x',
+      Bird.MAP.nestX / 100 * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  image.setAttribute('y',
+      (1 - Bird.MAP.nestY / 100) * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
 };
 
 /**
@@ -293,6 +294,10 @@ Bird.execute = function() {
   BlocklyApps.log = [];
   BlocklyApps.ticks = 10000;
   var code = Blockly.Generator.workspaceToCode('JavaScript');
+  code = 'while(true) {\n' +
+      Blockly.JavaScript.INFINITE_LOOP_TRAP +
+      code +
+      '}';
   var result = Bird.ResultType.UNSET;
 
   // Try running the user's code.  There are four possible outcomes:
@@ -320,14 +325,15 @@ Bird.execute = function() {
       window.alert(e);
     }
   }
+  console.log('Result:' + result);
 
   // Fast animation if execution is successful.  Slow otherwise.
-  Bird.stepSpeed = (result == Bird.ResultType.SUCCESS) ? 100 : 150;
+  Bird.stepSpeed = (result == Bird.ResultType.SUCCESS) ? 10 : 20;
 
   // BlocklyApps.log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
   Bird.reset(false);
-  Bird.pidList.push(window.setTimeout(Bird.animate, 100));
+  Bird.pidList.push(window.setTimeout(Bird.animate, 1));
 };
 
 /**
@@ -344,58 +350,15 @@ Bird.animate = function() {
   }
   BlocklyApps.highlight(action[1]);
 
-  switch (action[0]) {
-    case 'north':
-      Bird.schedule([Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4],
-                    [Bird.pegmanX, Bird.pegmanY - 1, Bird.pegmanD * 4]);
-      Bird.pegmanY--;
-      break;
-    case 'east':
-      Bird.schedule([Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4],
-                    [Bird.pegmanX + 1, Bird.pegmanY, Bird.pegmanD * 4]);
-      Bird.pegmanX++;
-      break;
-    case 'south':
-      Bird.schedule([Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4],
-                    [Bird.pegmanX, Bird.pegmanY + 1, Bird.pegmanD * 4]);
-      Bird.pegmanY++;
-      break;
-    case 'west':
-      Bird.schedule([Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4],
-                    [Bird.pegmanX - 1, Bird.pegmanY, Bird.pegmanD * 4]);
-      Bird.pegmanX--;
-      break;
-    case 'look_north':
-      Bird.scheduleLook(Bird.DirectionType.NORTH);
-      break;
-    case 'look_east':
-      Bird.scheduleLook(Bird.DirectionType.EAST);
-      break;
-    case 'look_south':
-      Bird.scheduleLook(Bird.DirectionType.SOUTH);
-      break;
-    case 'look_west':
-      Bird.scheduleLook(Bird.DirectionType.WEST);
-      break;
-    case 'fail_forward':
-      Bird.scheduleFail(true);
-      break;
-    case 'fail_backward':
-      Bird.scheduleFail(false);
-      break;
-    case 'left':
-      Bird.schedule([Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4],
-                    [Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4 - 4]);
-      Bird.pegmanD = Bird.constrainDirection4(Bird.pegmanD - 1);
-      break;
-    case 'right':
-      Bird.schedule([Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4],
-                    [Bird.pegmanX, Bird.pegmanY, Bird.pegmanD * 4 + 4]);
-      Bird.pegmanD = Bird.constrainDirection4(Bird.pegmanD + 1);
-      break;
-    case 'finish':
-      Bird.scheduleFinish(true);
-      window.setTimeout(Bird.congratulations, 1000);
+  if (typeof action[0] == 'number') {
+    var angle = action[0];
+    Bird.X += Math.cos(angle);
+    Bird.Y += Math.sin(angle);
+    Bird.displayBird();
+  } else if (action[0] == 'worm') {
+    var worm = document.getElementById('worm');
+    worm.style.visibility = 'hidden';
+  } else if (action[0] == 'finish') {
   }
 
   Bird.pidList.push(window.setTimeout(Bird.animate, Bird.stepSpeed * 5));
@@ -481,8 +444,7 @@ BlocklyApps.congratulationsKeyDown_ = function(e) {
 Bird.nextLevel = function() {
   window.location = window.location.protocol + '//' +
       window.location.host + window.location.pathname +
-      '?lang=' + BlocklyApps.LANG + '&level=' + (Bird.LEVEL + 1) +
-      '&skin=' + Bird.SKIN_ID;
+      '?lang=' + BlocklyApps.LANG + '&level=' + (Bird.LEVEL + 1);
 };
 
 /**
@@ -582,120 +544,15 @@ Bird.scheduleFinish = function(sound) {
 };
 
 /**
- * Display Pegman at a the specified location, facing the specified direction.
- * @param {number} x Horizontal grid (or fraction thereof).
- * @param {number} y Vertical grid (or fraction thereof).
- * @param {number} d Direction (0 - 15) or dance (16 - 17).
+ * Display Bird at the current location, facing the current angle.
  */
-Bird.displayPegman = function(x, y, d) {
-  var pegmanIcon = document.getElementById('pegman');
-  pegmanIcon.setAttribute('x',
-      x * Bird.SQUARE_SIZE - d * Bird.PEGMAN_WIDTH + 1);
-  pegmanIcon.setAttribute('y',
-      Bird.SQUARE_SIZE * (y + 0.5) - Bird.PEGMAN_HEIGHT / 2 - 8);
-
-  var clipRect = document.getElementById('clipRect');
-  clipRect.setAttribute('x', x * Bird.SQUARE_SIZE + 1);
-  clipRect.setAttribute('y', pegmanIcon.getAttribute('y'));
-};
-
-// API
-
-/**
- * Attempt to move pegman forward or backward.
- * @param {number} direction Direction to move (0 = forward, 2 = backward).
- * @param {string} id ID of block that triggered this action.
- * @throws {true} If the end of the maze is reached.
- * @throws {false} If Pegman collides with a wall.
- */
-Bird.move = function(direction, id) {
-  if (!Bird.isPath(direction, null)) {
-    BlocklyApps.log.push(['fail_' + (direction ? 'backward' : 'forward'), id]);
-    throw false;
-  }
-  // If moving backward, flip the effective direction.
-  var effectiveDirection = Bird.pegmanD + direction;
-  var command;
-  switch (Bird.constrainDirection4(effectiveDirection)) {
-    case Bird.DirectionType.NORTH:
-      Bird.pegmanY--;
-      command = 'north';
-      break;
-    case Bird.DirectionType.EAST:
-      Bird.pegmanX++;
-      command = 'east';
-      break;
-    case Bird.DirectionType.SOUTH:
-      Bird.pegmanY++;
-      command = 'south';
-      break;
-    case Bird.DirectionType.WEST:
-      Bird.pegmanX--;
-      command = 'west';
-      break;
-  }
-  BlocklyApps.log.push([command, id]);
-  if (Bird.pegmanX == Bird.finish_.x && Bird.pegmanY == Bird.finish_.y) {
-    // Finished.  Terminate the user's program.
-    BlocklyApps.log.push(['finish', null]);
-    throw true;
-  }
-};
-
-/**
- * Turn pegman left or right.
- * @param {number} direction Direction to turn (0 = left, 1 = right).
- * @param {string} id ID of block that triggered this action.
- */
-Bird.turn = function(direction, id) {
-  if (direction) {
-    // Right turn (clockwise).
-    Bird.pegmanD++;
-    BlocklyApps.log.push(['right', id]);
-  } else {
-    // Left turn (counterclockwise).
-    Bird.pegmanD--;
-    BlocklyApps.log.push(['left', id]);
-  }
-  Bird.pegmanD = Bird.constrainDirection4(Bird.pegmanD);
-};
-
-/**
- * Is there a path next to pegman?
- * @param {number} direction Direction to look
- *     (0 = forward, 1 = right, 2 = backward, 3 = left).
- * @param {?string} id ID of block that triggered this action.
- *     Null if called as a helper function in Bird.move().
- * @return {boolean} True if there is a path.
- */
-Bird.isPath = function(direction, id) {
-  var effectiveDirection = Bird.pegmanD + direction;
-  var square;
-  var command;
-  switch (Bird.constrainDirection4(effectiveDirection)) {
-    case Bird.DirectionType.NORTH:
-      square = Bird.map[Bird.pegmanY - 1] &&
-          Bird.map[Bird.pegmanY - 1][Bird.pegmanX];
-      command = 'look_north';
-      break;
-    case Bird.DirectionType.EAST:
-      square = Bird.map[Bird.pegmanY][Bird.pegmanX + 1];
-      command = 'look_east';
-      break;
-    case Bird.DirectionType.SOUTH:
-      square = Bird.map[Bird.pegmanY + 1] &&
-          Bird.map[Bird.pegmanY + 1][Bird.pegmanX];
-      command = 'look_south';
-      break;
-    case Bird.DirectionType.WEST:
-      square = Bird.map[Bird.pegmanY][Bird.pegmanX - 1];
-      command = 'look_west';
-      break;
-  }
-  if (id) {
-    BlocklyApps.log.push([command, id]);
-  }
-  return square !== Bird.SquareType.WALL && square !== undefined;
+Bird.displayBird = function() {
+  // Move the bird into position.
+  var image = document.getElementById('bird');
+  image.setAttribute('x',
+      Bird.X / 100 * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  image.setAttribute('y',
+      (1 - Bird.Y / 100) * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
 };
 
 /**
@@ -737,4 +594,67 @@ Bird.distanceToSegment = function(px, py, x1, y1, x2, y2) {
   var tx = x1 + t * (x2 - x1);
   var ty = y1 + t * (y2 - y1);
   return Bird.distance(px, py, tx, ty);
+};
+
+/**
+ * Has the bird intersected the nest?
+ * @return {boolean} True if the bird found the nest, false otherwise.
+ */
+Bird.intersectNest = function() {
+  var accuracy = 1.0 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
+  return Bird.distance(Bird.X, Bird.Y, Bird.MAP.nestX, Bird.MAP.nestY) <
+      accuracy;
+};
+
+/**
+ * Has the bird intersected the worm?
+ * @return {boolean} True if the bird found the worm, false otherwise.
+ */
+Bird.intersectWorm = function() {
+  var accuracy = 1.0 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
+  return Bird.distance(Bird.X, Bird.Y, Bird.MAP.wormX, Bird.MAP.wormY) <
+      accuracy;
+};
+
+/**
+ * Has the bird intersected a wall?
+ * @return {boolean} True if the bird hit a wall, false otherwise.
+ */
+Bird.intersectWall = function() {
+  var accuracy = 0.5 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
+  for (var i = 0, wall; wall = Bird.MAP.walls[i]; i++) {
+    if (Bird.distanceToSegment(Bird.X, Bird.Y,
+        wall[0], wall[1], wall[2], wall[3]) < accuracy) {
+      return true;
+    }
+  }
+  return false;
+};
+
+// API
+
+/**
+ * Attempt to move the bird in the specified direction.
+ * @param {number} angle Direction to move (0 = east, 90 = north).
+ * @param {string} id ID of block that triggered this action.
+ * @throws {true} If the nest is reached.
+ * @throws {false} If the bird collides with a wall.
+ */
+Bird.heading = function(angle, id) {
+  // Convert degrees to radians.
+  angle = angle / 180 * Math.PI;
+  Bird.X += Math.cos(angle);
+  Bird.Y += Math.sin(angle);
+  BlocklyApps.log.push([angle, id]);
+  if (Bird.intersectNest()) {
+    // Finished.  Terminate the user's program.
+    BlocklyApps.log.push(['finish', null]);
+    throw true;
+  }
+  if (Bird.intersectWorm()) {
+    BlocklyApps.log.push(['worm', null]);
+  }
+  if (Bird.intersectWall()) {
+    throw false;
+  }
 };

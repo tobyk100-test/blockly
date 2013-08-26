@@ -60,7 +60,7 @@ Blockly.Language.bird_heading = {
 Blockly.JavaScript.bird_heading = function() {
   // Generate JavaScript for moving bird in a direction.
   var dir = this.getTitleValue('ANGLE');
-  return 'Bird.heading(' + dir + '\'block_id_' + this.id + '\');\n';
+  return 'Bird.heading(' + dir + ', \'block_id_' + this.id + '\');\n';
 };
 
 Blockly.Language.bird_position = {
