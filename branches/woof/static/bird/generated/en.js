@@ -46,7 +46,7 @@ birdpage.start = function(opt_data, opt_ignored, opt_ijData) {
     output += ' ' + ((i131 == opt_ijData.level) ? '<span class="tab" id="selected">' + soy.$$escapeHtml(i131) + '</span>' : (i131 < opt_ijData.level) ? '<a class="tab previous" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i131) + '">' + soy.$$escapeHtml(i131) + '</a>' : '<a class="tab" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i131) + '">' + soy.$$escapeHtml(i131) + '</a>');
   }
   output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select></td></tr></table><div id="visualization"><div id="hintBubble"><div id="hint">';
-  switch (opt_ijData.level) {
+  switch (opt_ijData.level + 20) {
     case 1:
       output += 'Stack a couple of \'move forward\' blocks together to help me reach the goal.';
       break;

@@ -48,6 +48,7 @@ Bird.stepSpeed;
 
 Bird.ICON_SIZE = 100;
 Bird.MAP_SIZE = 400;
+Bird.WALL_THICKNESS = 10;
 
 Bird.MAP = [
 // Level 0.
@@ -59,20 +60,104 @@ Bird.MAP = [
   wormY: 50,
   nestX: 80,
   nestY: 80,
-  walls: [
-    [100, 0, 60, 40],
-    [0, 100, 40, 60]
-  ]
+  walls: []
   },
 // Level 2.
+ {startX: 20,
+  startY: 20,
+  wormX: 80,
+  wormY: 20,
+  nestX: 80,
+  nestY: 80,
+  walls: [[0, 50, 60, 50]]
+  },
 // Level 3.
+ {startX: 20,
+  startY: 80,
+  wormX: 50,
+  wormY: 20,
+  nestX: 80,
+  nestY: 80,
+  walls: [[50, 40, 50, 100]]
+  },
 // Level 4.
+ {startX: 20,
+  startY: 80,
+  wormX: 50,
+  wormY: 80,
+  nestX: 80,
+  nestY: 20,
+  walls: [[0, 0, 60, 60]]
+  },
 // Level 5.
+ {startX: 80,
+  startY: 80,
+  wormX: 50,
+  wormY: 20,
+  nestX: 20,
+  nestY: 20,
+  walls: [[0, 100, 60, 40]]
+  },
 // Level 6.
+ {startX: 20,
+  startY: 40,
+  wormX: 80,
+  wormY: 20,
+  nestX: 20,
+  nestY: 80,
+  walls: [[0, 50, 60, 50]
+  ]
+  },
 // Level 7.
+ {startX: 80,
+  startY: 80,
+  wormX: 80,
+  wormY: 20,
+  nestX: 20,
+  nestY: 20,
+  walls: [
+    [0, 70, 40, 70],
+    [70, 50, 100, 50]
+  ]
+  },
 // Level 8.
+ {startX: 20,
+  startY: 20,
+  wormX: 80,
+  wormY: 20,
+  nestX: 80,
+  nestY: 60,
+  walls: [
+    [50, 0, 50, 60],
+    [80, 50, 100, 50]
+  ]
+  },
 // Level 9.
+ {startX: 90,
+  startY: 70,
+  wormX: 10,
+  wormY: 10,
+  nestX: 90,
+  nestY: 10,
+  walls: [
+    [0, 70, 30, 100],
+    [40, 50, 80, 0],
+    [80, 50, 100, 50]
+  ]
+  },
 // Level 10.
+ {startX: 20,
+  startY: 50,
+  wormX: 80,
+  wormY: 50,
+  nestX: 50,
+  nestY: 20,
+  walls: [
+    [40, 60, 60, 60],
+    [40, 60, 60, 30],
+    [60, 30, 100, 30]
+  ]
+  }
 ][Bird.LEVEL];
 
 /**
@@ -95,29 +180,22 @@ Bird.drawMap = function() {
   square.setAttribute('stroke', '#CCB');
   svg.appendChild(square);
 
-  if (Bird.graph) {
-    // Draw the grid lines.
-    // The grid lines are offset so that the lines pass through the centre of
-    // each square.  A half-pixel offset is also added to as standard SVG
+  if (Bird.MAP && Bird.MAP.walls) {
+    // Draw the walls.
+    // A half-pixel offset is also added to as standard SVG
     // practice to avoid blurriness.
-    var offset = Bird.SQUARE_SIZE / 2 + 0.5;
-    for (var k = 0; k < Bird.ROWS; k++) {
-      var h_line = document.createElementNS(Blockly.SVG_NS, 'line');
-      h_line.setAttribute('y1', k * Bird.SQUARE_SIZE + offset);
-      h_line.setAttribute('x2', Bird.MAZE_WIDTH);
-      h_line.setAttribute('y2', k * Bird.SQUARE_SIZE + offset);
-      h_line.setAttribute('stroke', Bird.SKIN.graph);
-      h_line.setAttribute('stroke-width', 1);
-      svg.appendChild(h_line);
-    }
-    for (var k = 0; k < Bird.COLS; k++) {
-      var v_line = document.createElementNS(Blockly.SVG_NS, 'line');
-      v_line.setAttribute('x1', k * Bird.SQUARE_SIZE + offset);
-      v_line.setAttribute('x2', k * Bird.SQUARE_SIZE + offset);
-      v_line.setAttribute('y2', Bird.MAZE_HEIGHT);
-      v_line.setAttribute('stroke', Bird.SKIN.graph);
-      v_line.setAttribute('stroke-width', 1);
-      svg.appendChild(v_line);
+    // var offset = Bird.SQUARE_SIZE / 2 + 0.5;
+    for (var k = 0; k < Bird.MAP.walls.length; k++) {
+      var wallXY = Bird.MAP.walls[k];
+      var wall = document.createElementNS(Blockly.SVG_NS, 'line');
+      wall.setAttribute('x1', wallXY[0] / 100 * Bird.MAP_SIZE); // - Bird.WALL_THICKNESS / 2);
+      wall.setAttribute('y1', (1 - wallXY[1] / 100) * Bird.MAP_SIZE); // + Bird.WALL_THICKNESS / 2);
+      wall.setAttribute('x2', wallXY[2] / 100 * Bird.MAP_SIZE); // - Bird.WALL_THICKNESS / 2);
+      wall.setAttribute('y2', (1 - wallXY[3] / 100) * Bird.MAP_SIZE); // + Bird.WALL_THICKNESS / 2);
+      wall.setAttribute('stroke', '#0A0');
+      wall.setAttribute('stroke-width', Bird.WALL_THICKNESS);
+      wall.setAttribute('stroke-linecap', 'round');
+      svg.appendChild(wall);
     }
   }
 
@@ -227,7 +305,7 @@ Bird.reset = function(first) {
   }
   Bird.pidList = [];
 
-  // Move Pegman into position.
+  // Move Bird into position.
   Bird.X = Bird.MAP.startX;
   Bird.Y = Bird.MAP.startY;
 

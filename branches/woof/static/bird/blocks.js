@@ -166,8 +166,7 @@ Blockly.Language.bird_ifElse = {
 Blockly.JavaScript.bird_ifElse = function() {
   // Generate JavaScript for 'if/else' conditional.
   var argument = Blockly.JavaScript.valueToCode(this, 'CONDITION',
-                 Blockly.JavaScript.ORDER_ATOMIC) +
-                 '(\'block_id_' + this.id + '\')';
+                 Blockly.JavaScript.ORDER_ATOMIC);
   var branch0 = Blockly.JavaScript.statementToCode(this, 'DO');
   var branch1 = Blockly.JavaScript.statementToCode(this, 'ELSE');
   var code = 'if (' + argument + ') {\n' + branch0 +

@@ -68,7 +68,8 @@
   <div id="visualization">
     <div id="hintBubble">
       <div id="hint">
-      {switch $ij.level}
+      {switch ($ij.level + 20)}
+      //{switch $ij.level}
         {case 1}
           {msg meaning="Bird.instructions1" desc="instructions - The words for 'stack' and 'blocks' should be the same as for stacking children's blocks. Use the imperative verb form appropriate for speaking to a child, gender unspecified.  If no gender-neutral singular/familiar form exists but a gender-neutral plural/formal form exists, use that instead.  Be sure to use the same translation of 'move forward' as above."}Stack a couple of 'move forward' blocks together to help me reach the goal.{/msg}
         {case 2}
