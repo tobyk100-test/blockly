@@ -237,7 +237,7 @@ Bird.init = function() {
   Blockly.loadAudio_(['apps/bird/whack.mp3', 'apps/bird/whack.ogg'], 'whack');
 
   Blockly.JavaScript.INFINITE_LOOP_TRAP = '  BlocklyApps.checkTimeout(%1);\n';
-  Bird.drawMap();
+//  Bird.drawMap();
 
   var blocklyDiv = document.getElementById('blockly');
   var visualization = document.getElementById('visualization');
@@ -255,11 +255,25 @@ Bird.init = function() {
   onresize();
   Blockly.fireUiEvent(window, 'resize');
 
-  var defaultXml =
+  var defaultXml = '';
+  if (Bird.LEVEL == 1) {
+    defaultXml =
       '<xml>' +
-      '  <block type="bird_moveForward" x="70" y="70"></block>' +
+      '  <block type="bird_heading" x="70" y="70"></block>' +
       '</xml>';
-//  BlocklyApps.loadBlocks(defaultXml);
+  } else if (Bird.LEVEL <= 5) {
+    defaultXml =
+      '<xml>' +
+      '  <block type="bird_ifElse" x="70" y="70"></block>' +
+      '</xml>';
+  } else {
+    defaultXml =
+      '<xml>' +
+      '  <block type="controls_if" x="70" y="70"></block>' +
+      '</xml>';
+  }
+
+  BlocklyApps.loadBlocks(defaultXml);
 
 //  Bird.reset(true);
 

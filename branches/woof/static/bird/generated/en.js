@@ -36,14 +36,14 @@ if (typeof birdpage == 'undefined') { var birdpage = {}; }
 
 
 birdpage.messages = function(opt_data, opt_ignored, opt_ijData) {
-  return apps.messages(null, null, opt_ijData) + '<div style="display: none"><span id="Bird_moveForward">move forward</span><span id="Bird_turnLeft">turn left</span><span id="Bird_turnRight">turn right</span><span id="Bird_doCode">do</span><span id="Bird_elseCode">else</span><span id="Bird_pathAhead">if path ahead</span><span id="Bird_pathLeft">if path to the left</span><span id="Bird_pathRight">if path to the right</span><span id="Bird_repeatUntil">repeat until</span><span id="Bird_moveForwardTooltip">Moves the player forward one space.</span><span id="Bird_turnTooltip">Turns the player left or right by 90 degrees.</span><span id="Bird_ifTooltip">If there is a path in the specified direction, then do some actions.</span><span id="Bird_ifelseTooltip">If there is a path in the specified direction, then do the first block of actions.  Otherwise, do the second block of actions.</span><span id="Bird_whileTooltip">Repeat the enclosed actions until finish point is reached.</span><span id="Bird_nextLevel">Congratulations! Are you ready to proceed to level %1?</span><span id="Bird_finalLevel">Congratulations! You have solved the final level.</span></div>';
+  return apps.messages(null, null, opt_ijData) + '<div style="display: none"><span id="Bird_hungry">hungry</span><span id="Bird_heading">heading</span><span id="Bird_if">if</span><span id="Bird_doCode">do</span><span id="Bird_elseCode">else</span><span id="Bird_hungryTooltip">The condition when the bird has not gotten the food.</span><span id="Bird_headingTooltip">Move in the direction of the given angle: 0 is to the right, 90 is traight up, etc.</span><span id="Bird_positionTooltip">x and y mark the bird\'s position. When x = 0 the bird is near the left edge, when x = 100 it\'s near the right edge. When y = 0 the bird is at the bottom, when y = 100 it\'s at the top.</span><span id="Bird_nextLevel">Congratulations! Are you ready to proceed to level %1?</span><span id="Bird_finalLevel">Congratulations! You have solved the final level.</span></div>';
 };
 
 
 birdpage.start = function(opt_data, opt_ignored, opt_ijData) {
   var output = birdpage.messages(null, null, opt_ijData) + '<table width="100%"><tr><td><h1><span id="title"><a href="../index.html">Blockly</a> : Bird</span> &nbsp; ';
-  for (var i149 = 1; i149 < 11; i149++) {
-    output += ' ' + ((i149 == opt_ijData.level) ? '<span class="tab" id="selected">' + soy.$$escapeHtml(i149) + '</span>' : (i149 < opt_ijData.level) ? '<a class="tab previous" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i149) + '">' + soy.$$escapeHtml(i149) + '</a>' : '<a class="tab" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i149) + '">' + soy.$$escapeHtml(i149) + '</a>');
+  for (var i131 = 1; i131 < 11; i131++) {
+    output += ' ' + ((i131 == opt_ijData.level) ? '<span class="tab" id="selected">' + soy.$$escapeHtml(i131) + '</span>' : (i131 < opt_ijData.level) ? '<a class="tab previous" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i131) + '">' + soy.$$escapeHtml(i131) + '</a>' : '<a class="tab" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i131) + '">' + soy.$$escapeHtml(i131) + '</a>');
   }
   output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select></td></tr></table><div id="visualization"><div id="hintBubble"><div id="hint">';
   switch (opt_ijData.level) {
@@ -84,7 +84,7 @@ birdpage.start = function(opt_data, opt_ignored, opt_ijData) {
 
 
 birdpage.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<xml id="toolbox" style="display: none;"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block>' + ((opt_ijData.level > 2) ? '<block type="maze_forever"></block>' + ((opt_ijData.level == 6) ? '<block type="maze_if"><title name="DIR">isPathLeft</title></block>' : (opt_ijData.level > 6) ? '<block type="maze_if"></block>' + ((opt_ijData.level > 8) ? '<block type="maze_ifElse"></block>' : '') : '') : '') + '</xml>';
+  return '<xml id="toolbox" style="display: none;"><block type="bird_heading"></block>' + ((opt_ijData.level >= 2) ? '<block type="bird_hungry"></block>' + ((opt_ijData.level >= 4) ? '<block type="bird_compare"><title name="OP">LT</title><value name="A"><block type="bird_position"><title name="XY">x</title></block></value><value name="B"><block type="math_number"><title name="NUM">50</title></block></value></block>' + ((opt_ijData.level >= 5) ? '<block type="bird_compare"><title name="OP">LT</title><value name="A"><block type="bird_position"><title name="XY">y</title></block></value><value name="B"><block type="math_number"><title name="NUM">50</title></block></value></block>' + ((opt_ijData.level >= 8) ? '<block type="bird_and"></block>' : '') : '') : '') : '') + '</xml>';
 };
 
 
