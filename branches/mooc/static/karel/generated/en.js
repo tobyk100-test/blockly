@@ -80,13 +80,13 @@ page1.hints = function(opt_data, opt_ignored, opt_ijData) {
       output += 'It\'s dark outside and now the farmer can\'t tell how large the mound is. This means one of the options on the while loop has been taken away. Tell the farmer how many shovelfuls of dirt to remove.';
       break;
     case 8:
-      output += 'It\'s still dark, tell the farmer to level out all the mounds. Each mound needs 5 shovelfuls.';
+      output += 'It\'s still dark outside. Tell the farmer to fill in all the holes. Each hole needs 5 shovelfuls of dirt.';
       break;
     case 9:
-      output += 'Level out all the mounds.';
+      output += 'Remove the 4 the mounds.';
       break;
     case 10:
-      output += 'Fill in the holes and level out the mounds.';
+      output += 'Move the farmer along the field. If there is a mound, remove it, and if there is a hole, fill it in.';
       break;
   }
   return output;
@@ -127,19 +127,19 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
         output += 'There is a solution using only 3 blocks. Can you find it? Did you try the new option on the while block?';
         break;
       case 6:
-        output += 'Could you use two while blocks to complete this level with fewer total blocks.';
+        output += 'Could you use two while blocks to complete this level with fewer total blocks?';
         break;
       case 7:
         output += 'There is a solution using only 3 blocks. Can you find it? Did you using the repeat block?';
         break;
       case 8:
-        output += 'Try using the repeat block inside the while block.';
+        output += 'Can you find a solution using 4 blocks? Try putting a loop inside of another loop. Remember, loop blocks are green.';
         break;
       case 9:
-        output += 'Try using the repeat block inside the while block.';
+        output += 'Can you find a solution using only 4 blocks? Try using one of the green loop blocks.';
         break;
       case 10:
-        output += 'Try using two if blocks to decide whether to fill or remove.';
+        output += 'Can you find a solution using 6 blocks? Try including 2 if blocks.';
         break;
     }
   } else if (opt_ijData.page == 2) {
