@@ -85,13 +85,18 @@ Blockly.Language.bird_compare = {
   // Block for comparing bird's x or y position with a number.
   helpUrl: Blockly.LANG_LOGIC_COMPARE_HELPURL,
   init: function() {
+    if (Blockly.RTL) {
+      var OPERATORS = [['>', 'LT'], ['<', 'GT']];
+    } else {
+      var OPERATORS = [['<', 'LT'], ['>', 'GT']];
+    }
     this.setColour(210);
     this.setOutput(true, 'Boolean');
     this.appendValueInput('A')
         .setCheck('Number');
     this.appendValueInput('B')
         .setCheck('Number')
-        .appendTitle(new Blockly.FieldDropdown(this.OPERATORS), 'OP');
+        .appendTitle(new Blockly.FieldDropdown(OPERATORS), 'OP');
     this.setInputsInline(true);
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
@@ -101,10 +106,6 @@ Blockly.Language.bird_compare = {
     });
   }
 };
-
-Blockly.Language.bird_compare.OPERATORS =
-    [['<', 'LT'],
-     ['>', 'GT']];
 
 Blockly.Language.bird_compare.TOOLTIPS = {
   LT: Blockly.LANG_LOGIC_COMPARE_TOOLTIP_LT,
