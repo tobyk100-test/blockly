@@ -213,9 +213,9 @@ Maze.map = [
  [[0, 0, 0, 0, 0, 0, 0, 0],
   [0, 1, 1, 0, 3, 0, 1, 0],
   [0, 1, 1, 0, 1, 1, 1, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0],
+  [0, 1, 0, 1, 0, 1, 0, 0],
   [0, 1, 1, 1, 1, 1, 1, 0],
-  [0, 0, 1, 0, 0, 0, 1, 0],
+  [0, 0, 0, 1, 0, 0, 1, 0],
   [0, 2, 1, 1, 1, 0, 1, 0],
   [0, 0, 0, 0, 0, 0, 0, 0]]
 ][Maze.LEVEL];
@@ -1067,7 +1067,7 @@ Maze.scheduleFinish = function(sound) {
 };
 
 /**
- * Display Pegman at a the specified location, facing the specified direction.
+ * Display Pegman at the specified location, facing the specified direction.
  * @param {number} x Horizontal grid (or fraction thereof).
  * @param {number} y Vertical grid (or fraction thereof).
  * @param {number} d Direction (0 - 15) or dance (16 - 17).

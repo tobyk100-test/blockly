@@ -44,7 +44,8 @@ Turtle.REINF =
 // Create a limited colour palette to avoid overwhelming new users
 // and to make colour checking easier.  These definitions cannot be
 // moved to blocks.js, which is loaded later, since they are used in
-// top-level definitions below.
+// top-level definitions below.  Note that the hex digits a-f are
+// lower-case.  This is assumed in comparisons below.
 Turtle.Colours = {
   BLACK: '#000000',
   GREY: '#808080',
@@ -54,7 +55,7 @@ Turtle.Colours = {
   PINK: '#ff77ff',
   ORANGE: '#ffa000',
   YELLOW: '#ffff00',
-  GREEN: '#228B22',
+  GREEN: '#228b22',
   BLUE: '#0000cd',
   AQUAMARINE: '#7fffd4',
   PLUM: '#843179'
@@ -70,6 +71,70 @@ Turtle.Colours = {
 Turtle.REQUIRED_COLOURS = null;
 
 /**
+ * Template used to generate a regular expression string checking that
+ * the procedure whose name replaces '%1' is called.
+ * @private
+ */
+Turtle.PROCEDURE_CALL_TEMPLATE_ = 'procedures_callnoreturn[^e]*e="%1"'
+
+// These functions are used within BlocklyApps.REQUIRED_BLOCKS.
+// They must not be anonymous, since there names are used for
+// generating html ids.
+function repeat_(block) {
+  return block.type == 'controls_repeat';
+}
+function callDrawASquare_(block) {
+  return block.type == 'procedures_callnoreturn' &&
+      block.getProcedureCall() == 'draw a square';
+}
+function callDrawATriangle_(block) {
+  return block.type == 'procedures_callnoreturn' &&
+      block.getProcedureCall() == 'draw a triangle';
+}
+function callDrawATriangleWithParameter_(block) {
+  return callDrawATriangle_(block) &&
+      block.arguments_ && block.arguments_.length == 1 &&
+      block.getInputTargetBlock('ARG0') &&
+      block.getInputTargetBlock('ARG0').type == 'math_number';
+}
+function callDrawAHouse_(block) {
+  return block.type == 'procedures_callnoreturn' &&
+      block.getProcedureCall() == 'draw a house';
+}
+function defineAnything_(block) {
+  return block.type == 'procedures_defnoreturn';
+}
+function defineDrawATriangle_(block) {
+  return block.type == 'procedures_defnoreturn' &&
+      block.getProcedureDef() &&
+      block.getProcedureDef()[0] == 'draw a triangle';
+}
+function defineDrawATriangleWithParameter_(block) {
+  return defineDrawATriangle_(block) &&
+      block.arguments_.length == 1;
+}
+function defineDrawATriangleWithLengthParameter_(block) {
+  return defineDrawATriangleWithParameter_(block) &&
+      block.arguments_[0] == 'length';
+}
+function defineDrawAHouse_(block) {
+  return block.type == 'procedures_defnoreturn' &&
+      block.getProcedureDef() &&
+      block.getProcedureDef()[0] == 'draw a house';
+}
+function move_(block) {
+  return block.type.indexOf('draw_move') == 0;
+}
+function moveByLength_(block) {
+  return move_(block) &&
+      block.getInputTargetBlock('VALUE') &&
+      block.getInputTargetBlock('VALUE').type == 'variables_get_length';
+}
+function turn_(block) {
+  return block.type.indexOf('draw_turn') == 0;
+}
+
+/**
  * Information about level-specific requirements.  Each entry consists of:
  * - the ideal number of blocks.
  * - an array of required blocks.
@@ -83,57 +148,89 @@ Turtle.BLOCK_DATA = [
    // Level 1: El.
    [3, ['moveForward', 'turnRight']],
    // Level 2: Square (without repeat).
-   [7, ['penColour', 'turn', 'move'], 4],
+   [7, ['draw_colour', 'turn', 'move'], 4],
    // Level 3: Square (with repeat).
-   [3, ['while', 'turn', 'move']],
+   [3, ['turn', 'move', repeat_]],
    // Level 4: Triangle.
-   [3, ['while', 'turn', 'move'], 3],
+   [3, ['turn', 'move'], 3],
    // Level 5: Envelope.
-   [6, ['while', 'turn', 'move']],
+   [6, ['turn', 'move']],
    // Level 6: triangle and square.
-   [6, ['while', 'turn', 'move']],
+   [6, ['turn', 'move']],
    // Level 7: glasses.
-   [8, ['penColour', 'var', 'turn', 'move'], Turtle.Colours.GREEN],
+   [8, ['draw_colour', repeat_, 'turn', 'move'], Turtle.Colours.GREEN],
    // Level 8: spikes.
-   [4, ['penColour', 'colour_random', 'move', 'turn'], 8],
+   [4, ['draw_colour', 'colour_random', 'move', 'turn'], 8],
    // Level 9: circle.
-   [3, ['var', 'move', 'turn']]],
+   [3, [repeat_, 'move', 'turn']]],
   // Page 2.
   [undefined,  // Level 0.
    // Level 1: Square.
-   [5, ['penColour', 'var', 'turn', 'move'], 1],
+   [5, ['draw_colour', 'while', 'turn', 'move'], 1],
    // Level 2: Small green square.
-   [2, ['penColour', 'draw_a_square'], Turtle.Colours.GREEN],
+   [2, ['draw_colour', 'draw_a_square'], Turtle.Colours.GREEN],
    // Level 3: Three squares.
-   [5, ['colour_random']],
+   [5, ['colour_random', repeat_, 'turn']],
    // Level 4: 36 squares.
-   [5, ['while', 'colour_random']],
+   [5, ['colour_random']],
    // Level 5: Different size squares.
    [10, ['draw_a_square']],
    // Level 6: For-loop squares.
-   [6, ['for', 'counter']],
+   [6, ['for', 'get_counter', 'draw_a_square']],
    // Level 7: Boxy spiral.
-   [8, ['counter']],
+   [8, ['for', 'get_counter', 'move']],
    // Level 8: Three snowmen.
-   [9, []],
+   [9, ['draw_a_snowman', 'turn', 'jump', 'move'], 3],
    // Level 9: Snowman family.
-   [12, []]],
+   [12, ['draw_a_snowman', 'for', 'jump', 'get_counter']]],
 
   // Page 3.
-  undefined
+  // This page uses procedures instead of strings to check for required
+  // blocks to avoid matching undeletable code in starting blocks.
+  [undefined,  // Level 0.
+   // Level 1: Call 'draw a square'.
+   // The semicolon distinguishes the call from the definition.
+   [1, [callDrawASquare_]],
+   // Level 2: Create "draw a triangle".
+   [7, [defineDrawATriangle_, move_, turn_, repeat_,
+        callDrawATriangle_]],
+   // Level 3: Fence the animals.
+   [7, [callDrawATriangle_, move_, callDrawASquare_]],
+   // Level 4: House the lion.
+   [6, [callDrawASquare_, move_, turn_, callDrawATriangle_]],
+   // Level 5: Create "draw a house".
+   [8, [defineAnything_, defineDrawAHouse_, callDrawASquare_, move_, turn_,
+        callDrawATriangle_, callDrawAHouse_]],
+   // Level 6: Add parameter to "draw a triangle".
+   [13,
+    [defineDrawATriangle_,
+     defineDrawATriangleWithParameter_,
+     defineDrawATriangleWithLengthParameter_,
+     moveByLength_,
+     callDrawATriangle_,
+     callDrawATriangleWithParameter_,
+    'draw_colour'],
+    2]
+  // TODO: Add levels 7, 8, and 9.
+  ]
 ];
 
-if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
-    Turtle.BLOCK_DATA[BlocklyApps.PAGE]) {
-  BlocklyApps.IDEAL_BLOCK_NUM =
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][0];
-  BlocklyApps.REQUIRED_BLOCKS =
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][1];
-  Turtle.REQUIRED_COLOURS =
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][2];
-}
+BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = false;
+BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = 1;
 
-BlocklyApps.MAX_FEEDBACK_VERSIONS = 2;
+// TODO: Remove try/catch once hints written for all levels.
+try {
+  if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
+      Turtle.BLOCK_DATA[BlocklyApps.PAGE]) {
+    BlocklyApps.IDEAL_BLOCK_NUM =
+        Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][0];
+    BlocklyApps.REQUIRED_BLOCKS =
+        Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][1];
+    Turtle.REQUIRED_COLOURS =
+        Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][2];
+  }
+} catch (e) {}
+
 BlocklyApps.FREE_BLOCKS = 'colour';
 
 Turtle.HEIGHT = 400;
@@ -188,13 +285,20 @@ Turtle.init = function() {
   Blockly.JavaScript.addReservedWords('Turtle,code');
 
   var blocklyDiv = document.getElementById('blockly');
+  var visualization = document.getElementById('visualization');
   var onresize = function(e) {
-    blocklyDiv.style.width = (window.innerWidth - blocklyDiv.offsetLeft - 18) +
-        'px';
-    blocklyDiv.style.height = (window.innerHeight - 22) + 'px';
+    var top = bubble.offsetTop;
+    blocklyDiv.style.top = Math.max(10, top - window.scrollY) + 'px';
+    blocklyDiv.style.left = rtl ? '10px' : '420px';
+    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
+  window.addEventListener('scroll', function() {
+      onresize();
+      Blockly.fireUiEvent(window, 'resize');
+    });
   window.addEventListener('resize', onresize);
   onresize();
+  Blockly.fireUiEvent(window, 'resize');
 
   if (!('BlocklyStorage' in window)) {
     document.getElementById('linkButton').className = 'disabled';
@@ -237,8 +341,9 @@ Turtle.init = function() {
   BlocklyApps.reset();
 
   // Special case to increase speed on levels that have lots of steps.
-  if ((BlocklyApps.PAGE == 1 || BlocklyApps.PAGE == 2) &&
-      BlocklyApps.LEVEL == 9) {
+  if ((BlocklyApps.PAGE == 1 && BlocklyApps.LEVEL == 9) ||
+      (BlocklyApps.PAGE == 2 &&
+          (BlocklyApps.LEVEL >= 8 && BlocklyApps.LEVEL <= 9))) {
     Turtle.speedSlider.setValue(.9);
   }
 
@@ -248,6 +353,9 @@ Turtle.init = function() {
       Turtle.updateBlockCount();
     });
   }
+
+  // Lazy-load the syntax-highlighting.
+  window.setTimeout(BlocklyApps.importPrettify, 1);
 };
 
 window.addEventListener('load', Turtle.init);
@@ -298,7 +406,6 @@ Turtle.placeImage = function(filename, coordinates) {
 
 /**
  * Draw the images for this page and level onto Turtle.ctxImages.
- * TODO: Consider putting specification in template.soy.
  */
 Turtle.drawImages = function() {
   if (BlocklyApps.PAGE == 3) {
@@ -497,7 +604,6 @@ Turtle.animate = function() {
   if (!tuple) {
     document.getElementById('spinner').style.visibility = 'hidden';
     Blockly.mainWorkspace.highlightBlock(null);
-    BlocklyApps.attempts++;
     Turtle.checkAnswer();
     return;
   }
@@ -507,7 +613,7 @@ Turtle.animate = function() {
   Turtle.display();
 
   // Scale the speed non-linearly, to give better precision at the fast end.
-  var stepSpeed = 1000 * Math.pow(Turtle.speedSlider.getValue(), 2);
+  var stepSpeed = 1000 * Math.pow(1 - Turtle.speedSlider.getValue(), 2);
   Turtle.pid = window.setTimeout(Turtle.animate, stepSpeed);
 };
 
@@ -538,8 +644,9 @@ Turtle.step = function(command, values) {
         Turtle.ctxScratch.lineTo(Turtle.x, Turtle.y + bump);
         Turtle.ctxScratch.stroke();
         if (distance) {
-          if (Turtle.coloursUsed.indexOf(Turtle.ctxScratch.strokeStyle) == -1) {
-            Turtle.coloursUsed.push(Turtle.ctxScratch.strokeStyle);
+          var colour = Turtle.ctxScratch.strokeStyle.toLowerCase();
+          if (Turtle.coloursUsed.indexOf(colour) == -1) {
+            Turtle.coloursUsed.push(colour);
           }
         }
       }
@@ -591,7 +698,8 @@ Turtle.ColourResults = {
   OK: 0,
   NONE: 1,               // No colours were used.
   FORBIDDEN_DEFAULT: 2,  // Default colour (black) was used but not permitted.
-  TOO_FEW: 3             // Fewer distinct colours were used than required.
+  TOO_FEW: 3,            // Fewer distinct colours were used than required.
+  EXTRA: 4               // All of the required colours and more were used.
   // There is no value for "wrong colour" because we use
   // the name of the colour (as a string) instead.
 };
@@ -600,13 +708,13 @@ Turtle.ColourResults = {
  * Returns the name of the property key in Turtle.Colours whose value
  * is the given hex string.
  * @param {!string} hex The JavaScript representation of a hexadecimal
- *        value (such as "#0123ab").
+ *        value (such as "#0123ab").  The hex digits a-f must be lower-case.
  * @return {string} The name of the colour, or "UNKNOWN".  The latter
  *        should only be returned if the colour was not from Turtle.Colours.
  */
 Turtle.hexStringToColourName = function(hex) {
   for (var name in Turtle.Colours) {
-    if (Turtle.Colours[name].toLowerCase() == hex.toLowerCase()) {
+    if (Turtle.Colours[name] == hex) {
       return name.toLowerCase();
     }
   }
@@ -618,7 +726,7 @@ Turtle.hexStringToColourName = function(hex) {
  * This uses Turtle.REQUIRED_COLOURS and Turtle.coloursUsed.
  * @return {number|string} The appropriate value in Turtle.ColourResults or
  *     the name of a missing required colour.
-*/
+ */
 Turtle.checkRequiredColours = function() {
   if (!Turtle.REQUIRED_COLOURS) {
     return Turtle.ColourResults.OK;
@@ -626,22 +734,31 @@ Turtle.checkRequiredColours = function() {
   if (Turtle.coloursUsed == 0) {
     return Turtle.ColourResults.NONE;
   } else if (typeof Turtle.REQUIRED_COLOURS == 'string') {
-    if (Turtle.coloursUsed.length > 1 ||
-        Turtle.coloursUsed[0] != Turtle.REQUIRED_COLOURS) {
+    for (var i = 0; i < Turtle.coloursUsed.length; i++) {
+      if (Turtle.coloursUsed[i] == Turtle.REQUIRED_COLOURS) {
+        return Turtle.coloursUsed.length == 1 ? Turtle.ColourResults.OK :
+            Turtle.ColourResults.EXTRA;
+      }
       return Turtle.hexStringToColourName(Turtle.REQUIRED_COLOURS);
-    } else {
-      return Turtle.ColourResults.OK;
     }
   } else if (Turtle.REQUIRED_COLOURS == 1) {
     // Any colour but black is acceptable.
     if (Turtle.coloursUsed.length == 1 &&
         Turtle.coloursUsed[0] == Turtle.Colours.BLACK) {
       return Turtle.ColourResults.FORBIDDEN_DEFAULT;
+    } else {
+      return Turtle.ColourResults.OK;
     }
   } else {
     // Turtle.REQUIRED_COLOURS must be a number greater than 1.
-    return Turtle.coloursUsed.length >= Turtle.REQUIRED_COLOURS ?
-        Turtle.ColourResults.OK : Turtle.ColourResults.TOO_FEW;
+    var surplus = Turtle.coloursUsed.length - Turtle.REQUIRED_COLOURS;
+    if (surplus > 0) {
+      return Turtle.ColourResult.EXTRA;
+    } else if (surplus == 0) {
+      return Turtle.ColourResults.OK;
+    } else {
+      return Turtle.ColourResults.TOO_FEW;
+    }
   }
 };
 
@@ -687,18 +804,20 @@ Turtle.checkAnswer = function() {
       feedbackType == BlocklyApps.TestResults.ALL_PASS) {
     var colourResult = Turtle.checkRequiredColours();
     if (colourResult != Turtle.ColourResults.OK) {
-      feedbackType = BlocklyApps.OTHER_2_STAR_FAIL;
       var message;
-      if (colourResult === Turtle.ColourResults.FORBIDDEN_DEFAULT) {
-        message = BlocklyApps.getMsg('notBlackColour');
-      } else if (colourResult === Turtle.ColourResults.TOO_FEW) {
-        message = BlocklyApps.getMsg('tooFewColours').replace(
-            '%1',
-            Turtle.REQUIRED_COLOURS).replace(
-                '%2',
-                Turtle.coloursUsed.length);
-      } else if (typeof colourResult == 'string') {
-        message = BlocklyApps.getMsg('wrongColour').replace('%1', colourResult);
+      if (colourResult == Turtle.ColourResults.EXTRA) {
+        message = BlocklyApps.getMsg('extraColours');
+      } else {
+        feedbackType = BlocklyApps.TestResults.OTHER_1_STAR_FAIL;
+        if (colourResult == Turtle.ColourResults.FORBIDDEN_DEFAULT) {
+          message = BlocklyApps.getMsg('notBlackColour');
+        } else if (colourResult == Turtle.ColourResults.TOO_FEW) {
+          message = BlocklyApps.getMsg('tooFewColours');
+          message = message.replace('%1', Turtle.REQUIRED_COLOURS);
+          message = message.replace('%2', Turtle.coloursUsed.length);
+        } else if (typeof colourResult == 'string') {
+          message = BlocklyApps.getMsg('wrongColour').replace('%1', colourResult);
+        }
       }
       BlocklyApps.setTextForElement('colourFeedback', message).style.display =
           'list-item';

@@ -275,7 +275,7 @@ Blockly.Block.prototype.dispose = function(healStack, animate) {
   if (Blockly.selected == this) {
     Blockly.selected = null;
     // If there's a drag in-progress, unlink the mouse events.
-    Blockly.Block.terminateDrag_();
+    Blockly.terminateDrag_();
   }
 
   // First, dispose of all my children.
@@ -384,6 +384,34 @@ Blockly.Block.prototype.moveBy = function(dx, dy) {
 };
 
 /**
+ * Returns a bounding box describing the dimensions of this block.
+ * @return {!Object} Object with height and width properties.
+ */
+Blockly.Block.prototype.getHeightWidth = function() {
+  try {
+    var bBox = this.getSvgRoot().getBBox();
+  } catch (e) {
+    // Firefox has trouble with hidden elements (Bug 528969).
+    return {height: 0, width: 0};
+  }
+  if (Blockly.BROKEN_CONTROL_POINTS) {
+    /* HACK:
+     WebKit bug 67298 causes control points to be included in the reported
+     bounding box.  The render functions (below) add two 5px spacer control
+     points that we need to subtract.
+    */
+    bBox.height -= 10;
+    if (this.nextConnection) {
+      // Bottom control point partially masked by lower tab.
+      bBox.height += 4;
+    }
+  }
+  // Subtract one from the height due to the shadow.
+  bBox.height -= 1;
+  return bBox;
+};
+
+/**
  * Handle a mouse-down on an SVG block.
  * @param {!Event} e Mouse down event.
  * @private
@@ -394,13 +422,13 @@ Blockly.Block.prototype.onMouseDown_ = function(e) {
   }
   // Update Blockly's knowledge of its own location.
   Blockly.svgResize();
-  Blockly.Block.terminateDrag_();
+  Blockly.terminateDrag_();
   this.select();
   Blockly.hideChaff();
   if (Blockly.isRightButton(e)) {
     // Right-click.
     if (Blockly.ContextMenu) {
-      this.showContextMenu_(e.clientX, e.clientY);
+      this.showContextMenu_(Blockly.mouseToSvg(e));
     }
   } else if (!this.isMovable()) {
     // Allow unmovable blocks to be selected and context menued, but not
@@ -447,7 +475,7 @@ Blockly.Block.prototype.onMouseDown_ = function(e) {
  * @private
  */
 Blockly.Block.prototype.onMouseUp_ = function(e) {
-  Blockly.Block.terminateDrag_();
+  Blockly.terminateDrag_();
   if (Blockly.selected && Blockly.highlightedConnection_) {
     // Connect two blocks together.
     Blockly.localConnection_.connect(Blockly.highlightedConnection_);
@@ -517,11 +545,10 @@ Blockly.Block.prototype.duplicate_ = function() {
 
 /**
  * Show the context menu for this block.
- * @param {number} x X-coordinate of mouse click.
- * @param {number} y Y-coordinate of mouse click.
+ * @param {!Object} xy Coordinates of mouse click, contains x and y properties.
  * @private
  */
-Blockly.Block.prototype.showContextMenu_ = function(x, y) {
+Blockly.Block.prototype.showContextMenu_ = function(xy) {
   if (Blockly.readOnly || !this.contextMenu) {
     return;
   }
@@ -529,7 +556,7 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
   var block = this;
   var options = [];
 
-  if (this.isDeletable()) {
+  if (this.isDeletable() && !block.isInFlyout) {
     // Option to duplicate this block.
     var duplicateOption = {
       text: Blockly.MSG_DUPLICATE_BLOCK,
@@ -636,11 +663,11 @@ Blockly.Block.prototype.showContextMenu_ = function(x, y) {
   options.push(helpOption);
 
   // Allow the block to add or modify options.
-  if (this.customContextMenu) {
+  if (this.customContextMenu && !block.isInFlyout) {
     this.customContextMenu(options);
   }
 
-  Blockly.ContextMenu.show(x, y, options);
+  Blockly.ContextMenu.show(xy, options);
 };
 
 /**
@@ -724,7 +751,8 @@ Blockly.Block.prototype.setDragging_ = function(adding) {
  * @private
  */
 Blockly.Block.prototype.onMouseMove_ = function(e) {
-  if (e.type == 'mousemove' && e.x <= 1 && e.y == 0 && e.button == 0) {
+  if (e.type == 'mousemove' && e.clientX <= 1 && e.clientY == 0 &&
+      e.button == 0) {
     /* HACK:
      Safari Mobile 6.0 and Chrome for Android 18.0 fire rogue mousemove events
      on certain touch actions. Ignore events with these signatures.
@@ -810,6 +838,10 @@ Blockly.Block.prototype.bumpNeighbours_ = function() {
     return;
   }
   var rootBlock = this.getRootBlock();
+  if (rootBlock.isInFlyout) {
+    // Don't move blocks around in a flyout.
+    return;
+  }
   // Loop though every connection on this block.
   var myConnections = this.getConnections_(false);
   for (var x = 0; x < myConnections.length; x++) {

@@ -55,9 +55,6 @@ a:hover {
   position: absolute;
   box-shadow: 7px 7px 10px #888;
 }
-#visualization {
-  position: relative;
-}
 #hintBubble {
   position: absolute;
   left: 10px;
@@ -166,17 +163,16 @@ button {
   border-radius: 5px;
   border: 1px solid #ddd;
   background-color: #eee;
-  font-size: 10%;
+  font-size: large;
   color: #000;
 }
 button.launch {
   border: 1px solid #0DA38A;
   background-color: #0DA38A;
   color: #fff;
-  font-size: large;
+  min-width: 96px;
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
-  min-width: 96px;
 }
 html[dir="RTL"] button.launch {
   text-align: right;
@@ -201,10 +197,12 @@ button.disabled {
 /* Block areas */
 #toolbarDiv {
   text-align: center;
+  width: 400px;
   padding-top: 1em;
 }
 #blockly {
   position: fixed;
+  bottom: 10px;
 }
 #display {
   border: 1px solid #ccc;
