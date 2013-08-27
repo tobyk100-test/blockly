@@ -53,12 +53,13 @@ class ReportHandler(webapp2.RequestHandler):
   def get(self):
     level = int(self.request.get("level", 1))
     app = self.request.get("app", "maze")
+
     reports = Report.query(Report.level == level, Report.application == app)
-    programs = [(report.program, report.result) for report in reports]
-    counts = Counter(programs)
-    ordered_counts = OrderedDict(sorted(counts.items(), key = lambda t: t[1]))
-    logging.info(ordered_counts)
+    results = {report.program: report.result for report in reports}
+    counts = Counter([report.program for report in reports])
+    results_and_counts = {program: (results[program], counts[program])
+                          for program in counts.keys()}
     self.response.headers['Content-Type'] = 'text/json'
-    self.response.write(json.dumps(ordered_counts))
+    self.response.write(json.dumps(results_and_counts))
 
 app = webapp2.WSGIApplication([('/report', ReportHandler)], debug=True)
