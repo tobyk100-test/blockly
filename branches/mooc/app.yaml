@@ -14,6 +14,9 @@ handlers:
 # Report service.
 - url: /report
   script: report.app
+# Statistics
+- url: /statistics
+  script: statistics.app
 # Blockly files.
 - url: /static
   static_dir: static

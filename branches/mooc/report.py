@@ -23,17 +23,19 @@ __author__ = "ellen.spertus@gmail.com (Ellen Spertus)"
 
 import webapp2
 import logging
+from collections import Counter, OrderedDict
+import json
 
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
-class Report(db.Model):
-  identifier = db.FloatProperty()
-  application = db.StringProperty()
-  date = db.DateTimeProperty(auto_now_add=True)
-  level = db.IntegerProperty()
-  result = db.BooleanProperty()
+class Report(ndb.Model):
+  identifier = ndb.FloatProperty()
+  application = ndb.StringProperty()
+  date = ndb.DateTimeProperty(auto_now_add=True)
+  level = ndb.IntegerProperty()
+  result = ndb.BooleanProperty()
   # StringProperty is limited to 500 characters, so use TextProperty.
-  program = db.TextProperty()
+  program = ndb.TextProperty()
 
 class ReportHandler(webapp2.RequestHandler):
   def post(self):
@@ -47,5 +49,16 @@ class ReportHandler(webapp2.RequestHandler):
       row.put()
     except ValueError:
       logging.error("Unable to extract all form fields.")
+
+  def get(self):
+    level = int(self.request.get("level", 1))
+    app = self.request.get("app", "maze")
+    reports = Report.query(Report.level == level, Report.application == app)
+    programs = [(report.program, report.result) for report in reports]
+    counts = Counter(programs)
+    ordered_counts = OrderedDict(sorted(counts.items(), key = lambda t: t[1]))
+    logging.info(ordered_counts)
+    self.response.headers['Content-Type'] = 'text/json'
+    self.response.write(json.dumps(ordered_counts))
 
 app = webapp2.WSGIApplication([('/report', ReportHandler)], debug=True)

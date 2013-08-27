@@ -666,13 +666,16 @@ BlocklyApps.report = function(app, id, level, result, program) {
     httpRequest.open('POST', BlocklyApps.REPORT_URL);
     httpRequest.setRequestHeader('Content-Type',
         'application/x-www-form-urlencoded');
+    var program 
+    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    var text = Blockly.Xml.domToText(xml);
     httpRequest.send(
         'app=' + app +
         '&level=' + level +
         '&result=' + result +
         '&attempt=' + 1 +
         '&time=' + 1 +
-        '&program=' + encodeURIComponent(program));
+        '&program=' + text);
   }
 };
 

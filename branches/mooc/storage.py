@@ -54,7 +54,7 @@ class StorageHandler(webapp2.RequestHandler):
     return xml_key
 
   def post(self):
-    if self.request.get("key"): self.get()
+    if self.request.get("key"): self.get()  # Only retrieves data.
     xml_content = self.request.get("xml")
     xml_hash = hash(xml_content)
     lookup_query = db.Query(Xml)
@@ -87,48 +87,3 @@ class StorageHandler(webapp2.RequestHandler):
     self.response.write(xml)
 
 app = webapp2.WSGIApplication([('/storage', StorageHandler)], debug=True)
-# Below is the code from python 2.5, used as basis for current code.
-'''
-if "xml" in forms:
-  # Store XML and return a generated key.
-  xml_content = forms["xml"].value
-  xml_hash = hash(xml_content)
-  lookup_query = db.Query(Xml)
-  lookup_query.filter("xml_hash =", xml_hash)
-  lookup_result = lookup_query.get()
-  if lookup_result:
-    xml_key = lookup_result.key().name()
-  else:
-    trials = 0
-    result = True
-    while result:
-      trials += 1
-      if trials == 100:
-        raise Exception("Sorry, the generator failed to get a key for you.")
-      xml_key = keyGen()
-      result = db.get(db.Key.from_path("Xml", xml_key))
-    xml = db.Text(xml_content, encoding="utf_8")
-    row = Xml(key_name = xml_key, xml_hash = xml_hash, xml_content = xml)
-    row.put()
-  print xml_key
-
-if "key" in forms:
-  # Retrieve stored XML based on the provided key.
-  key_provided = forms["key"].value
-  # Normalize the string.
-  key_provided = key_provided.lower().strip()
-  # Check memcache for a quick match.
-  xml = memcache.get("XML_" + key_provided)
-  if xml is None:
-    # Check datastore for a definitive match.
-    result = db.get(db.Key.from_path("Xml", key_provided))
-    if not result:
-      xml = ""
-    else:
-      xml = result.xml_content
-    # Save to memcache for next hit.
-    if not memcache.add("XML_" + key_provided, xml, 3600):
-      logging.error("Memcache set failed.")
-  print xml.encode("utf-8")
-'''
-
