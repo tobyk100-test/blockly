@@ -451,7 +451,7 @@
         /*  Define "draw a triangle".  */
         {call .polygon}
           {param title}draw a triangle{/param}
-          {param modifiers}{if $ij.level == 6}x="20" y="190"{else}x="360" y="20"{/if}{/param}
+          {param modifiers}{if $ij.level == 6}x="20" y="190"{else}x="360" y="20" editable="false" deletable="false"{/if}{/param}
           {param sides: 3 /}
           {param length}{if $ij.level >= 7}0{else}100{/if}{/param}
         {/call}
@@ -637,23 +637,20 @@
         </td>
       </tr>
     </table>
-    <table>
-      <tr>
         // First column has prompt, capacity, canvas, slider, and buttons.
-        <td width=405>
           <div id="bubble">
             <div id="prompt">
               {call .showInstructions /}
             </div>
           </div>
           <div id="blockCount"></div>
-          <div>
+          <div id="visualization">
             <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
             <canvas id="answer" width="400" height="400" style="display: none"></canvas>
             <canvas id="images" width="400" height="400" style="display: none"></canvas>
             <canvas id="display" width="400" height="400"></canvas>
           </div>
-          <table style="padding-top: 1em;">
+          <table style="padding-top: 1em;" width=400>
             <tr>
               <td style="width: 190px; text-align: center">
                 <svg
@@ -702,14 +699,9 @@
               <img src='../media/1x1.gif' class="link icon21">
             </button>
           </div>
-        </td>
         // Toolbox.
-        <td valign="top">
           {call .toolbox /}
           <div id="blockly"></div>
-        </td>
-      </tr>
-    </table>
   {/if}
   {call .feedback /}
   <div id="shadow"></div>
@@ -781,7 +773,7 @@
           {/msg}</li>
         <li id="repeatError2" class="feedback" style="display: none">
           {msg meaning="Turtle.repeatError2Msg" desc="TODO"}
-            You will need to use a "repeat" block.
+            You need to use a "repeat" block.
           {/msg}</li>
         <li id="colour_randomError1" class="feedback" style="display: none">
           {msg meaning="Turtle.colour_randomError1Msg" desc="TODO"}
@@ -811,12 +803,12 @@
                 {/msg}
               {case 7}
                 {msg meaning="Turtle.forError1Msg-p2-l7" desc="TODO"}
-                You will need a "count with" block to give the counter
+                You need a "count with" block to give the counter
                 values from 25 through 60.
                 {/msg}
               {case 9}
                 {msg meaning="Turtle.forError1Msg-p2-l9" desc="TODO"}
-                You will need a "count with" block to give the counter
+                You need a "count with" block to give the counter
                 values from 110 down to 70.
                 {/msg}
             {/switch}
@@ -846,15 +838,15 @@
             {switch $ij.level}
               {case 6}
                 {msg meaning="Turtle.getCounterError1Msg-p2-l6" desc="TODO"}
-                  You will need the "counter" block to draw squares of different lengths.
+                  You need the "counter" block to draw squares of different lengths.
                 {/msg}
               {case 7}
                 {msg meaning="Turtle.getCounterError1Msg-p2-l7" desc="TODO"}
-                  You will need the "counter" block to draw lines of different lengths.
+                  You need the "counter" block to draw lines of different lengths.
                 {/msg}
               {case 9}
                 {msg meaning="Turtle.getCounterError1Msg-p2-l9" desc="TODO"}
-                  You will need the "counter" block to draw snowmen of different heights.
+                  You need the "counter" block to draw snowmen of different heights.
                 {/msg}
             {/switch}
           {/if}
@@ -912,19 +904,126 @@
             Open the Functions category and get a "draw a square" block.
           {/msg}
         </li>
+
         // These are for procedure calls on Page 3.
-        // The regular expression is 'procedures_callnoreturn[^e]*e="draw a square"'.
-        <li id="procedures_callnoreturneedrawasquareError1" class="feedback" style="display:none">
+        <li id="callDrawASquareError1" class="feedback" style="display:none">
           {msg meaning="Turtle.drawASquareError1Msg-p3" desc="TODO"}
             The shown code tells the turtle <em>how</em> to draw a square but not
             to draw a square.  You need to pull out a "draw a square" block from
             the Functions category.
           {/msg}
         </li>
-        <li id="procedures_callnoreturneedrawasquareError2" class="feedback" style="display:none">
+        <li id="callDrawASquareError2" class="feedback" style="display:none">
           {msg meaning="Turtle.drawASquareError2Msg-p3" desc="TODO"}
             From the current code, the turtle doesn't know that you want to draw a square.
             Pull out a "draw a square" block from the Functions category.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleError1" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawATriangleError1Msg-p3" desc="TODO"}
+            You need a "draw a triangle" block to let the turtle know you
+            want it to draw a triangle.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleError2" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawATriangleError2Msg-p3" desc="TODO"}
+            To use your "draw a triangle" function, open the "Functions" category
+            and pull out a "draw a triangle" block.
+          {/msg}
+        </li>
+        // These errors are shown if there is no longer a definition for
+        // "draw a triangle".
+        <li id="defineDrawATriangleError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefErrorMsg1" desc="TODO"}
+            Oops.  It looks like you no longer have a block to tell the
+            turtle how to draw a triangle.  Try reloading the page.
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefErrorMsg2" desc="TODO"}
+            Reload the page to get back the "to draw a triangle" block.
+          {/msg}
+        </li>
+        <li id="defineAnythingError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.defineAnythingErrorMsg1" desc="TODO"}
+            You need to create a function.
+          {/msg}
+        </li>
+        <li id="defineAnythingError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.defineAnythingErrorMsg2" desc="TODO"}
+            Open the Functions category, and pull out a "do something" block,
+            and fill it in.
+          {/msg}
+        </li>
+        <li id="defineDrawAHouseError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.defineDrawAHouseErrorMsg1" desc="TODO"}
+            The function you create must be named "draw a house".
+          {/msg}
+        </li>
+        <li id="defineDrawAHouseError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.defineDrawAHouseErrorMsg2" desc="TODO"}
+            Put "draw a house" in the light purple area of the "to do something"
+            block you dragged out.
+          {/msg}
+        </li>
+        <li id="callDrawAHouseError1" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawAHouseError1Msg" desc="TODO"}
+            Now that you created a "draw a house" function, you need to call it.
+          {/msg}
+        </li>
+        <li id="callDrawAHouseError2" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawAHouseError2Msg" desc="TODO"}
+            Open the Functions category, and pull out a "draw a house" block.
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleWithParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefWithParameterErrorMsg1" desc="TODO"}
+            You need to add a "length" input to your function definition.
+            The first step is clicking on the blue
+            "+" next to "to draw a triangle".
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleWithParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefWithParameterErrorMsg2" desc="TODO"}
+            Your "draw a triangle" function needs a "length" input.
+            Click on the blue "+" next to "to draw a triangle", drag in
+            an input, and name it "length".
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleWithLengthParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefWithLengthParameterErrorMsg1" desc="TODO"}
+            You added an input to "draw a triangle".  Now you need to change its
+            name to "length".
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleWithLengthParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefWithLengthParameterErrorMsg2" desc="TODO"}
+            Click on the blue "+" next to "to draw a triangle" and change the
+            name of the input to "length".
+          {/msg}
+        </li>
+        <li id="moveByLengthError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.moveByLengthMsg1" desc="TODO"}
+            The amount to move forward should depend on the input "length".
+          {/msg}
+        </li>
+        <li id="moveByLengthError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.moveByLengthMsg2" desc="TODO"}
+            Open the Variables category, and drag a "length" block into
+            the "move forward" block.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleWithParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleCallWithParameterErrorMsg1" desc="TODO"}
+            When using the "draw a triangle" block, you need to provide an input
+            that says how big the triangle should be.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleWithParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleCallWithParameterErrorMsg2" desc="TODO"}
+            Open the Math category, and pull out a number block.  Change its
+            value and plug it into the "draw a triangle" block to say how big
+            the first triangle should be.
           {/msg}
         </li>
 
@@ -932,6 +1031,11 @@
         <li id="colourFeedback" class="feedback" style="display: none"></li>
 
         // Messages relating to the number of blocks.
+        <li id="emptyBlocksError" class="feedback" style="display: none">
+          {msg meaning="BlocklyApps.emptyBlocksErrorMsg" desc="alert - This
+            error message is displayed when the user has added blocks with
+            nothing nested inside them (e.g. repeat or if blocks)."}Remove
+            unused empty blocks.{/msg}</li>
         <li id="tooFewBlocksError" class="feedback" style="display: none">
           {msg meaning="Maze.tooFewBlocksMsg" desc="alert - The user has not
             completed the level, is using all of the necessary types of blocks,

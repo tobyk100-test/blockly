@@ -71,6 +71,70 @@ Turtle.Colours = {
 Turtle.REQUIRED_COLOURS = null;
 
 /**
+ * Template used to generate a regular expression string checking that
+ * the procedure whose name replaces '%1' is called.
+ * @private
+ */
+Turtle.PROCEDURE_CALL_TEMPLATE_ = 'procedures_callnoreturn[^e]*e="%1"'
+
+// These functions are used within BlocklyApps.REQUIRED_BLOCKS.
+// They must not be anonymous, since there names are used for
+// generating html ids.
+function repeat_(block) {
+  return block.type == 'controls_repeat';
+}
+function callDrawASquare_(block) {
+  return block.type == 'procedures_callnoreturn' &&
+      block.getProcedureCall() == 'draw a square';
+}
+function callDrawATriangle_(block) {
+  return block.type == 'procedures_callnoreturn' &&
+      block.getProcedureCall() == 'draw a triangle';
+}
+function callDrawATriangleWithParameter_(block) {
+  return callDrawATriangle_(block) &&
+      block.arguments_ && block.arguments_.length == 1 &&
+      block.getInputTargetBlock('ARG0') &&
+      block.getInputTargetBlock('ARG0').type == 'math_number';
+}
+function callDrawAHouse_(block) {
+  return block.type == 'procedures_callnoreturn' &&
+      block.getProcedureCall() == 'draw a house';
+}
+function defineAnything_(block) {
+  return block.type == 'procedures_defnoreturn';
+}
+function defineDrawATriangle_(block) {
+  return block.type == 'procedures_defnoreturn' &&
+      block.getProcedureDef() &&
+      block.getProcedureDef()[0] == 'draw a triangle';
+}
+function defineDrawATriangleWithParameter_(block) {
+  return defineDrawATriangle_(block) &&
+      block.arguments_.length == 1;
+}
+function defineDrawATriangleWithLengthParameter_(block) {
+  return defineDrawATriangleWithParameter_(block) &&
+      block.arguments_[0] == 'length';
+}
+function defineDrawAHouse_(block) {
+  return block.type == 'procedures_defnoreturn' &&
+      block.getProcedureDef() &&
+      block.getProcedureDef()[0] == 'draw a house';
+}
+function move_(block) {
+  return block.type.indexOf('draw_move') == 0;
+}
+function moveByLength_(block) {
+  return move_(block) &&
+      block.getInputTargetBlock('VALUE') &&
+      block.getInputTargetBlock('VALUE').type == 'variables_get_length';
+}
+function turn_(block) {
+  return block.type.indexOf('draw_turn') == 0;
+}
+
+/**
  * Information about level-specific requirements.  Each entry consists of:
  * - the ideal number of blocks.
  * - an array of required blocks.
@@ -86,7 +150,7 @@ Turtle.BLOCK_DATA = [
    // Level 2: Square (without repeat).
    [7, ['draw_colour', 'turn', 'move'], 4],
    // Level 3: Square (with repeat).
-   [3, ['turn', 'move']],
+   [3, ['turn', 'move', repeat_]],
    // Level 4: Triangle.
    [3, ['turn', 'move'], 3],
    // Level 5: Envelope.
@@ -94,11 +158,11 @@ Turtle.BLOCK_DATA = [
    // Level 6: triangle and square.
    [6, ['turn', 'move']],
    // Level 7: glasses.
-   [8, ['draw_colour', 'repeat', 'turn', 'move'], Turtle.Colours.GREEN],
+   [8, ['draw_colour', repeat_, 'turn', 'move'], Turtle.Colours.GREEN],
    // Level 8: spikes.
    [4, ['draw_colour', 'colour_random', 'move', 'turn'], 8],
    // Level 9: circle.
-   [3, ['repeat', 'move', 'turn']]],
+   [3, [repeat_, 'move', 'turn']]],
   // Page 2.
   [undefined,  // Level 0.
    // Level 1: Square.
@@ -106,7 +170,7 @@ Turtle.BLOCK_DATA = [
    // Level 2: Small green square.
    [2, ['draw_colour', 'draw_a_square'], Turtle.Colours.GREEN],
    // Level 3: Three squares.
-   [5, ['colour_random', 'repeat', 'turn']],
+   [5, ['colour_random', repeat_, 'turn']],
    // Level 4: 36 squares.
    [5, ['colour_random']],
    // Level 5: Different size squares.
@@ -121,27 +185,52 @@ Turtle.BLOCK_DATA = [
    [12, ['draw_a_snowman', 'for', 'jump', 'get_counter']]],
 
   // Page 3.
-  undefined
-  /*
+  // This page uses procedures instead of strings to check for required
+  // blocks to avoid matching undeletable code in starting blocks.
   [undefined,  // Level 0.
-   // Level 1: call 'draw a square'.
+   // Level 1: Call 'draw a square'.
    // The semicolon distinguishes the call from the definition.
-   [1, ['procedures_callnoreturn[^e]*e="draw a square"']],
-   undefined]
-*/
+   [1, [callDrawASquare_]],
+   // Level 2: Create "draw a triangle".
+   [7, [defineDrawATriangle_, move_, turn_, repeat_,
+        callDrawATriangle_]],
+   // Level 3: Fence the animals.
+   [7, [callDrawATriangle_, move_, callDrawASquare_]],
+   // Level 4: House the lion.
+   [6, [callDrawASquare_, move_, turn_, callDrawATriangle_]],
+   // Level 5: Create "draw a house".
+   [8, [defineAnything_, defineDrawAHouse_, callDrawASquare_, move_, turn_,
+        callDrawATriangle_, callDrawAHouse_]],
+   // Level 6: Add parameter to "draw a triangle".
+   [13,
+    [defineDrawATriangle_,
+     defineDrawATriangleWithParameter_,
+     defineDrawATriangleWithLengthParameter_,
+     moveByLength_,
+     callDrawATriangle_,
+     callDrawATriangleWithParameter_,
+    'draw_colour'],
+    2]
+  // TODO: Add levels 7, 8, and 9.
+  ]
 ];
 
-if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
-    Turtle.BLOCK_DATA[BlocklyApps.PAGE]) {
-  BlocklyApps.IDEAL_BLOCK_NUM =
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][0];
-  BlocklyApps.REQUIRED_BLOCKS =
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][1];
-  Turtle.REQUIRED_COLOURS =
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][2];
-}
+BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = false;
+BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = 1;
 
-BlocklyApps.MAX_FEEDBACK_VERSIONS = 2;
+// TODO: Remove try/catch once hints written for all levels.
+try {
+  if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
+      Turtle.BLOCK_DATA[BlocklyApps.PAGE]) {
+    BlocklyApps.IDEAL_BLOCK_NUM =
+        Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][0];
+    BlocklyApps.REQUIRED_BLOCKS =
+        Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][1];
+    Turtle.REQUIRED_COLOURS =
+        Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][2];
+  }
+} catch (e) {}
+
 BlocklyApps.FREE_BLOCKS = 'colour';
 
 Turtle.HEIGHT = 400;
@@ -194,13 +283,16 @@ Turtle.init = function() {
   Blockly.JavaScript.addReservedWords('Turtle,code');
 
   var blocklyDiv = document.getElementById('blockly');
+  var visualization = document.getElementById('visualization');
   var onresize = function(e) {
-    blocklyDiv.style.width = (window.innerWidth - blocklyDiv.offsetLeft - 18) +
-        'px';
-    blocklyDiv.style.height = (window.innerHeight - 22) + 'px';
+    var top = bubble.offsetTop;
+    blocklyDiv.style.top = Math.max(10, top - window.scrollY) + 'px';
+    blocklyDiv.style.left = rtl ? '10px' : '420px';
+    blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
   window.addEventListener('resize', onresize);
   onresize();
+  Blockly.fireUiEvent(window, 'resize');
 
   if (!('BlocklyStorage' in window)) {
     document.getElementById('linkButton').className = 'disabled';
@@ -266,10 +358,7 @@ Turtle.updateBlockCount = function() {
   BlocklyApps.setTextForElement(
       'blockCount',
       BlocklyApps.getMsg('blocksUsed').
-          replace('%1',
-                  // On Page 3, don't count undeletable starting
-                  // blocks.
-                  BlocklyApps.getNumBlocksUsed(BlocklyApps.PAGE == 3)));
+          replace('%1', BlocklyApps.getNumBlocksUsed()));
 };
 
 /**
@@ -308,7 +397,6 @@ Turtle.placeImage = function(filename, coordinates) {
 
 /**
  * Draw the images for this page and level onto Turtle.ctxImages.
- * TODO: Consider putting specification in template.soy.
  */
 Turtle.drawImages = function() {
   if (BlocklyApps.PAGE == 3) {
@@ -507,7 +595,6 @@ Turtle.animate = function() {
   if (!tuple) {
     document.getElementById('spinner').style.visibility = 'hidden';
     Blockly.mainWorkspace.highlightBlock(null);
-    BlocklyApps.attempts++;
     Turtle.checkAnswer();
     return;
   }

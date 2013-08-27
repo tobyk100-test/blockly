@@ -62,24 +62,22 @@ document.write('<script type="text/javascript" src="generated/' +
 BlocklyApps.MAX_LEVEL = 10;
 BlocklyApps.LEVEL =
     BlocklyApps.getNumberParamFromUrl('level', 1, BlocklyApps.MAX_LEVEL);
+BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = true;
 BlocklyApps.IDEAL_BLOCK_NUM = [undefined, //  0.
   2, 5, 2, 5, 4, 4, 4, 6, 6, 5][BlocklyApps.LEVEL];
 // Blocks that are expected to be used on each level.
 BlocklyApps.REQUIRED_BLOCKS = [undefined, // 0.
   ['moveForward'],
   ['moveForward', 'turnLeft', 'turnRight'],
-  ['moveForward', 'maze_forever'],
-  ['moveForward', 'maze_forever', 'turn'],
-  ['isPathLeft', 'turnLeft', 'maze_forever'],
-  ['isPathLeft', 'turnLeft', 'maze_forever'],
-  ['isPathRight', 'turnRight', 'maze_forever'],
-  ['isPathLeft', 'isPathRight', 'turn', 'maze_forever'],
-  ['isPathForward', 'Else', 'maze_forever'],
-  ['isPathForward', 'Else', 'maze_forever']][BlocklyApps.LEVEL];
-BlocklyApps.MAX_FEEDBACK_VERSIONS = 2;
-
-// The number of versions of feedback available for each required block missing.
-Maze.maxFeedbackVersion = 2;
+  ['moveForward', 'while'],
+  ['moveForward', 'while', 'turn'],
+  ['isPathLeft', 'turnLeft', 'while'],
+  ['isPathLeft', 'turnLeft', 'while'],
+  ['isPathRight', 'turnRight', 'while'],
+  ['isPathLeft', 'isPathRight', 'turn', 'while'],
+  ['isPathForward', 'else', 'while'],
+  ['isPathForward', 'else', 'while']][BlocklyApps.LEVEL];
+BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = 1;
 
 Maze.SKINS = [
   // sprite: A 1029x51 set of 21 avatar images.
@@ -753,7 +751,6 @@ Maze.animate = function() {
   if (!action) {
     BlocklyApps.highlight(null);
     BlocklyApps.levelComplete = (Maze.result == Maze.ResultType.SUCCESS);
-    BlocklyApps.attempts++;
     window.setTimeout(BlocklyApps.displayFeedback, 1000);
     return;
   }

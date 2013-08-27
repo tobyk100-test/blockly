@@ -1,7 +1,7 @@
 {
     "@metadata": {
         "author": "Ellen Spertus <ellen.spertus@gmail.com>",
-        "lastupdated": "2013-08-23 10:49:26.519526",
+        "lastupdated": "2013-08-26 17:58:44.380720",
         "locale": "en_us",
         "messagedocumentation" : "qqq"
     },
@@ -90,7 +90,7 @@
     "Maze.ifError1Msg-10": "Use an 'if-else' block to go straight if there is a path ahead and turn if there is no path ahead.",
     "Maze.ifError2Msg-10": "Use an 'if-else' block to go straight if there is a path ahead and turn if there is no path ahead.",
     "Maze.elseError1Msg-10": "An 'if-else' block will run the else statement when the if statement is not true.&quot;",
-    "Maze.elseError2Msg-10": "An 'if-else' block will run the else statement when the if statement is not true.&quot;",
+    "Maze.elseError2Msg-10": "An 'if-else' block will run the else statement when the 'if' statement is not true.",
     "Maze.whileError1Msg-10": "Notice the repetition in the path? Try using the 'repeat' block which repeats the sequence of blocks inside it until, the player reaches the finish.",
     "Maze.whileError2Msg-10": "Drag and snap the 'repeat' block around all of your blocks.",
     "Maze.reinfMsg2": "A repeat block repeats the blocks inside it until I reach the red marker.",

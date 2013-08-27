@@ -63,44 +63,35 @@ BlocklyApps.LANGUAGES = {
 
 /**
  * User's language, e.g., "en".
- * @type {string}
+ * @type {!string=}
  */
 BlocklyApps.LANG = undefined;
 
 /**
- * The number of feedback versions for each missing block error message.
- * While this could vary by page/level, it generally does not.
- * @type {number}
+ * Whether to alert user to empty blocks, short-circuiting all other tests.
  */
-BlocklyApps.MAX_FEEDBACK_VERSIONS = undefined;
+BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = undefined;
 
 /**
  * The ideal number of blocks to solve this level.  Users only get 2
  * stars if they use more than this number.
- * @type {?number}
+ * @type {!number=}
  */
 BlocklyApps.IDEAL_BLOCK_NUM = undefined;
 
 /**
- * An array of strings that must be found in the generated code.
- * These strings also are used for generating error names.
- * @type {Array.<string>}
+ * An array of both (1) strings that must be found in the generated code
+ * and (2) functions checking for required blocks.
+ * @type {!Array=}
  */
 BlocklyApps.REQUIRED_BLOCKS = undefined;
 
 /**
- * String or regular expression matching blocks that should not be counted
- * toward the block count.  This is used for colour blocks in the turtle
- * application.  While it could vary by page/level, it generally does not.
- * @type {string|Object}
+ * The number of required blocks to give hints about at any one time.
+ * Set this to Infinity to show all.
+ * @type {!number=}
  */
-BlocklyApps.FREE_BLOCKS = undefined;
-
-/**
- * Counter of the number of times the user has tried to solve the level.
- * @type {number}
- */
-BlocklyApps.attempts = 0;
+BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = undefined;
 
 /**
  * Flag indicating whether the last program run completed the level.
@@ -110,7 +101,7 @@ BlocklyApps.levelComplete = null;
 
 /**
  * Transcript of user's actions.  The format is application-dependent.
- * @type {Array.<Array>}
+ * @type {?Array.<Array>}
  */
 BlocklyApps.log = null;
 
@@ -130,12 +121,14 @@ BlocklyApps.reset = function(first) {};
 
 /**
  * Pseudo-random identifier used for tracking user progress within a level.
+ * @type {!number}
  */
 BlocklyApps.LEVEL_ID = Math.random();
 
 /**
  * Enumeration of test results.
  * BlocklyApps.getTestResults() runs checks in the below order.
+ * EMPTY_BLOCKS_FAIL can only occur if BlocklyApps.CHECK_FOR_EMPTY_BLOCKS true.
  */
 BlocklyApps.TestResults = {
   EMPTY_BLOCK_FAIL: 1,       // 0 stars.
@@ -452,21 +445,46 @@ BlocklyApps.hasAllRequiredBlocks = function() {
 };
 
 /**
+ * Get blocks that the user intends in the program, namely any that
+ * are not disabled and can be deleted.
+ * @return {Array<Object>} The blocks.
+ */
+BlocklyApps.getUserBlocks_ = function() {
+  var allBlocks = Blockly.mainWorkspace.getAllBlocks();
+  var blocks = allBlocks.filter(
+      function(block) {
+        return !block.disabled && block.isDeletable();
+      });
+  return blocks;
+};
+
+/**
  * Check to see if the user's code contains the required blocks for a level.
- * @return {!Array} array of strings where each string is a block type that is
- *   not present in the workspace/user's code.
+ * This never returns more than BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG.
+ * @return {!Array} array of strings where each string is the prefix of an
+ *   id in the corresponding template.soy.
  */
 BlocklyApps.getMissingRequiredBlocks = function() {
   var missingBlocks = [];
-  if (BlocklyApps.REQUIRED_BLOCKS) {
-    // TODO: Eliminate disabled blocks and uneditable blocks.
-    var text = Blockly.Xml.domToText(
-        Blockly.Xml.workspaceToDom(Blockly.mainWorkspace));
-    for (var i = 0; i < BlocklyApps.REQUIRED_BLOCKS.length; i++) {
-      var blockType = BlocklyApps.REQUIRED_BLOCKS[i];
-      var regex = new RegExp(blockType, 'g');
-      if (!text.match(regex)) {
-        missingBlocks.push(blockType);
+  var code = null;  // JavaScript code, which is initalized lazily.
+  if (BlocklyApps.REQUIRED_BLOCKS && BlocklyApps.REQUIRED_BLOCKS.length) {
+    var blocks = BlocklyApps.getUserBlocks_();
+    for (var i = 0;
+         i < BlocklyApps.REQUIRED_BLOCKS.length &&
+             missingBlocks.length < BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG;
+         i++) {
+      var test = BlocklyApps.REQUIRED_BLOCKS[i];
+      if (typeof test == 'string') {
+        if (!code) {
+          code = Blockly.Generator.workspaceToCode('JavaScript');
+        }
+        if (code.indexOf(test) == -1) {
+          missingBlocks.push(test);
+        }
+      } else if (typeof test == 'function') {
+        if (!blocks.some(test)) {
+          missingBlocks.push(test.name);
+        }
       }
     }
   }
@@ -475,20 +493,19 @@ BlocklyApps.getMissingRequiredBlocks = function() {
 
 /**
  * Counts the number of blocks used.  Blocks are only counted if they are
- * deletable, not disabled, and not matched by the string or regular expression
- * BlocklyApps.FREE_BLOCKS.
- * @param {boolean} opt_undeletableFree true if undeletable blocks should not be counted
+ * not disabled, are deletable, and match BlocklyApps.FREE_BLOCKS_FILTER,
+ * if defined.
  * @return {number} Number of blocks used.
  */
-BlocklyApps.getNumBlocksUsed = function(opt_undeletableFree) {
-  var blocks = Blockly.mainWorkspace.getAllBlocks();
+BlocklyApps.getNumBlocksUsed = function() {
+  var blocks = BlocklyApps.getUserBlocks_();
+  if (!BlocklyApps.FREE_BLOCKS) {
+    return blocks.length;
+  }
   var count = 0;
   for (var i = 0; i < blocks.length; i++) {
-    if (!blocks[i].disabled &&
-        (!opt_undeletableFree || blocks[i].isDeletable()) &&
-        (!BlocklyApps.FREE_BLOCKS ||
-            !blocks[i].type.match(BlocklyApps.FREE_BLOCKS))) {
-          count++;
+    if (!blocks[i].type.match(BlocklyApps.FREE_BLOCKS)) {
+      count++;
     }
   }
   return count;
@@ -499,7 +516,8 @@ BlocklyApps.getNumBlocksUsed = function(opt_undeletableFree) {
  * @return {number} The appropriate property of BlocklyApps.TestResults.
  */
 BlocklyApps.getTestResults = function() {
-  if (BlocklyApps.hasEmptyTopLevelBlocks()) {
+  if (BlocklyApps.CHECK_FOR_EMPTY_BLOCKS &&
+      BlocklyApps.hasEmptyTopLevelBlocks()) {
     return BlocklyApps.TestResults.EMPTY_BLOCK_FAIL;
   }
   if (!BlocklyApps.hasAllRequiredBlocks()) {
@@ -530,13 +548,17 @@ BlocklyApps.displayStars = function(testResult) {
 };
 
 /**
+ * Map from missing block names (e.g., "move") to the highest number
+ * error message (starting with 1) that has been used.
+ */
+BlocklyApps.errorVersionMap_ = {};
+
+/**
  * Sets appropriate feedback for when the modal dialog is displayed.
  * @param {number} feedbackType A constant property of BlocklyApps.TestResults,
  *     typically produced by BlocklyApps.getTestResults().
  */
 BlocklyApps.setErrorFeedback = function(feedbackType) {
-  var versionOfFeedback = Math.min(BlocklyApps.attempts,
-                                   BlocklyApps.MAX_FEEDBACK_VERSIONS);
   switch (feedbackType) {
     // Give hint, not stars, for empty block or not finishing level.
     case BlocklyApps.TestResults.EMPTY_BLOCK_FAIL:
@@ -563,11 +585,20 @@ BlocklyApps.setErrorFeedback = function(feedbackType) {
       var missingBlocks = BlocklyApps.getMissingRequiredBlocks();
       if (missingBlocks.length) {
         for (var e = 0; e < missingBlocks.length; e++) {
-          var bError = missingBlocks[e];
-          // Remove non-word characters, leaving only [a-zA-Z0-9_].
-          bError = bError.replace(/\W/g, '');
+          var bError = missingBlocks[e].replace(/_/g, '');
+          var lastNum = bError in BlocklyApps.errorVersionMap_ ?
+              BlocklyApps.errorVersionMap_[bError] : 0;
+          // Try getting more advanced version of error message than last time.
           var blockErrorElement = document.getElementById(bError + 'Error' +
-              versionOfFeedback);
+              (lastNum + 1));
+          if (blockErrorElement) {
+            // If successful, increment version number.
+            BlocklyApps.errorVersionMap_[bError] = lastNum + 1;
+          } else {
+            // If more advanced version doesn't exist, try previous version.
+            blockErrorElement = document.getElementById(bError + 'Error' +
+                lastNum);
+          }
           if (blockErrorElement) {
             blockErrorElement.style.display = 'list-item';
           }
