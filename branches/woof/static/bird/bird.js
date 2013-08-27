@@ -1,7 +1,7 @@
 /**
  * Blockly Apps: Bird
  *
- * Copyright 2012 Google Inc.
+ * Copyright 2013 Google Inc.
  * http://blockly.googlecode.com/
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,6 +56,7 @@ Bird.MAP = [
 // Level 1.
  {startX: 20,
   startY: 20,
+  startAngle: 90,
   wormX: 50,
   wormY: 50,
   nestX: 80,
@@ -65,6 +66,7 @@ Bird.MAP = [
 // Level 2.
  {startX: 20,
   startY: 20,
+  startAngle: 0,
   wormX: 80,
   wormY: 20,
   nestX: 80,
@@ -74,6 +76,7 @@ Bird.MAP = [
 // Level 3.
  {startX: 20,
   startY: 70,
+  startAngle: 270,
   wormX: 50,
   wormY: 20,
   nestX: 80,
@@ -83,6 +86,7 @@ Bird.MAP = [
 // Level 4.
  {startX: 20,
   startY: 80,
+  startAngle: 0,
   wormX: 50,
   wormY: 80,
   nestX: 80,
@@ -92,6 +96,7 @@ Bird.MAP = [
 // Level 5.
  {startX: 80,
   startY: 80,
+  startAngle: 270,
   wormX: 50,
   wormY: 20,
   nestX: 20,
@@ -101,6 +106,7 @@ Bird.MAP = [
 // Level 6.
  {startX: 20,
   startY: 40,
+  startAngle: 0,
   wormX: 80,
   wormY: 20,
   nestX: 20,
@@ -111,6 +117,7 @@ Bird.MAP = [
 // Level 7.
  {startX: 80,
   startY: 80,
+  startAngle: 180,
   wormX: 80,
   wormY: 20,
   nestX: 20,
@@ -123,6 +130,7 @@ Bird.MAP = [
 // Level 8.
  {startX: 20,
   startY: 25,
+  startAngle: 90,
   wormX: 80,
   wormY: 25,
   nestX: 80,
@@ -135,6 +143,7 @@ Bird.MAP = [
 // Level 9.
  {startX: 80,
   startY: 70,
+  startAngle: 180,
   wormX: 20,
   wormY: 20,
   nestX: 80,
@@ -148,6 +157,7 @@ Bird.MAP = [
 // Level 10.
  {startX: 20,
   startY: 20,
+  startAngle: 90,
   wormX: 80,
   wormY: 50,
   nestX: 20,
@@ -160,40 +170,35 @@ Bird.MAP = [
   }
 ][Bird.LEVEL];
 
-// Add four surrounding walls.
-Bird.MAP.walls.push([0, 0, 0, 100]);
-Bird.MAP.walls.push([0, 100, 100, 100]);
-Bird.MAP.walls.push([100, 100, 100, 0]);
-Bird.MAP.walls.push([100, 0, 0, 0]);
-
 /**
  * PIDs of animation tasks currently executing.
  */
 Bird.pidList = [];
 
 /**
- * Create and layout all the nodes for the path, scenery, Pegman, and goal.
+ * Create and layout all the nodes for the walls, nest, worm, and bird.
  */
 Bird.drawMap = function() {
   var svg = document.getElementById('svgBird');
 
-  if (Bird.MAP && Bird.MAP.walls) {
-    // Draw the walls.
-    // A half-pixel offset is also added to as standard SVG
-    // practice to avoid blurriness.
-    // var offset = Bird.SQUARE_SIZE / 2 + 0.5;
-    for (var k = 0; k < Bird.MAP.walls.length; k++) {
-      var wallXY = Bird.MAP.walls[k];
-      var wall = document.createElementNS(Blockly.SVG_NS, 'line');
-      wall.setAttribute('x1', wallXY[0] / 100 * Bird.MAP_SIZE); // - Bird.WALL_THICKNESS / 2);
-      wall.setAttribute('y1', (1 - wallXY[1] / 100) * Bird.MAP_SIZE); // + Bird.WALL_THICKNESS / 2);
-      wall.setAttribute('x2', wallXY[2] / 100 * Bird.MAP_SIZE); // - Bird.WALL_THICKNESS / 2);
-      wall.setAttribute('y2', (1 - wallXY[3] / 100) * Bird.MAP_SIZE); // + Bird.WALL_THICKNESS / 2);
-      wall.setAttribute('stroke', '#0A0');
-      wall.setAttribute('stroke-width', Bird.WALL_THICKNESS);
-      wall.setAttribute('stroke-linecap', 'round');
-      svg.appendChild(wall);
-    }
+  // Add four surrounding walls.
+  Bird.MAP.walls.push([0, 0, 0, 100]);
+  Bird.MAP.walls.push([0, 100, 100, 100]);
+  Bird.MAP.walls.push([100, 100, 100, 0]);
+  Bird.MAP.walls.push([100, 0, 0, 0]);
+
+  // Draw the walls.
+  for (var k = 0; k < Bird.MAP.walls.length; k++) {
+    var wallXY = Bird.MAP.walls[k];
+    var wall = document.createElementNS(Blockly.SVG_NS, 'line');
+    wall.setAttribute('x1', wallXY[0] / 100 * Bird.MAP_SIZE);
+    wall.setAttribute('y1', (1 - wallXY[1] / 100) * Bird.MAP_SIZE);
+    wall.setAttribute('x2', wallXY[2] / 100 * Bird.MAP_SIZE);
+    wall.setAttribute('y2', (1 - wallXY[3] / 100) * Bird.MAP_SIZE);
+    wall.setAttribute('stroke', '#0A0');
+    wall.setAttribute('stroke-width', Bird.WALL_THICKNESS);
+    wall.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(wall);
   }
 
   // Add nest.
@@ -305,9 +310,9 @@ Bird.reset = function(first) {
   // Move Bird into position.
   Bird.X = Bird.MAP.startX;
   Bird.Y = Bird.MAP.startY;
+  Bird.angle = Bird.MAP.startAngle;
   Bird.isHungry = true;
 
-//  Bird.pegmanD = Bird.startDirection;
   Bird.displayBird();
 
   // Move the worm into position.
@@ -401,10 +406,9 @@ Bird.execute = function() {
       window.alert(e);
     }
   }
-  console.log('Result:' + result);
 
   // Fast animation if execution is successful.  Slow otherwise.
-  Bird.stepSpeed = (result == Bird.ResultType.SUCCESS) ? 10 : 20;
+  Bird.stepSpeed = (result == Bird.ResultType.SUCCESS) ? 10 : 15;
 
   // BlocklyApps.log now contains a transcript of all the user's actions.
   // Reset the maze and animate the transcript.
@@ -413,7 +417,7 @@ Bird.execute = function() {
 };
 
 /**
- * Iterate through the recorded path and animate pegman's actions.
+ * Iterate through the recorded path and animate the bird's actions.
  */
 Bird.animate = function() {
   // All tasks should be complete now.  Clean up the PID list.
@@ -430,6 +434,7 @@ Bird.animate = function() {
     var angle = action[0];
     Bird.X += Math.cos(angle);
     Bird.Y += Math.sin(angle);
+    Bird.angle = angle / Math.PI * 180;
     Bird.displayBird();
   } else if (action[0] == 'worm') {
     var worm = document.getElementById('worm');
@@ -525,15 +530,17 @@ Bird.nextLevel = function() {
 };
 
 /**
- * Display Bird at the current location, facing the current angle.
+ * Display bird at the current location, facing the current angle.
  */
 Bird.displayBird = function() {
   // Move the bird into position.
   var image = document.getElementById('bird');
-  image.setAttribute('x',
-      Bird.X / 100 * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
-  image.setAttribute('y',
-      (1 - Bird.Y / 100) * Bird.MAP_SIZE - Bird.ICON_SIZE / 2);
+  var x = Bird.X / 100 * Bird.MAP_SIZE - Bird.ICON_SIZE / 2;
+  var y = (1 - Bird.Y / 100) * Bird.MAP_SIZE - Bird.ICON_SIZE / 2;
+  image.setAttribute('x', x);
+  image.setAttribute('y', y);
+  image.setAttribute('transform', 'rotate(-' + Bird.angle + ', ' +
+      (x + Bird.ICON_SIZE / 2) + ', ' + (y + Bird.ICON_SIZE / 2) + ')');
 };
 
 /**
