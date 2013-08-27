@@ -10,7 +10,7 @@ mazepage.messages = function(opt_data, opt_ignored, opt_ijData) {
 
 
 mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
-  var output = mazepage.messages(null, null, opt_ijData) + '<table width="100%" style="border-bottom: 1px solid #DBDBDB;"><tr><td><h1><span id="title"><a href="https://sites.google.com/site/computersciencefirst/">CS First</a> : Maze</span> &nbsp; ';
+  var output = mazepage.messages(null, null, opt_ijData) + '<table width="100%" class="nav-menu" style="border-bottom: 1px solid #DBDBDB;"><tr><td><h1><span id="title"><a href="https://sites.google.com/site/computersciencefirst/">CS First</a> : Maze</span> &nbsp; ';
   for (var i142 = 1; i142 < 11; i142++) {
     output += ' ' + ((i142 == opt_ijData.level) ? (i142 > 9) ? '<span class="selected doubleDigit tab">' + soy.$$escapeHtml(i142) + '</span>' : '<span class="selected tab">' + soy.$$escapeHtml(i142) + '</span>' : (i142 < opt_ijData.level) ? '<a class="tab previous" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i142) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i142) + '</a>' : '<a class="tab" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i142) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i142) + '</a>');
   }
