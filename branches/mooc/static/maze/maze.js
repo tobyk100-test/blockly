@@ -104,9 +104,9 @@ Maze.SKINS = [
   },
   {
     sprite: 'zombieman.png',
-    tiles: 'tiles_pegman.png',
+    tiles: 'tiles_panda.png',
     marker: 'mkr_sunflower.png',
-    background: 'false',
+    background: 'board_pvz.png',
     // Coma star cluster, photo by George Hatfield, used with permission.
     graph: false,
     look: '#fff'
