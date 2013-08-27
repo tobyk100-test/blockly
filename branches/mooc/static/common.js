@@ -1001,7 +1001,8 @@ BlocklyApps.REPORT_URL = BlocklyApps.getStringParamFromUrl('callback_url',
  * @param {string} program The user program, which will get URL-encoded.
  */
 BlocklyApps.report = function(app, id, level, result, program) {
-  if ('BlocklyStorage' in window) {
+  // Allow for reporting on any hosting service running http(s).
+  if (window.location.protocol.indexOf('http') > -1) {
     var httpRequest = new XMLHttpRequest();
     httpRequest.open('POST', BlocklyApps.REPORT_URL);
     httpRequest.setRequestHeader('Content-Type',
