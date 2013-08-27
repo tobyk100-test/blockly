@@ -163,17 +163,16 @@ button {
   border-radius: 5px;
   border: 1px solid #ddd;
   background-color: #eee;
-  font-size: 10%;
+  font-size: large;
   color: #000;
 }
 button.launch {
   border: 1px solid #0DA38A;
   background-color: #0DA38A;
   color: #fff;
-  font-size: large;
+  min-width: 96px;
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
-  min-width: 96px;
 }
 html[dir="RTL"] button.launch {
   text-align: right;

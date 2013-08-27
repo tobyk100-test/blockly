@@ -290,6 +290,10 @@ Turtle.init = function() {
     blocklyDiv.style.left = rtl ? '10px' : '420px';
     blocklyDiv.style.width = (window.innerWidth - 440) + 'px';
   };
+  window.addEventListener('scroll', function() {
+      onresize();
+      Blockly.fireUiEvent(window, 'resize');
+    });
   window.addEventListener('resize', onresize);
   onresize();
   Blockly.fireUiEvent(window, 'resize');
@@ -347,6 +351,9 @@ Turtle.init = function() {
       Turtle.updateBlockCount();
     });
   }
+
+  // Lazy-load the syntax-highlighting.
+  window.setTimeout(BlocklyApps.importPrettify, 1);
 };
 
 window.addEventListener('load', Turtle.init);

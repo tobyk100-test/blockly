@@ -4,7 +4,7 @@
  * This is a Closure Template.  Build multilingually:
  *
  * # Create en.js if that's the only language you care about.
- * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en_us.js --srcs template.soy
+ * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en_us.js --srcs ../common.soy,template.soy
  *
  * # To fully internationalize, follow these steps...
  * # Extract messages from template.soy.
@@ -692,7 +692,7 @@
           </table>
 
           <div id="toolbarDiv">
-            <button title="{msg meaning="Turtle.codeTooltip" desc="TODO"}See generated JavaScript code.{/msg}" onclick="BlocklyApps.showCode();">
+            <button title="{msg meaning="Turtle.codeTooltip" desc="TODO"}See generated JavaScript code.{/msg}" onclick="BlocklyApps.showCode(this);">
               <img src='../media/1x1.gif' class="code icon21">
             </button>
             <button id="linkButton" title="{msg meaning="Turtle.codeTooltip" desc="TODO"}See generated JavaScript code.{/msg}" onclick="BlocklyStorage.link();">
@@ -705,6 +705,10 @@
   {/if}
   {call .feedback /}
   <div id="shadow"></div>
+
+  {call apps.dialog /}
+  {call apps.codeDialog /}
+  {call apps.storageDialog /}
 {/template}
 
 /**
