@@ -8,11 +8,11 @@
  * # included apps subdirectories.
  * java -jar _soy/SoyMsgExtractor.jar --outputFile extracted_msgs.xlf --srcs common.soy,maze/template.soy,turtle/template.soy
  *
- * # Create en.json, qqq.json.
+ * # Create en.json, keys.json, qqq.json.
  * ../i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates common.soy {maze,turtle}/template.soy
  *
  * # Generate .js files for each project:
- * for i in maze turtle; do ../i18n/json_to_js.py --output_dir=$i/generated --template common.soy,$i/template.soy *.json; done
+ * for i in maze turtle; do ../i18n/json_to_js.py --output_dir=$i/generated --path_to_jar=_soy --template common.soy,$i/template.soy *.json; done
  */
 
 /**
