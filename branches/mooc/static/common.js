@@ -844,7 +844,8 @@ BlocklyApps.getMissingRequiredBlocks = function() {
         }
       } else if (typeof test == 'function') {
         if (!blocks.some(test)) {
-          missingBlocks.push(test.name);
+          // Remove trailing underscore if present.
+          missingBlocks.push(test.name.replace(/_$/, ''));
         }
       }
     }
@@ -925,29 +926,25 @@ BlocklyApps.setErrorFeedback = function(feedbackType) {
     // Give hint, not stars, for empty block or not finishing level.
     case BlocklyApps.TestResults.EMPTY_BLOCK_FAIL:
       document.getElementById('emptyBlocksError').style.display = 'list-item';
-      document.getElementById('hintTitle').style.display = 'inline';
       break;
     case BlocklyApps.TestResults.TOO_FEW_BLOCKS_FAIL:
       document.getElementById('tooFewBlocksError').style.display = 'list-item';
-      document.getElementById('hintTitle').style.display = 'inline';
       break;
     case BlocklyApps.TestResults.LEVEL_INCOMPLETE_FAIL:
-      document.getElementById('levelIncompleteError').style.display =
-          'list-item';
-      document.getElementById('hintTitle').style.display = 'inline';
-      break;
-    case BlocklyApps.TestResults.OTHER_1_STAR_FAIL:
-      document.getElementById('star1').style.display = 'block';
-      document.getElementById('hintTitle').style.display = 'inline';
+      document.getElementById('levelIncompleteError').style.display = 'list-item';
       break;
 
+    // For completing level, user gets at least one star.
+    case BlocklyApps.TestResults.OTHER_1_STAR_FAIL:
+      document.getElementById('star1').style.display = 'block';
+      break;
     // One star for failing to use required blocks.
     case BlocklyApps.TestResults.MISSING_BLOCK_FAIL:
       // For each error type in the array, display the corresponding error.
       var missingBlocks = BlocklyApps.getMissingRequiredBlocks();
       if (missingBlocks.length) {
         for (var e = 0; e < missingBlocks.length; e++) {
-          var bError = missingBlocks[e].replace(/_/g, '');
+          var bError = missingBlocks[e];
           var lastNum = bError in BlocklyApps.errorVersionMap_ ?
               BlocklyApps.errorVersionMap_[bError] : 0;
           // Try getting more advanced version of error message than last time.
@@ -956,7 +953,7 @@ BlocklyApps.setErrorFeedback = function(feedbackType) {
           if (blockErrorElement) {
             // If successful, increment version number.
             BlocklyApps.errorVersionMap_[bError] = lastNum + 1;
-          } else {
+          } else if (lastNum != 0) {
             // If more advanced version doesn't exist, try previous version.
             blockErrorElement = document.getElementById(bError + 'Error' +
                 lastNum);
@@ -1030,9 +1027,9 @@ BlocklyApps.showDialogAndFeedback = function(feedbackType) {
     feedbackText.style.color = 'green';
     feedbackText.style.textAlign = 'center';
     if (BlocklyApps.LEVEL < BlocklyApps.MAX_LEVEL) {
-      document.getElementById('nextLevelMsg').style.display = 'inline';
+      document.getElementById('nextLevelMsg').style.display = 'list-item';
     } else {
-      document.getElementById('finalLevelMsg').style.display = 'inline';
+      document.getElementById('finalLevelMsg').style.display = 'list-item';
     }
     showContinueButton = true;
     document.getElementById('continueButton').style.display = 'inline';

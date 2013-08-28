@@ -457,7 +457,7 @@ Maze.drawMap = function() {
 Maze.init = function() {
   BlocklyApps.init();
 
-  // Setup the Pegman menu.
+  // Setup the Pegman (skin) menu.
   var pegmanImg = document.querySelector('#pegmanButton>img');
   pegmanImg.style.backgroundImage = 'url(' + Maze.SKIN.sprite + ')';
   var pegmanMenu = document.getElementById('pegmanMenu');
