@@ -100,20 +100,6 @@ a:hover {
   background-color: rgba(64,64,64,0.7);
   width: 380px;
 }
-#levelFeedback {
-  display: none;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  max-width: 600px;
-  position: absolute;
-  left: 2.5em;
-  top: 5em;
-  z-index: 1;
-  border-radius: 8px;
-  box-shadow: 5px 5px 5px #888;
-  padding: 10px;
-}
 #levelFeedbackText {
   border: 0;
   text-align: center;

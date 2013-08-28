@@ -548,6 +548,26 @@ BlocklyApps.dialogKeyDown_ = function(e) {
 };
 
 /**
+ * If the user preses enter, escape, or space, hide the dialog.
+ * Enter and space move to the next level, escape does not.
+ * @param {!Event} e Keyboard event.
+ * @private
+ */
+BlocklyApps.congratulationsKeyDown_ = function(e) {
+  if (e.keyCode == 13 ||
+      e.keyCode == 27 ||
+      e.keyCode == 32) {
+    BlocklyApps.hideDialog(true);
+    e.stopPropagation();
+    e.preventDefault();
+    if (e.keyCode != 27) {
+      BlocklyApps.displayInterstitialOrCloseModalDialog(
+          true, BlocklyApps.LEVEL, BlocklyApps.SKIN);
+    }
+  }
+};
+
+/**
  * Start listening for BlocklyApps.dialogKeyDown_.
  */
 BlocklyApps.startDialogKeyDown = function() {
@@ -915,6 +935,7 @@ BlocklyApps.errorVersionMap_ = {};
  *     typically produced by BlocklyApps.getTestResults().
  */
 BlocklyApps.setErrorFeedback = function(feedbackType) {
+  BlocklyApps.hideFeedback();
   switch (feedbackType) {
     // Give hint, not stars, for empty block or not finishing level.
     case BlocklyApps.TestResults.EMPTY_BLOCK_FAIL:
@@ -957,6 +978,8 @@ BlocklyApps.setErrorFeedback = function(feedbackType) {
           }
           if (blockErrorElement) {
             blockErrorElement.style.display = 'list-item';
+          } else {
+            console.error('Missing hint: ' + bError + 'Error' + lastNum);
           }
         }
       }
@@ -1020,33 +1043,54 @@ BlocklyApps.report = function(app, id, level, result, program) {
  * @param {number} feedbackType A constant property of BlocklyApps.TestResults.
  */
 BlocklyApps.showDialogAndFeedback = function(feedbackType) {
-  var feedbackColor;
+  // Determine colour and buttons.
   var feedbackText = document.getElementById('levelFeedbackText');
-
+  var showContinueButton = false;
   if (feedbackType == BlocklyApps.TestResults.ALL_PASS) {
-    feedbackColor = 'green';
+    feedbackText.style.color = 'green';
     feedbackText.style.textAlign = 'center';
     if (BlocklyApps.LEVEL < BlocklyApps.MAX_LEVEL) {
       document.getElementById('nextLevelMsg').style.display = 'inline';
     } else {
       document.getElementById('finalLevelMsg').style.display = 'inline';
     }
+    showContinueButton = true;
     document.getElementById('continueButton').style.display = 'inline';
     document.getElementById('tryAgainButton').style.display = 'none';
   } else {
-    feedbackColor = 'red';
+    feedbackText.style.color = 'red';
     feedbackText.style.textAlign = 'left';
     document.getElementById('hintTitle').style.display = 'inline';
     document.getElementById('tryAgainButton').style.display = 'inline';
     if (feedbackType == BlocklyApps.TestResults.TOO_MANY_BLOCKS_FAIL ||
         feedbackType == BlocklyApps.TestResults.OTHER_2_STAR_FAIL) {
-      document.getElementById('continueButton').style.display = 'inline';
+      showContinueButton = true;
     }
   }
-  document.getElementById('shadow').style.display = 'block';
-  document.getElementById('levelFeedback').style.display = 'block';
+
+  // Create modal dialog.
+  var style = {
+    width: '40%',
+    left: '10%',
+    top: '5em'
+  };
+  var levelFeedback = document.getElementById('levelFeedback');
+  if (showContinueButton) {
+    document.getElementById('continueButton').style.display = 'inline';
+    BlocklyApps.showDialog(levelFeedback, null, false, true, style,
+        function() {
+          document.body.removeEventListener('keydown',
+              BlocklyApps.congratulationsKeyDown_, true);
+          });
+    document.body.addEventListener('keydown',
+        BlocklyApps.congratulationsKeyDown_, true);
+  } else {
+    BlocklyApps.showDialog(levelFeedback,
+                           null, false, true, style,
+                           BlocklyApps.stopDialogKeyDown);
+    BlocklyApps.startDialogKeyDown();
+  }
   feedbackText.style.display = 'block';
-  feedbackText.style.color = feedbackColor;
 };
 
 /**

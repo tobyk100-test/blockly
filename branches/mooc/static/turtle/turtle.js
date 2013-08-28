@@ -87,6 +87,15 @@ function callDrawASquare_(block) {
   return block.type == 'procedures_callnoreturn' &&
       block.getProcedureCall() == 'draw a square';
 }
+function callDrawASquareWithParameter_(block) {
+  return callDrawASquare_(block) &&
+      block.arguments_ && block.arguments_.length == 1 &&
+      block.getInputTargetBlock('ARG0');
+}
+function callDrawASquareWithVariableParameter_(block) {
+  return callDrawASquareWithParameter_(block) &&
+      block.getInputTargetBlock('ARG0').type == 'variables_get_height';
+}
 function callDrawATriangle_(block) {
   return block.type == 'procedures_callnoreturn' &&
       block.getProcedureCall() == 'draw a triangle';
@@ -94,12 +103,24 @@ function callDrawATriangle_(block) {
 function callDrawATriangleWithParameter_(block) {
   return callDrawATriangle_(block) &&
       block.arguments_ && block.arguments_.length == 1 &&
-      block.getInputTargetBlock('ARG0') &&
+      block.getInputTargetBlock('ARG0');
+}
+function callDrawATriangleWithNumericParameter_(block) {
+  return callDrawATriangleWithParameter_(block) &&
       block.getInputTargetBlock('ARG0').type == 'math_number';
+}
+function callDrawATriangleWithVariableParameter_(block) {
+  return callDrawATriangleWithParameter_(block) &&
+      block.getInputTargetBlock('ARG0').type == 'variables_get_height';
 }
 function callDrawAHouse_(block) {
   return block.type == 'procedures_callnoreturn' &&
       block.getProcedureCall() == 'draw a house';
+}
+function callDrawAHouseWithParameter_(block) {
+  return callDrawAHouse_(block) &&
+      block.arguments_ && block.arguments_.length == 1 &&
+      block.getInputTargetBlock('ARG0');
 }
 function defineAnything_(block) {
   return block.type == 'procedures_defnoreturn';
@@ -122,6 +143,14 @@ function defineDrawAHouse_(block) {
       block.getProcedureDef() &&
       block.getProcedureDef()[0] == 'draw a house';
 }
+function defineDrawAHouseWithParameter_(block) {
+  return defineDrawAHouse_(block) &&
+      block.arguments_.length == 1;
+}
+function defineDrawAHouseWithHeightParameter_(block) {
+  return defineDrawAHouseWithParameter_(block) &&
+      block.arguments_[0] == 'height';
+}
 function move_(block) {
   return block.type.indexOf('draw_move') == 0;
 }
@@ -132,6 +161,12 @@ function moveByLength_(block) {
 }
 function turn_(block) {
   return block.type.indexOf('draw_turn') == 0;
+}
+function for_(block) {
+  return block.type == 'controls_for_counter';
+}
+function get_counter_(block) {
+  return block.type == 'variables_get_counter';
 }
 
 /**
@@ -176,13 +211,13 @@ Turtle.BLOCK_DATA = [
    // Level 5: Different size squares.
    [10, ['draw_a_square']],
    // Level 6: For-loop squares.
-   [6, ['for', 'get_counter', 'draw_a_square']],
+   [6, ['for', get_counter_, 'draw_a_square']],
    // Level 7: Boxy spiral.
-   [8, ['for', 'get_counter', 'move']],
+   [8, ['for', get_counter_, 'move']],
    // Level 8: Three snowmen.
    [9, ['draw_a_snowman', 'turn', 'jump', 'move'], 3],
    // Level 9: Snowman family.
-   [12, ['draw_a_snowman', 'for', 'jump', 'get_counter']]],
+   [12, ['draw_a_snowman', 'for', 'jump', get_counter_]]],
 
   // Page 3.
   // This page uses procedures instead of strings to check for required
@@ -208,28 +243,37 @@ Turtle.BLOCK_DATA = [
      defineDrawATriangleWithLengthParameter_,
      moveByLength_,
      callDrawATriangle_,
-     callDrawATriangleWithParameter_,
+     callDrawATriangleWithNumericParameter_,
     'draw_colour'],
-    2]
-  // TODO: Add levels 7, 8, and 9.
+    2],
+   // Level 7: Add parameter to "draw a house".
+   [13,
+    [defineDrawAHouse_,
+     defineDrawAHouseWithParameter_,
+     defineDrawAHouseWithHeightParameter_,
+     callDrawASquareWithVariableParameter_,
+     callDrawATriangleWithVariableParameter_,
+     callDrawAHouse_,
+     callDrawAHouseWithParameter_]],
+   // Level 8: Draw houses.
+   [27, []],
+   // Level 9: Draw houses with for loop.
+   [27, [for_, get_counter_], 3]
   ]
 ];
 
 BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = false;
 BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = 1;
 
-// TODO: Remove try/catch once hints written for all levels.
-try {
-  if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE]) {
-    BlocklyApps.IDEAL_BLOCK_NUM =
-        Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][0];
-    BlocklyApps.REQUIRED_BLOCKS =
-        Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][1];
-    Turtle.REQUIRED_COLOURS =
-        Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][2];
-  }
-} catch (e) {}
+if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
+    Turtle.BLOCK_DATA[BlocklyApps.PAGE]) {
+  BlocklyApps.IDEAL_BLOCK_NUM =
+      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][0];
+  BlocklyApps.REQUIRED_BLOCKS =
+      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][1];
+  Turtle.REQUIRED_COLOURS =
+      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][2];
+}
 
 BlocklyApps.FREE_BLOCKS = 'colour';
 
@@ -315,17 +359,22 @@ Turtle.init = function() {
         (BlocklyApps.LEVEL == 8 || BlocklyApps.LEVEL == 9)) {
       var xml = window.sessionStorage.turtle3Blocks;
       if (xml === undefined) {
-        xml = '';
+        window.alert(BlocklyApps.getMsg('notReadyForLevel'));
+      } else {
+        var dom = Blockly.Xml.textToDom(xml);
+        Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, dom);
+        if (!BlocklyApps.getUserBlocks_().some(
+            defineDrawAHouseWithHeightParameter_)) {
+          window.alert(BlocklyApps.getMsg('notReadyForLevel'));
+        }
       }
     } else {
       var xml = document.getElementById('start_blocks').innerHTML;
       if (xml) {
         xml = '<xml>' + xml + '</xml>';
+        var dom = Blockly.Xml.textToDom(xml);
+        Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, dom);
       }
-    }
-    if (xml) {
-      var dom = Blockly.Xml.textToDom(xml);
-      Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, dom);
     }
   }
 
@@ -797,9 +846,17 @@ Turtle.checkAnswer = function() {
     }
   }
 
-  // Only check and mention colour if there is no more serious problem.
-  if (feedbackType == BlocklyApps.TestResults.TOO_MANY_BLOCKS_FAIL ||
+  // Level 9 of Turtle 3 is a special case.  Do not let the user proceed
+  // if they used too many blocks, since it would allow them to miss the
+  // point of the level.
+  if (BlocklyApps.PAGE == 3 && BlocklyApps.LEVEL == 9 &&
+      feedbackType == BlocklyApps.TestResults.TOO_MANY_BLOCKS_FAIL) {
+    // TODO: Add more helpful error message.
+    feedbackType = BlocklyApps.TestResults.OTHER_1_STAR_FAIL;
+
+  } else if (feedbackType == BlocklyApps.TestResults.TOO_MANY_BLOCKS_FAIL ||
       feedbackType == BlocklyApps.TestResults.ALL_PASS) {
+    // Only check and mention colour if there is no more serious problem.
     var colourResult = Turtle.checkRequiredColours();
     if (colourResult != Turtle.ColourResults.OK) {
       var message;

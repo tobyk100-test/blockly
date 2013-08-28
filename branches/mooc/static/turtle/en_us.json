@@ -1,7 +1,7 @@
 {
     "@metadata": {
         "author": "Ellen Spertus <ellen.spertus@gmail.com>",
-        "lastupdated": "2013-08-26 16:51:39.094446",
+        "lastupdated": "2013-08-27 11:36:37.930448",
         "locale": "en_us",
         "messagedocumentation" : "qqq"
     },
@@ -123,7 +123,8 @@
     "Turtle.triangleDefErrorMsg2": "Reload the page to get back the &quot;to draw a triangle&quot; block.",
     "Turtle.defineAnythingErrorMsg1": "You need to create a function.",
     "Turtle.defineAnythingErrorMsg2": "Open the Functions category, and pull out a &quot;do something&quot; block, and fill it in.",
-    "Turtle.defineDrawAHouseErrorMsg1": "The function you create must be named &quot;draw a house&quot;.",
+    "Turtle.defineDrawAHouseErrorMsg1-l5": "The function you create must be named &quot;draw a house&quot;.",
+    "Turtle.defineDrawAHouseErrorMsg1-l7": "Oops.  You seem to have deleted or renamed the provided &quot;draw a house&quot; function.  Reload the page to get it back.",
     "Turtle.defineDrawAHouseErrorMsg2": "Put &quot;draw a house&quot; in the light purple area of the &quot;to do something&quot; block you dragged out.",
     "Turtle.drawAHouseError1Msg": "Now that you created a &quot;draw a house&quot; function, you need to call it.",
     "Turtle.drawAHouseError2Msg": "Open the Functions category, and pull out a &quot;draw a house&quot; block.",
@@ -133,8 +134,12 @@
     "Turtle.triangleDefWithLengthParameterErrorMsg2": "Click on the blue &quot;+&quot; next to &quot;to draw a triangle&quot; and change the name of the input to &quot;length&quot;.",
     "Turtle.moveByLengthMsg1": "The amount to move forward should depend on the input &quot;length&quot;.",
     "Turtle.moveByLengthMsg2": "Open the Variables category, and drag a &quot;length&quot; block into the &quot;move forward&quot; block.",
-    "Turtle.triangleCallWithParameterErrorMsg1": "When using the &quot;draw a triangle&quot; block, you need to provide an input that says how big the triangle should be.",
-    "Turtle.triangleCallWithParameterErrorMsg2": "Open the Math category, and pull out a number block.  Change its value and plug it into the &quot;draw a triangle&quot; block to say how big the first triangle should be.",
+    "Turtle.triangleCallWithNumericParameterErrorMsg1": "When using the &quot;draw a triangle&quot; block, you need to provide an input that says how big the triangle should be.",
+    "Turtle.triangleCallWithNumericParameterErrorMsg2": "Open the Math category, and pull out a number block.  Change its value and plug it into the &quot;draw a triangle&quot; block to say how big the first triangle should be.",
+    "Turtle.squareCallWithVariableParameterErrorMsg1": "The &quot;length&quot; input to the &quot;draw a triangle&quot; block within &quot;to draw a house&quot; should depend on the length of the house.",
+    "Turtle.squareCallWithParameterErrorMsg2": "The &quot;length&quot; input to &quot;draw a triangle&quot; should be the &quot;length&quot; variable.",
+    "Turtle.triangleCallWithVariableParameterErrorMsg1": "The &quot;length&quot; input to the &quot;draw a square&quot; block within &quot;to draw a house&quot; should depend on the length of the house.",
+    "Turtle.triangleCallWithParameterErrorMsg2": "The &quot;length&quot; input to &quot;draw a triangle&quot; should be the &quot;length&quot; variable.",
     "BlocklyApps.emptyBlocksErrorMsg": "Remove unused empty blocks.",
     "Maze.tooFewBlocksMsg": "You are using all of the necessary types of blocks, but you'll need more blocks to complete this level.",
     "Turtle.levelIncompleteError": "You are using all of the necessary types of blocks but not in the right way.",
