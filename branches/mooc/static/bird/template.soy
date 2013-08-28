@@ -1,47 +1,59 @@
-{namespace bird}
+{namespace birdpage}
 
 /**
  * This is a Closure Template.
  *
  * To regenerate just en.js, run this command:
- * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs template.soy
+ * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs ../common.soy,template.soy
  *
  * To regenerate all files, see: trunk/apps/template.soy.
  */
 
 /**
+ * Translated messages for use in JavaScript.
+ */
+{template .messages}
+  {call apps.messages /}
+  <div style="display: none">
+    <span id="Bird_hungry">{msg meaning="Bird.hungry" desc="block text - Experiencing a desire or need for food."}hungry{/msg}</span>
+    <span id="Bird_heading">{msg meaning="Bird.heading" desc="block text - the compass direction toward which a traveler or vehicle is or should be moving; course."}heading{/msg}</span>
+    <span id="Bird_if">{msg meaning="Bird.doCode" desc="Conditional statement, which evaluates to true or false."}if{/msg}</span>
+    <span id="Bird_doCode">{msg meaning="Bird.doCode" desc="block text - Imperative or infinitive of a verb preceding one or more commands to a person.  This is part of [https://code.google.com/p/blockly/wiki/Loops#repeat repeat] and [https://code.google.com/p/blockly/wiki/IfElse#If_blocks if] blocks."}do{/msg}</span>
+    <span id="Bird_elseCode">{msg meaning="Bird.elseCode" desc="block text - Conjunction meaning 'otherwise', introducing commands to be performed if a previous condition was not true, as in 'if x>3, do this, else do that'.  See [https://code.google.com/p/blockly/wiki/IfElse#If-Else_blocks]."}else{/msg}</span>
+    <span id="Bird_hungryTooltip">{msg meaning="Bird.hungryTooltip" desc="tooltip - 'hungry' means the bird has not gotten its food."}The condition when the bird has not gotten the food.{/msg}</span>
+    <span id="Bird_headingTooltip">{msg meaning="Bird.headingTooltip" desc="tooltip - Move in the direction of the given angle, where 0 means going horizontally to the right, and 90 straight up and 270 straight down."}Move in the direction of the given angle: 0 is to the right, 90 is straight up, etc.{/msg}</span>
+    <span id="Bird_positionTooltip">{msg meaning="Bird.positionTooltip" desc="tooltip - (x, y) marks the coordinate of bird, (0, 0) is the bottom left corner and (100, 100) top right."}x and y mark the bird's position. When x = 0 the bird is near the left edge, when x = 100 it's near the right edge. When y = 0 the bird is at the bottom, when y = 100 it's at the top.{/msg}</span>
+    <span id="Bird_nextLevel">{msg meaning="Bird.nextLevel" desc="alert - This is displayed when the user solves the level, inviting them to precede to the next level of difficulty.  %1 is an integer greater than 1."}Congratulations! Are you ready to proceed to level %1?{/msg}</span>
+    <span id="Bird_finalLevel">{msg meaning="Bird.finalLevel" desc="alert - This is displayed when the user solves the most difficult level."}Congratulations! You have solved the final level.{/msg}</span>
+  </div>
+{/template}
+
+/**
  * Web page structure.
  */
 {template .start}
-  <div id="MSG" style="display: none">
-    // Common messages.  So is Apps.blocklyMessage, which appears later.
-    <span id="httpRequestError">{msg meaning="Apps.httpRequestError" desc="IBID"}There was a problem with the request.{/msg}</span>
-    <span id="linkAlert">{msg meaning="Apps.linkAlert" desc="IBID"}Share your blocks with this link:\n\n%1{/msg}</span>
-    <span id="hashError">{msg meaning="Apps.hashError" desc="IBID"}Sorry, '%1' doesn't correspond with any saved program.{/msg}</span>
-    <span id="xmlError">{msg meaning="Apps.xmlError" desc="IBID"}Could not load your saved file.  Perhaps it was created with a different version of Blockly?{/msg}</span>
-
-    // Messages only used within Bird.
-  </div>
-
+  {call .messages /}
   <table width="100%">
     <tr>
       <td>
         <h1>
           <span id="title">
             <a href="../index.html">{msg meaning="Apps.blocklyMessage" desc="IBID"}Blockly{/msg}</a>
-            {msg meaning="Bird.bird" desc="brief title - Specifies that this is Blockly's '''Bird''' tutorial."}
-              : Bird
+            {sp}:{sp}
+            {msg meaning="Bird.bird" desc="title - Specifies that this is Blockly's '''Bird''' tutorial."}
+              Bird
             {/msg}
           </span>
+          {sp}&nbsp;{sp}
           {for $i in range(1, 11)}
             {sp}
             {if $i == $ij.level}
               <span class="tab" id="selected">{$i}</span>
             {else}
               {if $i < $ij.level}
-                <a class="tab previous" href="?lang={$ij.lang}&level={$i}&skin={$ij.skin}">{$i}</a>
+                <a class="tab previous" href="?lang={$ij.lang}&level={$i}">{$i}</a>
               {else}
-                <a class="tab" href="?lang={$ij.lang}&level={$i}&skin={$ij.skin}">{$i}</a>
+                <a class="tab" href="?lang={$ij.lang}&level={$i}">{$i}</a>
               {/if}
             {/if}
           {/for}
@@ -49,50 +61,31 @@
       </td>
       <td class="farSide">
         <select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select>
-        {sp}&nbsp;{sp}
       </td>
     </tr>
   </table>
 
   <div id="visualization">
-    <div id="hintBubble">
-      <div id="hint">
-      {switch $ij.level}
-        {case 1}
-          {msg meaning="Bird.instructions1" desc="instructions"}Instructions{/msg}
-        {case 2}
-          {msg meaning="Bird.instructions2" desc="instructions"}instructions{/msg}
-        {case 3}
-          {msg meaning="Bird.instructions3" desc="instructions"}instructions{/msg}
-        {case 4}
-          {msg meaning="Bird.instructions4" desc="instructions"}instructions{/msg}
-        {case 5}
-          {msg meaning="Bird.instructions5" desc="instructions"}instructions{/msg}
-        {case 6}
-          {msg meaning="Bird.instructions6" desc="instructions"}instructions{/msg}
-        {case 7}
-          {msg meaning="Bird.instructions7" desc="instructions"}instructions{/msg}
-        {case 8}
-          {msg meaning="Bird.instructions8" desc="instructions"}instructions{/msg}
-        {case 9}
-          {msg meaning="Bird.instructions9" desc="instructions"}instructions{/msg}
-        {case 10}
-          {msg meaning="Bird.instructions10" desc="instructions"}instructions{/msg}
-      {/switch}
-      </div>
-    </div>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="600" height="600">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px">
     </svg>
   </div>
 
   <table width="400">
     <tr>
-      <td>
-        <button id="runButton" class="launch" onclick="Bird.runButtonClick();" title="{msg meaning="Bird.runTooltip" desc="tooltip - Pressing this button runs the computer program the user has written to move the character through the world."}Makes the character do what the blocks say.{/msg}">
-          <img src="../media/1x1.gif" class="run icon21"> {msg meaning="Bird.runProgram" desc="button label - Pressing the button runs the computer program the user has written."}Run Program{/msg}
+      <td style="width: 190px; text-align: center; vertical-align: top;">
+        <button class="notext" title="{msg meaning="Apps.codeTooltip" desc="tooltip (pop-up help) for button; pressing the button causes a program in the JavaScript computer language to be displayed, based on the program created by the user."}See generated JavaScript code.{/msg}" onclick="BlocklyApps.showCode(this);">
+          <img src="../media/1x1.gif" class="code icon21">
         </button>
-        <button id="resetButton" class="launch" onclick="Bird.resetButtonClick();" style="display: " title={msg meaning="Bird.resetTooltip" desc="tooltip - Pressing this button restores the character to the start position and enables the user's program to be run again."}Put the character back at the start of the world.{/msg}>
-          <img src="../media/1x1.gif" class="stop icon21"> {msg meaning="Bird.resetProgram" desc="button label - Pressing the button causes the bird return to the start of the world (but does not delete the user's program.)"}Reset{/msg}
+        <button id="linkButton" class="notext" title="{msg meaning="Apps.linkTooltip" desc="IBID"}Save and link to blocks.{/msg}" onclick="BlocklyStorage.link();">
+          <img src="../media/1x1.gif" class="link icon21">
+        </button>
+      </td>
+      <td>
+        <button id="runButton" class="primary" onclick="Bird.runButtonClick();" title="{msg meaning="Bird.runTooltip" desc="tooltip - Pressing this button runs the computer program the user has written to move the player through the level."}Makes the player do what the blocks say.{/msg}">
+          <img src="../media/1x1.gif" class="run icon21"> {msg meaning="Apps.runProgram" desc="IBID"}Run Program{/msg}
+        </button>
+        <button id="resetButton" class="primary" onclick="Bird.resetButtonClick();" style="display: none" title="{msg meaning="Bird.resetTooltip" desc="tooltip - Pressing this button restores the player to the start position and enables the user's program to be run again."}Put the player back at the start of the level.{/msg}">
+          <img src="../media/1x1.gif" class="stop icon21"> {msg meaning="Apps.resetProgram" desc="IBID"}Reset{/msg}
         </button>
       </td>
     </tr>
@@ -105,6 +98,13 @@
   {call .toolbox /}
   <div id="blockly"></div>
 
+  {call apps.dialog /}
+  {call apps.codeDialog /}
+  {call apps.storageDialog /}
+  <div id="dialogDone" class="dialogHiddenContent">
+    <div id="dialogDoneText" style="font-size: large; margin: 1em;"></div>
+    <div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0"></div>
+  </div>
 {/template}
 
 /**
@@ -112,5 +112,54 @@
  */
 {template .toolbox}
   <xml id="toolbox" style="display: none;">
+    <block type="bird_heading"></block>
+    {if $ij.level >= 2}
+      <block type="bird_hungry"></block>
+      {if $ij.level >= 4}
+        <block type="bird_compare">
+          <title name="OP">LT</title>
+          <value name="A">
+            <block type="bird_position">
+              <title name="XY">X</title>
+            </block>
+          </value>
+          <value name="B">
+            <block type="math_number">
+              <title name="NUM">50</title>
+            </block>
+          </value>
+        </block>
+        {if $ij.level >= 5}
+          <block type="bird_compare">
+            <title name="OP">LT</title>
+            <value name="A">
+              <block type="bird_position">
+                <title name="XY">Y</title>
+              </block>
+            </value>
+            <value name="B">
+              <block type="math_number">
+                <title name="NUM">50</title>
+              </block>
+            </value>
+          </block>
+          {if $ij.level >= 8}
+            <block type="bird_and"></block>
+          {/if}
+        {/if}
+      {/if}
+    {/if}
   </xml>
+{/template}
+
+/**
+ * Readonly Blockly in an iframe.
+ */
+{template .readonly}
+  {call .messages /}
+
+  <script type="text/javascript" src="../../blockly_compressed.js"></script>
+  <script type="text/javascript" src="../../{$ij.langSrc}"></script>
+  <script type="text/javascript" src="blocks.js"></script>
+  <div id="blockly"></div>
 {/template}
