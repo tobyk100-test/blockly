@@ -4,6 +4,7 @@ IN PROGRESS
 
 = Engineers =
  * Neil Fraser
+ * Spencer Gordon
  * Quynh Neutron
  * Chris Pirich
  * Ellen Spertus
