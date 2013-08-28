@@ -156,7 +156,7 @@ turtlepage.showInstructions = function(opt_data, opt_ignored, opt_ijData) {
           output += 'Make a square using only 3 blocks.  (Remember that blocks to set color are free.)';
           break;
         case 4:
-          output += 'Draw a triangle whose sides are all 100 pixels and are in random colors.  You\'ll have to figure out how far to turn.';
+          output += 'Draw a triangle whose sides are all 100 dots and are in random colors.  You\'ll have to figure out how far to turn.';
           break;
         case 5:
           output += 'Draw a triangle and then a square to draw an envelope.';
@@ -193,7 +193,7 @@ turtlepage.showInstructions = function(opt_data, opt_ignored, opt_ijData) {
           output += 'Now change the code to draw 36 squares, each 10 degrees apart.';
           break;
         case 5:
-          output += 'Draw squares with sides of 50, 60, 70, 80, and 90 pixels.  You\'ll need lots of blocks.';
+          output += 'Draw squares with sides of 50, 60, 70, 80, and 90 dots.  You\'ll need lots of blocks.';
           break;
         case 6:
           output += 'Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.';
@@ -312,7 +312,7 @@ turtlepage.feedback = function(opt_data, opt_ignored, opt_ijData) {
   } else if (opt_ijData.page == 3 && opt_ijData.level == 9) {
     output += 'You need to open the "Loops" drawer and pull out a "count with" block to count from 50 to 150 by 50s.';
   }
-  output += '</li><li id="getcounterError1" class="feedback" style="display: none">';
+  output += '</li><li id="get_counterError1" class="feedback" style="display: none">';
   if (opt_ijData.page == 2) {
     switch (opt_ijData.level) {
       case 6:
@@ -328,7 +328,7 @@ turtlepage.feedback = function(opt_data, opt_ignored, opt_ijData) {
   } else if (opt_ijData.page == 3) {
     output += 'You need the "counter" block to draw houses of different heights.';
   }
-  output += '</li><li id="getcounterError2" class="feedback" style="display: none">';
+  output += '</li><li id="get_counterError2" class="feedback" style="display: none">';
   if (opt_ijData.page == 2) {
     switch (opt_ijData.level) {
       case 6:

@@ -33,14 +33,6 @@ BlocklyApps.LANG = BlocklyApps.getLang();
 document.write('<script type="text/javascript" src="generated/' +
     BlocklyApps.LANG + '.js"></script>\n');
 
-// Set constants with information extracted from the URL.
-BlocklyApps.MAX_LEVEL = 10;
-BlocklyApps.PAGE = BlocklyApps.getNumberParamFromUrl('page', 1, 3);
-BlocklyApps.LEVEL =
-    BlocklyApps.getNumberParamFromUrl('level', 1, BlocklyApps.MAX_LEVEL);
-Turtle.REINF =
-    BlocklyApps.getNumberParamFromUrl('reinf', 0, BlocklyApps.MAX_LEVEL);
-
 // Create a limited colour palette to avoid overwhelming new users
 // and to make colour checking easier.  These definitions cannot be
 // moved to blocks.js, which is loaded later, since they are used in
@@ -77,205 +69,216 @@ Turtle.REQUIRED_COLOURS = null;
  */
 Turtle.PROCEDURE_CALL_TEMPLATE_ = 'procedures_callnoreturn[^e]*e="%1"'
 
-// These functions are used within BlocklyApps.REQUIRED_BLOCKS.
-// They must not be anonymous, since there names are used for
-// generating html ids.
-function repeat_(block) {
-  return block.type == 'controls_repeat';
-}
-function callDrawASquare_(block) {
-  return block.type == 'procedures_callnoreturn' &&
-      block.getProcedureCall() == 'draw a square';
-}
-function callDrawASquareWithParameter_(block) {
-  return callDrawASquare_(block) &&
-      block.arguments_ && block.arguments_.length == 1 &&
-      block.getInputTargetBlock('ARG0');
-}
-function callDrawASquareWithVariableParameter_(block) {
-  return callDrawASquareWithParameter_(block) &&
-      block.getInputTargetBlock('ARG0').type == 'variables_get_height';
-}
-function callDrawATriangle_(block) {
-  return block.type == 'procedures_callnoreturn' &&
-      block.getProcedureCall() == 'draw a triangle';
-}
-function callDrawATriangleWithParameter_(block) {
-  return callDrawATriangle_(block) &&
-      block.arguments_ && block.arguments_.length == 1 &&
-      block.getInputTargetBlock('ARG0');
-}
-function callDrawATriangleWithNumericParameter_(block) {
-  return callDrawATriangleWithParameter_(block) &&
-      block.getInputTargetBlock('ARG0').type == 'math_number';
-}
-function callDrawATriangleWithVariableParameter_(block) {
-  return callDrawATriangleWithParameter_(block) &&
-      block.getInputTargetBlock('ARG0').type == 'variables_get_height';
-}
-function callDrawAHouse_(block) {
-  return block.type == 'procedures_callnoreturn' &&
-      block.getProcedureCall() == 'draw a house';
-}
-function callDrawAHouseWithParameter_(block) {
-  return callDrawAHouse_(block) &&
-      block.arguments_ && block.arguments_.length == 1 &&
-      block.getInputTargetBlock('ARG0');
-}
-function defineAnything_(block) {
-  return block.type == 'procedures_defnoreturn';
-}
-function defineDrawATriangle_(block) {
-  return block.type == 'procedures_defnoreturn' &&
-      block.getProcedureDef() &&
-      block.getProcedureDef()[0] == 'draw a triangle';
-}
-function defineDrawATriangleWithParameter_(block) {
-  return defineDrawATriangle_(block) &&
-      block.arguments_.length == 1;
-}
-function defineDrawATriangleWithLengthParameter_(block) {
-  return defineDrawATriangleWithParameter_(block) &&
-      block.arguments_[0] == 'length';
-}
-function defineDrawAHouse_(block) {
-  return block.type == 'procedures_defnoreturn' &&
-      block.getProcedureDef() &&
-      block.getProcedureDef()[0] == 'draw a house';
-}
-function defineDrawAHouseWithParameter_(block) {
-  return defineDrawAHouse_(block) &&
-      block.arguments_.length == 1;
-}
-function defineDrawAHouseWithHeightParameter_(block) {
-  return defineDrawAHouseWithParameter_(block) &&
-      block.arguments_[0] == 'height';
-}
-function move_(block) {
-  return block.type.indexOf('draw_move') == 0;
-}
-function moveByLength_(block) {
-  return move_(block) &&
-      block.getInputTargetBlock('VALUE') &&
-      block.getInputTargetBlock('VALUE').type == 'variables_get_length';
-}
-function turn_(block) {
-  return block.type.indexOf('draw_turn') == 0;
-}
-function for_(block) {
-  return block.type == 'controls_for_counter';
-}
-function get_counter_(block) {
-  return block.type == 'variables_get_counter';
-}
+Turtle.setBlocklyAppConstants = function() {
+  // These functions are used within BlocklyApps.REQUIRED_BLOCKS.
+  // They must not be anonymous, since there names are used for
+  // generating HTML IDs.
+  function repeat_(block) {
+    return block.type == 'controls_repeat';
+  }
+  function callDrawASquare_(block) {
+    return block.type == 'procedures_callnoreturn' &&
+        block.getProcedureCall() == 'draw a square';
+  }
+  function callDrawASquareWithParameter_(block) {
+    return callDrawASquare_(block) &&
+        block.arguments_ && block.arguments_.length == 1 &&
+        block.getInputTargetBlock('ARG0');
+  }
+  function callDrawASquareWithVariableParameter_(block) {
+    return callDrawASquareWithParameter_(block) &&
+        block.getInputTargetBlock('ARG0').type == 'variables_get_height';
+  }
+  function callDrawATriangle_(block) {
+    return block.type == 'procedures_callnoreturn' &&
+        block.getProcedureCall() == 'draw a triangle';
+  }
+  function callDrawATriangleWithParameter_(block) {
+    return callDrawATriangle_(block) &&
+        block.arguments_ && block.arguments_.length == 1 &&
+        block.getInputTargetBlock('ARG0');
+  }
+  function callDrawATriangleWithNumericParameter_(block) {
+    return callDrawATriangleWithParameter_(block) &&
+        block.getInputTargetBlock('ARG0').type == 'math_number';
+  }
+  function callDrawATriangleWithVariableParameter_(block) {
+    return callDrawATriangleWithParameter_(block) &&
+        block.getInputTargetBlock('ARG0').type == 'variables_get_height';
+  }
+  function callDrawAHouse_(block) {
+    return block.type == 'procedures_callnoreturn' &&
+        block.getProcedureCall() == 'draw a house';
+  }
+  function callDrawAHouseWithParameter_(block) {
+    return callDrawAHouse_(block) &&
+        block.arguments_ && block.arguments_.length == 1 &&
+        block.getInputTargetBlock('ARG0');
+  }
+  function defineAnything_(block) {
+    return block.type == 'procedures_defnoreturn';
+  }
+  function defineDrawATriangle_(block) {
+    return block.type == 'procedures_defnoreturn' &&
+        block.getProcedureDef() &&
+        block.getProcedureDef()[0] == 'draw a triangle';
+  }
+  function defineDrawATriangleWithParameter_(block) {
+    return defineDrawATriangle_(block) &&
+        block.arguments_.length == 1;
+  }
+  function defineDrawATriangleWithLengthParameter_(block) {
+    return defineDrawATriangleWithParameter_(block) &&
+        block.arguments_[0] == 'length';
+  }
+  function defineDrawAHouse_(block) {
+    return block.type == 'procedures_defnoreturn' &&
+        block.getProcedureDef() &&
+        block.getProcedureDef()[0] == 'draw a house';
+  }
+  function defineDrawAHouseWithParameter_(block) {
+    return defineDrawAHouse_(block) &&
+        block.arguments_.length == 1;
+  }
+  function defineDrawAHouseWithHeightParameter_(block) {
+    return defineDrawAHouseWithParameter_(block) &&
+        block.arguments_[0] == 'height';
+  }
+  function move_(block) {
+    return block.type.indexOf('draw_move') == 0;
+  }
+  function moveByLength_(block) {
+    return move_(block) &&
+        block.getInputTargetBlock('VALUE') &&
+        block.getInputTargetBlock('VALUE').type == 'variables_get_length';
+  }
+  function turn_(block) {
+    return block.type.indexOf('draw_turn') == 0;
+  }
+  function for_(block) {
+    return block.type == 'controls_for_counter';
+  }
+  function get_counter_(block) {
+    return block.type == 'variables_get_counter';
+  }
 
-/**
- * Information about level-specific requirements.  Each entry consists of:
- * - the ideal number of blocks.
- * - an array of required blocks.
- * - required colours.
- */
-Turtle.BLOCK_DATA = [
-  // Page 0.
-  undefined,
-  // Page 1.
-  [undefined,  // Level 0.
-   // Level 1: El.
-   [3, ['moveForward', 'turnRight']],
-   // Level 2: Square (without repeat).
-   [7, ['draw_colour', 'turn', 'move'], 4],
-   // Level 3: Square (with repeat).
-   [3, ['turn', 'move', repeat_]],
-   // Level 4: Triangle.
-   [3, ['turn', 'move'], 3],
-   // Level 5: Envelope.
-   [6, ['turn', 'move']],
-   // Level 6: triangle and square.
-   [6, ['turn', 'move']],
-   // Level 7: glasses.
-   [8, ['draw_colour', repeat_, 'turn', 'move'], Turtle.Colours.GREEN],
-   // Level 8: spikes.
-   [4, ['draw_colour', 'colour_random', 'move', 'turn'], 8],
-   // Level 9: circle.
-   [3, [repeat_, 'move', 'turn']]],
-  // Page 2.
-  [undefined,  // Level 0.
-   // Level 1: Square.
-   [5, ['draw_colour', 'while', 'turn', 'move'], 1],
-   // Level 2: Small green square.
-   [2, ['draw_colour', 'draw_a_square'], Turtle.Colours.GREEN],
-   // Level 3: Three squares.
-   [5, ['colour_random', repeat_, 'turn']],
-   // Level 4: 36 squares.
-   [5, ['colour_random']],
-   // Level 5: Different size squares.
-   [10, ['draw_a_square']],
-   // Level 6: For-loop squares.
-   [6, ['for', get_counter_, 'draw_a_square']],
-   // Level 7: Boxy spiral.
-   [8, ['for', get_counter_, 'move']],
-   // Level 8: Three snowmen.
-   [9, ['draw_a_snowman', 'turn', 'jump', 'move'], 3],
-   // Level 9: Snowman family.
-   [12, ['draw_a_snowman', 'for', 'jump', get_counter_]]],
+  /**
+   * Information about level-specific requirements.  Each entry consists of:
+   * - the ideal number of blocks.
+   * - an array of required blocks.
+   * - required colours.
+   */
+  var BLOCK_DATA = [
+    // Page 0.
+    undefined,
+    // Page 1.
+    [undefined,  // Level 0.
+     // Level 1: El.
+     [3, ['moveForward', 'turnRight']],
+     // Level 2: Square (without repeat).
+     [7, ['penColour', 'turn', 'move'], 4],
+     // Level 3: Square (with repeat).
+     [3, ['turn', 'move', repeat_]],
+     // Level 4: Triangle.
+     [3, ['turn', 'move'], 3],
+     // Level 5: Envelope.
+     [6, ['turn', 'move']],
+     // Level 6: triangle and square.
+     [6, ['turn', 'move']],
+     // Level 7: glasses.
+     [8, ['penColour', repeat_, 'turn', 'move'], Turtle.Colours.GREEN],
+     // Level 8: spikes.
+     [4, ['penColour', 'colour_random', 'move', 'turn'], 8],
+     // Level 9: circle.
+     [3, [repeat_, 'move', 'turn']]],
+    // Page 2.
+    [undefined,  // Level 0.
+     // Level 1: Square.
+     [5, ['penColour', 'while', 'turn', 'move'], 1],
+     // Level 2: Small green square.
+     [2, ['penColour', 'draw_a_square'], Turtle.Colours.GREEN],
+     // Level 3: Three squares.
+     [5, ['colour_random', repeat_, 'turn']],
+     // Level 4: 36 squares.
+     [5, ['colour_random']],
+     // Level 5: Different size squares.
+     [10, ['draw_a_square']],
+     // Level 6: For-loop squares.
+     [6, ['for', get_counter_, 'draw_a_square']],
+     // Level 7: Boxy spiral.
+     [8, ['for', get_counter_, 'move']],
+     // Level 8: Three snowmen.
+     [9, ['draw_a_snowman', 'turn', 'jump', 'move'], 3],
+     // Level 9: Snowman family.
+     [12, ['draw_a_snowman', 'for', 'jump', get_counter_]]],
 
-  // Page 3.
-  // This page uses procedures instead of strings to check for required
-  // blocks to avoid matching undeletable code in starting blocks.
-  [undefined,  // Level 0.
-   // Level 1: Call 'draw a square'.
-   // The semicolon distinguishes the call from the definition.
-   [1, [callDrawASquare_]],
-   // Level 2: Create "draw a triangle".
-   [7, [defineDrawATriangle_, move_, turn_, repeat_,
-        callDrawATriangle_]],
-   // Level 3: Fence the animals.
-   [7, [callDrawATriangle_, move_, callDrawASquare_]],
-   // Level 4: House the lion.
-   [6, [callDrawASquare_, move_, turn_, callDrawATriangle_]],
-   // Level 5: Create "draw a house".
-   [8, [defineAnything_, defineDrawAHouse_, callDrawASquare_, move_, turn_,
-        callDrawATriangle_, callDrawAHouse_]],
-   // Level 6: Add parameter to "draw a triangle".
-   [13,
-    [defineDrawATriangle_,
-     defineDrawATriangleWithParameter_,
-     defineDrawATriangleWithLengthParameter_,
-     moveByLength_,
-     callDrawATriangle_,
-     callDrawATriangleWithNumericParameter_,
-    'draw_colour'],
-    2],
-   // Level 7: Add parameter to "draw a house".
-   [13,
-    [defineDrawAHouse_,
-     defineDrawAHouseWithParameter_,
-     defineDrawAHouseWithHeightParameter_,
-     callDrawASquareWithVariableParameter_,
-     callDrawATriangleWithVariableParameter_,
-     callDrawAHouse_,
-     callDrawAHouseWithParameter_]],
-   // Level 8: Draw houses.
-   [27, []],
-   // Level 9: Draw houses with for loop.
-   [27, [for_, get_counter_], 3]
-  ]
-];
+    // Page 3.
+    // This page uses procedures instead of strings to check for required
+    // blocks to avoid matching undeletable code in starting blocks.
+    [undefined,  // Level 0.
+     // Level 1: Call 'draw a square'.
+     // The semicolon distinguishes the call from the definition.
+     [1, [callDrawASquare_]],
+     // Level 2: Create "draw a triangle".
+     [7, [defineDrawATriangle_, move_, turn_, repeat_,
+          callDrawATriangle_]],
+     // Level 3: Fence the animals.
+     [7, [callDrawATriangle_, move_, callDrawASquare_]],
+     // Level 4: House the lion.
+     [6, [callDrawASquare_, move_, turn_, callDrawATriangle_]],
+     // Level 5: Create "draw a house".
+     [8, [defineAnything_, defineDrawAHouse_, callDrawASquare_, move_, turn_,
+          callDrawATriangle_, callDrawAHouse_]],
+     // Level 6: Add parameter to "draw a triangle".
+     [13,
+      [defineDrawATriangle_,
+       defineDrawATriangleWithParameter_,
+       defineDrawATriangleWithLengthParameter_,
+       moveByLength_,
+       callDrawATriangle_,
+       callDrawATriangleWithNumericParameter_,
+      'penColour'],
+      2],
+     // Level 7: Add parameter to "draw a house".
+     [13,
+      [defineDrawAHouse_,
+       defineDrawAHouseWithParameter_,
+       defineDrawAHouseWithHeightParameter_,
+       callDrawASquareWithVariableParameter_,
+       callDrawATriangleWithVariableParameter_,
+       callDrawAHouse_,
+       callDrawAHouseWithParameter_]],
+     // Level 8: Draw houses.
+     [27, []],
+     // Level 9: Draw houses with for loop.
+     [27, [for_, get_counter_], 3]
+    ]
+  ];
 
-BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = false;
-BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = 1;
+  // These constants do not depend on page or level.
+  BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = false;
+  BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = 1;
+  BlocklyApps.FREE_BLOCKS = 'colour';
 
-if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
-    Turtle.BLOCK_DATA[BlocklyApps.PAGE]) {
-  BlocklyApps.IDEAL_BLOCK_NUM =
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][0];
-  BlocklyApps.REQUIRED_BLOCKS =
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][1];
-  Turtle.REQUIRED_COLOURS =
-      Turtle.BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][2];
-}
+  // Set constants with information extracted from the URL.
+  BlocklyApps.MAX_LEVEL = 10;
+  BlocklyApps.PAGE = BlocklyApps.getNumberParamFromUrl('page', 1, 3);
+  BlocklyApps.LEVEL =
+      BlocklyApps.getNumberParamFromUrl('level', 1, BlocklyApps.MAX_LEVEL);
+  Turtle.REINF =
+      BlocklyApps.getNumberParamFromUrl('reinf', 0, BlocklyApps.MAX_LEVEL);
 
-BlocklyApps.FREE_BLOCKS = 'colour';
+  if (BlocklyApps.LEVEL != BlocklyApps.MAX_LEVEL &&
+      BLOCK_DATA[BlocklyApps.PAGE]) {
+    BlocklyApps.IDEAL_BLOCK_NUM =
+        BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][0];
+    BlocklyApps.REQUIRED_BLOCKS =
+        BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][1];
+    Turtle.REQUIRED_COLOURS =
+        BLOCK_DATA[BlocklyApps.PAGE][BlocklyApps.LEVEL][2];
+  }
+};
+Turtle.setBlocklyAppConstants();
 
 Turtle.HEIGHT = 400;
 Turtle.WIDTH = 400;
