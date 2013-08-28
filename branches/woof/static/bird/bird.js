@@ -136,8 +136,8 @@ Bird.MAP = [
   nestX: 80,
   nestY: 75,
   walls: [
-    [50, 0, 50, 50],
-    [80, 50, 100, 50]
+    [50, 0, 50, 25],
+    [75, 50, 100, 50]
   ]
   },
 // Level 9.
@@ -428,13 +428,12 @@ Bird.animate = function() {
     BlocklyApps.highlight(null);
     return;
   }
-  BlocklyApps.highlight(action[1]);
+  BlocklyApps.highlight(action.pop());
 
-  if (typeof action[0] == 'number') {
-    var angle = action[0];
-    Bird.X += Math.cos(angle);
-    Bird.Y += Math.sin(angle);
-    Bird.angle = angle / Math.PI * 180;
+  if (action[0] == 'move') {
+    Bird.X = action[1];
+    Bird.Y = action[2];
+    Bird.angle = action[3];
     Bird.displayBird();
   } else if (action[0] == 'worm') {
     var worm = document.getElementById('worm');
@@ -589,7 +588,7 @@ Bird.distanceToSegment = function(px, py, x1, y1, x2, y2) {
  * @return {boolean} True if the bird found the nest, false otherwise.
  */
 Bird.intersectNest = function() {
-  var accuracy = 0.5 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
+  var accuracy = 1.0 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
   return Bird.distance(Bird.X, Bird.Y, Bird.MAP.nestX, Bird.MAP.nestY) <
       accuracy;
 };
@@ -599,7 +598,7 @@ Bird.intersectNest = function() {
  * @return {boolean} True if the bird found the worm, false otherwise.
  */
 Bird.intersectWorm = function() {
-  var accuracy = 0.5 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
+  var accuracy = 1.0 * Bird.ICON_SIZE / Bird.MAP_SIZE * 100;
   return Bird.distance(Bird.X, Bird.Y, Bird.MAP.wormX, Bird.MAP.wormY) <
       accuracy;
 };
@@ -619,6 +618,27 @@ Bird.intersectWall = function() {
   return false;
 };
 
+/**
+ * Move the bird to the given point.
+ * @param {number} px X-coordinate of point.
+ * @param {number} py Y-coordinate of point.
+ */
+Bird.gotoPoint = function(px, py) {
+  var steps = Math.round(Bird.distance(Bird.X, Bird.Y, px, py));
+  var dx = px - Bird.X;
+  var dy = py - Bird.Y;
+  var angle = Math.atan(dy / dx);
+  if (dx < 0) {
+    angle += Math.PI;
+  }
+  for (var i = 0; i < steps; i++) {
+    Bird.X += Math.cos(angle);
+    Bird.Y += Math.sin(angle);
+    BlocklyApps.log.push(['move', Bird.X, Bird.Y, Bird.angle, null]);
+  }
+};
+
+
 // API
 
 /**
@@ -633,13 +653,16 @@ Bird.heading = function(angle, id) {
   angle = angle / 180 * Math.PI;
   Bird.X += Math.cos(angle);
   Bird.Y += Math.sin(angle);
-  BlocklyApps.log.push([angle, id]);
+  Bird.angle = angle / Math.PI * 180;
+  BlocklyApps.log.push(['move', Bird.X, Bird.Y, Bird.angle, id]);
   if (!Bird.isHungry && Bird.intersectNest()) {
     // Finished.  Terminate the user's program.
+    Bird.gotoPoint(Bird.MAP.nestX, Bird.MAP.nestY);
     BlocklyApps.log.push(['finish', null]);
     throw true;
   }
   if (Bird.isHungry && Bird.intersectWorm()) {
+    Bird.gotoPoint(Bird.MAP.wormX, Bird.MAP.wormY);
     BlocklyApps.log.push(['worm', null]);
     Bird.isHungry = false;
   }

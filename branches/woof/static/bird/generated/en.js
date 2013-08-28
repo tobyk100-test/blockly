@@ -45,40 +45,7 @@ birdpage.start = function(opt_data, opt_ignored, opt_ijData) {
   for (var i131 = 1; i131 < 11; i131++) {
     output += ' ' + ((i131 == opt_ijData.level) ? '<span class="tab" id="selected">' + soy.$$escapeHtml(i131) + '</span>' : (i131 < opt_ijData.level) ? '<a class="tab previous" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i131) + '">' + soy.$$escapeHtml(i131) + '</a>' : '<a class="tab" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i131) + '">' + soy.$$escapeHtml(i131) + '</a>');
   }
-  output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select></td></tr></table><div id="visualization"><div id="hintBubble"><div id="hint">';
-  switch (opt_ijData.level + 20) {
-    case 1:
-      output += 'Stack a couple of \'move forward\' blocks together to help me reach the goal.';
-      break;
-    case 2:
-      output += 'What is the sequence of steps to follow this path?';
-      break;
-    case 3:
-      output += 'Computers have limited memory.  Reach the end of this path using only two blocks.  Use \'repeat\' to run a block more than once.';
-      break;
-    case 4:
-      output += 'Reach the goal using only five blocks.';
-      break;
-    case 5:
-      output += 'Breaking a problem into two pieces can make things easier.';
-      break;
-    case 6:
-      output += 'An \'if\' block will do something only if the condition is true.  Try turning left if there is a path to the left.';
-      break;
-    case 7:
-      output += 'This maze looks more complicated than the previous one, but it is not.';
-      break;
-    case 8:
-      output += 'You can use more than one \'if\' block.';
-      break;
-    case 9:
-      output += 'If-else blocks will do one thing or the other.';
-      break;
-    case 10:
-      output += 'Can you solve this complicated maze?  Try following the left-hand wall.  Advanced programmers only!';
-      break;
-  }
-  output += '</div></div><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px"></svg></div><table width="400"><tr><td style="width: 190px; text-align: center; vertical-align: top;"><button class="notext" title="See generated JavaScript code." onclick="BlocklyApps.showCode(this);"><img src="../media/1x1.gif" class="code icon21"></button><button id="linkButton" class="notext" title="Save and link to blocks." onclick="BlocklyStorage.link();"><img src="../media/1x1.gif" class="link icon21"></button></td><td><button id="runButton" class="primary" onclick="Bird.runButtonClick();" title="Makes the player do what the blocks say."><img src="../media/1x1.gif" class="run icon21"> Run Program</button><button id="resetButton" class="primary" onclick="Bird.resetButtonClick();" style="display: none" title="Put the player back at the start of the level."><img src="../media/1x1.gif" class="stop icon21"> Reset</button></td></tr></table><script type="text/javascript" src="../blockly_compressed.js"><\/script><script type="text/javascript" src="../javascript_compressed.js"><\/script><script type="text/javascript" src="../' + soy.$$escapeHtml(opt_ijData.langSrc) + '"><\/script><script type="text/javascript" src="blocks.js"><\/script>' + birdpage.toolbox(null, null, opt_ijData) + '<div id="blockly"></div>' + apps.dialog(null, null, opt_ijData) + apps.codeDialog(null, null, opt_ijData) + apps.storageDialog(null, null, opt_ijData) + '<div id="dialogDone" class="dialogHiddenContent"><div id="dialogDoneText" style="font-size: large; margin: 1em;"></div><div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0"></div></div>';
+  output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select></td></tr></table><div id="visualization"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgBird" width="400px" height="400px"></svg></div><table width="400"><tr><td style="width: 190px; text-align: center; vertical-align: top;"><button class="notext" title="See generated JavaScript code." onclick="BlocklyApps.showCode(this);"><img src="../media/1x1.gif" class="code icon21"></button><button id="linkButton" class="notext" title="Save and link to blocks." onclick="BlocklyStorage.link();"><img src="../media/1x1.gif" class="link icon21"></button></td><td><button id="runButton" class="primary" onclick="Bird.runButtonClick();" title="Makes the player do what the blocks say."><img src="../media/1x1.gif" class="run icon21"> Run Program</button><button id="resetButton" class="primary" onclick="Bird.resetButtonClick();" style="display: none" title="Put the player back at the start of the level."><img src="../media/1x1.gif" class="stop icon21"> Reset</button></td></tr></table><script type="text/javascript" src="../blockly_compressed.js"><\/script><script type="text/javascript" src="../javascript_compressed.js"><\/script><script type="text/javascript" src="../' + soy.$$escapeHtml(opt_ijData.langSrc) + '"><\/script><script type="text/javascript" src="blocks.js"><\/script>' + birdpage.toolbox(null, null, opt_ijData) + '<div id="blockly"></div>' + apps.dialog(null, null, opt_ijData) + apps.codeDialog(null, null, opt_ijData) + apps.storageDialog(null, null, opt_ijData) + '<div id="dialogDone" class="dialogHiddenContent"><div id="dialogDoneText" style="font-size: large; margin: 1em;"></div><div id="dialogDoneButtons" class="farSide" style="padding: 1ex 3ex 0"></div></div>';
   return output;
 };
 
