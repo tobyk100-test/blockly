@@ -6,13 +6,13 @@
  *
  * # Run the following command after changing the messages in any of the
  * # included apps subdirectories.
- * java -jar _soy/SoyMsgExtractor.jar --outputFile extracted_msgs.xlf --srcs common.soy,maze/template.soy,turtle/template.soy
+ * java -jar _soy/SoyMsgExtractor.jar --outputFile extracted_msgs.xlf --srcs common.soy,bird/template.soy,maze/template.soy,turtle/template.soy
  *
  * # Create en.json, keys.json, qqq.json.
- * ../i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates common.soy {maze,turtle}/template.soy
+ * ../i18n/xliff_to_json.py --xlf extracted_msgs.xlf --templates common.soy {bird,maze,turtle}/template.soy --lang en_us
  *
  * # Generate .js files for each project:
- * for i in maze turtle; do ../i18n/json_to_js.py --output_dir=$i/generated --path_to_jar=_soy --template common.soy,$i/template.soy *.json; done
+ * for i in bird maze turtle; do ../i18n/json_to_js.py --source_lang=en_us --output_dir=$i/generated --path_to_jar=_soy --template common.soy,$i/template.soy *.json; done
  */
 
 /**
