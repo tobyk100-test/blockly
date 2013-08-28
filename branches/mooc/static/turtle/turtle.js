@@ -266,8 +266,6 @@ Turtle.init = function() {
       textContent.replace('%1', BlocklyApps.PAGE);
 
   var rtl = BlocklyApps.LANGUAGES[BlocklyApps.LANG][1] == 'rtl';
-
-  BlocklyApps.checkMenu();
   var toolbox = document.getElementById('toolbox');
   Blockly.inject(document.getElementById('blockly'),
       {path: '../',
