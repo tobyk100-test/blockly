@@ -28,6 +28,11 @@ apps.ok = function(opt_data, opt_ignored, opt_ijData) {
   return '<div class="farSide" style="padding: 1ex 3ex 0"><button class="secondary" onclick="BlocklyApps.hideDialog(true)">OK</button></div>';
 };
 
+
+apps.menu = function(opt_data, opt_ignored, opt_ijData) {
+  return (! opt_data.menu) ? ' class="hide" ' : '';
+};
+
 ;
 // This file was automatically generated from template.soy.
 // Please don't edit this file by hand.
@@ -41,9 +46,9 @@ mazepage.messages = function(opt_data, opt_ignored, opt_ijData) {
 
 
 mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
-  var output = mazepage.messages(null, null, opt_ijData) + '<table width="100%" class="nav-menu" style="border-bottom: 1px solid #DBDBDB;"><tr><td><h1><span id="title"><a href="https://sites.google.com/site/computersciencefirst/">CS First</a> : Maze</span> &nbsp; ';
-  for (var i217 = 1; i217 < 11; i217++) {
-    output += ' ' + ((i217 == opt_ijData.level) ? (i217 > 9) ? '<span class="selected doubleDigit tab">' + soy.$$escapeHtml(i217) + '</span>' : '<span class="selected tab">' + soy.$$escapeHtml(i217) + '</span>' : (i217 < opt_ijData.level) ? '<a class="tab previous" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i217) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i217) + '</a>' : '<a class="tab" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i217) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i217) + '</a>');
+  var output = mazepage.messages(null, null, opt_ijData) + '<table width="100%" ' + apps.menu({menu: opt_ijData.menu}, null, opt_ijData) + ' style="border-bottom: 1px solid #DBDBDB;"><tr><td><h1><span id="title"><a href="https://sites.google.com/site/computersciencefirst/">CS First</a> : Maze</span> &nbsp; ';
+  for (var i224 = 1; i224 < 11; i224++) {
+    output += ' ' + ((i224 == opt_ijData.level) ? (i224 > 9) ? '<span class="selected doubleDigit tab">' + soy.$$escapeHtml(i224) + '</span>' : '<span class="selected tab">' + soy.$$escapeHtml(i224) + '</span>' : (i224 < opt_ijData.level) ? '<a class="tab previous" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i224) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i224) + '</a>' : '<a class="tab" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i224) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '">' + soy.$$escapeHtml(i224) + '</a>');
   }
   output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select> &nbsp; <button id="pegmanButton" onmousedown="Maze.showPegmanMenu();"><img src="../media/1x1.gif"><span>&#x25BE;</span></button></td></tr></table><div id="levelFeedback"><div style="padding-bottom: 0.7ex;"><br><img class="stars feedback" id="star1" src="../star1.png"><img class="stars feedback" id="star2" src="../star2.png"><img class="stars feedback" id="star3" src="../star3.png"><ul id="levelFeedbackText"><span id="hintTitle" class="feedback" style="display: none; margin-left: -30px">Hint:</span><li id="nextLevelMsg" style="display: none; margin-left: -40px;">Congratulations! You have completed this level.</li><li id="finalLevelMsg" style="display: none; margin-left: -40px;">Congratulations! You have solved the final level.</li><li id="emptyBlocksError" class="feedback" style="display: none">Remove unused empty blocks.</li><li id="tooManyBlocksError" class="feedback" style="display: none">This level can be solved with <span id="idealNumberMessage"></span> blocks.</li><li id="tooManyBlocksError" class="feedback" style="display: none"></li><li id="tooFewBlocksError" class="feedback" style="display: none">You are using all of the necessary types of blocks, but try using more of these types of blocks to complete this level.</li>';
   switch (opt_ijData.level) {
