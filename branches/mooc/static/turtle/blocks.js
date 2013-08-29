@@ -164,6 +164,25 @@ Blockly.Language.variables_get_length = {
 
 Blockly.JavaScript.variables_get_length = Blockly.JavaScript.variables_get;
 
+Blockly.Language.variables_get_height = {
+  // Variable getter.
+  category: null,  // Variables are handled specially.
+  helpUrl: Blockly.LANG_VARIABLES_GET_HELPURL,
+  init: function() {
+    this.setColour(330);
+    this.appendDummyInput()
+        .appendTitle(Blockly.LANG_VARIABLES_GET_TITLE)
+        .appendTitle(new Blockly.FieldLabel('height'), 'VAR');
+    this.setOutput(true);
+    this.setTooltip(Blockly.LANG_VARIABLES_GET_TOOLTIP);
+  },
+  getVars: function() {
+    return [this.getTitleValue('VAR')];
+  }
+};
+
+Blockly.JavaScript.variables_get_height = Blockly.JavaScript.variables_get;
+
 Blockly.Language.variables_get_sides = {
   // Variable getter.
   category: null,  // Variables are handled specially.

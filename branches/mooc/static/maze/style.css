@@ -3,118 +3,16 @@ body {
   font-family: sans-serif;
   margin-top: 0;
 }
-h1 {
-  font-weight: normal;
-  font-size: 140%;
-}
-a:hover {
-  color: #f00;
-}
-.farSide {
-  text-align: right;
-}
-html[dir="RTL"] .farSide {
-  text-align: left;
-}
-.tab {
-  font-weight: bold;
-  padding: 6px 12px;
-  text-decoration: none;
-  color: #000;
-}
-.previous {
-  color: #0DA38A;
-}
-.selected {
-  color: white;
-  border-radius: 20px;
-  border: 0;
-  background: #0DA38A;
-}
-.doubleDigit {
-  padding: 8px 8px;
-  margin-left: 4px;
-}
-.singleDigit {
-  padding: 6px 12px;
-}
-.stars {
-  display: none;
-  margin-left: auto;
-  margin-right: auto;
-  height: 79px;
-  width: 300px;
-}
-#blockly {
-  position: absolute;
-  box-shadow: 7px 7px 10px #888;
-}
+
 #visualization {
   position: relative;
   top: 10px;
 }
-#hintBubble {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  border-radius: 15px;
-  background-color: rgba(64,64,64,0.7);
-  width: 380px;
+
+#svgMaze {
+  border: solid 1px #DBDBDB;
 }
-#hint {
-  color: #fff;
-  padding: 5px 1em;
-  font-size: large;
-}
-#capacity {
-  display: none;
-  color: #fff;
-  padding: 5px 1em;
-  border-radius: 15px;
-  background-color: rgba(64,64,64,0.7);
-  font-size: large;
-}
-#capacityBubble {
-  display: none;
-  position: absolute;
-  margin-top: -0.5em;
-  left: 10px;
-  top: 425px;
-  width: 380px;
-}
-#capacityNumber {
-  font-weight: bold;
-}
-#hintBubble {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  border-radius: 15px;
-  background-color: rgba(64,64,64,0.7);
-  width: 380px;
-}
-#levelFeedback {
-  display: none;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  max-width: 600px;
-  position: absolute;
-  left: 2.5em;
-  top: 5em;
-  z-index: 1;
-  border-radius: 8px;
-  box-shadow: 5px 5px 5px #888;
-  padding: 10px;
-}
-#levelFeedbackText {
-  border: 0;
-  text-align: center;
-  overflow: hidden;
-  font-size: 16pt;
-  font-family: Arial;
-  margin: 30px 10px;
-}
+
 #pegman_bubble {
   position: relative;
   top: -1px;
@@ -142,9 +40,6 @@ html[dir="RTL"] .farSide {
   background-color: #000;
   opacity: 0.3;
 }
-html[dir=rtl] #capacity {
-  float: left;
-}
 
 /* 'Look' icon */
 #look>path {
@@ -156,6 +51,7 @@ html[dir=rtl] #capacity {
 }
 
 /* Buttons */
+// This differs from common.css.
 button {
   margin: 5px;
   margin-right: 12px;
@@ -164,7 +60,7 @@ button {
   border-radius: 5px;
   border: 1px solid #ddd;
   background-color: #eee;
-  font-size: 10%;
+  font-size: large;
   color: #000;
 }
 button.launch {
@@ -230,6 +126,7 @@ input[type="radio"] {
   padding-right: 3px;
 }
 
+/* Skin menu  */
 #pegmanButton {
   padding: 0;
   margin: 0 5px;
@@ -258,9 +155,6 @@ html[dir="RTL"] #pegmanButton>img {
 }
 html[dir="RTL"] #pegmanButton>span {
   margin-right: -15px;
-}
-#svgMaze {
-  border: solid 1px #DBDBDB;
 }
 #pegmanMenu {
   border: 1px solid #ddd;
