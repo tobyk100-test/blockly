@@ -713,6 +713,12 @@ BlocklyApps.DISPLAY_NAV = BlocklyApps.getStringParamFromUrl('menu', 'true');
 BlocklyApps.DISPLAY_NAV = BlocklyApps.DISPLAY_NAV === 'true';  // Convert to bool.
 
 /**
+ * This allows the server to override the standard next level redirect.
+ * @type {string=}
+ */
+BlocklyApps.nextLevelUrl = undefined;
+
+/**
  * Flag indicating whether the last program run completed the level.
  * @type {?boolean}
  */
@@ -1014,6 +1020,15 @@ BlocklyApps.report = function(app, id, level, result, program) {
   // Allow for reporting on any hosting service running http(s).
   if (window.location.protocol.indexOf('http') > -1) {
     var httpRequest = new XMLHttpRequest();
+    // Check reponse from server for a redirect, this way a smart server
+    // can override default level switching behavior for adaptive learning.
+    httpRequest.onload = function() {
+      var response = JSON.parse(httpRequest.responseText);
+      var redirect = response['redirect'];
+      if (redirect) {
+        BlocklyApps.nextLevelUrl = redirect;
+      }
+    }
     httpRequest.open('POST', BlocklyApps.REPORT_URL);
     httpRequest.setRequestHeader('Content-Type',
         'application/x-www-form-urlencoded');
@@ -1158,13 +1173,17 @@ BlocklyApps.displayInterstitialOrCloseModalDialog = function(gotoNext) {
  * Construct the URL and go to the next level.
  */
 BlocklyApps.createURLAndOpenNextLevel = function() {
-  window.location = window.location.protocol + '//' +
-    window.location.host + window.location.pathname +
-    '?lang=' + BlocklyApps.LANG +
-    (BlocklyApps.PAGE ? '&page=' + BlocklyApps.PAGE : '') +
-    '&level=' + (BlocklyApps.LEVEL + 1) +
-    // TODO: Fix hack used to temporarily keep turtle interstitials working.
-    (BlocklyApps.SKIN_ID ? '&skin=' + BlocklyApps.SKIN_ID : '&reinf=1');
+  if (BlocklyApps.nextLevelUrl) {
+    window.top.location.href = BlocklyApps.nextLevelUrl;
+  } else {
+    window.location = window.location.protocol + '//' +
+      window.location.host + window.location.pathname +
+      '?lang=' + BlocklyApps.LANG +
+      (BlocklyApps.PAGE ? '&page=' + BlocklyApps.PAGE : '') +
+      '&level=' + (BlocklyApps.LEVEL + 1) +
+      // TODO: Fix hack used to temporarily keep turtle interstitials working.
+      (BlocklyApps.SKIN_ID ? '&skin=' + BlocklyApps.SKIN_ID : '&reinf=1');
+  }
 };
 
 /**
