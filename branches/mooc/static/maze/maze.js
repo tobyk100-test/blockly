@@ -582,7 +582,7 @@ Maze.changePegman = function(newSkin) {
   window.location = window.location.protocol + '//' +
       window.location.host + window.location.pathname +
       '?lang=' + BlocklyApps.LANG + '&level=' + BlocklyApps.LEVEL +
-      '&skin=' + newSkin;
+      '&skin=' + newSkin + '&mode=' + BlocklyApps.MODE_ID;
 };
 
 /**
