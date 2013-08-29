@@ -58,6 +58,16 @@ BlocklyApps.LANG = BlocklyApps.getLang();
 document.write('<script type="text/javascript" src="generated/' +
     BlocklyApps.LANG + '.js"></script>\n');
 
+
+/**
+ * The mode of the maze we are in.
+ * If mode = 1, we are in the original maze; if mode = 2, we are in the adaptive
+ * maze with additional levels.
+ */
+BlocklyApps.MAX_MODE = 2;
+BlocklyApps.MODE_ID =
+    BlocklyApps.getNumberParamFromUrl('mode', 1, BlocklyApps.MAX_MODE);
+
 // Set BlocklyApps constants.
 BlocklyApps.MAX_LEVEL = 10;
 BlocklyApps.LEVEL =
