@@ -101,3 +101,10 @@
     </button>
   </div>
 {/template}
+
+/**
+ * @param menu A boolean, which when true means the menu should display.
+ */
+{template .menu}
+  {if not $menu} class="hide" {/if}
+{/template}
