@@ -104,6 +104,14 @@ Maze.SKINS = [
     look: '#fff'
   },
   {
+    sprite: 'mouse.png',
+    tiles: 'tiles_mouse.png',
+    marker: 'marker_mouse.png',
+    background:'bg_mouse.png',
+    graph: false,
+    look: '#fff'
+  },
+  {
     sprite: 'panda.png',
     tiles: 'tiles_panda.png',
     marker: 'marker.png',
