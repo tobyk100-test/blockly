@@ -205,6 +205,10 @@ Blockly.JavaScript.maze_whileNotClear = function() {
   var argument = 'Maze.' + this.getTitleValue('DIR')
       + '(\'block_id_' + this.id + '\')';
   var branch = Blockly.JavaScript.statementToCode(this, 'DO');
+  if (Blockly.JavaScript.INFINITE_LOOP_TRAP) {
+    branch = Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(/%1/g,
+        '\'block_id_' + this.id + '\'') + branch;
+  }
   console.log('while (' + argument + ') {\n' + branch + '}\n');
   return 'while (' + argument + ') {\n' + branch + '}\n';
 };
@@ -230,6 +234,10 @@ Blockly.Language.maze_untilBlocked = {
 Blockly.JavaScript.maze_untilBlocked = function() {
   var argument = 'Maze.' + this.getTitleValue('DIR')
       + '(\'block_id_' + this.id + '\')';
+  if (Blockly.JavaScript.INFINITE_LOOP_TRAP) {
+    branch = Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(/%1/g,
+        '\'block_id_' + this.id + '\'') + branch;
+  }
   var branch = Blockly.JavaScript.statementToCode(this, 'DO');
   console.log('while (' + argument + ') {\n' + branch + '}\n');
   return 'while (' + argument + ') {\n' + branch + '}\n';
@@ -257,6 +265,10 @@ Blockly.JavaScript.maze_untilBlockedOrNotClear = function() {
   var argument = 'Maze.' + this.getTitleValue('DIR')
       + '(\'block_id_' + this.id + '\')';
   var branch = Blockly.JavaScript.statementToCode(this, 'DO');
+  if (Blockly.JavaScript.INFINITE_LOOP_TRAP) {
+    branch = Blockly.JavaScript.INFINITE_LOOP_TRAP.replace(/%1/g,
+        '\'block_id_' + this.id + '\'') + branch;
+  }
   console.log('while (' + argument + ') {\n' + branch + '}\n');
   return 'while (' + argument + ') {\n' + branch + '}\n';
 };

@@ -170,7 +170,7 @@
   /**
    * For processing the window input after finishing a level.
    */
-  <div id="levelFeedback">
+  <div id="levelFeedback" class="dialogHiddenContent">
     <div style="padding-bottom: 0.7ex;"><br>
       <img class="stars feedback" id="star1" src="../star1.png">
       <img class="stars feedback" id="star2" src="../star2.png">
@@ -206,6 +206,10 @@
             but needs more of these types of blocks to complete the level."}You
             are using all of the necessary types of blocks, but try using more
             of these types of blocks to complete this level.{/msg}</li>
+        <li id="levelIncompleteError" class="feedback" style="display: none">
+          {msg meaning="Maze.levelIncompleteError" desc="TODO"}
+            You are using all of the necessary types of blocks but not in
+            the right way.{/msg}</li>
         {switch $ij.level}
           {case 1}
             <li id="moveForwardError1" class="feedback" style="display: none">
@@ -497,7 +501,8 @@
                 for this level and they have attempted the leve more than once"}
                 Drag and snap the 'repeat' block around all of your blocks.{/msg}</li>
         {/switch}
-      </ul>
+      </ul>  // feedbackText
+
       /**
        * Interstitial levels.
        */
@@ -576,7 +581,6 @@
             <p><img style="margin-left: 10px; height: 350px; width: 490px;"
                src="ifelse.png"><br>
         {/switch}
-
 
         /**
          * Multiple choice question.
@@ -782,8 +786,11 @@
   {call .toolbox /}
   <div id="blockly"></div>
 
+  {call apps.dialog /}
+  {call apps.codeDialog /}
+  {call apps.storageDialog /}
+
   <div id="pegmanMenu"></div>
-  <div id="shadow"></div>
 {/template}
 
 /**

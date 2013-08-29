@@ -16,6 +16,34 @@ a:hover {
 html[dir="RTL"] .farSide {
   text-align: left;
 }
+#blockly {
+  position: absolute;
+  box-shadow: 7px 7px 10px #888;
+}
+
+/* Levels */
+.tab {
+  font-weight: bold;
+  padding: 6px 12px;
+  text-decoration: none;
+  color: #000;
+}
+.previous {
+  color: #0DA38A;
+}
+.selected {
+  color: white;
+  border-radius: 20px;
+  border: 0;
+  background: #0DA38A;
+}
+.doubleDigit {
+  padding: 8px 8px;
+  margin-left: 4px;
+}
+.singleDigit {
+  padding: 6px 12px;
+}
 
 /* Buttons */
 button {
@@ -108,4 +136,34 @@ button.notext {
 }
 #dialog button {
   min-width: 4em;
+}
+#levelFeedbackText {
+  border: 0;
+  text-align: center;
+  overflow: hidden;
+  font-size: 16pt;
+  font-family: Arial;
+  margin: 30px 10px;
+}
+
+/* Other */
+#hint {
+  color: #fff;
+  padding: 5px 1em;
+  font-size: large;
+}
+#hintBubble {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  border-radius: 15px;
+  background-color: rgba(64,64,64,0.7);
+  width: 380px;
+}
+.stars {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  height: 79px;
+  width: 300px;
 }
