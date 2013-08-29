@@ -194,7 +194,7 @@ Turtle.setBlocklyAppConstants = function() {
     // Page 2.
     [undefined,  // Level 0.
      // Level 1: Square.
-     [5, ['penColour', 'while', 'turn', 'move'], 1],
+     [5, ['penColour', repeat_, 'turn', 'move'], 1],
      // Level 2: Small green square.
      [2, ['penColour', 'draw_a_square'], Turtle.Colours.GREEN],
      // Level 3: Three squares.
