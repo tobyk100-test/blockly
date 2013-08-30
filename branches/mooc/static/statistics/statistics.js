@@ -7,9 +7,10 @@ function attachProgramListeners() {
   }
 }
 function linkHandler(e) {
+  var Blockly = document.getElementById('mazeFrame').contentWindow['Blockly'];
   var link = e.target;
   var program = unescapeHtml(link.innerHTML);
-  var Blockly = document.getElementById('mazeFrame').contentWindow['Blockly'];
+  program = Blockly.Xml.textToDom(program);
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, program);
 }
