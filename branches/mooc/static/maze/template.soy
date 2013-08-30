@@ -121,6 +121,9 @@
  * Web page structure.
  */
 {template .start}
+  {if $ij.mode == 2}
+    <script type="text/javascript" src="adp_maze.js"></script>
+  {/if}
   {call .messages /}
   <table width="100%" {call apps.menu}{param menu: $ij.menu /}{/call} style="border-bottom: 1px solid #DBDBDB;">
     <tr>
@@ -138,10 +141,10 @@
             {/msg}
           </span>
           {sp}&nbsp;{sp}
-          {for $i in range(1, 11)}
+          {for $i in range(1, $ij.mode == 2 ? 19 : 11)}
             {sp}
             {if $i == $ij.level}
-              {if $i > 9}
+              {if $i > ($ij.mode == 2 ? 19 : 11) - 2}
                 <span class="selected doubleDigit tab">{$i}</span>
               {else}
                 <span class="selected tab">{$i}</span>

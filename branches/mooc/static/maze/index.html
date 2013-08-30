@@ -9,6 +9,13 @@
   <script type="text/javascript" src="../_soy/soyutils.js"></script>
   <script type="text/javascript" src="../common.js"></script>
   <script type="text/javascript" src="maze.js"></script>
+  <script type="text/javascript">
+    if (BlocklyApps.MODE_ID == 2) {
+      BlocklyApps.MAX_LEVEL = 18;
+      BlocklyApps.LEVEL =
+        BlocklyApps.getNumberParamFromUrl('level', 1, BlocklyApps.MAX_LEVEL);
+    }
+  </script>
   <script type="text/javascript" src="/storage.js"></script>
 </head>
 <body>
