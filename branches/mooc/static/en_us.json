@@ -1,7 +1,7 @@
 {
     "@metadata": {
         "author": "Ellen Spertus <ellen.spertus@gmail.com>",
-        "lastupdated": "2013-08-28 15:59:23.751745",
+        "lastupdated": "2013-08-29 11:53:27.064717",
         "locale": "en_us",
         "messagedocumentation" : "qqq"
     },
@@ -208,11 +208,11 @@
     "Turtle.instructions1_10": "Draw anything you want. Some ideas are a stick figure, snowflake, or spiral.  You could also try out the new &quot;set width&quot; block.  Have fun!",
     "Turtle.instructions2_1": "Find the familiar blocks in the new categories to draw a square in your favorite color.",
     "Turtle.instructions2_2": "Use the new &quot;draw a square&quot; block, found in the &quot;Functions&quot; category, to draw a small green square.",
-    "Turtle.instructions2_3": "Use the new block to draw 3 squares of size 100, each 120 degrees apart, in random colors.",
+    "Turtle.instructions2_3": "Use the &quot;repeat&quot; block to draw 3 squares of size 100, each 120 degrees apart, in random colors.",
     "Turtle.instructions2_4": "Now change the code to draw 36 squares, each 10 degrees apart.",
     "Turtle.instructions2_5": "Draw squares with sides of 50, 60, 70, 80, and 90 dots.  You'll need lots of blocks.",
-    "Turtle.instructions2_6": "Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.",
-    "Turtle.instructions2_7": "Replace the pale (disabled) blocks with a &quot;count with&quot; block to draw the same spiral.",
+    "Turtle.instructions2_6": "Modify this program with the &quot;counter&quot; block (found in the Variables category) to draw the same series of squares with fewer blocks than on the previous level.",
+    "Turtle.instructions2_7": "Replace the pale (disabled) blocks with a &quot;count with&quot; block (in the Loops category) and &quot;counter&quot; block (in the Variables category) to draw the same spiral.",
     "Turtle.instructions2_8": "Draw three snowmen 150 dots tall in different colors, 100 dots apart.  Use the new &quot;draw a snowman&quot; function and &quot;jump forward&quot; block.",
     "Turtle.instructions2_9": "Use a &quot;count with&quot; loop to draw a family of snowmen with heights of 110, 100, 90, 80, and 70 dots, each 60 dots apart.",
     "Turtle.instructions2_10": "Draw whatever you want.  One idea is experimenting with different types of spirals.  What happens if you change the turn amount, rather than the move amount?  TODO: Add starting blocks.",
