@@ -139,37 +139,96 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
       break;
   }
   output += '<div id="reinfDone"><div style="padding-bottom: 0.7ex; text-align:center;"><textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none; border: none; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;"></textarea></div></div></div><br><div style="text-align: center"><button id="tryAgainButton" class="launch" style="display: none" onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(false, ' + soy.$$escapeHtml(opt_ijData.level) + ', ' + soy.$$escapeHtml(opt_ijData.skin) + ');">Try again</button><button id="continueButton" class="launch" style="display: none" onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(true, ' + soy.$$escapeHtml(opt_ijData.level) + ', ' + soy.$$escapeHtml(opt_ijData.skin) + ');">Continue</button></div></div></div><div id="visualization"><div id="hintBubble"><div id="hint">';
-  switch (opt_ijData.level) {
-    case 1:
-      output += 'A program is a sequence of statements. Stack a couple of \'move forward\' blocks together to help me reach the goal.';
-      break;
-    case 2:
-      output += 'What should I do to follow the path?';
-      break;
-    case 3:
-      output += 'Computers have limited memory. Reach the end of this path using only two blocks.';
-      break;
-    case 4:
-      output += 'Reach the goal using only five blocks.';
-      break;
-    case 5:
-      output += 'I will have to turn left when I cannot go straight. Use an \'if\' block to see if their is a path in another direction.';
-      break;
-    case 6:
-      output += 'An \'if\' condition will do something only if the condition is true.  Try turning left if there is a path to the left.';
-      break;
-    case 7:
-      output += 'A small change to the blocks from the previous maze will solve this level.';
-      break;
-    case 8:
-      output += 'You can use more than one \'if\' statement.';
-      break;
-    case 9:
-      output += 'If-else blocks will do one thing or the other.';
-      break;
-    case 10:
-      output += 'Use the \'if-else\' block to help me get out of the maze!';
-      break;
+  if (opt_ijData.mode == 1) {
+    switch (opt_ijData.level) {
+      case 1:
+        output += 'A program is a sequence of statements. Stack a couple of \'move forward\' blocks together to help me reach the goal.';
+        break;
+      case 2:
+        output += 'What should I do to follow the path?';
+        break;
+      case 3:
+        output += 'Computers have limited memory. Reach the end of this path using only two blocks.';
+        break;
+      case 4:
+        output += 'Reach the goal using only five blocks.';
+        break;
+      case 5:
+        output += 'I will have to turn left when I cannot go straight. Use an \'if\' block to see if their is a path in another direction.';
+        break;
+      case 6:
+        output += 'An \'if\' condition will do something only if the condition is true.  Try turning left if there is a path to the left.';
+        break;
+      case 7:
+        output += 'A small change to the blocks from the previous maze will solve this level.';
+        break;
+      case 8:
+        output += 'You can use more than one \'if\' statement.';
+        break;
+      case 9:
+        output += 'If-else blocks will do one thing or the other.';
+        break;
+      case 10:
+        output += 'Use the \'if-else\' block to help me get out of the maze!';
+        break;
+    }
+  } else if (opt_ijData.mode == 2) {
+    switch (opt_ijData.level) {
+      case 1:
+        output += 'A program is a sequence of statements. Stack a couple of \'move forward\' blocks together to help me reach the goal.';
+        break;
+      case 2:
+        output += 'A program is a sequence of statements. Stack a couple of \'move forward\' blocks together to help me reach the goal.';
+        break;
+      case 3:
+        output += 'What should I do to follow the path?';
+        break;
+      case 4:
+        output += 'What should I do to follow the path?';
+        break;
+      case 5:
+        output += 'Try to reach the end of this path using only two blocks.';
+        break;
+      case 6:
+        output += 'Try to reach the end of this path using only three blocks.';
+        break;
+      case 7:
+        output += 'Try to reach the end of this path using only two repeat blocks.';
+        break;
+      case 8:
+        output += 'Try to reach the end of this path using only two repeat blocks.';
+        break;
+      case 9:
+        output += 'Try to reach the end of this path using the new repeat block.';
+        break;
+      case 10:
+        output += 'Try to reach the end of this path using only three blocks.';
+        break;
+      case 11:
+        output += 'Reach the goal using only five blocks.';
+        break;
+      case 12:
+        output += 'Reach the goal using only five blocks.';
+        break;
+      case 13:
+        output += 'I will have to turn left when I cannot go straight. Use an \'if\' block to see if their is a path in another direction.';
+        break;
+      case 14:
+        output += 'I will have to turn right when I cannot go straight. Use an \'if\' block to see if their is a path in another direction.';
+        break;
+      case 15:
+        output += 'An \'if\' condition will do something only if the condition is true.  Try turning right if there is a path to the right.';
+        break;
+      case 16:
+        output += 'An \'if\' condition will do something only if the condition is true.  Try turning right if there is a path to the right.';
+        break;
+      case 17:
+        output += 'If-else blocks will do one thing or the other.';
+        break;
+      case 18:
+        output += 'Use the \'if-else\' block to help me get out of the maze!';
+        break;
+    }
   }
   output += '</div></div><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="450px"><g id="look"><path d="M 0,-15 a 15 15 0 0 1 15 15" /><path d="M 0,-35 a 35 35 0 0 1 35 35" /><path d="M 0,-55 a 55 55 0 0 1 55 55" /></g></svg><div id="capacityBubble"><div id="capacity"></div></div></div><table width="400" style="padding-top: 10px;"><tr><td style="width: 190px; text-align: center; vertical-align: top;"><button class="notext" title="See generated JavaScript code." onclick="BlocklyApps.showCode();"><img src=\'../media/1x1.gif\' alt="code" class="code icon21"></button><button id="linkButton" class="notext" style="display: none;" title="Save and link to blocks." onclick="BlocklyStorage.link();"><img src=\'../media/1x1.gif\' alt="link" class="link icon21"></button></td><td><button id="runButton" class="launch" onclick="Maze.runButtonClick();"><img src="../media/1x1.gif" class="run icon21">Run</button></button><button id="resetButton" class="launch" onclick="BlocklyApps.resetButtonClick();" style="display: none"><img src="../media/1x1.gif" class="stop icon21">Reset</button></td></tr></table><script type="text/javascript" src="../blockly_compressed.js"><\/script><script type="text/javascript" src="../javascript_compressed.js"><\/script><script type="text/javascript" src="../' + soy.$$escapeHtml(opt_ijData.langSrc) + '"><\/script><script type="text/javascript" src="blocks.js"><\/script>' + mazepage.toolbox(null, null, opt_ijData) + '<div id="blockly"></div>' + apps.dialog(null, null, opt_ijData) + apps.codeDialog(null, null, opt_ijData) + apps.storageDialog(null, null, opt_ijData) + '<div id="pegmanMenu"></div>';
   return output;

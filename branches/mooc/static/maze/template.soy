@@ -673,64 +673,175 @@
   <div id="visualization">
     <div id="hintBubble">
       <div id="hint">
-        {switch $ij.level}
-          {case 1}
-            {msg meaning="Maze.instructions1" desc="instructions - the word
-              'program' refers to a computer program, and the words for
-              'stack' and 'blocks' should be the same as for stacking
-              children's blocks. Use the imperative verb form appropriate
-              for speaking to a child, gender unspecified.  If no
-              gender-neutral singular/familiar form exists but a gender-neutral
-              plural/formal form exists, use that instead."}A program is a
-              sequence of statements. Stack a couple of 'move forward'
-              blocks together to help me reach the goal.{/msg}
-          {case 2}
-            {msg meaning="Maze.instructions2" desc="instructions - 'steps'
-              refers to instructions in a computer program; 'path' refers to
-              the path through a maze. See previous description for tense."}
-              What should I do to follow the path?{/msg}
-          {case 3}
-            {msg meaning="Maze.instructions3" desc="instructions - 'path'
-              refers to a path through a maze, and 'block' refers to a
-              child's building block."}Computers have limited memory.
-              Reach the end of this path using only two blocks.{/msg}
-          {case 4}
-            {msg meaning="Maze.instructions4" desc="instructions - the
-              goal is reaching the end point in a maze; 'block' refers
-              to a child's building block."}Reach the goal using only
-              five blocks.{/msg}
-          {case 5}
-            {msg meaning="Maze.instructions5" desc="instructions -
-              'turn left' refers to rotating in place a quarter
-              circle counter-clockwise. An example of an 'if' block is: 'if
-              there is a path to the left, turn left'."}I will have to turn left
-              when I cannot go straight. Use an 'if' block to see if their is a
-              path in another direction.{/msg}
-          {case 6}
-            {msg meaning="Maze.instructions6" desc="instructions -
-              an example of an 'if' block is: 'if there is a path to
-              the left, turn left'."}An 'if' condition will do
-              something only if the condition is true.  Try turning
-              left if there is a path to the left.{/msg}
-          {case 7}
-            {msg meaning="Maze.instructions7" desc="instructions -
-              'blocks' refers to a child's building blocks"}A small
-              change to the blocks from the previous maze will solve
-              this level.{/msg}
-          {case 8}
-            {msg meaning="Maze.instructions8" desc="instructions - an
-              example of an 'if' block is: 'if there is a path to the
-              left, turn left'."}You can use more than one 'if' statement.{/msg}
-          {case 9}
-            {msg meaning="Maze.instructions9" desc="instructions - 'block'
-              refers to a child's building block."}If-else blocks will do one
-              thing or the other.{/msg}
-          {case 10}
-            {msg meaning="Maze.instructions10" desc="instructions - an
-              example of an 'if-else' block is: 'if there is a path to the
-              left, turn left, else or otherwise turn right'."}Use the
-              'if-else' block to help me get out of the maze!{/msg}
-        {/switch}
+        {if $ij.mode == 1}
+          {switch $ij.level}
+            {case 1}
+              {msg meaning="Maze.instructions1" desc="instructions - the word
+                'program' refers to a computer program, and the words for
+                'stack' and 'blocks' should be the same as for stacking
+                children's blocks. Use the imperative verb form appropriate
+                for speaking to a child, gender unspecified.  If no
+                gender-neutral singular/familiar form exists but a
+                gender-neutral plural/formal form exists, use that instead."}
+                A program is a sequence of statements. Stack a couple of 'move
+                forward' blocks together to help me reach the goal.{/msg}
+            {case 2}
+              {msg meaning="Maze.instructions2" desc="instructions - 'steps'
+                refers to instructions in a computer program; 'path' refers to
+                the path through a maze. See previous description for tense."}
+                What should I do to follow the path?{/msg}
+            {case 3}
+              {msg meaning="Maze.instructions3" desc="instructions - 'path'
+                refers to a path through a maze, and 'block' refers to a
+                child's building block."}Computers have limited memory.
+                Reach the end of this path using only two blocks.{/msg}
+            {case 4}
+              {msg meaning="Maze.instructions4" desc="instructions - the
+                goal is reaching the end point in a maze; 'block' refers
+                to a child's building block."}Reach the goal using only
+                five blocks.{/msg}
+            {case 5}
+              {msg meaning="Maze.instructions5" desc="instructions -
+                'turn left' refers to rotating in place a quarter
+                circle counter-clockwise. An example of an 'if' block is: 'if
+                there is a path to the left, turn left'."}I will have to turn
+                left when I cannot go straight. Use an 'if' block to see if
+                their is a path in another direction.{/msg}
+            {case 6}
+              {msg meaning="Maze.instructions6" desc="instructions -
+                an example of an 'if' block is: 'if there is a path to
+                the left, turn left'."}An 'if' condition will do
+                something only if the condition is true.  Try turning
+                left if there is a path to the left.{/msg}
+            {case 7}
+              {msg meaning="Maze.instructions7" desc="instructions -
+                'blocks' refers to a child's building blocks"}A small
+                change to the blocks from the previous maze will solve
+                this level.{/msg}
+            {case 8}
+              {msg meaning="Maze.instructions8" desc="instructions - an
+                example of an 'if' block is: 'if there is a path to the
+                left, turn left'."}You can use more than one 'if' statement.
+                {/msg}
+            {case 9}
+              {msg meaning="Maze.instructions9" desc="instructions - 'block'
+                refers to a child's building block."}If-else blocks will do one
+                thing or the other.{/msg}
+            {case 10}
+              {msg meaning="Maze.instructions10" desc="instructions - an
+                example of an 'if-else' block is: 'if there is a path to the
+                left, turn left, else or otherwise turn right'."}Use the
+                'if-else' block to help me get out of the maze!{/msg}
+          {/switch}
+        {elseif $ij.mode == 2}
+          {switch $ij.level}
+            {case 1}
+              {msg meaning="Maze.instructions1" desc="instructions - the word
+                'program' refers to a computer program, and the words for
+                'stack' and 'blocks' should be the same as for stacking
+                children's blocks. Use the imperative verb form appropriate
+                for speaking to a child, gender unspecified.  If no
+                gender-neutral singular/familiar form exists but a
+                gender-neutral plural/formal form exists, use that instead."}
+                A program is a sequence of statements. Stack a couple of 'move
+                forward' blocks together to help me reach the goal.{/msg}
+            {case 2}
+              {msg meaning="Maze.instructions1" desc="instructions - the word
+                'program' refers to a computer program, and the words for
+                'stack' and 'blocks' should be the same as for stacking
+                children's blocks. Use the imperative verb form appropriate
+                for speaking to a child, gender unspecified.  If no
+                gender-neutral singular/familiar form exists but a
+                gender-neutral plural/formal form exists, use that instead."}
+                A program is a sequence of statements. Stack a couple of 'move
+                forward' blocks together to help me reach the goal.{/msg}
+            {case 3}
+              {msg meaning="Maze.instructions2" desc="instructions - 'steps'
+                refers to instructions in a computer program; 'path' refers to
+                the path through a maze. See previous description for tense."}
+                What should I do to follow the path?{/msg}
+            {case 4}
+              {msg meaning="Maze.instructions2" desc="instructions - 'steps'
+                refers to instructions in a computer program; 'path' refers to
+                the path through a maze. See previous description for tense."}
+                What should I do to follow the path?{/msg}
+            {case 5}
+              {msg meaning="Maze.instructions3" desc="instructions - 'path'
+                refers to a path through a maze, and 'block' refers to a
+                child's building block."}Try to reach the end of this path
+                using only two blocks.{/msg}
+            {case 6}
+              {msg meaning="Maze.instructions3" desc="instructions - 'path'
+                refers to a path through a maze, and 'block' refers to a
+                child's building block."}Try to reach the end of this path
+                using only three blocks.{/msg}
+            {case 7}
+              {msg meaning="Maze.instructions4" desc="instructions - 'path'
+                refers to a path through a maze, and 'block' refers to a
+                child's building block."}Try to reach the end of this path
+                using only two repeat blocks.{/msg}
+            {case 8}
+              {msg meaning="Maze.instructions4" desc="instructions - 'path'
+                refers to a path through a maze, and 'block' refers to a
+                child's building block."}Try to reach the end of this path
+                using only two repeat blocks.{/msg}
+            {case 9}
+              {msg meaning="Maze.instructions4" desc="instructions - 'path'
+                refers to a path through a maze, and 'block' refers to a
+                child's building block."}Try to reach the end of this path
+                using the new repeat block.{/msg}
+            {case 10}
+              {msg meaning="Maze.instructions4" desc="instructions - 'path'
+                refers to a path through a maze, and 'block' refers to a
+                child's building block."}Try to reach the end of this path
+                using only three blocks.{/msg}
+            {case 11}
+              {msg meaning="Maze.instructions4" desc="instructions - the
+                goal is reaching the end point in a maze; 'block' refers
+                to a child's building block."}Reach the goal using only
+                five blocks.{/msg}
+            {case 12}
+              {msg meaning="Maze.instructions4" desc="instructions - the
+                goal is reaching the end point in a maze; 'block' refers
+                to a child's building block."}Reach the goal using only
+                five blocks.{/msg}
+            {case 13}
+              {msg meaning="Maze.instructions5" desc="instructions -
+                'turn left' refers to rotating in place a quarter
+                circle counter-clockwise. An example of an 'if' block is: 'if
+                there is a path to the left, turn left'."}I will have to turn
+                left when I cannot go straight. Use an 'if' block to see if
+                their is a path in another direction.{/msg}
+            {case 14}
+              {msg meaning="Maze.instructions5" desc="instructions -
+                'turn left' refers to rotating in place a quarter
+                circle counter-clockwise. An example of an 'if' block is: 'if
+                there is a path to the left, turn left'."}I will have to turn
+                right when I cannot go straight. Use an 'if' block to see if
+                their is a path in another direction.{/msg}
+            {case 15}
+              {msg meaning="Maze.instructions6" desc="instructions -
+                an example of an 'if' block is: 'if there is a path to
+                the left, turn left'."}An 'if' condition will do
+                something only if the condition is true.  Try turning
+                right if there is a path to the right.{/msg}
+            {case 16}
+              {msg meaning="Maze.instructions6" desc="instructions -
+                an example of an 'if' block is: 'if there is a path to
+                the left, turn left'."}An 'if' condition will do
+                something only if the condition is true.  Try turning
+                right if there is a path to the right.{/msg}
+            {case 17}
+              {msg meaning="Maze.instructions9" desc="instructions - 'block'
+                refers to a child's building block."}If-else blocks will do one
+                thing or the other.{/msg}
+            {case 18}
+              {msg meaning="Maze.instructions10" desc="instructions - an
+                example of an 'if-else' block is: 'if there is a path to the
+                left, turn left, else or otherwise turn right'."}Use the
+                'if-else' block to help me get out of the maze!{/msg}
+          {/switch}
+        {/if}
       </div>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="450px">
