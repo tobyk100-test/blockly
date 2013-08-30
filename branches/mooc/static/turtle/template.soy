@@ -551,11 +551,11 @@
       {switch $ij.level}
         {case 1}{msg meaning="Turtle.instructions2_1" desc="TODO"}Find the familiar blocks in the new categories to draw a square in your favorite color.{/msg}
         {case 2}{msg meaning="Turtle.instructions2_2" desc="TODO"}Use the new "draw a square" block, found in the "Functions" category, to draw a small green square.{/msg}
-        {case 3}{msg meaning="Turtle.instructions2_3" desc="TODO"}Use the new block to draw 3 squares of size 100, each 120 degrees apart, in random colors.{/msg}
+        {case 3}{msg meaning="Turtle.instructions2_3" desc="TODO"}Use the "repeat" block to draw 3 squares of size 100, each 120 degrees apart, in random colors.{/msg}
         {case 4}{msg meaning="Turtle.instructions2_4" desc="TODO"}Now change the code to draw 36 squares, each 10 degrees apart.{/msg}
         {case 5}{msg meaning="Turtle.instructions2_5" desc="TODO"}Draw squares with sides of 50, 60, 70, 80, and 90 dots.  You'll need lots of blocks.{/msg}
-        {case 6}{msg meaning="Turtle.instructions2_6" desc="TODO"}Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.{/msg}
-        {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.{/msg}
+        {case 6}{msg meaning="Turtle.instructions2_6" desc="TODO"}Modify this program with the "counter" block (found in the Variables category) to draw the same series of squares with fewer blocks than on the previous level.{/msg}
+        {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block (in the Loops category) and "counter" block (in the Variables category) to draw the same spiral.{/msg}
         {case 8}{msg meaning="Turtle.instructions2_8" desc="TODO"}Draw three snowmen 150 dots tall in different colors, 100 dots apart.  Use the new "draw a snowman" function and "jump forward" block.{/msg}
         {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Use a "count with" loop to draw a family of snowmen with heights of 110, 100, 90, 80, and 70 dots, each 60 dots apart.{/msg}
         {case 10}{msg meaning="Turtle.instructions2_10" desc="TODO"}Draw whatever you want.  One idea is experimenting with different types of spirals.  What happens if you change the turn amount, rather than the move amount?  TODO: Add starting blocks.{/msg}
@@ -1400,7 +1400,7 @@
       </category>
       // Variables depends on page and level, although we never use the custom category
       // because we want to offer simplified getters and no setters.
-      {if $ij.page == 2 and $ij.level >= 5}
+      {if $ij.page == 2 and $ij.level >= 6}
         <category name="{msg meaning="Turtle.catVariables" desc="TODO"}Variables{/msg}">
           <block type="variables_get_counter"></block>
         </category>
