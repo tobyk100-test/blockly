@@ -804,15 +804,36 @@
     <block type="maze_moveForward"></block>
     <block type="maze_turn"><title name="DIR">turnLeft</title></block>
     <block type="maze_turn"><title name="DIR">turnRight</title></block>
-    {if $ij.level > 2}
-      <block type="maze_forever"></block>
-      {if $ij.level == 5}
-        <block type="maze_if"><title name="DIR">isPathLeft</title></block>
-      {elseif $ij.level > 5 and $ij.level < 9}
-        <block type="maze_if"></block>
+    {if $ij.mode == 1}
+      {if $ij.level > 2}
+        <block type="maze_forever"></block>
+        {if $ij.level == 5}
+          <block type="maze_if"><title name="DIR">isPathLeft</title></block>
+        {elseif $ij.level > 5 and $ij.level < 9}
+          <block type="maze_if"></block>
+        {/if}
+       {if $ij.level > 8}
+         <block type="maze_ifElse"></block>
+       {/if}
+      {/if}
+    {elseif $ij.mode == 2}
+      {if $ij.level > 4 and $ij.level < 9}
+        <block type="controls_repeat">
+          <title name="TIMES">5</title>
+        </block>
       {/if}
       {if $ij.level > 8}
-        <block type="maze_ifElse"></block>
+        <block type="maze_forever"></block>
+        {if $ij.level == 13}
+          <block type="maze_if"><title name="DIR">isPathLeft</title></block>
+        {elseif $ij.level == 14}
+          <block type="maze_if"><title name="DIR">isPathRight</title></block>
+        {elseif $ij.level > 13 and $ij.level < 17}
+          <block type="maze_if"></block>
+        {/if}
+        {if $ij.level > 16}
+         <block type="maze_ifElse"></block>
+       {/if}
       {/if}
     {/if}
   </xml>
