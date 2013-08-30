@@ -204,4 +204,4 @@ BlocklyApps.MAX_LEVEL = 18;
 BlocklyApps.LEVEL =
     BlocklyApps.getNumberParamFromUrl('level', 1, BlocklyApps.MAX_LEVEL);
 BlocklyApps.IDEAL_BLOCK_NUM = [undefined, //  0.
-  2, 5, 2, 5, 4, 4, 4, 6, 6, 5, 10, 10, 10, 10, 10, 10, 10, 10][BlocklyApps.LEVEL];
+  2, 2, 5, 7, 2, 3, 5, 5, 2, 3, 5, 5, 4, 4, 4, 4, 6, 5][BlocklyApps.LEVEL];
