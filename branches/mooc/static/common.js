@@ -1164,7 +1164,8 @@ BlocklyApps.createURLAndOpenNextLevel = function() {
     (BlocklyApps.PAGE ? '&page=' + BlocklyApps.PAGE : '') +
     '&level=' + (BlocklyApps.LEVEL + 1) +
     // TODO: Fix hack used to temporarily keep turtle interstitials working.
-    (BlocklyApps.SKIN_ID ? '&skin=' + BlocklyApps.SKIN_ID : '&reinf=1');
+    (BlocklyApps.SKIN_ID ? '&skin=' + BlocklyApps.SKIN_ID : '&reinf=1') +
+    (BlocklyApps.MODE_ID ? '&mode=' + BlocklyApps.MODE_ID : '');
 };
 
 /**
