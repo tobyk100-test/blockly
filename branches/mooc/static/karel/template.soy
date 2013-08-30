@@ -4,7 +4,7 @@
  * This is a Closure Template.  Build multilingually:
  *
  * # Create en.js if that's the only language you care about.
- * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs templateLevel2.soy,templateLevel1.soy,template.soy
+ * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs templateLevel2.soy,templateLevel1.soy,template.soy,../common.soy
  *
  * # To fully internationalize, follow these steps...
  * # Extract messages from template.soy.
@@ -169,7 +169,7 @@
     <span id="xmlError">{msg meaning="Apps.xmlError" desc="alert - There was a problem loading a file previously saved by the user.  The most likely reason for the problem is that it was created with an earlier, incompatible version of Blockly.  This message will be folllowed by technical information useful to engineers trying to understand the problem."}Could not load your saved file.  Perhaps it was created with a different version of Blockly?{/msg}</span>
   </div>
 
-  <table width="100%" class="nav-menu">
+  <table width="100%" {call apps.menu}{param menu: $ij.menu /}{/call}>
     <tr>
       <td>
         <h1>
@@ -215,49 +215,76 @@
    */
   <div id="levelFeedback">
     <div style="padding-bottom: 0.7ex;"><br>
-      <textarea id="levelFeedbackText" rows=2 cols=40 style="resize: none;
+      <textarea id="levelFeedbackText" rows=3 cols=40 style="resize: none;
         border: 0; text-align: center; overflow: hidden; font-size: 16pt;
         font-family: Arial;">
         {if $ij.page == 1}
           {switch $ij.level}
             {case 1, 2}
               {msg meaning="Maze.hint1" desc="hint - 'block' refers to a
-                child's stackable toys."}Use only the blocks you need to get
-                to complete the level.{/msg}
-            {case 3, 5}
+               child's stackable toys."}
+                  You could solve this level with fewer blocks. Can you find
+                  a solution with fewer blocks?
+              {/msg}
+            {case 3}
               {msg meaning="Maze.hint3" desc="hint - A 'repeat' block is used
-                to repeat blocks over and over. The red marker is the goal to
-                be reached in the maze."}Try using the while block so you can
-                complete the level with only 3 blocks.{/msg}
+               to repeat blocks over and over. The red marker is the goal to
+               be reached in the maze."}
+                 There is a solution using only 3 blocks. Can you find it? Try
+                 using the while block.
+              {/msg}
             {case 4}
-              {msg meaning="Maze.hint3" desc="hint - A 'repeat' block is used
+              {msg meaning="Maze.hint4" desc="hint - A 'repeat' block is used
                 to repeat blocks over and over. The red marker is the goal to
-                be reached in the maze."}Try using the while block so you can
-                complete the level with only 4 blocks.{/msg}
+                be reached in the maze."}
+                  Can you use the while block to complete the level with
+                  only 4 blocks?
+              {/msg}
+            {case 5}
+              {msg meaning="Maze.hint5" desc="TODO"}
+                 There is a solution using only 3 blocks. Can you find it? Did
+                 you try the new option on the while block?
+              {/msg}
             {case 6}
               {msg meaning="Maze.hint3" desc="hint - A 'repeat' block is used
                 to repeat blocks over and over. The red marker is the goal to
-                be reached in the maze."}Try using two while blocks so you can
-                complete the level.{/msg}
-            {case 7, 9}
+                be reached in the maze."}
+                  Could you use two while blocks to complete this level with
+                  fewer total blocks?
+                {/msg}
+            {case 7}
               {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
-                to repeat blocks over and over."}Try using the repeat block.
+               to repeat blocks over and over."}
+                 There is a solution using only 3 blocks. Can you find it? Did
+                 you using the repeat block?
               {/msg}
             {case 8}
               {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
-                to repeat blocks over and over."}Try using the repeat block
-                inside the while block.{/msg}
+                to repeat blocks over and over."}
+                 Can you find a solution using 4 blocks? Try putting a loop
+                 inside of another loop. Remember, loop blocks are green.
+              {/msg}
+            {case 9}
+              {msg meaning="Maze.hint9" desc="TODO"}
+                 Can you find a solution using only 4 blocks? Try using one of
+                 the green loop blocks.
+              {/msg}
             {case 10}
               {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
-                to repeat blocks over and over."}Try using two if blocks to
-                decide whether to fill or remove.{/msg}
+               to repeat blocks over and over."}
+                 Can you find a solution using 6 blocks? Try including 2 if blocks.
+              {/msg}
           {/switch}
         {elseif $ij.page == 2}
           {switch $ij.level}
-            {case 1, 2, 5, 7, 8}
+            {case 1}
+              {msg meaning="Maze.hint1" desc="hint - 'block' refers to a
+                child's stackable toys."}Use only the blocks you need to get
+                to complete the level.{/msg}
+            {case 2, 3, 6, 8, 9}
               {msg meaning="Maze.hint1" desc="hint - 'block' refers to a
                 child's stackable toys."}Try using the given function(s).{/msg}
-            {case 3, 4, 6}
+            {case 4, 5, 7}
               {msg meaning="Maze.hint5" desc="hint - A 'repeat' block is used
                 to repeat blocks over and over."}Try defining your own function
                 and use it.{/msg}
@@ -585,10 +612,6 @@
     {/switch}
   {else}
     {switch $ij.level}
-      {case 1}
-        {call .fillShovelfuls}
-          {param shovelfuls: 5 /}
-        {/call}
       {case 2}
         {call .fillShovelfuls}
           {param shovelfuls: 5 /}
@@ -597,12 +620,16 @@
         {call .fillShovelfuls}
           {param shovelfuls: 5 /}
         {/call}
+      {case 4}
+        {call .fillShovelfuls}
+          {param shovelfuls: 5 /}
+        {/call}
         <block type="procedures_defnoreturn" x="300" y="200">
           <mutation></mutation>
           <title name="NAME">fill 7</title>
         </block>
-      {case 4}
       {case 5}
+      {case 6}
         <block type="procedures_defnoreturn" x="20" y="200">
           <mutation></mutation>
           <title name="NAME">remove tower</title>
@@ -691,8 +718,8 @@
             </block>
           </statement>
         </block>
-      {case 6}
       {case 7}
+      {case 8}
         <block type="procedures_defnoreturn" x="20" y="200">
           <mutation></mutation>
           <title name="NAME">jump hurdle and remove 1</title>
@@ -738,7 +765,7 @@
             </block>
           </statement>
         </block>
-      {case 8}
+      {case 9}
         <block type="procedures_defnoreturn" x="20" y="200">
           <mutation></mutation>
           <title name="NAME">remove 1 and jump hurdle</title>

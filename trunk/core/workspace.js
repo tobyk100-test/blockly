@@ -34,9 +34,14 @@ goog.require('Blockly.Xml');
 
 /**
  * Class for a workspace.
+ * @param {Function} getMetrics A function that returns size/scrolling metrics.
+ * @param {Function} setMetrics A function that sets size/scrolling metrics.
  * @constructor
  */
-Blockly.Workspace = function() {
+Blockly.Workspace = function(getMetrics, setMetrics) {
+  this.getMetrics = getMetrics;
+  this.setMetrics = setMetrics;
+
   /** @type {boolean} */
   this.isFlyout = false;
   /**
@@ -135,11 +140,10 @@ Blockly.Workspace.prototype.dispose = function() {
 
 /**
  * Add a trashcan.
- * @param {!Function} getMetrics A function that returns workspace's metrics.
  */
-Blockly.Workspace.prototype.addTrashcan = function(getMetrics) {
+Blockly.Workspace.prototype.addTrashcan = function() {
   if (Blockly.hasTrashcan && !Blockly.readOnly) {
-    this.trashcan = new Blockly.Trashcan(getMetrics);
+    this.trashcan = new Blockly.Trashcan(this);
     var svgTrashcan = this.trashcan.createDom();
     this.svgGroup_.insertBefore(svgTrashcan, this.svgBlockCanvas_);
     this.trashcan.init();

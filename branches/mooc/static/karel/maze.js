@@ -40,7 +40,7 @@ document.write('<script type="text/javascript" src="generated/' +
 
 Maze.MAX_REINF = 0;
 Maze.PAGE = BlocklyApps.getNumberParamFromUrl('page', 1, 2);
-Maze.MAX_LEVEL = [undefined, 10, 8][Maze.PAGE];
+Maze.MAX_LEVEL = [undefined, 10, 9][Maze.PAGE];
 Maze.LEVEL = BlocklyApps.getNumberParamFromUrl('level', 1, Maze.MAX_LEVEL);
 Maze.REINF = BlocklyApps.getNumberParamFromUrl('reinf', 1, Maze.MAX_REINF);
 
@@ -61,7 +61,7 @@ Maze.SKINS = [
     graph: false,
     look: '#000',
     ball: 'check.png'
-  },
+  }/*,
   {
     sprite: 'astro.png',
     tiles: 'tiles_astro.png',
@@ -81,7 +81,7 @@ Maze.SKINS = [
     graph: false,
     look: '#000',
     ball: 'check.png'
-  }
+  }*/
 ];
 Maze.SKIN_ID = BlocklyApps.getNumberParamFromUrl('skin', 0, Maze.SKINS.length);
 Maze.SKIN = Maze.SKINS[Maze.SKIN_ID];

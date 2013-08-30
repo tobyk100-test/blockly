@@ -121,7 +121,9 @@ Blockly.Mutator.prototype.createEditor_ = function() {
       {'class': 'blocklyMutatorBackground',
        'height': '100%', 'width': '100%'}, this.svgDialog_);
 
-  this.workspace_ = new Blockly.Workspace();
+  var mutator = this;
+  this.workspace_ = new Blockly.Workspace(
+      function() {return mutator.getFlyoutMetrics_();}, null);
   this.flyout_ = new Blockly.Flyout();
   this.flyout_.autoClose = false;
   this.svgDialog_.appendChild(this.flyout_.createDom());
@@ -137,7 +139,7 @@ Blockly.Mutator.prototype.createEditor_ = function() {
 Blockly.Mutator.prototype.resizeBubble_ = function() {
   var doubleBorderWidth = 2 * Blockly.Bubble.BORDER_WIDTH;
   var workspaceSize = this.workspace_.getCanvas().getBBox();
-  var flyoutMetrics = this.flyout_.getMetrics();
+  var flyoutMetrics = this.flyout_.getMetrics_();
   var width;
   if (Blockly.RTL) {
     width = -workspaceSize.x;
@@ -183,8 +185,7 @@ Blockly.Mutator.prototype.setVisible = function(visible) {
         this.createEditor_(), this.block_.svg_.svgGroup_,
         this.iconX_, this.iconY_, null, null);
     var thisObj = this;
-    this.flyout_.init(this.workspace_,
-                      function() {return thisObj.getFlyoutMetrics_()}, false);
+    this.flyout_.init(this.workspace_, false);
     this.flyout_.show(this.quarkXml_);
 
     this.rootBlock_ = this.block_.decompose(this.workspace_);
@@ -237,23 +238,24 @@ Blockly.Mutator.prototype.setVisible = function(visible) {
 
 /**
  * Update the source block when the mutator's blocks are changed.
- * Delete any block that's out of bounds.
+ * Delete or bump any block that's out of bounds.
  * Fired whenever a change is made to the mutator's workspace.
  * @private
  */
 Blockly.Mutator.prototype.workspaceChanged_ = function() {
-  // Delete any block that's sitting on top of the flyout, or above the window.
   if (Blockly.Block.dragMode_ == 0) {
     var blocks = this.workspace_.getTopBlocks(false);
-    var MARGIN = 10;
+    var MARGIN = 20;
     for (var b = 0, block; block = blocks[b]; b++) {
-      var xy = block.getRelativeToSurfaceXY();
-      var bBox = block.getSvgRoot().getBBox();
-      if ((xy.y < MARGIN - bBox.height) ||  // Off the top.
-          (Blockly.RTL ? xy.x > -this.flyout_.width_ + MARGIN :
-           xy.x < this.flyout_.width_ - MARGIN)  // Over the flyout.
-          ) {
-        block.dispose(false, false);
+      var blockXY = block.getRelativeToSurfaceXY();
+      var blockHW = block.getHeightWidth();
+      if (Blockly.RTL ? blockXY.x > -this.flyout_.width_ + MARGIN :
+           blockXY.x < this.flyout_.width_ - MARGIN) {
+        // Delete any block that's sitting on top of the flyout.
+        block.dispose(false, true);
+      } else if (blockXY.y + blockHW.height < MARGIN) {
+        // Bump any block that's above the top back inside.
+        block.moveBy(0, MARGIN - blockHW.height - blockXY.y);
       }
     }
   }

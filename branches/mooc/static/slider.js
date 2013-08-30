@@ -1,5 +1,5 @@
 /**
- * Blockly Demo: SVG Slider
+ * Blockly Apps: SVG Slider
  *
  * Copyright 2012 Google Inc.
  * http://blockly.googlecode.com/
@@ -129,7 +129,7 @@ Slider.mouseOver_ = function(e) {
     if (node == Slider.activeSlider_.SVG_) {
       return;
     }
-  } while (node = node.parentNode)
+  } while (node = node.parentNode);
   Slider.knobMouseUp_(e);
 };
 
@@ -149,7 +149,7 @@ Slider.knobMouseMove_ = function(e) {
   thisSlider.knob_.setAttribute('transform',
       'translate(' + x + ',' + thisSlider.KNOB_Y_ + ')');
 
-  thisSlider.value_ = 1 - (x - thisSlider.KNOB_MIN_X_) /
+  thisSlider.value_ = (x - thisSlider.KNOB_MIN_X_) /
       (thisSlider.KNOB_MAX_X_ - thisSlider.KNOB_MIN_X_);
   thisSlider.changeFunc_ && thisSlider.changeFunc_(thisSlider.value_);
 };

@@ -245,6 +245,7 @@ Turtle.answer = function() {
         break;
       case 9:
         for (var count = 50; count <= 150; count += 50) {
+          setRandomVisibleColour();
           drawHouse(count);
         }
         break;

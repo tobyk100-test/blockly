@@ -2,12 +2,15 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Blockly Turtle Graphics</title>
+  <meta name="google" value="notranslate">
+  <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>CS First : Turtle Graphics</title>
+  <link rel="stylesheet" type="text/css" href="../common.css">
   <link rel="stylesheet" type="text/css" href="style.css">
   <script type="text/javascript" src="../_soy/soyutils.js"></script>
   <script type="text/javascript" src="../common.js"></script>
   <script type="text/javascript" src="turtle.js"></script>
-  <script type="text/javascript" src="/storage.js"></script>
+  <script type="text/javascript" src="../../storage.js"></script>
   <script>
       // Reinforcement/interstitial text.
       var reinf_data = [
@@ -89,6 +92,7 @@
     document.write(turtlepage.start({}, null,
         {page: BlocklyApps.PAGE,
          level: BlocklyApps.LEVEL,
+         menu: BlocklyApps.DISPLAY_NAV,
          reinf: Turtle.REINF ? reinf_data[BlocklyApps.PAGE][BlocklyApps.LEVEL] : 0,
          lang: BlocklyApps.LANG,
          langSrc: BlocklyApps.LANGUAGES[BlocklyApps.LANG][2]}));

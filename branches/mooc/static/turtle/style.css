@@ -1,40 +1,3 @@
-body {
-  background-color: white;
-  font-family: sans-serif;
-  margin-top: 0;
-}
-h1 {
-  font-weight: normal;
-  font-size: 140%;
-}
-a:hover {
-  color: #f00;
-}
-
-/* Levels */
-.tab {
-  font-weight: bold;
-  padding: 6px 12px;
-  text-decoration: none;
-  color: #000;
-}
-.previous {
-  color: #0DA38A;
-}
-.selected {
-  color: white;
-  border-radius: 20px;
-  border: 0;
-  background: #0DA38A;
-}
-.doubleDigit {
-  padding: 8px 8px;
-  margin-left: 4px;
-}
-.singleDigit {
-  padding: 6px 12px;
-}
-
 /* Instructions. */
 #bubble {
   width: 385px;
@@ -47,117 +10,22 @@ a:hover {
   font-weight: bold;
 }
 
-/**
- * Level feedback.
- */
-}
-#blockly {
-  position: absolute;
-  box-shadow: 7px 7px 10px #888;
-}
-#visualization {
-  position: relative;
-}
-#hintBubble {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  border-radius: 15px;
-  background-color: rgba(64,64,64,0.7);
-  width: 380px;
-}
-#hint {
-  color: #fff;
-  padding: 5px 1em;
-  font-size: large;
-}
 #interstitial {
   color: #000;
   padding: 5px 1em;
   font-size: large;
 }
-#capacity {
-  display: none;
-  color: #fff;
-  padding: 5px 1em;
-  border-radius: 15px;
-  background-color: rgba(64,64,64,0.7);
-  font-size: large;
-}
-#capacityBubble {
-  display: none;
-  position: absolute;
-  margin-top: -0.5em;
-  left: 10px;
-  top: 425px;
-  width: 380px;
-}
-#capacityNumber {
-  font-weight: bold;
-}
-#hintBubble {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  border-radius: 15px;
-  background-color: rgba(64,64,64,0.7);
-  width: 380px;
-}
-#levelFeedback {
-  display: none;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #000;
-  max-width: 600px;
-  position: absolute;
-  left: 2.5em;
-  top: 5em;
-  z-index: 1;
-  border-radius: 8px;
-  box-shadow: 5px 5px 5px #888;
-  padding: 10px;
-}
-#levelFeedbackText {
-  border: 0;
-  text-align: center;
-  overflow: hidden;
-  font-size: 16pt;
-  font-family: Arial;
-  margin: 30px 10px;
-}
-.stars {
-  display: none;
-  margin-left: auto;
-  margin-right: auto;
-  height: 79px;
-  width: 300px;
-}
 
 /**
  * Interstitials.
  */
-#hint {
-  padding: 5px 1em;
-  font-size: large;
-}
 img.answer {
   border:1px solid #000;
   padding: 5px;
 }
 
-/* Capacity */
-#capacity {
-  padding: 15px 1ex 0;
-  float: right;
-}
-html[dir=rtl] #capacity {
-  float: left;
-}
-#capacityNumber {
-  font-weight: bold;
-}
-
 /* Buttons */
+// This differs from common.css.
 button {
   margin: 5px;
   margin-right: 12px;
@@ -166,17 +34,16 @@ button {
   border-radius: 5px;
   border: 1px solid #ddd;
   background-color: #eee;
-  font-size: 10%;
+  font-size: large;
   color: #000;
 }
 button.launch {
   border: 1px solid #0DA38A;
   background-color: #0DA38A;
   color: #fff;
-  font-size: large;
+  min-width: 96px;
   /* Can't use "text-align: start" due to IE. */
   text-align: left;
-  min-width: 96px;
 }
 html[dir="RTL"] button.launch {
   text-align: right;
@@ -201,10 +68,8 @@ button.disabled {
 /* Block areas */
 #toolbarDiv {
   text-align: center;
+  width: 400px;
   padding-top: 1em;
-}
-#blockly {
-  position: fixed;
 }
 #display {
   border: 1px solid #ccc;
@@ -214,12 +79,6 @@ button.disabled {
 #languageMenu {
   vertical-align: top;
   margin-top: 12px;
-}
-.farSide {
-  text-align: right;
-}
-html[dir="RTL"] .farSide {
-  text-align: left;
 }
 
 /* Slider. */

@@ -36,7 +36,7 @@ BlocklyApps.LANGUAGES = {
   da: ['Dansk', 'ltr', 'en_compressed.js'],
   de: ['Deutsch', 'ltr', 'de_compressed.js'],
   el: ['Eλληνικά', 'ltr', 'en_compressed.js'],
-  en: ['English', 'ltr', 'en_compressed.js'],
+  'en_us': ['English', 'ltr', 'en_us_compressed.js'],
   es: ['Español', 'ltr', 'en_compressed.js'],
   eu: ['Euskara', 'ltr', 'en_compressed.js'],
   fr: ['Français', 'ltr', 'en_compressed.js'],
@@ -62,21 +62,22 @@ document.write('<script type="text/javascript" src="generated/' +
 BlocklyApps.MAX_LEVEL = 10;
 BlocklyApps.LEVEL =
     BlocklyApps.getNumberParamFromUrl('level', 1, BlocklyApps.MAX_LEVEL);
+BlocklyApps.CHECK_FOR_EMPTY_BLOCKS = true;
 BlocklyApps.IDEAL_BLOCK_NUM = [undefined, //  0.
   2, 5, 2, 5, 4, 4, 4, 6, 6, 5][BlocklyApps.LEVEL];
 // Blocks that are expected to be used on each level.
 BlocklyApps.REQUIRED_BLOCKS = [undefined, // 0.
-  ['moveForward'], ['moveForward', 'turnLeft', 'turnRight'],
-  ['moveForward', 'while'], ['moveForward', 'while', 'turn'],
-  ['isPathLeft', 'turnLeft', 'while'], ['isPathLeft', 'turnLeft', 'while'],
+  ['moveForward'],
+  ['moveForward', 'turnLeft', 'turnRight'],
+  ['moveForward', 'while'],
+  ['moveForward', 'while', 'turn'],
+  ['isPathLeft', 'turnLeft', 'while'],
+  ['isPathLeft', 'turnLeft', 'while'],
   ['isPathRight', 'turnRight', 'while'],
   ['isPathLeft', 'isPathRight', 'turn', 'while'],
   ['isPathForward', 'else', 'while'],
   ['isPathForward', 'else', 'while']][BlocklyApps.LEVEL];
-BlocklyApps.MAX_FEEDBACK_VERSIONS = 2;
-
-// The number of versions of feedback available for each required block missing.
-Maze.maxFeedbackVersion = 2;
+BlocklyApps.NUM_REQUIRED_BLOCKS_TO_FLAG = 1;
 
 Maze.SKINS = [
   // sprite: A 1029x51 set of 21 avatar images.
@@ -104,10 +105,18 @@ Maze.SKINS = [
   },
   {
     sprite: 'zombieman.png',
-    tiles: 'tiles_pegman.png',
+    tiles: 'tiles_panda.png',
     marker: 'mkr_sunflower.png',
-    background: 'false',
+    background: 'board_pvz.png',
     // Coma star cluster, photo by George Hatfield, used with permission.
+    graph: false,
+    look: '#fff'
+  },
+  {
+    sprite: 'mouse.png',
+    tiles: 'tiles_mouse.png',
+    marker: 'marker_mouse.png',
+    background:'bg_mouse.png',
     graph: false,
     look: '#fff'
   },
@@ -465,7 +474,7 @@ Maze.drawMap = function() {
 Maze.init = function() {
   BlocklyApps.init();
 
-  // Setup the Pegman menu.
+  // Setup the Pegman (skin) menu.
   var pegmanImg = document.querySelector('#pegmanButton>img');
   pegmanImg.style.backgroundImage = 'url(' + Maze.SKIN.sprite + ')';
   var pegmanMenu = document.getElementById('pegmanMenu');
@@ -563,7 +572,7 @@ Maze.changePegman = function(newSkin) {
   window.location = window.location.protocol + '//' +
       window.location.host + window.location.pathname +
       '?lang=' + BlocklyApps.LANG + '&level=' + BlocklyApps.LEVEL +
-      '&skin=' + newSkin;
+      '&skin=' + newSkin + '&mode=' + BlocklyApps.MODE_ID;
 };
 
 /**
@@ -760,7 +769,6 @@ Maze.animate = function() {
   if (!action) {
     BlocklyApps.highlight(null);
     BlocklyApps.levelComplete = (Maze.result == Maze.ResultType.SUCCESS);
-    BlocklyApps.attempts++;
     window.setTimeout(BlocklyApps.displayFeedback, 1000);
     return;
   }
@@ -920,7 +928,7 @@ Maze.scheduleFinish = function(sound) {
 };
 
 /**
- * Display Pegman at a the specified location, facing the specified direction.
+ * Display Pegman at the specified location, facing the specified direction.
  * @param {number} x Horizontal grid (or fraction thereof).
  * @param {number} y Vertical grid (or fraction thereof).
  * @param {number} d Direction (0 - 15) or dance (16 - 17).
@@ -1171,3 +1179,12 @@ window.onload = function() {
     BlocklyApps.addVideoIframeSrc(Maze.VIDEO_ID);
   }
 };
+
+/**
+ * The mode of the maze we are in.
+ * If mode = 1, we are in the original maze; if mode = 2, we are in the adaptive
+ * maze with additional levels.
+ */
+BlocklyApps.MAX_MODE = 2;
+BlocklyApps.MODE_ID =
+    BlocklyApps.getNumberParamFromUrl('mode', 1, BlocklyApps.MAX_MODE);

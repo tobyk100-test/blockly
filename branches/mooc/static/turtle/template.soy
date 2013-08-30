@@ -1,22 +1,12 @@
 {namespace turtlepage}
 
 /**
- * This is a Closure Template.  Build multilingually:
+ * This is a Closure Template.
  *
- * # Create en.js if that's the only language you care about.
- * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en.js --srcs template.soy
+ * To build the US English version, run:
+ * java -jar ../_soy/SoyToJsSrcCompiler.jar --outputPathFormat generated/en_us.js --srcs ../common.soy,template.soy
  *
- * # To fully internationalize, follow these steps...
- * # Extract messages from template.soy.
- * java -jar ../_soy/SoyMsgExtractor.jar --outputFile extracted_msgs.xlf template.soy
- *
- * # Create en.json, qqq.json.
- * ../../i18n/xliff_to_json.py --xlf extracted_msgs.xlf
- *
- * Once translations have been made into <LANG>.json:
- *
- * # Create *.js for each *.json file.  By default, qqq.json and keys.json are skipped.
- * ../../i18n/json_to_js.py --path_to_jar=../_soy *.json
+ * To fully internationalize, follow the instructions in ../common.soy.
  */
 
 /**
@@ -82,7 +72,6 @@
     <span id="jumpForward">{msg meaning="Turtle.jumpForward" desc="TODO"}jump forward by{/msg}</span>
     <span id="jumpForwardTooltip">{msg meaning="Turtle.jumpForwardTooltip" desc="TODO"}Moves the turtle forward without leaving any marks.{/msg}</span>
     <span id="moveTooltip">{msg meaning="Turtle.moveTooltip" desc="TODO"}Moves the turtle forward or backward by the specified amount.{/msg}</span>
-    <span id="nextLevel">{msg meaning="Turtle.nextLevel" desc="TODO"}Congratulations!  Would you like to proceed to the next level?{/msg}</span>
     <span id="penDown">{msg meaning="Turtle.penDown" desc="TODO"}pen down{/msg}</span>
     <span id="penTooltip">{msg meaning="Turtle.penTooltip" desc="TODO"}Lifts or lowers the pen, to start or stop drawing.{/msg}</span>
     <span id="penUp">{msg meaning="Turtle.penUp" desc="TODO"}pen up{/msg}</span>
@@ -101,10 +90,25 @@
     // Used for displaying block count.
     <span id="blocksUsed">{msg meaning="Turtle.blocksUsed" desc="TODO"}Blocks used: %1{/msg}</span>
 
+    // Used for alerting user that levels 8 and 9 of page 3 require
+    // doing the previous level.
+    <span id="notReadyForLevel">
+      {if $ij.page == 3 and $ij.level == 8}
+        {msg meaning="Turtle.drawAHouseNotDefined8" desc="TODO"}
+          You need to complete level 7 before doing this level.
+        {/msg}
+      {elseif $ij.page == 3 and $ij.level == 9}
+        {msg meaning="Turtle.drawAHouseNotDefined9" desc="TODO"}
+          You need to complete levels 7 and 8 before doing this level.
+        {/msg}
+      {/if}
+    </span>
+
     // Used for providing feedback on colour use.
     <span id="notBlackColour">{msg meaning="Turtle.notBlackColour" desc="TODO"}You need to set a color other than black for this level.{/msg}</span>
     <span id="tooFewColours">{msg meaning="Turtle.tooFewColours" desc="TODO"}You need to use at least %1 different colors on this level.  You used only %2.{/msg}</span>
     <span id="wrongColour">{msg meaning="Turtle.wrongColour" desc="TODO"}Your picture is the wrong color.  For this level, it needs to be %1.{/msg}</span>
+    <span id="extraColours">{msg meaning="Turtle.extraColours" desc="TODO"}You used extra colors.  Nice!{/msg}</span>
 
     // Used in blocks.js for tutorial-only blocks.
     <span id="drawASquare">{msg meaning="Turtle.drawASquare" desc="TODO"}draw a square{/msg}</span>
@@ -250,19 +254,19 @@
             </next>
           </block>
         {case 9}
-          <block type="controls_repeat" editable="false" deleteable="false" movable="false" x="20" y="20">
+          <block type="controls_repeat" deletable="false" movable="false" x="20" y="20">
             <title name="TIMES">??</title>
             <statement name="DO">
-              <block type="draw_move" editable="false" deleteable="false" movable="false">
+              <block type="draw_move" editable="false" deletable="false" movable="false">
                 <value name="VALUE">
-                  <block type="math_number" editable="false" deleteable="false" movable="false">
+                  <block type="math_number" editable="false" deletable="false" movable="false">
                     <title name="NUM">1</title>
                   </block>
                 </value>
                 <next>
-                  <block type="draw_turn" editable="false" deleteable="false" movable="false">
+                  <block type="draw_turn" editable="false" deletable="false" movable="false">
                     <value name="VALUE">
-                      <block type="math_number" editable="false" deleteable="false" movable="false">
+                      <block type="math_number" editable="false" deletable="false" movable="false">
                         <title name="NUM">1</title>
                       </block>
                     </value>
@@ -290,7 +294,7 @@
         </block>
       {elseif $ij.level == 4}
         /*  Three-square code.  */
-        <block type="controls_repeat" editable="false" deleteable="false" movable="false">
+        <block type="controls_repeat" deletable="false" movable="false">
           <title name="TIMES">???</title>
           <statement name="DO">
             <block type="draw_colour">
@@ -298,16 +302,16 @@
                 <block type="colour_random"></block>
               </value>
               <next>
-                <block type="draw_a_square" inline="true" editable="false" deleteable="false" movable="false">
+                <block type="draw_a_square" inline="true" editable="false" deletable="false" movable="false">
                   <value name="VALUE">
-                    <block type="math_number" editable="false" deleteable="false" movable="false">
+                    <block type="math_number" deletable="false" movable="false">
                       <title name="NUM">???</title>
                     </block>
                   </value>
                   <next>
-                    <block type="draw_turn" editable="false" deleteable="false" movable="false">
+                    <block type="draw_turn" editable="false" deletable="false" movable="false">
                       <value name="VALUE">
-                        <block type="math_number" editable="false" deleteable="false" movable="false">
+                        <block type="math_number" deletable="false" movable="false">
                           <title name="NUM">???</title>
                         </block>
                       </value>
@@ -451,7 +455,7 @@
         /*  Define "draw a triangle".  */
         {call .polygon}
           {param title}draw a triangle{/param}
-          {param modifiers}{if $ij.level == 6}x="20" y="190"{else}x="360" y="20"{/if}{/param}
+          {param modifiers}{if $ij.level == 6}x="20" y="190"{else}x="360" y="20" editable="false" deletable="false"{/if}{/param}
           {param sides: 3 /}
           {param length}{if $ij.level >= 7}0{else}100{/if}{/param}
         {/call}
@@ -535,7 +539,7 @@
         {case 1}{msg meaning="Turtle.instructions1_1" desc="TODO"}I'm a turtle with chalk on my belly. Stack up blocks and press "Run Program" to make me draw the shown picture.{/msg}
         {case 2}{msg meaning="Turtle.instructions1_2" desc="TODO"}Draw a square, making each side a different color.{/msg}
         {case 3}{msg meaning="Turtle.instructions1_3" desc="TODO"}Make a square using only 3 blocks.  (Remember that blocks to set color are free.){/msg}
-        {case 4}{msg meaning="Turtle.instructions1_4" desc="TODO"}Draw a triangle whose sides are all 100 pixels and are in random colors.  You'll have to figure out how far to turn.{/msg}
+        {case 4}{msg meaning="Turtle.instructions1_4" desc="TODO"}Draw a triangle whose sides are all 100 dots and are in random colors.  You'll have to figure out how far to turn.{/msg}
         {case 5}{msg meaning="Turtle.instructions1_5" desc="TODO"}Draw a triangle and then a square to draw an envelope.{/msg}
         {case 6}{msg meaning="Turtle.instructions1_6" desc="TODO"}Can you figure out how draw this triangle and square?{/msg}
         {case 7}{msg meaning="Turtle.instructions1_7" desc="TODO"}See if you can draw these green glasses.{/msg}
@@ -547,13 +551,13 @@
       {switch $ij.level}
         {case 1}{msg meaning="Turtle.instructions2_1" desc="TODO"}Find the familiar blocks in the new categories to draw a square in your favorite color.{/msg}
         {case 2}{msg meaning="Turtle.instructions2_2" desc="TODO"}Use the new "draw a square" block, found in the "Functions" category, to draw a small green square.{/msg}
-        {case 3}{msg meaning="Turtle.instructions2_3" desc="TODO"}Use the new block to draw 3 squares of size 100, each 120 degrees apart, in random colors.{/msg}
+        {case 3}{msg meaning="Turtle.instructions2_3" desc="TODO"}Use the "repeat" block to draw 3 squares of size 100, each 120 degrees apart, in random colors.{/msg}
         {case 4}{msg meaning="Turtle.instructions2_4" desc="TODO"}Now change the code to draw 36 squares, each 10 degrees apart.{/msg}
-        {case 5}{msg meaning="Turtle.instructions2_5" desc="TODO"}Draw squares with sides of 50, 60, 70, 80, and 90 pixels.  You'll need lots of blocks.{/msg}
-        {case 6}{msg meaning="Turtle.instructions2_6" desc="TODO"}Modify this program to get the value of counter (in the Variables category) when drawing a square instead of the value 10.{/msg}
-        {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block to draw the same spiral.{/msg}
+        {case 5}{msg meaning="Turtle.instructions2_5" desc="TODO"}Draw squares with sides of 50, 60, 70, 80, and 90 dots.  You'll need lots of blocks.{/msg}
+        {case 6}{msg meaning="Turtle.instructions2_6" desc="TODO"}Modify this program with the "counter" block (found in the Variables category) to draw the same series of squares with fewer blocks than on the previous level.{/msg}
+        {case 7}{msg meaning="Turtle.instructions2_7" desc="TODO"}Replace the pale (disabled) blocks with a "count with" block (in the Loops category) and "counter" block (in the Variables category) to draw the same spiral.{/msg}
         {case 8}{msg meaning="Turtle.instructions2_8" desc="TODO"}Draw three snowmen 150 dots tall in different colors, 100 dots apart.  Use the new "draw a snowman" function and "jump forward" block.{/msg}
-        {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Use a "count with" loop to draw a family of snowmen with heights of 110, 100, 90, 80, and 70, each 60 dots apart.{/msg}
+        {case 9}{msg meaning="Turtle.instructions2_9" desc="TODO"}Use a "count with" loop to draw a family of snowmen with heights of 110, 100, 90, 80, and 70 dots, each 60 dots apart.{/msg}
         {case 10}{msg meaning="Turtle.instructions2_10" desc="TODO"}Draw whatever you want.  One idea is experimenting with different types of spirals.  What happens if you change the turn amount, rather than the move amount?  TODO: Add starting blocks.{/msg}
       {/switch}
     {case 3}
@@ -564,9 +568,9 @@
         {case 4}{msg meaning="Turtle.instructions3_4" desc="TODO"}See if you can figure out how to use "draw a square" and "draw a triangle" (and some other blocks) to draw a house around the lion.{/msg}
         {case 5}{msg meaning="Turtle.instructions3_5" desc="TODO"}Now create a "draw a house" function and use it house two cats.{/msg}
         {case 6}{msg meaning="Turtle.instructions3_6" desc="TODO"}Using "draw a square" as an example, add an input named "length" to "draw a triangle".  Then, draw triangles in different colors around the animals.{/msg}
-        {case 7}{msg meaning="Turtle.instructions3_7" desc="TODO"}Add a "length" input to "draw a house" and build a big house for the elephant.{/msg}
+        {case 7}{msg meaning="Turtle.instructions3_7" desc="TODO"}Add a "height" input to "draw a house" and build a big house for the elephant.{/msg}
         {case 8}{msg meaning="Turtle.instructions3_8" desc="TODO"}Here are all of the blocks from the previous level.  Modify "draw a house" so the turtle ends up at the bottom right corner of the new house.  Use this modified function to house all the animals.{/msg}
-        {case 9}{msg meaning="Turtle.instructions3_9" desc="TODO"}Use a "count with" block and your code from the previous level to draw houses of size 50, 100, and 150.{/msg}
+        {case 9}{msg meaning="Turtle.instructions3_9" desc="TODO"}Use a "count with" block and your code from the previous level to draw houses of size 50, 100, and 150 in different colors.{/msg}
         {case 10}{msg meaning="Turtle.instructions3_10" desc="TODO"}You're now free to do whatever you want.  One idea is to try running this program with different turn amounts (higher or lower than 90).  Other ideas are to draw a star, circle, heart, or animal.{/msg}
     {/switch}
   {/switch}
@@ -593,7 +597,7 @@
     <script type="text/javascript" src="answers.js"></script>
 
     // Show level bar and language dropdown.
-    <table class="nav-menu" width="100%" style="padding-top: 1em;">
+    <table {call apps.menu}{param menu: $ij.menu /}{/call} width="100%" style="padding-top: 1em;">
       <tr>
         <td>
           <h1>
@@ -604,14 +608,14 @@
                 project's goal of introducing students to programming as
                 early as possible in their life."}CS First{/msg}</a>
               {sp}:{sp}
-                {switch $ij.page}
-                  {case 1}
-                    {msg meaning="Maze.turtle1" desc="brief title - Specifies that this is Blockly's '''Turtle 1''' tutorial."}Turtle 1{/msg}
-                  {case 2}
-                    {msg meaning="Maze.turtle2" desc="brief title - Specifies that this is Blockly's '''Turtle 2''' tutorial."}Turtle 2{/msg}
-                  {case 3}
-                    {msg meaning="Maze.turtle3" desc="brief title - Specifies that this is Blockly's '''Turtle 3''' tutorial."}Turtle 3{/msg}
-                {/switch}
+              {switch $ij.page}
+                {case 1}
+                  {msg meaning="Turtle.turtle1" desc="brief title - Specifies that this is Blockly's '''Turtle 1''' tutorial."}Turtle 1{/msg}
+                {case 2}
+                  {msg meaning="Turtle.turtle2" desc="brief title - Specifies that this is Blockly's '''Turtle 2''' tutorial."}Turtle 2{/msg}
+                {case 3}
+                  {msg meaning="Turtle.turtle3" desc="brief title - Specifies that this is Blockly's '''Turtle 3''' tutorial."}Turtle 3{/msg}
+              {/switch}
             </span>
             {sp}&nbsp;{sp}
             {for $i in range(1, 11)}
@@ -637,89 +641,85 @@
         </td>
       </tr>
     </table>
-    <table>
-      <tr>
-        // First column has prompt, capacity, canvas, slider, and buttons.
-        <td width=405>
-          <div id="bubble">
-            <div id="prompt">
-              {call .showInstructions /}
-            </div>
-          </div>
-          <div id="blockCount"></div>
-          <div>
-            <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
-            <canvas id="answer" width="400" height="400" style="display: none"></canvas>
-            <canvas id="images" width="400" height="400" style="display: none"></canvas>
-            <canvas id="display" width="400" height="400"></canvas>
-          </div>
-          <table style="padding-top: 1em;">
-            <tr>
-              <td style="width: 190px; text-align: center">
-                <svg
-                   id="slider"
-                   xmlns="http://www.w3.org/2000/svg"
-                   xmlns:svg="http://www.w3.org/2000/svg"
-                   xmlns:xlink="http://www.w3.org/1999/xlink"
-                   version="1.1"
-                   width="150"
-                   height="50">
-                  <!-- Slow icon. -->
-                  <clipPath id="slowClipPath">
-                    <rect width=26 height=12 x=5 y=14 />
-                  </clipPath>
-                  <image xlink:href="icons.png" height=42 width=84 x=-21 y=-10
-                      clip-path="url(#slowClipPath)" />
-                  <!-- Fast icon. -->
-                  <clipPath id="fastClipPath">
-                    <rect width=26 height=16 x=120 y=10 />
-                  </clipPath>
-                  <image xlink:href="icons.png" height=42 width=84 x=120 y=-11
-                      clip-path="url(#fastClipPath)" />
-                </svg>
-              </td>
-              <td style="width: 15px;">
-                <img id="spinner" style="visibility: hidden;" src="loading.gif" height=15 width=15>
-              </td>
-              <td style="width: 190px; text-align: center">
-                <button id="runButton" class="launch" onclick="Turtle.runButtonClick();">
-                  <img src="../media/1x1.gif" class="run icon21">
-                  {msg meaning="Turtle.runProgram" desc="TODO"}Run{/msg}
-                </button>
-                <button id="resetButton" class="launch" onclick="BlocklyApps.resetButtonClick();" style="display: none">
-                  <img src="../media/1x1.gif" class="stop icon21">
-                  {msg meaning="Turtle.resetProgram" desc="TODO"}Reset{/msg}
-                </button>
-              </td>
-            </tr>
-          </table>
+    // First column has prompt, capacity, canvas, slider, and buttons.
+      <div id="bubble">
+        <div id="prompt">
+          {call .showInstructions /}
+        </div>
+      </div>
+      <div id="blockCount"></div>
+      <div id="visualization">
+        <canvas id="scratch" width="400" height="400" style="display: none"></canvas>
+        <canvas id="answer" width="400" height="400" style="display: none"></canvas>
+        <canvas id="images" width="400" height="400" style="display: none"></canvas>
+        <canvas id="display" width="400" height="400"></canvas>
+      </div>
+      <table style="padding-top: 1em;" width=400>
+        <tr>
+          <td style="width: 190px; text-align: center">
+            <svg
+               id="slider"
+               xmlns="http://www.w3.org/2000/svg"
+               xmlns:svg="http://www.w3.org/2000/svg"
+               xmlns:xlink="http://www.w3.org/1999/xlink"
+               version="1.1"
+               width="150"
+               height="50">
+              <!-- Slow icon. -->
+              <clipPath id="slowClipPath">
+                <rect width=26 height=12 x=5 y=14 />
+              </clipPath>
+              <image xlink:href="icons.png" height=42 width=84 x=-21 y=-10
+                  clip-path="url(#slowClipPath)" />
+              <!-- Fast icon. -->
+              <clipPath id="fastClipPath">
+                <rect width=26 height=16 x=120 y=10 />
+              </clipPath>
+              <image xlink:href="icons.png" height=42 width=84 x=120 y=-11
+                  clip-path="url(#fastClipPath)" />
+            </svg>
+          </td>
+          <td style="width: 15px;">
+            <img id="spinner" style="visibility: hidden;" src="loading.gif" height=15 width=15>
+          </td>
+          <td style="width: 190px; text-align: center">
+            <button id="runButton" class="launch" onclick="Turtle.runButtonClick();">
+              <img src="../media/1x1.gif" class="run icon21">
+              {msg meaning="Turtle.runProgram" desc="TODO"}Run{/msg}
+            </button>
+            <button id="resetButton" class="launch" onclick="BlocklyApps.resetButtonClick();" style="display: none">
+              <img src="../media/1x1.gif" class="stop icon21">
+              {msg meaning="Turtle.resetProgram" desc="TODO"}Reset{/msg}
+            </button>
+          </td>
+        </tr>
+      </table>
 
-          <div id="toolbarDiv">
-            <button title="{msg meaning="Turtle.codeTooltip" desc="TODO"}See generated JavaScript code.{/msg}" onclick="BlocklyApps.showCode();">
-              <img src='../media/1x1.gif' class="code icon21">
-            </button>
-            <button id="linkButton" title="{msg meaning="Turtle.codeTooltip" desc="TODO"}See generated JavaScript code.{/msg}" onclick="BlocklyStorage.link();">
-              <img src='../media/1x1.gif' class="link icon21">
-            </button>
-          </div>
-        </td>
-        // Toolbox.
-        <td valign="top">
-          {call .toolbox /}
-          <div id="blockly"></div>
-        </td>
-      </tr>
-    </table>
+      <div id="toolbarDiv">
+        <button title="{msg meaning="Turtle.codeTooltip" desc="TODO"}See generated JavaScript code.{/msg}" onclick="BlocklyApps.showCode(this);">
+          <img src='../media/1x1.gif' class="code icon21">
+        </button>
+        <button id="linkButton" title="{msg meaning="Turtle.codeTooltip" desc="TODO"}See generated JavaScript code.{/msg}" onclick="BlocklyStorage.link();">
+          <img src='../media/1x1.gif' class="link icon21">
+        </button>
+      </div>
+    // Toolbox.
+    {call .toolbox /}
+    <div id="blockly"></div>
   {/if}
   {call .feedback /}
   <div id="shadow"></div>
+
+  {call apps.dialog /}
+  {call apps.codeDialog /}
+  {call apps.storageDialog /}
 {/template}
 
 /**
  * Show feedback.
  */
 {template .feedback}
-  <div id="levelFeedback">
+  <div id="levelFeedback" class="dialogHiddenContent">
     <div style="padding-bottom: 0.7ex;"><br>
       <ul id="levelFeedbackText">
         <img class="stars feedback" id="star1" src="../star1.png">
@@ -770,37 +770,370 @@
         <li id="turnError1" class="feedback" style="display: none">
           {msg meaning="Turtle.turnError1Msg" desc="TODO"}
             I'll need to turn in order to draw this picture.
-            You can choose which direction.
           {/msg}</li>
         <li id="turnError2" class="feedback" style="display: none">
-          {msg meaning="Turtle.turnError2Msg" desc="IBID"}
+          {msg meaning="Turtle.turnError2Msg" desc="TODO"}
             Use a "turn" block.
           {/msg}</li>
-        <li id="varError1" class="feedback" style="display: none">
-          {msg meaning="Turtle.varError1Msg" desc="IBID"}
+        <li id="repeatError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.repeatError1Msg" desc="TODO"}
             The "repeat" block saves you from having to repeat yourself.
           {/msg}</li>
-        <li id="varError2" class="feedback" style="display: none">
-          {msg meaning="Turtle.varError2Msg" desc="IBID"}
-            You will need to use a "repeat" block.
+        <li id="repeatError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.repeatError2Msg" desc="TODO"}
+            You need to use a "repeat" block.
           {/msg}</li>
-
-        <li id="penColourError1" class="feedback" style="display: none">
-          {msg meaning="Turtle.penColourError1Msg" desc="TODO"}
+        <li id="colour_randomError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.colour_randomError1Msg" desc="TODO"}
+            The "set color" and "random color" blocks give you random
+            (unpredictable) colors.
+          {/msg}</li>
+        <li id="colour_randomError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.colour_randomError2Msg" desc="TODO"}
+            Pull out the "set color" block that contains a "random color" block,
+            and put it in the appropriate place.
+          {/msg}</li>
+        <li id="draw_colourError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.drawColourError1Msg" desc="TODO"}
             To change the color I draw, use the "set color" block.
           {/msg}</li>
-        <li id="penColourError2" class="feedback" style="display: none">
-          {msg meaning="Turtle.penColourError2Msg" desc="TODO"}
+        <li id="draw_colourError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.drawColourError2Msg" desc="TODO"}
             Each "set color" block sets the color of everything I draw
             after it until the next "set color" block.
           {/msg}</li>
+        <li id="forError1" class="feedback" style="display: none">
+          {if $ij.page == 2}
+            {switch $ij.level}
+              {case 6}
+                {msg meaning="Turtle.forError1Msg-p2-l6" desc="TODO"}
+                  Reload this level to get the "count with" block back.
+                {/msg}
+              {case 7}
+                {msg meaning="Turtle.forError1Msg-p2-l7" desc="TODO"}
+                  You need a "count with" block to give the counter
+                  values from 25 through 60.
+                {/msg}
+              {case 9}
+                {msg meaning="Turtle.forError1Msg-p2-l9" desc="TODO"}
+                  You need a "count with" block to give the counter
+                  values from 110 down to 70.
+                {/msg}
+            {/switch}
+          {elseif $ij.page == 3 and $ij.level == 9}
+            {msg meaning="Turtle.forError1Msg-p3-l9" desc="TODO"}
+              You need to use a "count with" block on this level.
+            {/msg}
+          {/if}
+        </li>
+        <li id="forError2" class="feedback" style="display: none">
+          {if $ij.page == 2}
+            {switch $ij.level}
+              {case 6}
+                {msg meaning="Turtle.forError1Msg-p2-l6" desc="IBID"}
+                  Reload this level to get the "count with" block back.
+                {/msg}
+              {case 7}
+                {msg meaning="Turtle.forError2Msg-p2-l7" desc="TODO"}
+                  Open the Loops category, and drag out a "count with" block.
+                {/msg}
+              {case 9}
+                {msg meaning="Turtle.forError2Msg-p2-l9" desc="TODO"}
+                  Open the Loops category, and drag out a "count with" block.
+                  Have it count from 110 to 70 by 10.
+                {/msg}
+            {/switch}
+          {elseif $ij.page == 3 and $ij.level == 9}
+            {msg meaning="Turtle.forError2Msg-p3-l9" desc="TODO"}
+              You need to open the "Loops" drawer and pull out a "count with"
+              block to count from 50 to 150 by 50s.
+            {/msg}
+          {/if}
+        </li>
+        <li id="get_counterError1" class="feedback" style="display: none">
+          {if $ij.page == 2}
+            {switch $ij.level}
+              {case 6}
+                {msg meaning="Turtle.getCounterError1Msg-p2-l6" desc="TODO"}
+                  You need the "counter" block to draw squares of different lengths.
+                {/msg}
+              {case 7}
+                {msg meaning="Turtle.getCounterError1Msg-p2-l7" desc="TODO"}
+                  You need the "counter" block to draw lines of different lengths.
+                {/msg}
+              {case 9}
+                {msg meaning="Turtle.getCounterError1Msg-p2-l9" desc="TODO"}
+                  You need the "counter" block to draw snowmen of different heights.
+                {/msg}
+            {/switch}
+          {elseif $ij.page == 3}
+            {msg meaning="Turtle.getCounterError1Msg-p3" desc="TODO"}
+              You need the "counter" block to draw houses of different heights.
+            {/msg}
+          {/if}
+        </li>
+        <li id="get_counterError2" class="feedback" style="display: none">
+          {if $ij.page == 2}
+            {switch $ij.level}
+              {case 6}
+                {msg meaning="Turtle.getCounterError2Msg-p2-l6" desc="TODO"}
+                  From the "Variables" category, get the "counter" block, and use
+                  it as the "length" input to "draw a square".
+                {/msg}
+              {case 7}
+                {msg meaning="Turtle.getCounterError2Msg-p2-l7" desc="TODO"}
+                  From the "Variables" category, get the "counter" block, and use
+                  it as the input to the "move forward" block.
+                {/msg}
+              {case 9}
+                {msg meaning="Turtle.getCounterError2Msg-p2-l9" desc="TODO"}
+                  From the "Variables" category, get the "counter" block, and use
+                  it as the input to the "draw a snowman" block.
+                {/msg}
+            {/switch}
+          {elseif $ij.page == 3}
+            {msg meaning="Turtle.getCounterError2Msg-p3" desc="TODO"}
+              From the "Variables" category, get the "counter" block, and use
+              it as the input to the "draw a house" block.
+            {/msg}
+          {/if}
+        </li>
+        <li id="draw_a_snowmanError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.draw_a_snowmanError1Msg" desc="TODO"}
+            You need to use the "draw a snowman" block.
+          {/msg}
+        </li>
+        <li id="draw_a_snowmanError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.draw_a_snowmanError2Msg" desc="TODO"}
+            You can get the "draw a snowman" block from the "Functions" category.
+          {/msg}
+        </li>
+        <li id="jumpError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.jumpError1Msg" desc="TODO"}
+            The "jump forward" block moves the turtle without drawing anything.
+          {/msg}
+         </li>
+        <li id="jumpError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.jumpError2Msg" desc="TODO"}
+            Open the Actions category to Get the "jump forward" block, and use
+            it to move the turtle between each snowman.
+          {/msg}
+        </li>
+        // These are for the special "draw a square" block on Page 2.
+        <li id="draw_a_squareError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.drawASquareError1Msg-p2" desc="TODO"}
+            In this tutorial, to draw a square, use the new "draw a square" function.
+          {/msg}
+        </li>
+        <li id="draw_a_squareError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.drawASquareError2Msg-p2" desc="TODO"}
+            Open the Functions category and get a "draw a square" block.
+          {/msg}
+        </li>
+
+        // These are for procedure calls on Page 3.
+        <li id="callDrawASquareError1" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawASquareError1Msg-p3" desc="TODO"}
+            The shown code tells the turtle <em>how</em> to draw a square but not
+            to draw a square.  You need to pull out a "draw a square" block from
+            the Functions category.
+          {/msg}
+        </li>
+        <li id="callDrawASquareError2" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawASquareError2Msg-p3" desc="TODO"}
+            From the current code, the turtle doesn't know that you want to draw a square.
+            Pull out a "draw a square" block from the Functions category.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleError1" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawATriangleError1Msg-p3" desc="TODO"}
+            You need a "draw a triangle" block to let the turtle know you
+            want it to draw a triangle.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleError2" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawATriangleError2Msg-p3" desc="TODO"}
+            To use your "draw a triangle" function, open the "Functions" category
+            and pull out a "draw a triangle" block.
+          {/msg}
+        </li>
+        // These errors are shown if there is no longer a definition for
+        // "draw a triangle".
+        <li id="defineDrawATriangleError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefErrorMsg1" desc="TODO"}
+            Oops.  It looks like you no longer have a block to tell the
+            turtle how to draw a triangle.  Try reloading the page.
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefErrorMsg2" desc="TODO"}
+            Reload the page to get back the "to draw a triangle" block.
+          {/msg}
+        </li>
+        <li id="defineAnythingError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.defineAnythingErrorMsg1" desc="TODO"}
+            You need to create a function.
+          {/msg}
+        </li>
+        <li id="defineAnythingError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.defineAnythingErrorMsg2" desc="TODO"}
+            Open the Functions category, and pull out a "do something" block,
+            and fill it in.
+          {/msg}
+        </li>
+        <li id="defineDrawAHouseError1" class="feedback" style="display: none">
+          {if $ij.page == 3}
+            {if $ij.level == 5}
+              {msg meaning="Turtle.defineDrawAHouseErrorMsg1-l5" desc="TODO"}
+                The function you create must be named "draw a house".
+              {/msg}
+            {elseif $ij.level == 7}
+              {msg meaning="Turtle.defineDrawAHouseErrorMsg1-l7" desc="TODO"}
+                Oops.  You seem to have deleted or renamed the provided
+                "draw a house" function.  Reload the page to get it back.
+              {/msg}
+            {/if}
+          {/if}
+        </li>
+        {if $ij.page == 3 and $ij.level == 5}
+          <li id="defineDrawAHouseError2" class="feedback" style="display: none">
+            {msg meaning="Turtle.defineDrawAHouseErrorMsg2" desc="TODO"}
+              Put "draw a house" in the light purple area of the "to do something"
+              block you dragged out.
+            {/msg}
+          </li>
+        {/if}
+        <li id="callDrawAHouseError1" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawAHouseError1Msg" desc="TODO"}
+            Now that you created a "draw a house" function, you need to call it.
+          {/msg}
+        </li>
+        <li id="callDrawAHouseError2" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawAHouseError2Msg" desc="TODO"}
+            Open the Functions category, and pull out a "draw a house" block.
+          {/msg}
+        </li>
+        <li id="callDrawAHouseWithParameterError1" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawAHouseWithParameterError1Msg" desc="TODO"}
+            You need to provide an input when you use the "draw a house" block.
+          {/msg}
+        </li>
+        <li id="callDrawAHouseWithParameterError2" class="feedback" style="display:none">
+          {msg meaning="Turtle.drawAHouseWithParameterError2Msg" desc="TODO"}
+            Open the "Math" block, pull out a number block, and add the block
+            to your "draw a house" block.  Don't forget to change the value from 0.
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleWithParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefWithParameterErrorMsg1" desc="TODO"}
+            You need to add a "length" input to your function definition.
+            The first step is clicking on the blue
+            "+" next to "to draw a triangle".
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleWithParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefWithParameterErrorMsg2" desc="TODO"}
+            Your "draw a triangle" function needs a "length" input.
+            Click on the blue "+" next to "to draw a triangle", drag in
+            an input, and name it "length".
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleWithLengthParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefWithLengthParameterErrorMsg1" desc="TODO"}
+            You added an input to "draw a triangle".  Now you need to change its
+            name to "length".
+          {/msg}
+        </li>
+        <li id="defineDrawATriangleWithLengthParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleDefWithLengthParameterErrorMsg2" desc="TODO"}
+            Click on the blue "+" next to "to draw a triangle" and change the
+            name of the input to "length".
+          {/msg}
+        </li>
+        <li id="defineDrawAHouseWithParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.houseDefWithParameterErrorMsg1" desc="TODO"}
+            You need to add a "height" input to your function definition.
+            The first step is clicking on the blue
+            "+" next to "to draw a house".
+          {/msg}
+        </li>
+        <li id="defineDrawAHouseWithParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.houseDefWithParameterErrorMsg2" desc="TODO"}
+            Your "draw a house" function needs a "height" input.
+            Click on the blue "+" next to "to draw a house", drag in
+            an input, and name it "height".
+          {/msg}
+        </li>
+        <li id="defineDrawAHouseWithHeightParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.houseDefWithHeightParameterErrorMsg1" desc="TODO"}
+            You added an input to "draw a house".  Now you need to change its
+            name to "height".
+          {/msg}
+        </li>
+        <li id="defineDrawAHouseWithHeightParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.houseDefWithHeightParameterErrorMsg2" desc="TODO"}
+            Click on the blue "+" next to "to draw a house" and change the
+            name of the input to "height".
+          {/msg}
+        </li>
+        <li id="moveByLengthError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.moveByLengthMsg1" desc="TODO"}
+            The amount to move forward should depend on the input "length".
+          {/msg}
+        </li>
+        <li id="moveByLengthError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.moveByLengthMsg2" desc="TODO"}
+            Open the Variables category, and drag a "length" block into
+            the "move forward" block.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleWithNumericParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleCallWithNumericParameterErrorMsg1" desc="TODO"}
+            When using the "draw a triangle" block, you need to provide an input
+            that says how big the triangle should be.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleWithNumericParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleCallWithNumericParameterErrorMsg2" desc="TODO"}
+            Open the Math category, and pull out a number block.  Change its
+            value and plug it into the "draw a triangle" block to say how big
+            the first triangle should be.
+          {/msg}
+        </li>
+        <li id="callDrawASquareWithVariableParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.squareCallWithVariableParameterErrorMsg1" desc="TODO"}
+            You need to tell "draw a square" that its length should
+            be the height of the house.
+          {/msg}
+        </li>
+        <li id="callDrawASquareWithVariableParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.squareCallWithParameterErrorMsg2" desc="TODO"}
+            The "length" input to "draw a square" should be the "height" variable.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleWithVariableParameterError1" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleCallWithVariableParameterErrorMsg1" desc="TODO"}
+            The "length" input to the "draw a triangle" block within
+            "to draw a house" should depend on the height of the house.
+          {/msg}
+        </li>
+        <li id="callDrawATriangleWithNumericParameterError2" class="feedback" style="display: none">
+          {msg meaning="Turtle.triangleCallWithParameterErrorMsg2" desc="TODO"}
+            The "length" input to "draw a triangle" should be the "height" variable.
+          {/msg}
+        </li>
 
         // Errors based on colours used.
         <li id="colourFeedback" class="feedback" style="display: none"></li>
 
         // Messages relating to the number of blocks.
+        <li id="emptyBlocksError" class="feedback" style="display: none">
+          {msg meaning="BlocklyApps.emptyBlocksErrorMsg" desc="alert - This
+            error message is displayed when the user has added blocks with
+            nothing nested inside them (e.g. repeat or if blocks)."}Remove
+            unused empty blocks.{/msg}</li>
         <li id="tooFewBlocksError" class="feedback" style="display: none">
-          {msg meaning="Maze.tooFewBlocksMsg" desc="alert - The user has not
+          {msg meaning="Turtle.tooFewBlocksMsg" desc="alert - The user has not
             completed the level, is using all of the necessary types of blocks,
             but needs more of these types of blocks to complete the level."}You
             are using all of the necessary types of blocks, but you'll need
@@ -864,7 +1197,9 @@
  * - Math
  *   - math_number
  * - Variables (added at level 6)
- *   - get counter
+ *   - get counter (added at level 9)
+ *   - get height (added at level 7)
+ *   - get length (levels 6 and 10)
  * Level 1 [square]
  * Level 2 [square by function call]: add "draw a square"
  * Level 3 [3 squares]
@@ -1065,7 +1400,7 @@
       </category>
       // Variables depends on page and level, although we never use the custom category
       // because we want to offer simplified getters and no setters.
-      {if $ij.page == 2 and $ij.level >= 5}
+      {if $ij.page == 2 and $ij.level >= 6}
         <category name="{msg meaning="Turtle.catVariables" desc="TODO"}Variables{/msg}">
           <block type="variables_get_counter"></block>
         </category>
@@ -1074,7 +1409,12 @@
           {if $ij.level >= 9}
             <block type="variables_get_counter"></block>
           {/if}
-          <block type="variables_get_length"></block>
+          {if $ij.level >= 7}
+            <block type="variables_get_height"></block>
+          {/if}
+          {if $ij.level == 6 or $ij.level == 10}
+            <block type="variables_get_length"></block>
+          {/if}
         </category>
       {/if}
     {/if}

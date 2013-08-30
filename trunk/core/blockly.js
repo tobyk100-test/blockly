@@ -29,6 +29,7 @@ goog.provide('Blockly');
 // Blockly core dependencies.
 goog.require('Blockly.Block');
 goog.require('Blockly.Connection');
+goog.require('Blockly.FieldAngle');
 goog.require('Blockly.FieldCheckbox');
 goog.require('Blockly.FieldColour');
 goog.require('Blockly.FieldDropdown');
@@ -38,6 +39,7 @@ goog.require('Blockly.FieldVariable');
 goog.require('Blockly.Generator');
 goog.require('Blockly.Procedures');
 goog.require('Blockly.Toolbox');
+goog.require('Blockly.WidgetDiv');
 goog.require('Blockly.Workspace');
 goog.require('Blockly.inject');
 goog.require('Blockly.utils');
@@ -245,7 +247,7 @@ Blockly.svgResize = function() {
  * @private
  */
 Blockly.onMouseDown_ = function(e) {
-  Blockly.Block.terminateDrag_(); // In case mouse-up event was lost.
+  Blockly.terminateDrag_(); // In case mouse-up event was lost.
   Blockly.hideChaff();
   var isTargetSvg = e.target && e.target.nodeName &&
       e.target.nodeName.toLowerCase() == 'svg';
@@ -256,7 +258,7 @@ Blockly.onMouseDown_ = function(e) {
   if (Blockly.isRightButton(e)) {
     // Right-click.
     if (Blockly.ContextMenu) {
-      Blockly.showContextMenu_(e.clientX, e.clientY);
+      Blockly.showContextMenu_(Blockly.mouseToSvg(e));
     }
   } else if ((Blockly.readOnly || isTargetSvg) &&
              Blockly.mainWorkspace.scrollbar) {
@@ -267,7 +269,7 @@ Blockly.onMouseDown_ = function(e) {
     Blockly.mainWorkspace.startDragMouseX = e.clientX;
     Blockly.mainWorkspace.startDragMouseY = e.clientY;
     Blockly.mainWorkspace.startDragMetrics =
-        Blockly.getMainWorkspaceMetrics();
+        Blockly.mainWorkspace.getMetrics();
     Blockly.mainWorkspace.startScrollX = Blockly.mainWorkspace.scrollX;
     Blockly.mainWorkspace.startScrollY = Blockly.mainWorkspace.scrollY;
   }
@@ -354,6 +356,15 @@ Blockly.onKeyDown_ = function(e) {
 };
 
 /**
+ * Stop binding to the global mouseup and mousemove events.
+ * @private
+ */
+Blockly.terminateDrag_ = function() {
+  Blockly.Block.terminateDrag_();
+  Blockly.Flyout.terminateDrag_();
+};
+
+/**
  * Copy a block onto the local clipboard.
  * @param {!Blockly.Block} block Block to be copied.
  * @private
@@ -370,11 +381,10 @@ Blockly.copy_ = function(block) {
 
 /**
  * Show the context menu for the workspace.
- * @param {number} x X-coordinate of mouse click.
- * @param {number} y Y-coordinate of mouse click.
+ * @param {!Object} xy Coordinates of mouse click, contains x and y properties.
  * @private
  */
-Blockly.showContextMenu_ = function(x, y) {
+Blockly.showContextMenu_ = function(xy) {
   if (Blockly.readOnly) {
     return;
   }
@@ -419,7 +429,7 @@ Blockly.showContextMenu_ = function(x, y) {
   helpOption.callback = function() {};
   options.push(helpOption);
 
-  Blockly.ContextMenu.show(x, y, options);
+  Blockly.ContextMenu.show(xy, options);
 };
 
 /**
@@ -442,7 +452,7 @@ Blockly.hideChaff = function(opt_allowToolbox) {
   Blockly.Tooltip && Blockly.Tooltip.hide();
   Blockly.ContextMenu && Blockly.ContextMenu.hide();
   Blockly.FieldDropdown && Blockly.FieldDropdown.hide();
-  Blockly.widgetDiv.hide();
+  Blockly.WidgetDiv.hide();
   if (!opt_allowToolbox &&
       Blockly.Toolbox.flyout_ && Blockly.Toolbox.flyout_.autoClose) {
     Blockly.Toolbox.clearSelection();
@@ -554,7 +564,7 @@ Blockly.setCursorHand_ = function(closed) {
   }
   // Set cursor on the SVG surface as well as block so that rapid movements
   // don't result in cursor changing to an arrow momentarily.
-  document.getElementsByTagName('svg')[0].style.cursor = cursor;
+  Blockly.svg.style.cursor = cursor;
 };
 
 /**
@@ -571,8 +581,9 @@ Blockly.setCursorHand_ = function(closed) {
  * .absoluteTop: Top-edge of view.
  * .absoluteLeft: Left-edge of view.
  * @return {Object} Contains size and position metrics of main workspace.
+ * @private
  */
-Blockly.getMainWorkspaceMetrics = function() {
+Blockly.getMainWorkspaceMetrics_ = function() {
   var svgSize = Blockly.svgSize();
   svgSize.width -= Blockly.Toolbox.width;  // Zero if no Toolbox.
   var viewWidth = svgSize.width - Blockly.Scrollbar.scrollbarThickness;
@@ -583,15 +594,22 @@ Blockly.getMainWorkspaceMetrics = function() {
     // Firefox has trouble with hidden elements (Bug 528969).
     return null;
   }
-  // Add a border around the content that is at least half a screenful wide.
-  var leftEdge = Math.min(blockBox.x - viewWidth / 2,
-                          blockBox.x + blockBox.width - viewWidth);
-  var rightEdge = Math.max(blockBox.x + blockBox.width + viewWidth / 2,
-                           blockBox.x + viewWidth);
-  var topEdge = Math.min(blockBox.y - viewHeight / 2,
-                         blockBox.y + blockBox.height - viewHeight);
-  var bottomEdge = Math.max(blockBox.y + blockBox.height + viewHeight / 2,
-                            blockBox.y + viewHeight);
+  if (Blockly.mainWorkspace.scrollbar) {
+    // Add a border around the content that is at least half a screenful wide.
+    var leftEdge = Math.min(blockBox.x - viewWidth / 2,
+                            blockBox.x + blockBox.width - viewWidth);
+    var rightEdge = Math.max(blockBox.x + blockBox.width + viewWidth / 2,
+                             blockBox.x + viewWidth);
+    var topEdge = Math.min(blockBox.y - viewHeight / 2,
+                           blockBox.y + blockBox.height - viewHeight);
+    var bottomEdge = Math.max(blockBox.y + blockBox.height + viewHeight / 2,
+                              blockBox.y + viewHeight);
+  } else {
+    var leftEdge = blockBox.x;
+    var rightEdge = leftEdge + blockBox.width;
+    var topEdge = blockBox.y;
+    var bottomEdge = topEdge + blockBox.height;
+  }
   var absoluteLeft = Blockly.RTL ? 0 : Blockly.Toolbox.width;
   return {
     viewHeight: svgSize.height,
@@ -611,9 +629,13 @@ Blockly.getMainWorkspaceMetrics = function() {
  * Sets the X/Y translations of the main workspace to match the scrollbars.
  * @param {!Object} xyRatio Contains an x and/or y property which is a float
  *     between 0 and 1 specifying the degree of scrolling.
+ * @private
  */
-Blockly.setMainWorkspaceMetrics = function(xyRatio) {
-  var metrics = Blockly.getMainWorkspaceMetrics();
+Blockly.setMainWorkspaceMetrics_ = function(xyRatio) {
+  if (!Blockly.mainWorkspace.scrollbar) {
+    throw 'Attempt to set main workspace scroll without scrollbars.';
+  }
+  var metrics = Blockly.getMainWorkspaceMetrics_();
   if (goog.isNumber(xyRatio.x)) {
     Blockly.mainWorkspace.scrollX = -metrics.contentWidth * xyRatio.x -
         metrics.contentLeft;

@@ -3,19 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Blockly : Maze</title>
+  <title>CS First : Maze</title>
+  <link rel="stylesheet" type="text/css" href="../common.css">
   <link rel="stylesheet" type="text/css" href="style.css">
   <script type="text/javascript" src="../_soy/soyutils.js"></script>
   <script type="text/javascript" src="../common.js"></script>
   <script type="text/javascript" src="maze.js"></script>
-  <script type="text/javascript" src="/storage.js"></script>
+  <script type="text/javascript">
+    if (BlocklyApps.MODE_ID == 2) {
+      BlocklyApps.MAX_LEVEL = 18;
+      BlocklyApps.LEVEL =
+        BlocklyApps.getNumberParamFromUrl('level', 1, BlocklyApps.MAX_LEVEL);
+    }
+  </script>
+  <script type="text/javascript" src="../../storage.js"></script>
 </head>
 <body>
   <script type="text/javascript">
     document.write(mazepage.start({}, null,
         {lang: BlocklyApps.LANG,
          level: BlocklyApps.LEVEL,
+         menu: BlocklyApps.DISPLAY_NAV,
          skin: BlocklyApps.SKIN_ID,
+         mode: BlocklyApps.MODE_ID,
          langSrc: BlocklyApps.LANGUAGES[BlocklyApps.LANG][2]}));
   </script>
 </body>

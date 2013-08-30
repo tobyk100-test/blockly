@@ -220,7 +220,9 @@ Blockly.createDom_ = function(container) {
       {'width': 10, 'height': 10, 'fill': '#aaa'}, pattern);
   Blockly.createSvgElement('path',
       {'d': 'M 0 0 L 10 10 M 10 0 L 0 10', 'stroke': '#cc0'}, pattern);
-  Blockly.mainWorkspace = new Blockly.Workspace();
+  Blockly.mainWorkspace = new Blockly.Workspace(
+      Blockly.getMainWorkspaceMetrics_,
+      Blockly.setMainWorkspaceMetrics_);
   svg.appendChild(Blockly.mainWorkspace.createDom());
   Blockly.mainWorkspace.maxBlocks = Blockly.maxBlocks;
 
@@ -237,41 +239,60 @@ Blockly.createDom_ = function(container) {
       Blockly.mainWorkspace.flyout_ = new Blockly.Flyout();
       var flyout = Blockly.mainWorkspace.flyout_;
       var flyoutSvg = flyout.createDom();
-      flyout.init(Blockly.mainWorkspace,
-          Blockly.getMainWorkspaceMetrics, true);
+      flyout.init(Blockly.mainWorkspace, true);
       flyout.autoClose = false;
       // Insert the flyout behind the workspace so that blocks appear on top.
       goog.dom.insertSiblingBefore(flyoutSvg, Blockly.mainWorkspace.svgGroup_);
       var workspaceChanged = function() {
-        // Delete any block that's sitting on top of the flyout, or off window.
         if (Blockly.Block.dragMode_ == 0) {
-          var svgSize = Blockly.svgSize();
-          var MARGIN = 20;
-          var blocks = Blockly.mainWorkspace.getTopBlocks(false);
-          for (var b = 0, block; block = blocks[b]; b++) {
-            if (!block.isDeletable()) {
-              continue;
-            }
-            var xy = block.getRelativeToSurfaceXY();
-            var bBox = block.getSvgRoot().getBBox();
-            var offTop = xy.y < MARGIN - bBox.height;
-            var offBottom = xy.y > svgSize.height - MARGIN;
-            var overFlyout = Blockly.RTL ?
-                xy.x > svgSize.width - flyout.width_ + MARGIN * 2 -
-                Blockly.mainWorkspace.scrollX :
-                xy.x < flyout.width_ - MARGIN * 2 -
-                Blockly.mainWorkspace.scrollX;
-            var offEdge = Blockly.RTL ?
-                xy.x < MARGIN - Blockly.mainWorkspace.scrollX :
-                xy.x > svgSize.width - MARGIN - Blockly.mainWorkspace.scrollX;
-            if (offTop || offBottom || overFlyout || offEdge) {
-              block.dispose(false, true);
+          var metrics = Blockly.mainWorkspace.getMetrics();
+          if (metrics.contentTop < 0 ||
+              metrics.contentTop + metrics.contentHeight >
+              metrics.viewHeight + metrics.viewTop ||
+              metrics.contentLeft < (Blockly.RTL ? metrics.viewLeft : 0) ||
+              metrics.contentLeft + metrics.contentWidth >
+              metrics.viewWidth + (Blockly.RTL ? 2 : 1) * metrics.viewLeft) {
+            // One or more blocks is out of bounds.  Bump them back in.
+            var MARGIN = 25;
+            var blocks = Blockly.mainWorkspace.getTopBlocks(false);
+            for (var b = 0, block; block = blocks[b]; b++) {
+              var blockXY = block.getRelativeToSurfaceXY();
+              var blockHW = block.getHeightWidth();
+              // Bump any block that's above the top back inside.
+              var overflow = metrics.viewTop + MARGIN - blockHW.height -
+                  blockXY.y;
+              if (overflow > 0) {
+                block.moveBy(0, overflow);
+              }
+              // Bump any block that's below the bottom back inside.
+              var overflow = metrics.viewTop + metrics.viewHeight - MARGIN -
+                  blockXY.y;
+              if (overflow < 0) {
+                block.moveBy(0, overflow);
+              }
+              // Bump any block that's off the left back inside.
+              var overflow = MARGIN + metrics.viewLeft - blockXY.x -
+                  (Blockly.RTL ? 0 : blockHW.width);
+              if (overflow > 0) {
+                block.moveBy(overflow, 0);
+              }
+              // Bump any block that's off the right back inside.
+              var overflow = metrics.viewLeft + metrics.viewWidth - MARGIN -
+                  blockXY.x + (Blockly.RTL ? blockHW.width : 0);
+              if (overflow < 0) {
+                block.moveBy(overflow, 0);
+              }
+              // Delete any block that's sitting on top of the flyout.
+              if (block.isDeletable() && (Blockly.RTL ?
+                  blockXY.x - 2 * metrics.viewLeft - metrics.viewWidth :
+                  -blockXY.x) > MARGIN * 2) {
+                block.dispose(false, true);
+              }
             }
           }
         }
       };
-      Blockly.bindEvent_(Blockly.mainWorkspace.getCanvas(),
-          'blocklyWorkspaceChange', Blockly.mainWorkspace, workspaceChanged);
+      Blockly.addChangeListener(workspaceChanged);
     }
   }
 
@@ -290,9 +311,9 @@ Blockly.createDom_ = function(container) {
   Blockly.svgResize();
 
   // Create an HTML container for popup overlays (e.g. editor widgets).
-  Blockly.widgetDiv.DIV = goog.dom.createDom('div',
+  Blockly.WidgetDiv.DIV = goog.dom.createDom('div',
       {'class': 'blocklyWidgetDiv'});
-  document.body.appendChild(Blockly.widgetDiv.DIV);
+  document.body.appendChild(Blockly.WidgetDiv.DIV);
 };
 
 
@@ -348,8 +369,7 @@ Blockly.init_ = function() {
       Blockly.Toolbox.init();
     } else {
       // Build a fixed flyout with the root blocks.
-      Blockly.mainWorkspace.flyout_.init(Blockly.mainWorkspace,
-          Blockly.getMainWorkspaceMetrics, true);
+      Blockly.mainWorkspace.flyout_.init(Blockly.mainWorkspace, true);
       Blockly.mainWorkspace.flyout_.show(Blockly.languageTree.childNodes);
       // Translate the workspace sideways to avoid the fixed flyout.
       Blockly.mainWorkspace.scrollX = Blockly.mainWorkspace.flyout_.width_;
@@ -361,71 +381,15 @@ Blockly.init_ = function() {
   }
   if (Blockly.hasScrollbars) {
     Blockly.mainWorkspace.scrollbar = new Blockly.ScrollbarPair(
-        Blockly.mainWorkspace.getBubbleCanvas(),
-        Blockly.getMainWorkspaceMetrics, Blockly.setMainWorkspaceMetrics);
+        Blockly.mainWorkspace);
     Blockly.mainWorkspace.scrollbar.resize();
   }
 
-  Blockly.mainWorkspace.addTrashcan(Blockly.getMainWorkspaceMetrics);
+  Blockly.mainWorkspace.addTrashcan();
 
   // Load the sounds.
   Blockly.loadAudio_(
       ['media/click.mp3', 'media/click.wav', 'media/click.ogg'], 'click');
   Blockly.loadAudio_(
       ['media/delete.mp3', 'media/delete.ogg', 'media/delete.wav'], 'delete');
-};
-
-
-// Create an HTML container for popup overlays (e.g. editor widgets).
-Blockly.widgetDiv = {};
-
-/**
- * The field currently using this container.
- * @private
- * @type Blockly.Field
- */
-Blockly.widgetDiv.field_ = null;
-
-/**
- * Optional cleanup function set by whichever field uses the widget.
- * @private
- * @type Function
- */
-Blockly.widgetDiv.dispose_ = null;
-
-/**
- * Initialize and display the widget div.  Close the old one if needed.
- * @param {!Blockly.Field} newField The field that will be using this container.
- * @param {Function} dispose Optional cleanup function to be run when the widget
- *   is closed.
- */
-Blockly.widgetDiv.show = function(newField, dispose) {
-  Blockly.widgetDiv.hide();
-  Blockly.widgetDiv.field_ = newField;
-  Blockly.widgetDiv.dispose_ = dispose;
-  Blockly.widgetDiv.DIV.style.display = 'block';
-};
-
-/**
- * Destroy the widget and hide the div.
- */
-Blockly.widgetDiv.hide = function() {
-  if (Blockly.widgetDiv.field_) {
-    Blockly.widgetDiv.DIV.style.display = 'none';
-    Blockly.widgetDiv.dispose_ && Blockly.widgetDiv.dispose_();
-    Blockly.widgetDiv.field_ = null;
-    Blockly.widgetDiv.dispose_ = null;
-    goog.dom.removeChildren(Blockly.widgetDiv.DIV);
-  }
-};
-
-/**
- * Destroy the widget and hide the div if it is being used by the specified
- *   field.
- * @param {!Blockly.Field} oldField The field that was using this container.
- */
-Blockly.widgetDiv.hideIfField = function(oldField) {
-  if (Blockly.widgetDiv.field_ == oldField) {
-    Blockly.widgetDiv.hide();
-  }
 };
