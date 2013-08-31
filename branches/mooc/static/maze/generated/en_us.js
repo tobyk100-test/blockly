@@ -52,35 +52,37 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
     output += ' ' + ((i227 == opt_ijData.level) ? (i227 > (opt_ijData.mode == 2 ? 19 : 11) - 2) ? '<span class="selected doubleDigit tab">' + soy.$$escapeHtml(i227) + '</span>' : '<span class="selected tab">' + soy.$$escapeHtml(i227) + '</span>' : (i227 < opt_ijData.level) ? '<a class="tab previous" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i227) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '&mode=' + soy.$$escapeHtml(opt_ijData.mode) + '">' + soy.$$escapeHtml(i227) + '</a>' : '<a class="tab" href="?lang=' + soy.$$escapeHtml(opt_ijData.lang) + '&level=' + soy.$$escapeHtml(i227) + '&skin=' + soy.$$escapeHtml(opt_ijData.skin) + '&mode=' + soy.$$escapeHtml(opt_ijData.mode) + '">' + soy.$$escapeHtml(i227) + '</a>');
   }
   output += '</h1></td><td class="farSide"><select id="languageMenu" onchange="BlocklyApps.changeLanguage();"></select> &nbsp; <button id="pegmanButton" onmousedown="Maze.showPegmanMenu();"><img src="../media/1x1.gif"><span>&#x25BE;</span></button></td></tr></table><div id="levelFeedback" class="dialogHiddenContent"><div style="padding-bottom: 0.7ex;"><br><img class="stars feedback" id="star1" src="../star1.png"><img class="stars feedback" id="star2" src="../star2.png"><img class="stars feedback" id="star3" src="../star3.png"><ul id="levelFeedbackText"><span id="hintTitle" class="feedback" style="display: none; margin-left: -30px">Hint:</span><li id="nextLevelMsg" style="display: none; margin-left: -40px;">Congratulations! You have completed this level.</li><li id="finalLevelMsg" style="display: none; margin-left: -40px;">Congratulations! You have solved the final level.</li><li id="emptyBlocksError" class="feedback" style="display: none">Remove unused empty blocks.</li><li id="tooManyBlocksError" class="feedback" style="display: none">This level can be solved with <span id="idealNumberMessage"></span> blocks.</li><li id="tooManyBlocksError" class="feedback" style="display: none"></li><li id="tooFewBlocksError" class="feedback" style="display: none">You are using all of the necessary types of blocks, but try using more of these types of blocks to complete this level.</li><li id="levelIncompleteError" class="feedback" style="display: none">You are using all of the necessary types of blocks but not in the right way.</li>';
-  switch (opt_ijData.level) {
-    case 1:
-      output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one space forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag a \'move forward\' block from the toolbox to the workspace.</li>';
-      break;
-    case 2:
-      output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one space forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag a \'move forward\' block from the toolbox to the workspace.</li><li id="turnLeftError1" class="feedback" style="display: none">Use the \'turn left\' block when I need to turn to the left.</li><li id="turnLeftError2" class="feedback" style="display: none">Drag and snap the \'turn left\' block under a \'move forward\' block when I need to turn to the left.</li><li id="turnRightError1" class="feedback" style="display: none">Use the \'turn right\' block when I need to turn to the right.</li><li id="turnRightError2" class="feedback" style="display: none">Drag and snap the \'turn right\' block under a \'move forward\' block when I need to turn to the right.</li>';
-      break;
-    case 3:
-      output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one block forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag a \'move forward\' block from the toolbox to the workspace.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around the \'move forward\' block.</li>';
-      break;
-    case 4:
-      output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one block forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag and snap a \'move forward\' block below a \'turn\' block so I can move in the new direction.</li><li id="turnError1" class="feedback" style="display: none">Use both a \'turn left\' and a \'turn right\' block on this level.</li><li id="turnError2" class="feedback" style="display: none">Drag and snap a \'turn\' block under a \'move forward\' block when I need to change directions.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around the other blocks.</li>';
-      break;
-    case 5:
-    case 6:
-      output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one block forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag and snap a \'move forward\' block below a \'turn\' block so I can move in the new direction.</li><li id="turnLeftError1" class="feedback" style="display: none">Use the \'turn left\' block when I need to turn to the left.</li><li id="turnLeftError2" class="feedback" style="display: none">Drag and snap the \'turn left\' block inside an \'if\' block.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around the other blocks.</li><li id="isPathLeftError1" class="feedback" style="display: none">Use the if block to turn left if there is a path to the left.</li><li id="isPathLeftError2" class="feedback" style="display: none">Place a turn left block inside the \'if\' block to turn left if there is a path to the left.</li>';
-      break;
-    case 7:
-      output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one block forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag and snap a \'move forward\' block below a turn block so I can move in the new direction.</li><li id="turnRightError1" class="feedback" style="display: none">Use the \'turn right\' block when I need to turn to the right.</li><li id="turnRightError2" class="feedback" style="display: none">Drag and snap the \'turn right\' block inside an \'if\' block.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around the other blocks.</li>';
-      break;
-    case 8:
-      output += '<li id="isPathLeftError1" class="feedback" style="display: none">Use the \'if\' block to turn left if there is a path to the left.</li><li id="isPathLeftError2" class="feedback" style="display: none">Place a \'turn left\' block inside the \'if\' block to turn left if there is a path to the left.</li><li id="isPathRightError1" class="feedback" style="display: none">Use the \'if\' block to turn right if there is a path to the right.</li><li id="isPathRightError2" class="feedback" style="display: none">Place a \'turn right\' block inside the \'if\' block to turn right if there is a path to the right.</li>';
-      break;
-    case 9:
-      output += '<li id="turnLeftError1" class="feedback" style="display: none">Use the \'turn left\' block when I need to turn to the left.</li><li id="turnLeftError2" class="feedback" style="display: none">Drag and snap the \'turn left\' block inside the \'if-else\' block.</li><li id="ifElseError1" class="feedback" style="display: none">An \'if-else\' block will run the else statement when the if statement is not true."</li><li id="ifElseError2" class="feedback" style="display: none">An \'if-else\' block will run the else statement when the if statement is not true."</li><li id="isPathForwardError1" class="feedback" style="display: none">Use an \'if-else\' block to go straight if there is a path ahead and turn if there is no path ahead.</li><li id="isPathForwardError2" class="feedback" style="display: none">Use an \'if-else\' block to go straight if there is a path ahead and turn if there is no path ahead.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around all of your blocks.</li>';
-      break;
-    case 10:
-      output += '<li id="isPathForwardError1" class="feedback" style="display: none">Use an \'if-else\' block to go straight if there is a path ahead and turn if there is no path ahead.</li><li id="isPathForwardError2" class="feedback" style="display: none">Use an \'if-else\' block to go straight if there is a path ahead and turn if there is no path ahead.</li><li id="ifElseError1" class="feedback" style="display: none">An \'if-else\' block will run the else statement when the if statement is not true."</li><li id="ifElseError2" class="feedback" style="display: none">An \'if-else\' block will run the else statement when the \'if\' statement is not true.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around all of your blocks.</li>';
-      break;
+  if (opt_ijData.mode == 1) {
+    switch (opt_ijData.level) {
+      case 1:
+        output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one space forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag a \'move forward\' block from the toolbox to the workspace.</li>';
+        break;
+      case 2:
+        output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one space forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag a \'move forward\' block from the toolbox to the workspace.</li><li id="turnLeftError1" class="feedback" style="display: none">Use the \'turn left\' block when I need to turn to the left.</li><li id="turnLeftError2" class="feedback" style="display: none">Drag and snap the \'turn left\' block under a \'move forward\' block when I need to turn to the left.</li><li id="turnRightError1" class="feedback" style="display: none">Use the \'turn right\' block when I need to turn to the right.</li><li id="turnRightError2" class="feedback" style="display: none">Drag and snap the \'turn right\' block under a \'move forward\' block when I need to turn to the right.</li>';
+        break;
+      case 3:
+        output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one block forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag a \'move forward\' block from the toolbox to the workspace.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around the \'move forward\' block.</li>';
+        break;
+      case 4:
+        output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one block forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag and snap a \'move forward\' block below a \'turn\' block so I can move in the new direction.</li><li id="turnError1" class="feedback" style="display: none">Use both a \'turn left\' and a \'turn right\' block on this level.</li><li id="turnError2" class="feedback" style="display: none">Drag and snap a \'turn\' block under a \'move forward\' block when I need to change directions.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around the other blocks.</li>';
+        break;
+      case 5:
+      case 6:
+        output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one block forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag and snap a \'move forward\' block below a \'turn\' block so I can move in the new direction.</li><li id="turnLeftError1" class="feedback" style="display: none">Use the \'turn left\' block when I need to turn to the left.</li><li id="turnLeftError2" class="feedback" style="display: none">Drag and snap the \'turn left\' block inside an \'if\' block.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around the other blocks.</li><li id="isPathLeftError1" class="feedback" style="display: none">Use the if block to turn left if there is a path to the left.</li><li id="isPathLeftError2" class="feedback" style="display: none">Place a turn left block inside the \'if\' block to turn left if there is a path to the left.</li>';
+        break;
+      case 7:
+        output += '<li id="moveForwardError1" class="feedback" style="display: none">The \'move forward\' block moves one block forward.</li><li id="moveForwardError2" class="feedback" style="display: none">Drag and snap a \'move forward\' block below a turn block so I can move in the new direction.</li><li id="turnRightError1" class="feedback" style="display: none">Use the \'turn right\' block when I need to turn to the right.</li><li id="turnRightError2" class="feedback" style="display: none">Drag and snap the \'turn right\' block inside an \'if\' block.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around the other blocks.</li>';
+        break;
+      case 8:
+        output += '<li id="isPathLeftError1" class="feedback" style="display: none">Use the \'if\' block to turn left if there is a path to the left.</li><li id="isPathLeftError2" class="feedback" style="display: none">Place a \'turn left\' block inside the \'if\' block to turn left if there is a path to the left.</li><li id="isPathRightError1" class="feedback" style="display: none">Use the \'if\' block to turn right if there is a path to the right.</li><li id="isPathRightError2" class="feedback" style="display: none">Place a \'turn right\' block inside the \'if\' block to turn right if there is a path to the right.</li>';
+        break;
+      case 9:
+        output += '<li id="turnLeftError1" class="feedback" style="display: none">Use the \'turn left\' block when I need to turn to the left.</li><li id="turnLeftError2" class="feedback" style="display: none">Drag and snap the \'turn left\' block inside the \'if-else\' block.</li><li id="ifElseError1" class="feedback" style="display: none">An \'if-else\' block will run the else statement when the if statement is not true."</li><li id="ifElseError2" class="feedback" style="display: none">An \'if-else\' block will run the else statement when the if statement is not true."</li><li id="isPathForwardError1" class="feedback" style="display: none">Use an \'if-else\' block to go straight if there is a path ahead and turn if there is no path ahead.</li><li id="isPathForwardError2" class="feedback" style="display: none">Use an \'if-else\' block to go straight if there is a path ahead and turn if there is no path ahead.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around all of your blocks.</li>';
+        break;
+      case 10:
+        output += '<li id="isPathForwardError1" class="feedback" style="display: none">Use an \'if-else\' block to go straight if there is a path ahead and turn if there is no path ahead.</li><li id="isPathForwardError2" class="feedback" style="display: none">Use an \'if-else\' block to go straight if there is a path ahead and turn if there is no path ahead.</li><li id="ifElseError1" class="feedback" style="display: none">An \'if-else\' block will run the else statement when the if statement is not true."</li><li id="ifElseError2" class="feedback" style="display: none">An \'if-else\' block will run the else statement when the \'if\' statement is not true.</li><li id="whileError1" class="feedback" style="display: none">Notice the repetition in the path? Try using the \'repeat\' block which repeats the sequence of blocks inside it until, the player reaches the finish.</li><li id="whileError2" class="feedback" style="display: none">Drag and snap the \'repeat\' block around all of your blocks.</li>';
+        break;
+    }
   }
   output += '</ul><div id="interstitial" style="display: none;"><div id="reinfbubble"><span id="reinfMsg">';
   switch (opt_ijData.level) {
@@ -139,37 +141,96 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
       break;
   }
   output += '<div id="reinfDone"><div style="padding-bottom: 0.7ex; text-align:center;"><textarea id="reinfFeedbackText" rows=2 cols=40 style="resize: none; border: none; text-align: center; overflow: hidden; font-size: 16pt; font-family: Arial;"></textarea></div></div></div><br><div style="text-align: center"><button id="tryAgainButton" class="launch" style="display: none" onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(false, ' + soy.$$escapeHtml(opt_ijData.level) + ', ' + soy.$$escapeHtml(opt_ijData.skin) + ');">Try again</button><button id="continueButton" class="launch" style="display: none" onclick="BlocklyApps.displayInterstitialOrCloseModalDialog(true, ' + soy.$$escapeHtml(opt_ijData.level) + ', ' + soy.$$escapeHtml(opt_ijData.skin) + ');">Continue</button></div></div></div><div id="visualization"><div id="hintBubble"><div id="hint">';
-  switch (opt_ijData.level) {
-    case 1:
-      output += 'A program is a sequence of statements. Stack a couple of \'move forward\' blocks together to help me reach the goal.';
-      break;
-    case 2:
-      output += 'What should I do to follow the path?';
-      break;
-    case 3:
-      output += 'Computers have limited memory. Reach the end of this path using only two blocks.';
-      break;
-    case 4:
-      output += 'Reach the goal using only five blocks.';
-      break;
-    case 5:
-      output += 'I will have to turn left when I cannot go straight. Use an \'if\' block to see if their is a path in another direction.';
-      break;
-    case 6:
-      output += 'An \'if\' condition will do something only if the condition is true.  Try turning left if there is a path to the left.';
-      break;
-    case 7:
-      output += 'A small change to the blocks from the previous maze will solve this level.';
-      break;
-    case 8:
-      output += 'You can use more than one \'if\' statement.';
-      break;
-    case 9:
-      output += 'If-else blocks will do one thing or the other.';
-      break;
-    case 10:
-      output += 'Use the \'if-else\' block to help me get out of the maze!';
-      break;
+  if (opt_ijData.mode == 1) {
+    switch (opt_ijData.level) {
+      case 1:
+        output += 'A program is a sequence of statements. Stack a couple of \'move forward\' blocks together to help me reach the goal.';
+        break;
+      case 2:
+        output += 'What should I do to follow the path?';
+        break;
+      case 3:
+        output += 'Computers have limited memory. Reach the end of this path using only two blocks.';
+        break;
+      case 4:
+        output += 'Reach the goal using only five blocks.';
+        break;
+      case 5:
+        output += 'I will have to turn left when I cannot go straight. Use an \'if\' block to see if their is a path in another direction.';
+        break;
+      case 6:
+        output += 'An \'if\' condition will do something only if the condition is true.  Try turning left if there is a path to the left.';
+        break;
+      case 7:
+        output += 'A small change to the blocks from the previous maze will solve this level.';
+        break;
+      case 8:
+        output += 'You can use more than one \'if\' statement.';
+        break;
+      case 9:
+        output += 'If-else blocks will do one thing or the other.';
+        break;
+      case 10:
+        output += 'Use the \'if-else\' block to help me get out of the maze!';
+        break;
+    }
+  } else if (opt_ijData.mode == 2) {
+    switch (opt_ijData.level) {
+      case 1:
+        output += 'A program is a sequence of statements. Stack a couple of \'move forward\' blocks together to help me reach the goal.';
+        break;
+      case 2:
+        output += 'A program is a sequence of statements. Stack a couple of \'move forward\' blocks together to help me reach the goal.';
+        break;
+      case 3:
+        output += 'What should I do to follow the path?';
+        break;
+      case 4:
+        output += 'What should I do to follow the path?';
+        break;
+      case 5:
+        output += 'Try to reach the end of this path using only two blocks.';
+        break;
+      case 6:
+        output += 'Try to reach the end of this path using only three blocks.';
+        break;
+      case 7:
+        output += 'Try to reach the end of this path using only two repeat blocks.';
+        break;
+      case 8:
+        output += 'Try to reach the end of this path using only two repeat blocks.';
+        break;
+      case 9:
+        output += 'Try to reach the end of this path using the new repeat block.';
+        break;
+      case 10:
+        output += 'Try to reach the end of this path using only three blocks.';
+        break;
+      case 11:
+        output += 'Reach the goal using only five blocks.';
+        break;
+      case 12:
+        output += 'Reach the goal using only five blocks.';
+        break;
+      case 13:
+        output += 'I will have to turn left when I cannot go straight. Use an \'if\' block to see if their is a path in another direction.';
+        break;
+      case 14:
+        output += 'I will have to turn right when I cannot go straight. Use an \'if\' block to see if their is a path in another direction.';
+        break;
+      case 15:
+        output += 'An \'if\' condition will do something only if the condition is true.  Try turning right if there is a path to the right.';
+        break;
+      case 16:
+        output += 'An \'if\' condition will do something only if the condition is true.  Try turning right if there is a path to the right.';
+        break;
+      case 17:
+        output += 'If-else blocks will do one thing or the other.';
+        break;
+      case 18:
+        output += 'Use the \'if-else\' block to help me get out of the maze!';
+        break;
+    }
   }
   output += '</div></div><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="svgMaze" width="400px" height="450px"><g id="look"><path d="M 0,-15 a 15 15 0 0 1 15 15" /><path d="M 0,-35 a 35 35 0 0 1 35 35" /><path d="M 0,-55 a 55 55 0 0 1 55 55" /></g></svg><div id="capacityBubble"><div id="capacity"></div></div></div><table width="400" style="padding-top: 10px;"><tr><td style="width: 190px; text-align: center; vertical-align: top;"><button class="notext" title="See generated JavaScript code." onclick="BlocklyApps.showCode();"><img src=\'../media/1x1.gif\' alt="code" class="code icon21"></button><button id="linkButton" class="notext" style="display: none;" title="Save and link to blocks." onclick="BlocklyStorage.link();"><img src=\'../media/1x1.gif\' alt="link" class="link icon21"></button></td><td><button id="runButton" class="launch" onclick="Maze.runButtonClick();"><img src="../media/1x1.gif" class="run icon21">Run</button></button><button id="resetButton" class="launch" onclick="BlocklyApps.resetButtonClick();" style="display: none"><img src="../media/1x1.gif" class="stop icon21">Reset</button></td></tr></table><script type="text/javascript" src="../blockly_compressed.js"><\/script><script type="text/javascript" src="../javascript_compressed.js"><\/script><script type="text/javascript" src="../' + soy.$$escapeHtml(opt_ijData.langSrc) + '"><\/script><script type="text/javascript" src="blocks.js"><\/script>' + mazepage.toolbox(null, null, opt_ijData) + '<div id="blockly"></div>' + apps.dialog(null, null, opt_ijData) + apps.codeDialog(null, null, opt_ijData) + apps.storageDialog(null, null, opt_ijData) + '<div id="pegmanMenu"></div>';
   return output;
@@ -177,5 +238,5 @@ mazepage.start = function(opt_data, opt_ignored, opt_ijData) {
 
 
 mazepage.toolbox = function(opt_data, opt_ignored, opt_ijData) {
-  return '<xml id="toolbox" style="display: none;"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block>' + ((opt_ijData.level > 2) ? '<block type="maze_forever"></block>' + ((opt_ijData.level == 5) ? '<block type="maze_if"><title name="DIR">isPathLeft</title></block>' : (opt_ijData.level > 5 && opt_ijData.level < 9) ? '<block type="maze_if"></block>' : '') + ((opt_ijData.level > 8) ? '<block type="maze_ifElse"></block>' : '') : '') + '</xml>';
+  return '<xml id="toolbox" style="display: none;"><block type="maze_moveForward"></block><block type="maze_turn"><title name="DIR">turnLeft</title></block><block type="maze_turn"><title name="DIR">turnRight</title></block>' + ((opt_ijData.mode == 1) ? (opt_ijData.level > 2) ? '<block type="maze_forever"></block>' + ((opt_ijData.level == 5) ? '<block type="maze_if"><title name="DIR">isPathLeft</title></block>' : (opt_ijData.level > 5 && opt_ijData.level < 9) ? '<block type="maze_if"></block>' : '') + ((opt_ijData.level > 8) ? '<block type="maze_ifElse"></block>' : '') : '' : (opt_ijData.mode == 2) ? ((opt_ijData.level > 4 && opt_ijData.level < 9) ? '<block type="controls_repeat"><title name="TIMES">5</title></block>' : '') + ((opt_ijData.level > 8) ? '<block type="maze_forever"></block>' + ((opt_ijData.level == 13) ? '<block type="maze_if"><title name="DIR">isPathLeft</title></block>' : (opt_ijData.level == 14) ? '<block type="maze_if"><title name="DIR">isPathRight</title></block>' : (opt_ijData.level > 13 && opt_ijData.level < 17) ? '<block type="maze_if"></block>' : '') + ((opt_ijData.level > 16) ? '<block type="maze_ifElse"></block>' : '') : '') : '') + '</xml>';
 };
