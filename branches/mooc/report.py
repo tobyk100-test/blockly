@@ -52,6 +52,7 @@ class ReportHandler(webapp2.RequestHandler):
 
   def get(self):
     level = int(self.request.get("level", 1))
+    logging.debug("Level requested: {0}".format(level))
     app = self.request.get("app", "maze")
 
     reports = Report.query(Report.level == level, Report.application == app)
@@ -60,6 +61,7 @@ class ReportHandler(webapp2.RequestHandler):
     results_and_counts = {program: (results[program], counts[program])
                           for program in counts.keys()}
     self.response.headers['Content-Type'] = 'text/json'
+    logging.debug("Sending {0} to client".format(json.dumps(results_and_counts)))
     self.response.write(json.dumps(results_and_counts))
 
 app = webapp2.WSGIApplication([('/report', ReportHandler)], debug=True)

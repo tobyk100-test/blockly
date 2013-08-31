@@ -1,46 +1,52 @@
-function attachProgramListeners() {
-  links = document.querySelector('.results > table > a');
-  for (link in links) {
-    link.addEventListener(link, function() {
-      var program = link.innerHTML;
-    });
-  }
+Statistics = {};
+Statistics.initialize = function() {
+  var level = Statistics.getLevel();
+  var req = new XMLHttpRequest();
+  req.open("get", "/report?level=" + level, true);
+  req.onload = function(e) {
+    programs = JSON.parse(req.responseText);
+    Statistics.buildTable(programs);
+  };
+  req.send()
 }
-function linkHandler(e) {
-  var Blockly = document.getElementById('mazeFrame').contentWindow['Blockly'];
+
+Statistics.getLevel = function() {
+  return Statistics.BlocklyApps.LEVEL;
+}
+
+Statistics.linkHandler = function(e) {
   var link = e.target;
-  var program = unescapeHtml(link.innerHTML);
-  program = Blockly.Xml.textToDom(program);
-  Blockly.mainWorkspace.clear();
-  Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, program);
+  var program = Statistics.unescapeHtml(link.innerHTML);
+  program = Statistics.Blockly.Xml.textToDom(program);
+  Statistics.Blockly.mainWorkspace.clear();
+  Statistics.Blockly.Xml.domToWorkspace(Statistics.Blockly.mainWorkspace, program);
 }
+
 // TODO(toby): Use a library function to ensure XSS proofness, see closure's
 // string.unescapeEntities
-function unescapeHtml(html) {
+Statistics.unescapeHtml = function(html) {
   var unescapedHtml = html.replace(/&lt;|&gt;/g, function(entity) {
     var map = {"&lt;": "<", "&gt;": ">"};
     return map[entity];
   });
   return unescapedHtml;
 }
-function buildTable(programs) {
+Statistics.buildTable = function(programs) {
   var resultTable = document.querySelector('.results > table');
   for (var program in programs) {
     var row = Templates.programRow(programs[program][0], programs[program][1],
-        program, linkHandler);
+        program, Statistics.linkHandler);
     resultTable.appendChild(row);
   }
-  attachProgramListeners();
 }
-function init() {
-  var req = new XMLHttpRequest();
-  req.open("get", "/report", true);
-  req.onload = function(e) {
-    programs = JSON.parse(req.responseText);
-    buildTable(programs);
-  };
-  req.send()
-}
+
 window.addEventListener('load', function() {
-  init();
+  Statistics.MazeFrame = document.getElementById("mazeFrame").contentWindow;
+  document.getElementById("mazeFrame").addEventListener('load', function() {
+    Statistics.initialize();
+  });
+  Statistics.Maze = Statistics.MazeFrame.Maze;
+  Statistics.BlocklyApps = Statistics.MazeFrame.BlocklyApps;
+  Statistics.Blockly = Statistics.MazeFrame.Blockly;
+  Statistics.initialize();
 });
