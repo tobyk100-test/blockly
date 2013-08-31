@@ -1,6 +1,8 @@
 # Blockly
 
-This repository contains the source code for the [Blockly](https://code.google.com/p/blockly/) based 20 hour cirruculum and Hour of Code. Information on how Blockly works can be found in the [wiki](https://code.google.com/p/blockly/w/list).
+Blockly is a web-based, graphical programming editor. Users can drag blocks together to build an application. No typing required. Credit goes to these awesome [developers](https://code.google.com/p/blockly/wiki/Credits#Engineers) and a small army of [translators](https://code.google.com/p/blockly/wiki/Credits#Translators).
+
+This repository contains the source code for the [Blockly](https://code.google.com/p/blockly/) based 20 hour cirruculum and Hour of Code. Information about Blockly can be found in the [wiki](https://code.google.com/p/blockly/w/list).
 
 ## To Contribute
 
