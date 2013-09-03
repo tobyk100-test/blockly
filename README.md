@@ -2,7 +2,7 @@
 
 Blockly is a web-based, graphical programming editor. Users can drag blocks together to build an application. No typing required. Credit goes to these awesome [developers](https://code.google.com/p/blockly/wiki/Credits#Engineers) and a small army of [translators](https://code.google.com/p/blockly/wiki/Credits#Translators).
 
-This repository contains the source code for the [Blockly](https://code.google.com/p/blockly/) based 20 hour cirruculum and Hour of Code. Information about Blockly can be found in the [wiki](https://code.google.com/p/blockly/w/list).
+This repository contains the source code for the [Blockly](https://code.google.com/p/blockly/) based 20 hour curriculum and Hour of Code. Information about Blockly can be found in the [wiki](https://code.google.com/p/blockly/w/list).
 
 ## To Contribute
 
@@ -18,8 +18,9 @@ This repository contains the source code for the [Blockly](https://code.google.c
 5. Initiate pull request on your fork's page, targeting this repository.
 6. On this repo's page, find the pull request you initiated and assign it to someone.
 
-### Aditional Tips
+### Additional Tips
 
+- After submitting a pull request, start a new branch with `git checkout -b new_feature`. This allows you to keep working without affecting the pull request.
 - Once you have forked your own repository, you can makes as many commits, and push them to github, as you like. These will be pushed to your own repo and won't affect this shared repo. 
 - Once you have issued a pull request any additional pushes you make to your repo will automatically update the pull request. This is like running gcl update multiple times for the same change list.
-- Step 4 above is important to allow pull requests to be merged automatically, otherwise whoever reviews your code will have to merge, making them a sad panda.
+- Use `git rebase --interactive` to clean up messy commits before issuing a pull request. 
