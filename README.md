@@ -8,7 +8,7 @@ This repository contains the source code for the [Blockly](https://code.google.c
 
 ### Quickstart
 
-1. Fork this Repository.
+1. Fork and clone this Repository.
 2. Add this repo as a remote: `git remote add codedotorg https://github.com/code-dot-org/blockly.git`
 3. [Hack]
 4. Merge in most up-to-date changes, repeat as needed:
